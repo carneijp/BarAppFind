@@ -1,5 +1,5 @@
 //
-//  Home.swift
+//  Profile.swift
 //  BarAppFind
 //
 //  Created by Joao Paulo Carneiro on 29/04/23.
@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct Home: View {
+struct ProfileView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Profile")
     }
 }
 
-struct Home_Previews: PreviewProvider {
+struct Profile_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        ProfileView()
     }
 }

@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		851D894C29FDE75700282473 /* GeneralTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894B29FDE75700282473 /* GeneralTab.swift */; };
-		851D894E29FDE7A900282473 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894D29FDE7A900282473 /* Home.swift */; };
+		851D894E29FDE7A900282473 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894D29FDE7A900282473 /* HomeView.swift */; };
 		851D895029FDE7B900282473 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894F29FDE7B900282473 /* MapView.swift */; };
-		851D895229FDE7C900282473 /* BucketList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895129FDE7C900282473 /* BucketList.swift */; };
-		851D895429FDE7D900282473 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895329FDE7D900282473 /* Profile.swift */; };
+		851D895229FDE7C900282473 /* BucketListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895129FDE7C900282473 /* BucketListView.swift */; };
+		851D895429FDE7D900282473 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895329FDE7D900282473 /* ProfileView.swift */; };
 		851D895629FE0EA500282473 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895529FE0EA500282473 /* MapViewModel.swift */; };
 		851D895929FE950100282473 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895829FE950100282473 /* City.swift */; };
 		8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */; };
@@ -22,12 +22,13 @@
 
 /* Begin PBXFileReference section */
 		851D894B29FDE75700282473 /* GeneralTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTab.swift; sourceTree = "<group>"; };
-		851D894D29FDE7A900282473 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		851D894D29FDE7A900282473 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		851D894F29FDE7B900282473 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		851D895129FDE7C900282473 /* BucketList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketList.swift; sourceTree = "<group>"; };
-		851D895329FDE7D900282473 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		851D895129FDE7C900282473 /* BucketListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BucketListView.swift; sourceTree = "<group>"; };
+		851D895329FDE7D900282473 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		851D895529FE0EA500282473 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		851D895829FE950100282473 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
+		85285DF72A019F4600139191 /* BarAppFind.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BarAppFind.entitlements; sourceTree = "<group>"; };
 		8562AEEE29FC5C4C003E32E7 /* BarAppFind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarAppFind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarAppFindApp.swift; sourceTree = "<group>"; };
 		8562AEF529FC5C4D003E32E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -46,15 +47,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		851D895729FE940800282473 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				851D894F29FDE7B900282473 /* MapView.swift */,
-				851D895529FE0EA500282473 /* MapViewModel.swift */,
-			);
-			path = Map;
-			sourceTree = "<group>";
-		};
 		851D895A29FE950A00282473 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -62,6 +54,41 @@
 				85D53D3429FE9A6D006C4A4F /* User.swift */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		85285DF82A019FCF00139191 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				851D895529FE0EA500282473 /* MapViewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		85285DFA2A01A00100139191 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				851D894D29FDE7A900282473 /* HomeView.swift */,
+				851D895129FDE7C900282473 /* BucketListView.swift */,
+				851D895329FDE7D900282473 /* ProfileView.swift */,
+				851D894F29FDE7B900282473 /* MapView.swift */,
+				85285DFD2A01A12100139191 /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		85285DFC2A01A0F400139191 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				851D895A29FE950A00282473 /* Objects */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		85285DFD2A01A12100139191 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		8562AEE529FC5C4C003E32E7 = {
@@ -83,13 +110,12 @@
 		8562AEF029FC5C4C003E32E7 /* BarAppFind */ = {
 			isa = PBXGroup;
 			children = (
+				85285DF72A019F4600139191 /* BarAppFind.entitlements */,
+				85285DFC2A01A0F400139191 /* Data */,
 				8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */,
-				851D895A29FE950A00282473 /* Objects */,
 				851D894B29FDE75700282473 /* GeneralTab.swift */,
-				851D894D29FDE7A900282473 /* Home.swift */,
-				851D895129FDE7C900282473 /* BucketList.swift */,
-				851D895329FDE7D900282473 /* Profile.swift */,
-				851D895729FE940800282473 /* Map */,
+				85285DFA2A01A00100139191 /* Views */,
+				85285DF82A019FCF00139191 /* Model */,
 				8562AEF529FC5C4D003E32E7 /* Assets.xcassets */,
 				8562AEF729FC5C4D003E32E7 /* Preview Content */,
 			);
@@ -176,11 +202,11 @@
 			files = (
 				851D895029FDE7B900282473 /* MapView.swift in Sources */,
 				851D894C29FDE75700282473 /* GeneralTab.swift in Sources */,
-				851D895429FDE7D900282473 /* Profile.swift in Sources */,
-				851D894E29FDE7A900282473 /* Home.swift in Sources */,
+				851D895429FDE7D900282473 /* ProfileView.swift in Sources */,
+				851D894E29FDE7A900282473 /* HomeView.swift in Sources */,
 				8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */,
 				85D53D3529FE9A6D006C4A4F /* User.swift in Sources */,
-				851D895229FDE7C900282473 /* BucketList.swift in Sources */,
+				851D895229FDE7C900282473 /* BucketListView.swift in Sources */,
 				851D895929FE950100282473 /* City.swift in Sources */,
 				851D895629FE0EA500282473 /* MapViewModel.swift in Sources */,
 			);
@@ -308,6 +334,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BarAppFind/BarAppFind.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BarAppFind/Preview Content\"";
@@ -338,6 +365,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = BarAppFind/BarAppFind.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"BarAppFind/Preview Content\"";

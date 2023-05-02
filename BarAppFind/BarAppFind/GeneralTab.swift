@@ -11,7 +11,7 @@ struct GeneralTab: View {
     var body: some View {
         TabView{
             NavigationStack{
-                Home()
+                HomeView()
             }
             .tabItem{
                 Label("Home", systemImage: "house.fill")
@@ -23,13 +23,13 @@ struct GeneralTab: View {
                 Label("Map", systemImage: "map.fill")
             }
             NavigationStack{
-                BucketList()
+                BucketListView()
             }
             .tabItem{
                 Label("BucketList", systemImage: "list.star")
             }
             NavigationStack{
-                Profile()
+                ProfileView()
             }
             .tabItem{
                 Label("Perfil", systemImage: "person.fill")

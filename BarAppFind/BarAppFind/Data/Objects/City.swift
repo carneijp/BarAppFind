@@ -25,7 +25,7 @@ class Bar: ObservableObject {
     var mood: String = ""
     var expensive: String = ""
     var grade: Double = 0.0
-    var reviews: [Review]
+    var reviews: [Review] = []
     var operatinHours: [[String]] = [[]]
     var photos: [String] = []
     var latitude: Double
