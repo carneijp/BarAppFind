@@ -14,10 +14,12 @@
 		851D895429FDE7D900282473 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895329FDE7D900282473 /* ProfileView.swift */; };
 		851D895629FE0EA500282473 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895529FE0EA500282473 /* MapViewModel.swift */; };
 		851D895929FE950100282473 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895829FE950100282473 /* City.swift */; };
+		85285E262A02EABD00139191 /* CloudKitCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85285E252A02EABD00139191 /* CloudKitCRUD.swift */; };
+		85285E282A02EB0C00139191 /* CloudKitUserIcloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */; };
 		8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */; };
 		8562AEF629FC5C4D003E32E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8562AEF529FC5C4D003E32E7 /* Assets.xcassets */; };
 		8562AEF929FC5C4D003E32E7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8562AEF829FC5C4D003E32E7 /* Preview Assets.xcassets */; };
-		85D53D3529FE9A6D006C4A4F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D53D3429FE9A6D006C4A4F /* User.swift */; };
+		85D53D3529FE9A6D006C4A4F /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D53D3429FE9A6D006C4A4F /* Clients.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,11 +31,13 @@
 		851D895529FE0EA500282473 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		851D895829FE950100282473 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		85285DF72A019F4600139191 /* BarAppFind.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BarAppFind.entitlements; sourceTree = "<group>"; };
+		85285E252A02EABD00139191 /* CloudKitCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitCRUD.swift; sourceTree = "<group>"; };
+		85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitUserIcloud.swift; sourceTree = "<group>"; };
 		8562AEEE29FC5C4C003E32E7 /* BarAppFind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarAppFind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarAppFindApp.swift; sourceTree = "<group>"; };
 		8562AEF529FC5C4D003E32E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8562AEF829FC5C4D003E32E7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		85D53D3429FE9A6D006C4A4F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		85D53D3429FE9A6D006C4A4F /* Clients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +55,7 @@
 			isa = PBXGroup;
 			children = (
 				851D895829FE950100282473 /* City.swift */,
-				85D53D3429FE9A6D006C4A4F /* User.swift */,
+				85D53D3429FE9A6D006C4A4F /* Clients.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -79,6 +83,7 @@
 		85285DFC2A01A0F400139191 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				85285E242A02EA9900139191 /* CloudKit */,
 				851D895A29FE950A00282473 /* Objects */,
 			);
 			path = Data;
@@ -89,6 +94,15 @@
 			children = (
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		85285E242A02EA9900139191 /* CloudKit */ = {
+			isa = PBXGroup;
+			children = (
+				85285E252A02EABD00139191 /* CloudKitCRUD.swift */,
+				85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */,
+			);
+			path = CloudKit;
 			sourceTree = "<group>";
 		};
 		8562AEE529FC5C4C003E32E7 = {
@@ -200,12 +214,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85285E262A02EABD00139191 /* CloudKitCRUD.swift in Sources */,
 				851D895029FDE7B900282473 /* MapView.swift in Sources */,
 				851D894C29FDE75700282473 /* GeneralTab.swift in Sources */,
 				851D895429FDE7D900282473 /* ProfileView.swift in Sources */,
 				851D894E29FDE7A900282473 /* HomeView.swift in Sources */,
 				8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */,
-				85D53D3529FE9A6D006C4A4F /* User.swift in Sources */,
+				85285E282A02EB0C00139191 /* CloudKitUserIcloud.swift in Sources */,
+				85D53D3529FE9A6D006C4A4F /* Clients.swift in Sources */,
 				851D895229FDE7C900282473 /* BucketListView.swift in Sources */,
 				851D895929FE950100282473 /* City.swift in Sources */,
 				851D895629FE0EA500282473 /* MapViewModel.swift in Sources */,

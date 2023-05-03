@@ -19,6 +19,29 @@ class City: ObservableObject {
 }
 
 
+class OperationHours: ObservableObject {
+    var barName: Bar
+    var monday: String
+    var tuesday: String
+    var wednesday: String
+    var thrusday: String
+    var friday: String
+    var saturday: String
+    var sunday: String
+    
+    init(barName: Bar, monday: String, tuesday: String, wednesday: String, thrusday: String, friday: String, saturday: String, sunday: String) {
+        self.barName = barName
+        self.monday = monday
+        self.tuesday = tuesday
+        self.wednesday = wednesday
+        self.thrusday = thrusday
+        self.friday = friday
+        self.saturday = saturday
+        self.sunday = sunday
+    }
+}
+
+
 class Bar: ObservableObject {
     var name: String
     var description: String = ""
@@ -26,16 +49,17 @@ class Bar: ObservableObject {
     var expensive: String = ""
     var grade: Double = 0.0
     var reviews: [Review] = []
-    var operatinHours: [[String]] = [[]]
+    var operatinHours: OperationHours
     var photos: [String] = []
     var latitude: Double
     var longitude: Double
     
     
-    init(name: String, latitude: Double, longitude: Double){
+    init(name: String, latitude: Double, longitude: Double, operationHours: OperationHours){
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
+        self.operatinHours = operationHours
     }
     func changeDescription(description: String) {
         self.description = description
@@ -53,12 +77,12 @@ class Bar: ObservableObject {
 }
 
 struct Review {
-    var writer: User
+    var writerName: Clients
     var grade: Double
     var description: String
-    var bar: Bar
+    var barName: Bar
 }
 
-var cidade = City(name: "Porto Alegre")
-var bar1 = Bar(name: "Maza", latitude: -30.062134, longitude: -51.174497)
+//var cidade = City(name: "Porto Alegre")
+//var bar1 = Bar(name: "Maza", latitude: -30.062134, longitude: -51.174497)
 
