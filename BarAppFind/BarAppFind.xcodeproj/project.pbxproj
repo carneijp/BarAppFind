@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82FC66972A0423B7008DF9CC /* TrendingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC66962A0423B7008DF9CC /* TrendingComponent.swift */; };
 		851D894C29FDE75700282473 /* GeneralTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894B29FDE75700282473 /* GeneralTab.swift */; };
 		851D894E29FDE7A900282473 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894D29FDE7A900282473 /* HomeView.swift */; };
 		851D895029FDE7B900282473 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894F29FDE7B900282473 /* MapView.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		82FC66962A0423B7008DF9CC /* TrendingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingComponent.swift; sourceTree = "<group>"; };
 		851D894B29FDE75700282473 /* GeneralTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTab.swift; sourceTree = "<group>"; };
 		851D894D29FDE7A900282473 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		851D894F29FDE7B900282473 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
@@ -47,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		82FC66952A0423A4008DF9CC /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				82FC66962A0423B7008DF9CC /* TrendingComponent.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		851D895A29FE950A00282473 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -71,7 +81,7 @@
 				851D895129FDE7C900282473 /* BucketListView.swift */,
 				851D895329FDE7D900282473 /* ProfileView.swift */,
 				851D894F29FDE7B900282473 /* MapView.swift */,
-				85285DFD2A01A12100139191 /* Components */,
+				82FC66952A0423A4008DF9CC /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -82,13 +92,6 @@
 				851D895A29FE950A00282473 /* Objects */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		85285DFD2A01A12100139191 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		8562AEE529FC5C4C003E32E7 = {
@@ -208,6 +211,7 @@
 				85D53D3529FE9A6D006C4A4F /* User.swift in Sources */,
 				851D895229FDE7C900282473 /* BucketListView.swift in Sources */,
 				851D895929FE950100282473 /* City.swift in Sources */,
+				82FC66972A0423B7008DF9CC /* TrendingComponent.swift in Sources */,
 				851D895629FE0EA500282473 /* MapViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
