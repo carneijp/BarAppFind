@@ -75,7 +75,6 @@
 				851D895129FDE7C900282473 /* BucketListView.swift */,
 				851D895329FDE7D900282473 /* ProfileView.swift */,
 				851D894F29FDE7B900282473 /* MapView.swift */,
-				85285DFD2A01A12100139191 /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -87,13 +86,6 @@
 				851D895A29FE950A00282473 /* Objects */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		85285DFD2A01A12100139191 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Components;
 			sourceTree = "<group>";
 		};
 		85285E242A02EA9900139191 /* CloudKit */ = {

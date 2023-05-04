@@ -20,7 +20,7 @@ class City: ObservableObject {
 
 
 class OperationHours: ObservableObject {
-    var barName: Bar
+    var barName: String
     var monday: String
     var tuesday: String
     var wednesday: String
@@ -29,7 +29,7 @@ class OperationHours: ObservableObject {
     var saturday: String
     var sunday: String
     
-    init(barName: Bar, monday: String, tuesday: String, wednesday: String, thrusday: String, friday: String, saturday: String, sunday: String) {
+    init(barName: String, monday: String, tuesday: String, wednesday: String, thrusday: String, friday: String, saturday: String, sunday: String) {
         self.barName = barName
         self.monday = monday
         self.tuesday = tuesday
@@ -45,6 +45,7 @@ class OperationHours: ObservableObject {
 class Bar: ObservableObject {
     var name: String
     var description: String = ""
+    var fakeID: String
     var mood: String = ""
     var expensive: String = ""
     var grade: Double = 0.0
@@ -55,11 +56,12 @@ class Bar: ObservableObject {
     var longitude: Double
     
     
-    init(name: String, latitude: Double, longitude: Double, operationHours: OperationHours){
+    init(name: String, latitude: Double, longitude: Double, operationHours: OperationHours, fakeID: String){
         self.name = name
         self.latitude = latitude
         self.longitude = longitude
         self.operatinHours = operationHours
+        self.fakeID = fakeID
     }
     func changeDescription(description: String) {
         self.description = description
