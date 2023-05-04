@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class City: ObservableObject {
     var name: String
@@ -17,6 +18,9 @@ class City: ObservableObject {
         bars.append(bar)
     }
 }
+
+
+
 
 
 class OperationHours: ObservableObject {
@@ -42,27 +46,39 @@ class OperationHours: ObservableObject {
 }
 
 
+
+
 class Bar: ObservableObject {
+    @StateObject var cloud = CloudKitCRUD()
     var name: String
-    var description: String = ""
+    var description: String
     var fakeID: String
-    var mood: String = ""
-    var expensive: String = ""
-    var grade: Double = 0.0
-    var reviews: [Review] = []
+    var mood: String
+    var expensive: String
+    var grade: Double
+    var reviews: [Review]
     var operatinHours: OperationHours
     var photos: [String] = []
     var latitude: Double
     var longitude: Double
     
-    
-    init(name: String, latitude: Double, longitude: Double, operationHours: OperationHours, fakeID: String){
+    init(name: String, description: String, fakeID: String, mood: String, expensive: String, grade: Double, latitude: Double, longitude: Double) {
         self.name = name
+        self.description = description
+        self.fakeID = fakeID
+        self.mood = mood
+        self.expensive = expensive
+        self.grade = grade
+//        cloud.fetchoperationHours(barName: self.name)
+//        guard let operation = cloud.operationHours else { return }
+        self.operatinHours = operation
+//        self.photos = photos
         self.latitude = latitude
         self.longitude = longitude
-        self.operatinHours = operationHours
-        self.fakeID = fakeID
+//        cloud.fetchItemsReview(barName: self.name)
+//        self.reviews = cloud.reviewList
     }
+    
     func changeDescription(description: String) {
         self.description = description
     }
@@ -78,13 +94,12 @@ class Bar: ObservableObject {
     }
 }
 
+
+
+
 struct Review {
-    var writerName: Clients
+    var writerName: String
     var grade: Double
     var description: String
-    var barName: Bar
+    var barName: String
 }
-
-//var cidade = City(name: "Porto Alegre")
-//var bar1 = Bar(name: "Maza", latitude: -30.062134, longitude: -51.174497)
-

@@ -14,9 +14,7 @@ class Clients: ObservableObject {
     var cpf: String
     var gender: String
     var password: String
-//    func validaCPF(cpf: String){
-//        
-//    }
+    
     init(email: String, name: String, phone: String, cpf: String, gender: String, password: String) {
         self.email = email
         self.name = name
