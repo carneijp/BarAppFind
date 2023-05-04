@@ -35,6 +35,7 @@ struct GeneralTab: View {
                 Label("Perfil", systemImage: "person.fill")
             }
         }
+
     }
 }
 

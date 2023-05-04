@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6CC1121B2A04334B0009C2BC /* BarPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1121A2A04334B0009C2BC /* BarPageView.swift */; };
 		82FC66972A0423B7008DF9CC /* TrendingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC66962A0423B7008DF9CC /* TrendingComponent.swift */; };
 		851D894C29FDE75700282473 /* GeneralTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894B29FDE75700282473 /* GeneralTab.swift */; };
 		851D894E29FDE7A900282473 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D894D29FDE7A900282473 /* HomeView.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6CC1121A2A04334B0009C2BC /* BarPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarPageView.swift; sourceTree = "<group>"; };
 		82FC66962A0423B7008DF9CC /* TrendingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingComponent.swift; sourceTree = "<group>"; };
 		851D894B29FDE75700282473 /* GeneralTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTab.swift; sourceTree = "<group>"; };
 		851D894D29FDE7A900282473 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				851D894D29FDE7A900282473 /* HomeView.swift */,
+				6CC1121A2A04334B0009C2BC /* BarPageView.swift */,
 				851D895129FDE7C900282473 /* BucketListView.swift */,
 				851D895329FDE7D900282473 /* ProfileView.swift */,
 				851D894F29FDE7B900282473 /* MapView.swift */,
@@ -205,6 +208,7 @@
 			files = (
 				851D895029FDE7B900282473 /* MapView.swift in Sources */,
 				851D894C29FDE75700282473 /* GeneralTab.swift in Sources */,
+				6CC1121B2A04334B0009C2BC /* BarPageView.swift in Sources */,
 				851D895429FDE7D900282473 /* ProfileView.swift in Sources */,
 				851D894E29FDE7A900282473 /* HomeView.swift in Sources */,
 				8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */,
