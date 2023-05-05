@@ -12,6 +12,49 @@ struct BarPageView: View {
         case barName, info, review
     }
     
+    @ViewBuilder
+    func createSystemIcon(imageName: String)-> some View {
+        ZStack {
+            Image(systemName: imageName)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                .background(Color.green)
+        }
+        .frame(width: 35, height: 31)
+        .padding(20)
+        .background(Color.gray)
+        .cornerRadius(20)
+    }
+    
+    @ViewBuilder
+    func createCustomIcon(imageName: String)-> some View {
+        ZStack {
+            Image(imageName)
+                .resizable()
+                .scaledToFill()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                .background(Color.green)
+        }
+        .frame(width: 35, height: 31)
+        .padding(20)
+        .background(Color.gray)
+        .cornerRadius(20)
+    }
+    
+    @ViewBuilder
+    func createMood(mood: String)-> some View {
+        ZStack {
+            Text(mood)
+                .font(.system(size: 14))
+        }
+        .frame(width: 106, height: 79)
+        .padding(20)
+        .background(Color.gray)
+        .cornerRadius(20)
+    }
+    
+    
     @State var topBarChoice: ChoiceBar = .barName
     
     @State var isBarName: Bool = true
@@ -25,6 +68,7 @@ struct BarPageView: View {
                 .scaledToFit()
                 .padding(.bottom, 10)
             
+            //tabBar
             HStack{
                 Group{
                     if isBarName{
@@ -85,66 +129,108 @@ struct BarPageView: View {
                 
             }
 //            Divider()
-            HStack{
-                Text("Deusa Bar")
-                    .font(.title2)
-                    .bold()
-                
-                Text("•")
-                    .foregroundColor(.gray)
-                
-                Text("3km")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                
-                Image(systemName: "dollarsign")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 7)
-                Image(systemName: "dollarsign")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 7)
-                    .padding(.leading, -5)
-                
-                Spacer()
-                
-                Image(systemName: "heart")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 25)
+            switch topBarChoice{
+                case .barName:
+                    VStack{
+                        HStack{
+                            Text("Deusa Bar")
+                                .font(.title2)
+                                .bold()
+                            
+                            Text("•")
+                                .foregroundColor(.gray)
+                            
+                            Text("3km")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            
+                            Image(systemName: "dollarsign")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 7)
+                            Image(systemName: "dollarsign")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 7)
+                                .padding(.leading, -5)
+                            
+                            Spacer()
+                            
+                            Image(systemName: "heart")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 25)
+                        }
+                        
+                        HStack{
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 15)
+                            
+                            Text("4,6")
+                                .font(.system(size: 14))
+                            
+                            Text("•")
+                                .foregroundColor(.gray)
+                            
+                            Text("aberto - 8h às 20h")
+                                .font(.system(size: 14))
+                            
+                            Spacer()
+                        }
+                        .padding(.top, -15)
+                        //            .background(.gray)
+                        
+                        Text("Bar com ótimos drinks, atuando junto aos clientes desde 2015. Contamos com diversas opções de drinks e petiscos.")
+                            .font(.system(size: 16))
+                            .lineLimit(nil)
+                            .padding(.vertical)
+                            .fixedSize(horizontal: false, vertical: true)
+                        
+                        HStack{
+                            VStack{
+                                createCustomIcon(imageName: "Instagram")
+                                Text("Instagram")
+                                    .font(.system(size: 10))
+                            }
+                            VStack{
+                                createSystemIcon(imageName: "car.fill")
+                                Text("Uber")
+                                    .font(.system(size: 10))
+                            }
+                            VStack{
+                                createSystemIcon(imageName: "square.and.arrow.up")
+                                Text("Compartilhar")
+                                    .font(.system(size: 10))
+                            }
+                            Spacer()
+                        }
+                        .padding(.bottom)
+                        
+                        HStack {
+                            Text("Boa escolha para ...")
+                                .font(.system(size: 14))
+                            Spacer()
+                        }
+                        
+                        HStack{
+                            createMood(mood: "mood")
+                            createMood(mood: "mood")
+                            createMood(mood: "mood")
+                        }
+                    }
+                    .padding(.horizontal)
+                case .info:
+                    Text("aa")
+                case .review:
+                    Text("aa")
+                    
+   
             }
-            .padding(.horizontal)
+
             
-            HStack{
-                Image(systemName: "star.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 15)
-                
-                Text("4,6")
-                    .font(.system(size: 14))
-                
-                Text("•")
-                    .foregroundColor(.gray)
-                
-                Text("aberto - 8h às 20h")
-                    .font(.system(size: 14))
-                
-                Spacer()
-            }
-            .padding(.horizontal)
-            .padding(.top, -15)
-//            .background(.gray)
             
-            Text("Bar com ótimos drinks, atuando junto aos clientes desde 2015. Contamos com diversas opções de drinks e petiscos.")
-                .font(.system(size: 16))
-                .padding()
-            
-            HStack{
-                Image(systemName: "car.fill")
-                Image(systemName: "square.and.arrow.up")
-            }
             
             Spacer()
         }
