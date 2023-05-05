@@ -20,27 +20,27 @@ class City: ObservableObject {
 }
 
 
-class OperationHours: ObservableObject {
-    var barName: String
-    var monday: String
-    var tuesday: String
-    var wednesday: String
-    var thrusday: String
-    var friday: String
-    var saturday: String
-    var sunday: String
-    
-    init(barName: String, monday: String, tuesday: String, wednesday: String, thrusday: String, friday: String, saturday: String, sunday: String) {
-        self.barName = barName
-        self.monday = monday
-        self.tuesday = tuesday
-        self.wednesday = wednesday
-        self.thrusday = thrusday
-        self.friday = friday
-        self.saturday = saturday
-        self.sunday = sunday
-    }
-}
+//class OperationHours: ObservableObject {
+//    var barName: String
+//    var monday: String
+//    var tuesday: String
+//    var wednesday: String
+//    var thrusday: String
+//    var friday: String
+//    var saturday: String
+//    var sunday: String
+//    
+//    init(barName: String, monday: String, tuesday: String, wednesday: String, thrusday: String, friday: String, saturday: String, sunday: String) {
+//        self.barName = barName
+//        self.monday = monday
+//        self.tuesday = tuesday
+//        self.wednesday = wednesday
+//        self.thrusday = thrusday
+//        self.friday = friday
+//        self.saturday = saturday
+//        self.sunday = sunday
+//    }
+//}
 
 
 class Bar: ObservableObject {
@@ -52,22 +52,19 @@ class Bar: ObservableObject {
     var expensive: String
     var grade: Double
 //    var reviews: [Review]
-//    var operatinHours: OperationHours
+    var operatinHours: [String]
     var photos: [String] = []
     var latitude: Double
     var longitude: Double
     
-    init(name: String, description: String, fakeID: String, mood: [String], expensive: String, grade: Double, latitude: Double, longitude: Double) {
+    init(name: String, description: String, fakeID: String, mood: [String], expensive: String, grade: Double, latitude: Double, longitude: Double, operatinhours: [String]) {
         self.name = name
         self.description = description
         self.fakeID = fakeID
         self.mood = mood
         self.expensive = expensive
         self.grade = grade
-//        cloud.fetchoperationHours(barName: self.name)
-//        guard let operation = cloud.operationHours else { return }
-//        self.operatinHours = operation
-//        self.photos = photos
+        self.operatinHours = operatinhours
         self.latitude = latitude
         self.longitude = longitude
 //        cloud.fetchItemsReview(barName: self.name)

@@ -12,7 +12,7 @@ struct ProfileView: View {
     var body: some View {
         VStack{
             Button{
-                cloud.addBar(bar: Bar(name: "Quentins", description: "Um bar Rock and Roll pra tu curtir com a tua galera 🤘 Chope | Drinks | Música | Tarantino", fakeID: "1234", mood: ["Feliz", "Triste"], expensive: "4", grade: 4.0, latitude: -30.040181010490798, longitude: -51.21888666132587))
+                cloud.addBar(bar: Bar(name: "Quentins", description: "Um bar Rock and Roll pra tu curtir com a tua galera 🤘 Chope | Drinks | Música | Tarantino", fakeID: "1234", mood: ["Feliz", "Triste"], expensive: "4", grade: 4.0, latitude: -30.040181010490798, longitude: -51.21888666132587, operatinhours: ["Monday: 18:00-22:00", "Thruesday: 18:00-22:00"]))
             }
             label: {
                 Text("Mochila Mochila...")
