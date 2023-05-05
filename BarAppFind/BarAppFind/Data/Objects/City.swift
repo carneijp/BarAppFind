@@ -98,6 +98,7 @@ class Bar: ObservableObject {
 
 
 struct Review {
+    var writerNickName: String
     var writerName: String
     var grade: Double
     var description: String
