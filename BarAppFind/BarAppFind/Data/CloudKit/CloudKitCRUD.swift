@@ -69,8 +69,25 @@ class CloudKitCRUD: ObservableObject {
                 newBar["Latitude"] = bar.latitude
                 newBar["FakeID"] = bar.fakeID
                 newBar["Longitude"] = bar.longitude
+                
+//                guard
+//                    let image = UIImage(named: "maza"),
+//                    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent("maza.jpeg"),
+//                    let data = image.jpegData(compressionQuality: 1.0)
+//                else { return }
+//
+//                do {
+//                    try data.write(to: url)
+//                    let asset = CKAsset(fileURL: url)
+//                    newBar["image"] = asset
+//                } catch error {
+//                    print(error)
+//                }
+                             
+                
+                
                 self?.saveItemPublic(record: newBar)
-                self?.addBarHours(operationHours: bar.operatinHours, bar: bar)
+//                self?.addBarHours(operationHours: bar.operatinHours, bar: bar)
                 
             }
         }
@@ -401,7 +418,7 @@ class CloudKitCRUD: ObservableObject {
                     guard let latitude = record["Latitude"] as? Double else { return }
                     guard let longitude = record["Longitude"] as? Double else { return }
                     guard let fakeID = record["FakeID"] as? String else { return }
-                    returnedItem.append(Bar(name: barName, description: description, fakeID: fakeID, mood: mood, expensive: expensive, grade: grade, latitude: latitude, longitude: longitude))
+                    returnedItem.append(Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude))
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -417,7 +434,7 @@ class CloudKitCRUD: ObservableObject {
                 guard let latitude = returnedRecord["Latitude"] as? Double else { return }
                 guard let longitude = returnedRecord["Longitude"] as? Double else { return }
                 guard let fakeID = returnedRecord["FakeID"] as? String else { return }
-                returnedItem.append(Bar(name: barName, description: description, fakeID: fakeID, mood: mood, expensive: expensive, grade: grade, latitude: latitude, longitude: longitude))
+                returnedItem.append(Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude))
             }
         }
         
@@ -459,7 +476,7 @@ class CloudKitCRUD: ObservableObject {
                     guard let latitude = record["Latitude"] as? Double else { return }
                     guard let longitude = record["Longitude"] as? Double else { return }
                     guard let fakeID = record["FakeID"] as? String else { return }
-                    returnedItem = Bar(name: barName, description: description, fakeID: fakeID, mood: mood, expensive: expensive, grade: grade, latitude: latitude, longitude: longitude)
+                    returnedItem = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude)
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -475,7 +492,7 @@ class CloudKitCRUD: ObservableObject {
                 guard let latitude = returnedRecord["Latitude"] as? Double else { return }
                 guard let longitude = returnedRecord["Longitude"] as? Double else { return }
                 guard let fakeID = returnedRecord["FakeID"] as? String else { return }
-                returnedItem = Bar(name: barName, description: description, fakeID: fakeID, mood: mood, expensive: expensive, grade: grade, latitude: latitude, longitude: longitude)
+                returnedItem = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude)
             }
         }
         

@@ -20,9 +20,6 @@ class City: ObservableObject {
 }
 
 
-
-
-
 class OperationHours: ObservableObject {
     var barName: String
     var monday: String
@@ -46,23 +43,21 @@ class OperationHours: ObservableObject {
 }
 
 
-
-
 class Bar: ObservableObject {
     @StateObject var cloud = CloudKitCRUD()
     var name: String
     var description: String
     var fakeID: String
-    var mood: String
+    var mood: [String]
     var expensive: String
     var grade: Double
-    var reviews: [Review]
-    var operatinHours: OperationHours
+//    var reviews: [Review]
+//    var operatinHours: OperationHours
     var photos: [String] = []
     var latitude: Double
     var longitude: Double
     
-    init(name: String, description: String, fakeID: String, mood: String, expensive: String, grade: Double, latitude: Double, longitude: Double) {
+    init(name: String, description: String, fakeID: String, mood: [String], expensive: String, grade: Double, latitude: Double, longitude: Double) {
         self.name = name
         self.description = description
         self.fakeID = fakeID
@@ -71,7 +66,7 @@ class Bar: ObservableObject {
         self.grade = grade
 //        cloud.fetchoperationHours(barName: self.name)
 //        guard let operation = cloud.operationHours else { return }
-        self.operatinHours = operation
+//        self.operatinHours = operation
 //        self.photos = photos
         self.latitude = latitude
         self.longitude = longitude
@@ -93,9 +88,6 @@ class Bar: ObservableObject {
         }
     }
 }
-
-
-
 
 struct Review {
     var writerNickName: String
