@@ -69,27 +69,28 @@ class CloudKitCRUD: ObservableObject {
                 newBar["FakeID"] = bar.fakeID
                 newBar["Longitude"] = bar.longitude
                 newBar["OperationHours"] = bar.operatinHours
-                //
-                ////                guard
-                ////                    let image = UIImage(named: "maza"),
-                ////                    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent("maza.jpeg"),
-                ////                    let data = image.jpegData(compressionQuality: 1.0)
-                ////                else { return }
-                ////
-                ////                do {
-                ////                    try data.write(to: url)
-                ////                    let asset = CKAsset(fileURL: url)
-                ////                    newBar["image"] = asset
-                ////                } catch error {
-                ////                    print(error)
-                ////                }
-                //
-                //
-                
+                var assets:[CKAsset] = []
+                for i in 0...bar.photosTOSave.count{
+                    guard
+                        let Image = UIImage(named: "\(bar.photosTOSave[i])"),
+                        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(bar.photosTOSave[i]).jpg"),
+                        let data = Image.jpegData(compressionQuality: 1.0) else { return }
+                    
+                    do{
+                        try data.write(to: url)
+                        let asset = CKAsset(fileURL: url)
+                        assets.append(asset)
+                    }catch let error {
+                        print(error)
+                    }
+                }
+                newBar["Image"] = assets
                 self.saveItemPublic(record: newBar)
             }
         }
     }
+    
+    
     //    #falta arrumar
     func addReview(review: Review) {
         let reference: String = "\(review.barName)_\(review.writerName)"
@@ -158,6 +159,21 @@ class CloudKitCRUD: ObservableObject {
                 newClient["Gender"] = clients.gender
                 newClient["Password"] = clients.password
                 newClient["NickName"] = clients.nickName
+//                if clients.photoTosave != ""{
+//                    guard
+//                        let Image = UIImage(named: "\(clients.photoTosave)"),
+//                        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(clients.photoTosave).jpg"),
+//                        let data = Image.jpegData(compressionQuality: 1.0) else { return }
+//
+//                    do{
+//                        try data.write(to: url)
+//                        let asset = CKAsset(fileURL: url)
+//                        newClient["Image"] = asset
+//
+//                    }catch let error {
+//                        print(error)
+//                    }
+//                }
                 self.saveItemPublic(record: newClient)
             }
         }
@@ -391,6 +407,7 @@ class CloudKitCRUD: ObservableObject {
         let queryOperation = CKQueryOperation(query: query)
         //        queryOperation.resultsLimit = 2
         var returnedItem: [Bar] = []
+        var returnedPhotos: [URL] = []
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
@@ -405,7 +422,16 @@ class CloudKitCRUD: ObservableObject {
                     guard let longitude = record["Longitude"] as? Double else { return }
                     guard let fakeID = record["FakeID"] as? String else { return }
                     guard let operationHours = record["OperationHours"] as? String else { return }
-                    returnedItem.append(Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours]))
+                    guard let imageAsset = record["Image"] as? [CKAsset] else { return }
+                    
+                    for i in 0...imageAsset.count{
+                        guard let imageURL = imageAsset[i].fileURL else { return }
+                        returnedPhotos.append(imageURL)
+                    }
+                    let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                    bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                    returnedItem.append(bar)
+                
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -422,8 +448,15 @@ class CloudKitCRUD: ObservableObject {
                 guard let longitude = returnedRecord["Longitude"] as? Double else { return }
                 guard let fakeID = returnedRecord["FakeID"] as? String else { return }
                 guard let operationHours = returnedRecord["OperationHours"] as? String else {return}
-                returnedItem.append(Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours]))
-            }
+                guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
+                
+                for i in 0...imageAsset.count{
+                    guard let imageURL = imageAsset[i].fileURL else { return }
+                    returnedPhotos.append(imageURL)
+                }
+                let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                returnedItem.append(bar)            }
         }
         
         //COMPLETIONS BLOCKS
@@ -451,6 +484,7 @@ class CloudKitCRUD: ObservableObject {
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         var returnedItem: Bar?
+        var returnedPhotos: [URL] = []
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
@@ -465,7 +499,15 @@ class CloudKitCRUD: ObservableObject {
                     guard let longitude = record["Longitude"] as? Double else { return }
                     guard let fakeID = record["FakeID"] as? String else { return }
                     guard let operationHours = record["OperationHours"] as? String else { return }
-                    returnedItem = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                    guard let imageAsset = record["Image"] as? [CKAsset] else { return }
+                    
+                    for i in 0...imageAsset.count{
+                        guard let imageURL = imageAsset[i].fileURL else { return }
+                        returnedPhotos.append(imageURL)
+                    }
+                    let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                    bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                    returnedItem = bar
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -482,7 +524,15 @@ class CloudKitCRUD: ObservableObject {
                 guard let longitude = returnedRecord["Longitude"] as? Double else { return }
                 guard let fakeID = returnedRecord["FakeID"] as? String else { return }
                 guard let operationHours = returnedRecord["OperationHours"] as? String else { return }
-                returnedItem = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
+                
+                for i in 0...imageAsset.count{
+                    guard let imageURL = imageAsset[i].fileURL else { return }
+                    returnedPhotos.append(imageURL)
+                }
+                let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                returnedItem = bar
             }
         }
         

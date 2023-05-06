@@ -19,30 +19,6 @@ class City: ObservableObject {
     }
 }
 
-
-//class OperationHours: ObservableObject {
-//    var barName: String
-//    var monday: String
-//    var tuesday: String
-//    var wednesday: String
-//    var thrusday: String
-//    var friday: String
-//    var saturday: String
-//    var sunday: String
-//    
-//    init(barName: String, monday: String, tuesday: String, wednesday: String, thrusday: String, friday: String, saturday: String, sunday: String) {
-//        self.barName = barName
-//        self.monday = monday
-//        self.tuesday = tuesday
-//        self.wednesday = wednesday
-//        self.thrusday = thrusday
-//        self.friday = friday
-//        self.saturday = saturday
-//        self.sunday = sunday
-//    }
-//}
-
-
 class Bar: ObservableObject {
     @StateObject var cloud = CloudKitCRUD()
     var name: String
@@ -51,9 +27,10 @@ class Bar: ObservableObject {
     var mood: [String]
     var expensive: String
     var grade: Double
-//    var reviews: [Review]
+    var reviews: [Review] = []
     var operatinHours: [String]
-    var photos: [String] = []
+    var photosTOSave: [String] = []
+    var photosToUse: [URL?] = []
     var latitude: Double
     var longitude: Double
     
@@ -67,23 +44,18 @@ class Bar: ObservableObject {
         self.operatinHours = operatinhours
         self.latitude = latitude
         self.longitude = longitude
-//        cloud.fetchItemsReview(barName: self.name)
-//        self.reviews = cloud.reviewList
+    }
+    func recieveAllPhotos(photosToSAVE:[String]){
+        self.photosTOSave = photosToSAVE
+    }
+    func recieveAllPhotos(photosToUSE:[URL]){
+        self.photosToUse = photosToUSE
+    }
+    func recieveAllReviews(){
+        cloud.fetchItemsReview(barName: self.name)
+        self.reviews = cloud.reviewListByBar
     }
     
-    func changeDescription(description: String) {
-        self.description = description
-    }
-    func addPhotos(photo: String) {
-        self.photos.append(photo)
-    }
-    func removePhoto(photo: String) {
-        for i in 0...photos.count {
-            if photos[i] == photo{
-                photos.remove(at: i)
-            }
-        }
-    }
 }
 
 struct Review {

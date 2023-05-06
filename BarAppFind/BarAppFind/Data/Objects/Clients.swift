@@ -15,6 +15,8 @@ class Clients: ObservableObject {
     var cpf: String
     var gender: String
     var password: String
+//    var photoTosave: String = ""
+//    var photoToUse: [URL?] = []
 //    var photo: 
     
     init(email: String, name: String, phone: String, cpf: String, gender: String, password: String, nickName: String) {
