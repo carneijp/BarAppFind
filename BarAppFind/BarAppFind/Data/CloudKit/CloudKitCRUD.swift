@@ -93,25 +93,51 @@ class CloudKitCRUD: ObservableObject {
     
     //    #falta arrumar
     func addReview(review: Review) {
-        let reference: String = "\(review.barName)_\(review.writerName)"
-        let recordID = CKRecord.ID(recordName: reference)
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { [weak self] (fetchedRecord, error) in
-            if(error == nil) {
+        var jaExiste: Bool = false
+        let predicate = NSPredicate(format: "%k == %@ AND %K == %@", argumentArray: ["Bar","\(review.barName)","Writer","\(review.writerNickName)"])
+        let query = CKQuery(recordType: "Reviews", predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
+        
+        if #available(iOS 15.0, *){
+            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                switch returnedResult{
+                case .success(let record):
+                    jaExiste = true
+                    print("Result: ", record)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+            }
+        }
+        
+        if #available(iOS 15.0, *){
+            queryOperation.queryResultBlock = { returnedResult in
+                switch returnedResult {
+                case .success(let record):
+                    print("result2", record as Any)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+            }
+        }
+        
+        addDataBaseOperation(operation: queryOperation)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if(jaExiste) {
                 print("Já existe usuário com este CPF.")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-                
             }
-            else if (fetchedRecord == nil) {
+            else {
                 let newReview = CKRecord(recordType: "Reviews")
                 newReview["Grade"] = review.grade
                 newReview["Description"] = review.description
                 newReview["Writer"] = review.writerName
                 newReview["Bar"] = review.barName
                 newReview["WriterNickName"] = review.writerNickName
-                self?.saveItemPublic(record: newReview)
+                self.saveItemPublic(record: newReview)
             }
+            
         }
-        
     }
     
     func addUser(clients: Clients) {
@@ -159,21 +185,21 @@ class CloudKitCRUD: ObservableObject {
                 newClient["Gender"] = clients.gender
                 newClient["Password"] = clients.password
                 newClient["NickName"] = clients.nickName
-//                if clients.photoTosave != ""{
-//                    guard
-//                        let Image = UIImage(named: "\(clients.photoTosave)"),
-//                        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(clients.photoTosave).jpg"),
-//                        let data = Image.jpegData(compressionQuality: 1.0) else { return }
-//
-//                    do{
-//                        try data.write(to: url)
-//                        let asset = CKAsset(fileURL: url)
-//                        newClient["Image"] = asset
-//
-//                    }catch let error {
-//                        print(error)
-//                    }
-//                }
+                //                if clients.photoTosave != ""{
+                //                    guard
+                //                        let Image = UIImage(named: "\(clients.photoTosave)"),
+                //                        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(clients.photoTosave).jpg"),
+                //                        let data = Image.jpegData(compressionQuality: 1.0) else { return }
+                //
+                //                    do{
+                //                        try data.write(to: url)
+                //                        let asset = CKAsset(fileURL: url)
+                //                        newClient["Image"] = asset
+                //
+                //                    }catch let error {
+                //                        print(error)
+                //                    }
+                //                }
                 self.saveItemPublic(record: newClient)
             }
         }
@@ -431,7 +457,7 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     returnedItem.append(bar)
-                
+                    
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -464,14 +490,11 @@ class CloudKitCRUD: ObservableObject {
         if #available(iOS 15.0, *){
             queryOperation.queryResultBlock = { [weak self] returnedResult in
                 DispatchQueue.main.async{
-                    //                    print("returned result: \(returnedResult)")
-                    //                    print(returnedItem)
                     self?.barsList = returnedItem
                 }
             }
         }else{
             queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-                //                print("returned result: \(returnedCursor)")
                 self?.barsList = returnedItem
             }
         }
