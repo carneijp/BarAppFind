@@ -1,9 +1,3 @@
-//
-//  CloudKitCRUD.swift
-//  BarAppFind
-//
-//  Created by Joao Paulo Carneiro on 03/05/23.
-//
 import CloudKit
 import SwiftUI
 
@@ -15,7 +9,6 @@ class CloudKitCRUD: ObservableObject {
     @Published var client: Clients?
     //    @Published var operationHours: OperationHours?
     @Published var chossenBar: Bar?
-    
     
     
     private func saveItemPublic(record: CKRecord) {
@@ -31,34 +24,28 @@ class CloudKitCRUD: ObservableObject {
     
     func addBar(bar: Bar) {
         var jaExiste: Bool = false
-        //        print("JORGE 2")
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(bar.name)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         
-        //        print("JORGE 3")
         if #available(iOS 15.0, *){
-            //            print("JORGE 4")
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-                //                print("JORGE 5")
                 switch returnedResult{
                 case .success(let record):
                     print("Result: ", record)
                     jaExiste = true
                 case .failure(let error):
-                    //                    print("JORGE 7")
                     print("Error matched block error\(error)")
                 }
             }
         }
         
         if #available(iOS 15.0, *){
-            queryOperation.queryResultBlock = { [weak self] returnedResult in
+            queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
-                    print("result2", record)
+                    print("result2", record as Any)
                 case .failure(let error):
-                    //                    print("JORGE 9")
                     print("Error matched block error\(error)")
                 }
             }
@@ -105,7 +92,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-//    #falta arrumar
+    //    #falta arrumar
     func addReview(review: Review) {
         let reference: String = "\(review.barName)_\(review.writerName)"
         let recordID = CKRecord.ID(recordName: reference)
@@ -152,10 +139,10 @@ class CloudKitCRUD: ObservableObject {
         }
         
         if #available(iOS 15.0, *){
-            queryOperation.queryResultBlock = { [weak self] returnedResult in
+            queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
-                    print("result2", record)
+                    print("result2", record as Any)
                 case .failure(let error):
                     //                    print("JORGE 9")
                     print("Error matched block error\(error)")
@@ -183,38 +170,30 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    
-    
     func addCity(cidade: City) {
         var jaExiste: Bool = false
-        //        print("JORGE 2")
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(cidade.name)"])
         let query = CKQuery(recordType: "Citys", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         
-        //        print("JORGE 3")
         if #available(iOS 15.0, *){
-            //            print("JORGE 4")
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-                //                print("JORGE 5")
                 switch returnedResult{
                 case .success(let record):
                     print("Result: ", record)
                     jaExiste = true
                 case .failure(let error):
-                    //                    print("JORGE 7")
                     print("Error matched block error\(error)")
                 }
             }
         }
         
         if #available(iOS 15.0, *){
-            queryOperation.queryResultBlock = { [weak self] returnedResult in
+            queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
-                    print("result2", record)
+                    print("result2", record as Any)
                 case .failure(let error):
-                    //                    print("JORGE 9")
                     print("Error matched block error\(error)")
                 }
             }
@@ -228,14 +207,11 @@ class CloudKitCRUD: ObservableObject {
             
         }
         else  {
-                let newCity = CKRecord(recordType: "Citys")
-                newCity["Name"] = cidade.name
-                self.saveItemPublic(record: newCity)
-            }
-        
+            let newCity = CKRecord(recordType: "Citys")
+            newCity["Name"] = cidade.name
+            self.saveItemPublic(record: newCity)
+        }
     }
-    
-    
     
     func fetchItemsReviewByBar(barName: String) {
         let predicate = NSPredicate(format: "Bar = %@", argumentArray: ["\(barName)"])
@@ -371,14 +347,14 @@ class CloudKitCRUD: ObservableObject {
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
                 case .success(let record):
-                    guard let Email = record["Email"] as? String else { return }
-                    guard let Phone = record["Phone"] as? String else { return }
-                    guard let Name = record["Name"] as? String else { return }
-                    guard let CPF = record["CPF"] as? String else { return }
-                    guard let Gender = record["Gender"] as? String else { return }
-                    guard let Password = record["Password"] as? String else { return }
-                    guard let NickName = record["NickName"] as? String else { return }
-                    returnedItem = Clients(email: Email, name: Name, phone: Phone, cpf: CPF, gender: Gender, password: Password, nickName: NickName)
+                    guard let email = record["Email"] as? String else { return }
+                    guard let phone = record["Phone"] as? String else { return }
+                    guard let name = record["Name"] as? String else { return }
+                    guard let cpf = record["CPF"] as? String else { return }
+                    guard let gender = record["Gender"] as? String else { return }
+                    guard let password = record["Password"] as? String else { return }
+                    guard let nickName = record["NickName"] as? String else { return }
+                    returnedItem = Clients(email: email, name: name, phone: phone, cpf: cpf, gender: gender, password: password, nickName: nickName)
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -386,14 +362,14 @@ class CloudKitCRUD: ObservableObject {
         }
         else{
             queryOperation.recordFetchedBlock = {(returnedRecord)in
-                guard let Email = returnedRecord["Email"] as? String else { return }
-                guard let Phone = returnedRecord["Phone"] as? String else { return }
-                guard let Name = returnedRecord["Name"] as? String else { return }
-                guard let CPF = returnedRecord["CPF"] as? String else { return }
-                guard let Gender = returnedRecord["Gender"] as? String else { return }
-                guard let Password = returnedRecord["Password"] as? String else { return }
-                guard let NickName = returnedRecord["NickName"] as? String else { return }
-                returnedItem = Clients(email: Email, name: Name, phone: Phone, cpf: CPF, gender: Gender, password: Password, nickName: NickName)
+                guard let email = returnedRecord["Email"] as? String else { return }
+                guard let phone = returnedRecord["Phone"] as? String else { return }
+                guard let name = returnedRecord["Name"] as? String else { return }
+                guard let cpf = returnedRecord["CPF"] as? String else { return }
+                guard let gender = returnedRecord["Gender"] as? String else { return }
+                guard let password = returnedRecord["Password"] as? String else { return }
+                guard let nickName = returnedRecord["NickName"] as? String else { return }
+                returnedItem = Clients(email: email, name: name, phone: phone, cpf: cpf, gender: gender, password: password, nickName: nickName)
             }
         }
         
