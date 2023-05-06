@@ -16,6 +16,7 @@ class CloudKitCRUD: ObservableObject {
             print("\(returnedError)")
         }
     }
+    
     private func addDataBaseOperation(operation: CKDatabaseOperation ) {
         CKContainer.default().publicCloudDatabase.add(operation)
     }
@@ -206,7 +207,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func fetchItemsReviewByBar(barName: String) {
+    func fetchItemsReview(barName: String) {
         let predicate = NSPredicate(format: "Bar = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
@@ -258,7 +259,7 @@ class CloudKitCRUD: ObservableObject {
     }
     
     
-    func fetchItemsReviewByNickName(nickName: String) {
+    func fetchItemsReview(nickName: String) {
         let predicate = NSPredicate(format: "WriterNickName = %@", argumentArray: ["\(nickName)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
