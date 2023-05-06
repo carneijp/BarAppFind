@@ -1,13 +1,12 @@
 import CloudKit
 import SwiftUI
-
+import Foundation
 
 class CloudKitCRUD: ObservableObject {
     
     @Published var barsList: [Bar] = []
     @Published var reviewListByBar: [Review] = []
     @Published var client: Clients?
-    //    @Published var operationHours: OperationHours?
     @Published var chossenBar: Bar?
     
     
@@ -32,8 +31,8 @@ class CloudKitCRUD: ObservableObject {
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
                 case .success(let record):
-                    print("Result: ", record)
                     jaExiste = true
+                    print("Result: ", record)
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -52,46 +51,44 @@ class CloudKitCRUD: ObservableObject {
         }
         
         addDataBaseOperation(operation: queryOperation)
-        
-        if(jaExiste) {
-            print("Já existe usuário com este CPF.")
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-            
-        }
-        else {
-            let newBar = CKRecord(recordType: "Bars")
-            
-            newBar["Name"] = bar.name
-            newBar["Description"] = bar.description
-            newBar["Mood"] = bar.mood
-            newBar["Expensive"] = bar.expensive
-            newBar["Grade"] = bar.grade
-            newBar["Latitude"] = bar.latitude
-            newBar["FakeID"] = bar.fakeID
-            newBar["Longitude"] = bar.longitude
-            newBar["OperationHours"] = bar.operatinHours
-            //
-            ////                guard
-            ////                    let image = UIImage(named: "maza"),
-            ////                    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent("maza.jpeg"),
-            ////                    let data = image.jpegData(compressionQuality: 1.0)
-            ////                else { return }
-            ////
-            ////                do {
-            ////                    try data.write(to: url)
-            ////                    let asset = CKAsset(fileURL: url)
-            ////                    newBar["image"] = asset
-            ////                } catch error {
-            ////                    print(error)
-            ////                }
-            //
-            //
-            
-            self.saveItemPublic(record: newBar)
-            
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if(jaExiste) {
+                print("Já existe usuário com este CPF.")
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
+            }
+            else {
+                let newBar = CKRecord(recordType: "Bars")
+                
+                newBar["Name"] = bar.name
+                newBar["Description"] = bar.description
+                newBar["Mood"] = bar.mood
+                newBar["Expensive"] = bar.expensive
+                newBar["Grade"] = bar.grade
+                newBar["Latitude"] = bar.latitude
+                newBar["FakeID"] = bar.fakeID
+                newBar["Longitude"] = bar.longitude
+                newBar["OperationHours"] = bar.operatinHours
+                //
+                ////                guard
+                ////                    let image = UIImage(named: "maza"),
+                ////                    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent("maza.jpeg"),
+                ////                    let data = image.jpegData(compressionQuality: 1.0)
+                ////                else { return }
+                ////
+                ////                do {
+                ////                    try data.write(to: url)
+                ////                    let asset = CKAsset(fileURL: url)
+                ////                    newBar["image"] = asset
+                ////                } catch error {
+                ////                    print(error)
+                ////                }
+                //
+                //
+                
+                self.saveItemPublic(record: newBar)
+            }
         }
     }
-    
     //    #falta arrumar
     func addReview(review: Review) {
         let reference: String = "\(review.barName)_\(review.writerName)"
@@ -117,22 +114,17 @@ class CloudKitCRUD: ObservableObject {
     
     func addUser(clients: Clients) {
         var jaExiste: Bool = false
-        //        print("JORGE 2")
         let predicate = NSPredicate(format: "NickName = %@", argumentArray: ["\(clients.nickName)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         
-        //        print("JORGE 3")
         if #available(iOS 15.0, *){
-            //            print("JORGE 4")
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-                //                print("JORGE 5")
                 switch returnedResult{
                 case .success(let record):
-                    print("Result: ", record)
                     jaExiste = true
+                    print("Result: ", record)
                 case .failure(let error):
-                    //                    print("JORGE 7")
                     print("Error matched block error\(error)")
                 }
             }
@@ -144,29 +136,29 @@ class CloudKitCRUD: ObservableObject {
                 case .success(let record):
                     print("result2", record as Any)
                 case .failure(let error):
-                    //                    print("JORGE 9")
                     print("Error matched block error\(error)")
                 }
             }
         }
         
         addDataBaseOperation(operation: queryOperation)
-        
-        if(jaExiste) {
-            print("Já existe usuário com este NickName.")
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-            
-        }
-        else {
-            let newClient = CKRecord(recordType: "Clients")
-            newClient["Email"] = clients.email
-            newClient["Phone"] = clients.phone
-            newClient["Name"] = clients.name
-            newClient["CPF"] = clients.cpf
-            newClient["Gender"] = clients.gender
-            newClient["Password"] = clients.password
-            newClient["NickName"] = clients.nickName
-            self.saveItemPublic(record: newClient)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if(jaExiste) {
+                print("Já existe usuário com este NickName.")
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
+                
+            }
+            else {
+                let newClient = CKRecord(recordType: "Clients")
+                newClient["Email"] = clients.email
+                newClient["Phone"] = clients.phone
+                newClient["Name"] = clients.name
+                newClient["CPF"] = clients.cpf
+                newClient["Gender"] = clients.gender
+                newClient["Password"] = clients.password
+                newClient["NickName"] = clients.nickName
+                self.saveItemPublic(record: newClient)
+            }
         }
     }
     
@@ -180,8 +172,8 @@ class CloudKitCRUD: ObservableObject {
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
                 case .success(let record):
-                    print("Result: ", record)
                     jaExiste = true
+                    print("Result: ", record)
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -200,16 +192,17 @@ class CloudKitCRUD: ObservableObject {
         }
         
         addDataBaseOperation(operation: queryOperation)
-        
-        if(jaExiste) {
-            print("Já existe usuário com este NickName.")
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-            
-        }
-        else  {
-            let newCity = CKRecord(recordType: "Citys")
-            newCity["Name"] = cidade.name
-            self.saveItemPublic(record: newCity)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if(jaExiste) {
+                print("Já existe usuário com este NickName.")
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
+                
+            }
+            else  {
+                let newCity = CKRecord(recordType: "Citys")
+                newCity["Name"] = cidade.name
+                self.saveItemPublic(record: newCity)
+            }
         }
     }
     
