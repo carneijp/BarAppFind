@@ -61,12 +61,13 @@ class CloudKitCRUD: ObservableObject {
                 newBar["Name"] = bar.name
                 newBar["Description"] = bar.description
                 newBar["Mood"] = bar.mood
-                newBar["Expensive"] = bar.expensive
                 newBar["Grade"] = bar.grade
                 newBar["Latitude"] = bar.latitude
-                newBar["FakeID"] = bar.fakeID
+                newBar["Caracteristicas"] = bar.caracteristicas
                 newBar["Longitude"] = bar.longitude
                 newBar["OperationHours"] = bar.operatinHours
+                newBar["Region"] = bar.regiao
+                newBar["Address"] = bar.endereco
                 var assets:[CKAsset] = []
                 for i in 0...bar.photosTOSave.count{
                     guard
@@ -88,10 +89,9 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    
     func addReview(review: Review) {
         var jaExiste: Bool = false
-        let predicate = NSPredicate(format: "%K == %@ AND %K == %@", argumentArray: ["Bar","\(review.barName)","Writer","\(review.writerNickName)"])
+        let predicate = NSPredicate(format: "%K == %@ AND %K == %@", argumentArray: ["Bar","\(review.barName)","Email","\(review.writerEmail)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         
@@ -128,7 +128,7 @@ class CloudKitCRUD: ObservableObject {
                 newReview["Description"] = review.description
                 newReview["Writer"] = review.writerName
                 newReview["Bar"] = review.barName
-                newReview["WriterNickName"] = review.writerNickName
+                newReview["WriterEmail"] = review.writerEmail
                 self.saveItemPublic(record: newReview)
             }
         }
@@ -136,7 +136,7 @@ class CloudKitCRUD: ObservableObject {
     
     func addUser(clients: Clients) {
         var jaExiste: Bool = false
-        let predicate = NSPredicate(format: "NickName = %@", argumentArray: ["\(clients.nickName)"])
+        let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(clients.email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         
@@ -150,9 +150,7 @@ class CloudKitCRUD: ObservableObject {
                     print("Error matched block error\(error)")
                 }
             }
-        }
-        
-        if #available(iOS 15.0, *){
+            
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
@@ -173,27 +171,9 @@ class CloudKitCRUD: ObservableObject {
             else {
                 let newClient = CKRecord(recordType: "Clients")
                 newClient["Email"] = clients.email
-                newClient["Phone"] = clients.phone
-                newClient["Name"] = clients.name
-                newClient["CPF"] = clients.cpf
-                newClient["Gender"] = clients.gender
+                newClient["FirstName"] = clients.firstName
+                newClient["LastName"] = clients.lastName
                 newClient["Password"] = clients.password
-                newClient["NickName"] = clients.nickName
-                //                if clients.photoTosave != ""{
-                //                    guard
-                //                        let Image = UIImage(named: "\(clients.photoTosave)"),
-                //                        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(clients.photoTosave).jpg"),
-                //                        let data = Image.jpegData(compressionQuality: 1.0) else { return }
-                //
-                //                    do{
-                //                        try data.write(to: url)
-                //                        let asset = CKAsset(fileURL: url)
-                //                        newClient["Image"] = asset
-                //
-                //                    }catch let error {
-                //                        print(error)
-                //                    }
-                //                }
                 self.saveItemPublic(record: newClient)
             }
         }
@@ -256,8 +236,8 @@ class CloudKitCRUD: ObservableObject {
                     guard let writerName = record["Writer"] as? String else { return }
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
-                    guard let writerNickName = record["WriterNickName"] as? String else { return }
-                    returnedItem.append(Review(writerNickName: writerNickName, writerName: writerName, grade: grade, description: description, barName: barName) )
+                    guard let writerEmail = record["WriterEmail"] as? String else { return }
+                    returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -269,8 +249,8 @@ class CloudKitCRUD: ObservableObject {
                 guard let writerName = returnedRecord["Writer"] as? String else { return }
                 guard let description = returnedRecord["Description"] as? String else { return }
                 guard let grade = returnedRecord["Grade"] as? Double else { return }
-                guard let writerNickName = returnedRecord["WriterNickName"] as? String else { return }
-                returnedItem.append(Review(writerNickName: writerNickName, writerName: writerName, grade: grade, description: description, barName: barName) )
+                guard let writerEmail = returnedRecord["WriterEmail"] as? String else { return }
+                returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
             }
         }
         
@@ -290,7 +270,6 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
         
     }
-    
     
     func fetchItemsReview(nickName: String) {
         let predicate = NSPredicate(format: "WriterNickName = %@", argumentArray: ["\(nickName)"])
@@ -307,8 +286,8 @@ class CloudKitCRUD: ObservableObject {
                     guard let writerName = record["Writer"] as? String else { return }
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
-                    guard let writerNickName = record["WriterNickName"] as? String else { return }
-                    returnedItem.append(Review(writerNickName: writerNickName, writerName: writerName, grade: grade, description: description, barName: barName) )
+                    guard let writerEmail = record["WriterEmail"] as? String else { return }
+                    returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -320,8 +299,8 @@ class CloudKitCRUD: ObservableObject {
                 guard let writerName = returnedRecord["Writer"] as? String else { return }
                 guard let description = returnedRecord["Description"] as? String else { return }
                 guard let grade = returnedRecord["Grade"] as? Double else { return }
-                guard let writerNickName = returnedRecord["WriterNickName"] as? String else { return }
-                returnedItem.append(Review(writerNickName: writerNickName, writerName: writerName, grade: grade, description: description, barName: barName) )
+                guard let writerEmail = returnedRecord["WriterEmail"] as? String else { return }
+                returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
             }
         }
         
@@ -342,13 +321,12 @@ class CloudKitCRUD: ObservableObject {
         
     }
     
-    
-    func validateClientLogin(nickName: String, password: String) {
-        let recordID = CKRecord.ID(recordName: nickName)
+    func validateClientLogin(email: String, password: String) {
+        let recordID = CKRecord.ID(recordName: email)
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { [weak self] (fetchedRecord, error) in
             if(error == nil) {
-                self?.fetchClientByNickName(nickName: nickName)
-                if !(self?.client?.nickName == nickName && self?.client?.password == password) {
+                self?.fetchClientByEmail(email: email)
+                if !(self?.client?.email == email && self?.client?.password == password) {
                     print("Usuario ou senha incorretas.")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
                     self?.client = nil
@@ -362,9 +340,8 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    
-    private func fetchClientByNickName(nickName: String) {
-        let predicate = NSPredicate(format: "NickName = %@", argumentArray: ["\(nickName)"])
+    private func fetchClientByEmail(email: String) {
+        let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         queryOperation.resultsLimit = 1
@@ -374,14 +351,11 @@ class CloudKitCRUD: ObservableObject {
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
                 case .success(let record):
-                    guard let email = record["Email"] as? String else { return }
-                    guard let phone = record["Phone"] as? String else { return }
-                    guard let name = record["Name"] as? String else { return }
-                    guard let cpf = record["CPF"] as? String else { return }
-                    guard let gender = record["Gender"] as? String else { return }
-                    guard let password = record["Password"] as? String else { return }
-                    guard let nickName = record["NickName"] as? String else { return }
-                    returnedItem = Clients(email: email, name: name, phone: phone, cpf: cpf, gender: gender, password: password, nickName: nickName)
+                    guard let Email = record["Email"] as? String else { return }
+                    guard let LastName = record["LastName"] as? String else { return }
+                    guard let FirtName = record["FirstName"] as? String else { return }
+                    guard let Password = record["Password"] as? String else { return }
+                    returnedItem = Clients(email: Email, firstName: FirtName, password: Password, lastName: LastName)
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -389,14 +363,11 @@ class CloudKitCRUD: ObservableObject {
         }
         else{
             queryOperation.recordFetchedBlock = {(returnedRecord)in
-                guard let email = returnedRecord["Email"] as? String else { return }
-                guard let phone = returnedRecord["Phone"] as? String else { return }
-                guard let name = returnedRecord["Name"] as? String else { return }
-                guard let cpf = returnedRecord["CPF"] as? String else { return }
-                guard let gender = returnedRecord["Gender"] as? String else { return }
-                guard let password = returnedRecord["Password"] as? String else { return }
-                guard let nickName = returnedRecord["NickName"] as? String else { return }
-                returnedItem = Clients(email: email, name: name, phone: phone, cpf: cpf, gender: gender, password: password, nickName: nickName)
+                guard let Email = returnedRecord["Email"] as? String else { return }
+                guard let LastName = returnedRecord["LastName"] as? String else { return }
+                guard let FirtName = returnedRecord["FirstName"] as? String else { return }
+                guard let Password = returnedRecord["Password"] as? String else { return }
+                returnedItem = Clients(email: Email, firstName: FirtName, password: Password, lastName: LastName)
             }
         }
         
@@ -416,13 +387,11 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    
     func fetchBars() {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         let queryOperation = CKQueryOperation(query: query)
-        //        queryOperation.resultsLimit = 2
         var returnedItem: [Bar] = []
         var returnedPhotos: [URL] = []
         
@@ -431,21 +400,23 @@ class CloudKitCRUD: ObservableObject {
                 switch returnedResult{
                 case .success(let record):
                     guard let barName = record["Name"] as? String else { return }
-                    guard let mood = record["Mood"] as? String else { return }
+                    guard let mood = record["Mood"] as? [String] else { return }
                     guard let description = record["Description"] as? String else { return }
-                    guard let expensive = record["Expensive"] as? String else { return }
+                    guard let address = record["Address"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let latitude = record["Latitude"] as? Double else { return }
                     guard let longitude = record["Longitude"] as? Double else { return }
-                    guard let fakeID = record["FakeID"] as? String else { return }
-                    guard let operationHours = record["OperationHours"] as? String else { return }
+                    guard let operationHours = record["OperationHours"] as? [String] else { return }
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
+                    guard let region = record["Region"] as? String else { return }
+                    guard let characteristics = record["Characteristics"] as? [String] else { return }
                     
                     for i in 0...imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
                         returnedPhotos.append(imageURL)
                     }
-                    let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                    
+                    let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     returnedItem.append(bar)
                     
@@ -457,23 +428,26 @@ class CloudKitCRUD: ObservableObject {
         else{
             queryOperation.recordFetchedBlock = {(returnedRecord)in
                 guard let barName = returnedRecord["Name"] as? String else { return }
-                guard let mood = returnedRecord["Mood"] as? String else { return }
+                guard let mood = returnedRecord["Mood"] as? [String] else { return }
                 guard let description = returnedRecord["Description"] as? String else { return }
-                guard let expensive = returnedRecord["Expensive"] as? String else { return }
+                guard let address = returnedRecord["Address"] as? String else { return }
                 guard let grade = returnedRecord["Grade"] as? Double else { return }
                 guard let latitude = returnedRecord["Latitude"] as? Double else { return }
                 guard let longitude = returnedRecord["Longitude"] as? Double else { return }
-                guard let fakeID = returnedRecord["FakeID"] as? String else { return }
-                guard let operationHours = returnedRecord["OperationHours"] as? String else {return}
+                guard let operationHours = returnedRecord["OperationHours"] as? [String] else { return }
                 guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
+                guard let region = returnedRecord["Region"] as? String else { return }
+                guard let characteristics = returnedRecord["Characteristics"] as? [String] else { return }
                 
                 for i in 0...imageAsset.count{
                     guard let imageURL = imageAsset[i].fileURL else { return }
                     returnedPhotos.append(imageURL)
                 }
-                let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                 bar.recieveAllPhotos(photosToUSE: returnedPhotos)
-                returnedItem.append(bar)            }
+                returnedItem.append(bar)
+                
+            }
         }
         
         //COMPLETIONS BLOCKS
@@ -505,21 +479,23 @@ class CloudKitCRUD: ObservableObject {
                 switch returnedResult{
                 case .success(let record):
                     guard let barName = record["Name"] as? String else { return }
-                    guard let mood = record["Mood"] as? String else { return }
+                    guard let mood = record["Mood"] as? [String] else { return }
                     guard let description = record["Description"] as? String else { return }
-                    guard let expensive = record["Expensive"] as? String else { return }
+                    guard let address = record["Address"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let latitude = record["Latitude"] as? Double else { return }
                     guard let longitude = record["Longitude"] as? Double else { return }
-                    guard let fakeID = record["FakeID"] as? String else { return }
-                    guard let operationHours = record["OperationHours"] as? String else { return }
+                    guard let operationHours = record["OperationHours"] as? [String] else { return }
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
+                    guard let region = record["Region"] as? String else { return }
+                    guard let characteristics = record["Characteristics"] as? [String] else { return }
                     
                     for i in 0...imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
                         returnedPhotos.append(imageURL)
                     }
-                    let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                    
+                    let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     returnedItem = bar
                 case .failure(let error):
@@ -530,21 +506,22 @@ class CloudKitCRUD: ObservableObject {
         else{
             queryOperation.recordFetchedBlock = { (returnedRecord)in
                 guard let barName = returnedRecord["Name"] as? String else { return }
-                guard let mood = returnedRecord["Mood"] as? String else { return }
+                guard let mood = returnedRecord["Mood"] as? [String] else { return }
                 guard let description = returnedRecord["Description"] as? String else { return }
-                guard let expensive = returnedRecord["Expensive"] as? String else { return }
+                guard let address = returnedRecord["Address"] as? String else { return }
                 guard let grade = returnedRecord["Grade"] as? Double else { return }
                 guard let latitude = returnedRecord["Latitude"] as? Double else { return }
                 guard let longitude = returnedRecord["Longitude"] as? Double else { return }
-                guard let fakeID = returnedRecord["FakeID"] as? String else { return }
-                guard let operationHours = returnedRecord["OperationHours"] as? String else { return }
+                guard let operationHours = returnedRecord["OperationHours"] as? [String] else { return }
                 guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
+                guard let region = returnedRecord["Region"] as? String else { return }
+                guard let characteristics = returnedRecord["Characteristics"] as? [String] else { return }
                 
                 for i in 0...imageAsset.count{
                     guard let imageURL = imageAsset[i].fileURL else { return }
                     returnedPhotos.append(imageURL)
                 }
-                let bar: Bar = Bar(name: barName, description: description, fakeID: fakeID, mood: [mood], expensive: expensive, grade: grade, latitude: latitude, longitude: longitude, operatinhours: [operationHours])
+                let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                 bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                 returnedItem = bar
             }

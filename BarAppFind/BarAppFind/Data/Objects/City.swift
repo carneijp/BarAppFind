@@ -23,7 +23,7 @@ class Bar: ObservableObject {
     @StateObject var cloud = CloudKitCRUD()
     var name: String
     var description: String
-    var fakeID: String
+    var caracteristicas: [String]
     var mood: [String]
     var expensive: String = ""
     var grade: Double
@@ -36,10 +36,10 @@ class Bar: ObservableObject {
     var endereco: String
     var regiao: String
     
-    init(name: String, description: String, fakeID: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String) {
+    init(name: String, description: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String, caracteristicas: [String]) {
         self.name = name
         self.description = description
-        self.fakeID = fakeID
+        self.caracteristicas = caracteristicas
         self.mood = mood
         self.grade = grade
         self.operatinHours = operatinhours
