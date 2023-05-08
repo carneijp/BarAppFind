@@ -1,20 +1,20 @@
 //
-//  Home.swift
+//  ItemComponents.swift
 //  BarAppFind
 //
-//  Created by Joao Paulo Carneiro on 29/04/23.
+//  Created by Eduardo Pretto on 08/05/23.
 //
 
 import SwiftUI
 
-struct HomeView: View {
+struct ItemComponents: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct Home_Previews: PreviewProvider {
+struct ItemComponents_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        ItemComponents()
     }
 }
