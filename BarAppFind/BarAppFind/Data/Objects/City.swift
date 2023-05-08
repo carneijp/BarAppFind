@@ -25,7 +25,7 @@ class Bar: ObservableObject {
     var description: String
     var fakeID: String
     var mood: [String]
-    var expensive: String
+    var expensive: String = ""
     var grade: Double
     var reviews: [Review] = []
     var operatinHours: [String]
@@ -33,17 +33,20 @@ class Bar: ObservableObject {
     var photosToUse: [URL?] = []
     var latitude: Double
     var longitude: Double
+    var endereco: String
+    var regiao: String
     
-    init(name: String, description: String, fakeID: String, mood: [String], expensive: String, grade: Double, latitude: Double, longitude: Double, operatinhours: [String]) {
+    init(name: String, description: String, fakeID: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String) {
         self.name = name
         self.description = description
         self.fakeID = fakeID
         self.mood = mood
-        self.expensive = expensive
         self.grade = grade
         self.operatinHours = operatinhours
         self.latitude = latitude
         self.longitude = longitude
+        self.endereco = endereco
+        self.regiao = regiao
     }
     func recieveAllPhotos(photosToSAVE:[String]){
         self.photosTOSave = photosToSAVE
@@ -59,7 +62,7 @@ class Bar: ObservableObject {
 }
 
 struct Review {
-    var writerNickName: String
+    var writerEmail: String
     var writerName: String
     var grade: Double
     var description: String

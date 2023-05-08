@@ -89,10 +89,9 @@ class CloudKitCRUD: ObservableObject {
     }
     
     
-    //    #falta arrumar
     func addReview(review: Review) {
         var jaExiste: Bool = false
-        let predicate = NSPredicate(format: "%k == %@ AND %K == %@", argumentArray: ["Bar","\(review.barName)","Writer","\(review.writerNickName)"])
+        let predicate = NSPredicate(format: "%K == %@ AND %K == %@", argumentArray: ["Bar","\(review.barName)","Writer","\(review.writerNickName)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         

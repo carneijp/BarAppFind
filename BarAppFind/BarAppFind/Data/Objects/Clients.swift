@@ -9,23 +9,17 @@ import Foundation
 
 class Clients: ObservableObject {
     var email: String
-    var nickName: String
-    var name: String
-    var phone: String
-    var cpf: String
-    var gender: String
+    var firstName: String
+    var lastName: String
     var password: String
 //    var photoTosave: String = ""
 //    var photoToUse: [URL?] = []
 //    var photo: 
     
-    init(email: String, name: String, phone: String, cpf: String, gender: String, password: String, nickName: String) {
-        self.email = email
-        self.name = name
-        self.phone = phone
-        self.cpf = cpf
-        self.gender = gender
+    init(email: String, firstName: String, password: String, lastName: String) {
+        self.email = email //chave unica
+        self.firstName = firstName
         self.password = password
-        self.nickName = nickName
+        self.lastName = lastName
     }
 }
