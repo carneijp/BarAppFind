@@ -20,6 +20,7 @@ class City: ObservableObject {
 
 
 class Bar: ObservableObject {
+    
     var name: String
     var description: String = ""
     var mood: String = ""
@@ -60,5 +61,28 @@ struct Review {
 }
 
 var cidade = City(name: "Porto Alegre")
-var bar1 = Bar(name: "Maza", latitude: -30.062134, longitude: -51.174497)
+
+class BarsMock: ObservableObject {
+    
+    var bar1 = Bar(name: "Maza", latitude: -30.06213, longitude: -51.174497)
+    var bar2 = Bar(name: "Maza", latitude: -30.062134, longitude: -51.174497)
+    var bar3 = Bar(name: "Maza", latitude: -30.0624, longitude: -51.174497)
+    var bar4 = Bar(name: "Maza", latitude: -30.0134, longitude: -51.174497)
+    var bar5 = Bar(name: "Maza", latitude: -30.034, longitude: -51.174497)
+    var bar6 = Bar(name: "Maza", latitude: -30.2134, longitude: -51.174497)
+    var bar7 = Bar(name: "Maza", latitude: -30.34, longitude: -51.174497)
+    var bar8 = Bar(name: "Maza", latitude: -30.4, longitude: -51.174497)
+
+    @Published var bares: [Bar] = []
+    
+    init() {
+        self.bares = [bar1, bar2, bar3, bar4, bar5, bar6, bar7, bar8]
+    }
+    
+}
+
+var trendings: [String] = ["trending1", "trending2", "trending3"]
+var moods: [String] = ["mood1", "mood2", "mood3", "mood4", "mood5", "mood6"]
+
+
 

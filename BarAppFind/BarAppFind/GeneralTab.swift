@@ -26,7 +26,7 @@ struct GeneralTab: View {
                 BucketListView()
             }
             .tabItem{
-                Label("BucketList", systemImage: "list.star")
+                Label("BucketList", systemImage: "heart")
             }
             NavigationStack{
                 ProfileView()

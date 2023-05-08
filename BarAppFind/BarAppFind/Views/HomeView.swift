@@ -9,7 +9,61 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading) {
+            HStack {
+                Spacer()
+                LogoComponent()
+                    .padding(.top)
+                Spacer()
+            }
+            
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading) {
+                    TrendingComponent(trending: "trending1")
+                        .padding(.top, 14)
+                    
+                    Text("Hoje eu tô afim de...")
+                        .font(.system(size: 14))
+                        .padding(.top, 14)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(moods, id: \.self) { mood in
+                                MoodComponent(mood: mood)
+                            }
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Bares próximos a mim")
+                            .font(.system(size: 14))
+                            .padding(.top, 14)
+                        
+                        Spacer()
+                        
+                        Text("Ver todos")
+                            .font(.system(size: 14))
+                            .padding(.top, 14)
+                    }
+                    
+                    BarComponent()
+                        .padding(.top, 18)
+                    BarComponent()
+                        .padding(.top, 16)
+                    BarComponent()
+                        .padding(.top, 16)
+                    BarComponent()
+                        .padding(.top, 16)
+                    BarComponent()
+                        .padding(.top, 16)
+                    BarComponent()
+                        .padding(.top, 16)
+                }
+            }
+            
+            Spacer()
+        }
+        .padding(.horizontal, 24)
     }
 }
 
