@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GeneralTab: View {
+    @EnvironmentObject var cloud: CloudKitCRUD
     var body: some View {
         TabView{
             NavigationStack{

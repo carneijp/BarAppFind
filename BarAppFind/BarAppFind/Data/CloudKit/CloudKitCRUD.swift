@@ -27,7 +27,7 @@ class CloudKitCRUD: ObservableObject {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(bar.name)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
-        
+
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
@@ -38,7 +38,7 @@ class CloudKitCRUD: ObservableObject {
                     print("Error matched block error\(error)")
                 }
             }
-            
+
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
@@ -59,13 +59,14 @@ class CloudKitCRUD: ObservableObject {
                 let newBar = CKRecord(recordType: "Bars")
                 
                 var assets:[CKAsset] = []
-                for i in 0...bar.photosTOSave.count{
+                for i in 0..<bar.photosTOSave.count{
+                    print("preparando fotos")
                     guard
                         let Image = UIImage(named: "\(bar.photosTOSave[i])"),
                         let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(bar.photosTOSave[i]).jpg"),
                         let data = Image.jpegData(compressionQuality: 1.0) else { return }
                     
-                    do{
+                    do {
                         try data.write(to: url)
                         let asset = CKAsset(fileURL: url)
                         assets.append(asset)
@@ -81,9 +82,11 @@ class CloudKitCRUD: ObservableObject {
                     let data = Image.jpegData(compressionQuality: 1.0) else { return }
                 
                 do{
+                    print("entrei no do")
                     try data.write(to: url)
                     let asset = CKAsset(fileURL: url)
                     logo = asset
+                    print("sai do do")
                 }catch let error {
                     print(error)
                 }
