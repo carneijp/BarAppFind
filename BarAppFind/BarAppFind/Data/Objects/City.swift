@@ -30,6 +30,8 @@ class Bar: ObservableObject {
     var reviews: [Review] = []
     var operatinHours: [String]
     var photosTOSave: [String] = []
+    var photosLogo: URL? = nil
+    var photoLogoTOSave: String = ""
     var photosToUse: [URL?] = []
     var latitude: Double
     var longitude: Double
@@ -47,6 +49,9 @@ class Bar: ObservableObject {
         self.longitude = longitude
         self.endereco = endereco
         self.regiao = regiao
+    }
+    func recieveLogoPhoto(logo: URL){
+        self.photosLogo = logo
     }
     func recieveAllPhotos(photosToSAVE:[String]){
         self.photosTOSave = photosToSAVE

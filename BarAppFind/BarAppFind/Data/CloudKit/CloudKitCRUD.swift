@@ -58,16 +58,6 @@ class CloudKitCRUD: ObservableObject {
             else {
                 let newBar = CKRecord(recordType: "Bars")
                 
-                newBar["Name"] = bar.name
-                newBar["Description"] = bar.description
-                newBar["Mood"] = bar.mood
-                newBar["Grade"] = bar.grade
-                newBar["Latitude"] = bar.latitude
-                newBar["Caracteristicas"] = bar.caracteristicas
-                newBar["Longitude"] = bar.longitude
-                newBar["OperationHours"] = bar.operatinHours
-                newBar["Region"] = bar.regiao
-                newBar["Address"] = bar.endereco
                 var assets:[CKAsset] = []
                 for i in 0...bar.photosTOSave.count{
                     guard
@@ -83,7 +73,33 @@ class CloudKitCRUD: ObservableObject {
                         print(error)
                     }
                 }
+                
+                var logo: CKAsset?
+                guard
+                    let Image = UIImage(named: "\(bar.photoLogoTOSave)"),
+                    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(bar.photoLogoTOSave).jpg"),
+                    let data = Image.jpegData(compressionQuality: 1.0) else { return }
+                
+                do{
+                    try data.write(to: url)
+                    let asset = CKAsset(fileURL: url)
+                    logo = asset
+                }catch let error {
+                    print(error)
+                }
+                newBar["Logo"] = logo
                 newBar["Image"] = assets
+                newBar["Name"] = bar.name
+                newBar["Description"] = bar.description
+                newBar["Mood"] = bar.mood
+                newBar["Grade"] = bar.grade
+                newBar["Latitude"] = bar.latitude
+                newBar["Caracteristicas"] = bar.caracteristicas
+                newBar["Longitude"] = bar.longitude
+                newBar["OperationHours"] = bar.operatinHours
+                newBar["Region"] = bar.regiao
+                newBar["Address"] = bar.endereco
+                
                 self.saveItemPublic(record: newBar)
             }
         }
@@ -410,6 +426,8 @@ class CloudKitCRUD: ObservableObject {
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
                     guard let region = record["Region"] as? String else { return }
                     guard let characteristics = record["Characteristics"] as? [String] else { return }
+                    guard let logoPhoto = record["Logo"] as? CKAsset else { return }
+                    guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                     
                     for i in 0...imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
@@ -418,6 +436,7 @@ class CloudKitCRUD: ObservableObject {
                     
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                    bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     returnedItem.append(bar)
                     
                 case .failure(let error):
@@ -438,13 +457,17 @@ class CloudKitCRUD: ObservableObject {
                 guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
                 guard let region = returnedRecord["Region"] as? String else { return }
                 guard let characteristics = returnedRecord["Characteristics"] as? [String] else { return }
+                guard let logoPhoto = returnedRecord["Logo"] as? CKAsset else { return }
+                guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                 
                 for i in 0...imageAsset.count{
                     guard let imageURL = imageAsset[i].fileURL else { return }
                     returnedPhotos.append(imageURL)
                 }
+                
                 let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                 bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                bar.recieveLogoPhoto(logo: imageLogoPhoto)
                 returnedItem.append(bar)
                 
             }
@@ -489,6 +512,8 @@ class CloudKitCRUD: ObservableObject {
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
                     guard let region = record["Region"] as? String else { return }
                     guard let characteristics = record["Characteristics"] as? [String] else { return }
+                    guard let logoPhoto = record["Logo"] as? CKAsset else { return }
+                    guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                     
                     for i in 0...imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
@@ -497,6 +522,7 @@ class CloudKitCRUD: ObservableObject {
                     
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                    bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     returnedItem = bar
                 case .failure(let error):
                     print("Error matched block error\(error)")
@@ -516,13 +542,17 @@ class CloudKitCRUD: ObservableObject {
                 guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
                 guard let region = returnedRecord["Region"] as? String else { return }
                 guard let characteristics = returnedRecord["Characteristics"] as? [String] else { return }
+                guard let logoPhoto = returnedRecord["Logo"] as? CKAsset else { return }
+                guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                 
                 for i in 0...imageAsset.count{
                     guard let imageURL = imageAsset[i].fileURL else { return }
                     returnedPhotos.append(imageURL)
                 }
+                
                 let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                 bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                bar.recieveLogoPhoto(logo: imageLogoPhoto)
                 returnedItem = bar
             }
         }
