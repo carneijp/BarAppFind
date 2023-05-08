@@ -38,9 +38,7 @@ class CloudKitCRUD: ObservableObject {
                     print("Error matched block error\(error)")
                 }
             }
-        }
-        
-        if #available(iOS 15.0, *){
+            
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
@@ -108,9 +106,7 @@ class CloudKitCRUD: ObservableObject {
                     print("Error matched block error\(error)")
                 }
             }
-        }
-        
-        if #available(iOS 15.0, *){
+            
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
@@ -136,7 +132,6 @@ class CloudKitCRUD: ObservableObject {
                 newReview["WriterNickName"] = review.writerNickName
                 self.saveItemPublic(record: newReview)
             }
-            
         }
     }
     
@@ -221,9 +216,7 @@ class CloudKitCRUD: ObservableObject {
                     print("Error matched block error\(error)")
                 }
             }
-        }
-        
-        if #available(iOS 15.0, *){
+            
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
@@ -254,7 +247,6 @@ class CloudKitCRUD: ObservableObject {
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         let queryOperation = CKQueryOperation(query: query)
-        //        queryOperation.resultsLimit = 2
         var returnedItem: [Review] = []
         
         if #available(iOS 15.0, *){
