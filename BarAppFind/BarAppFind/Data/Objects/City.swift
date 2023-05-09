@@ -73,3 +73,6 @@ struct Review {
     var description: String
     var barName: String
 }
+
+var trendings: [String] = ["trending1","trending2","trending3"]
+var moods: [String] = ["mood1","mood2","mood3","mood4","mood5","mood6"]
