@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class City: ObservableObject {
     var name: String
@@ -18,47 +19,65 @@ class City: ObservableObject {
     }
 }
 
-
 class Bar: ObservableObject {
+<<<<<<< HEAD
     
+=======
+    @StateObject var cloud = CloudKitCRUD()
+>>>>>>> cloudKit
     var name: String
-    var description: String = ""
-    var mood: String = ""
+    var description: String
+    var caracteristicas: [String]
+    var mood: [String]
     var expensive: String = ""
-    var grade: Double = 0.0
+    var grade: Double
     var reviews: [Review] = []
-    var operatinHours: [[String]] = [[]]
-    var photos: [String] = []
+    var operatinHours: [String]
+    var photosTOSave: [String] = []
+    var photosLogo: URL? = nil
+    var photoLogoTOSave: String = ""
+    var photosToUse: [URL?] = []
     var latitude: Double
     var longitude: Double
+    var endereco: String
+    var regiao: String
     
-    
-    init(name: String, latitude: Double, longitude: Double){
+    init(name: String, description: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String, caracteristicas: [String]) {
         self.name = name
+        self.description = description
+        self.caracteristicas = caracteristicas
+        self.mood = mood
+        self.grade = grade
+        self.operatinHours = operatinhours
         self.latitude = latitude
         self.longitude = longitude
+        self.endereco = endereco
+        self.regiao = regiao
     }
-    func changeDescription(description: String) {
-        self.description = description
+    func recieveLogoPhoto(logo: URL){
+        self.photosLogo = logo
     }
-    func addPhotos(photo: String) {
-        self.photos.append(photo)
+    func recieveAllPhotos(photosToSAVE:[String]){
+        self.photosTOSave = photosToSAVE
     }
-    func removePhoto(photo: String) {
-        for i in 0...photos.count {
-            if photos[i] == photo{
-                photos.remove(at: i)
-            }
-        }
+    func recieveAllPhotos(photosToUSE:[URL]){
+        self.photosToUse = photosToUSE
     }
+    func recieveAllReviews(){
+        cloud.fetchItemsReview(barName: self.name)
+        self.reviews = cloud.reviewListByBar
+    }
+    
 }
 
 struct Review {
-    var writer: User
+    var writerEmail: String
+    var writerName: String
     var grade: Double
     var description: String
-    var bar: Bar
+    var barName: String
 }
+<<<<<<< HEAD
 
 var cidade = City(name: "Porto Alegre")
 
@@ -86,3 +105,5 @@ var moods: [String] = ["mood1", "mood2", "mood3", "mood4", "mood5", "mood6"]
 
 
 
+=======
+>>>>>>> cloudKit
