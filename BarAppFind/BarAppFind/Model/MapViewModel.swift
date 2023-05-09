@@ -19,11 +19,13 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     
     func chekIfLocationService() {
         
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager = CLLocationManager()
-            locationManager!.delegate = self
-        }else{
-            print("location servise desable, please enable for a better experience.")
+        DispatchQueue.global(qos: .userInitiated).async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.locationManager = CLLocationManager()
+                self.locationManager!.delegate = self
+            }else{
+                print("location servise desable, please enable for a better experience.")
+            }
         }
     }
     
