@@ -6,12 +6,23 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct BarPageView: View {
+    
+    let contacts = [
+      "John",
+      "Ashley",
+      "Bobby",
+      "Jimmy",
+      "Fredie"
+    ]
+    
     enum ChoiceBar {
         case barName, info, review
     }
     
+    //Criar icone com fundo cinza a partir de uma imagem do sistema(compartilhar)
     @ViewBuilder
     func createSystemIcon(imageName: String, text: String)-> some View {
         VStack {
@@ -23,13 +34,13 @@ struct BarPageView: View {
                     .padding(10)
                     .background(Color.gray)
                     .cornerRadius(10)
-    //                .background(Color.green)
             }
             Text(text)
                 .font(.system(size: 10))
         }
     }
     
+    //Criar icone com fundo cinza a partir de uma imagem qualquer(instagram)
     @ViewBuilder
     func createCustomIcon(imageName: String, text: String)-> some View {
         VStack {
@@ -47,12 +58,9 @@ struct BarPageView: View {
                 .font(.system(size: 10))
             
         }
-//        .frame(width: 35, height: 31)
-//        .padding(20)
-//        .background(Color.gray)
-//        .cornerRadius(20)
     }
     
+    //Criar icone de ambiente a partir de uma imagem do sistema (climatizado)
     @ViewBuilder
     func createAmbientIconSystem(ambientText: String, imageName: String) -> some View{
         VStack{
@@ -66,6 +74,7 @@ struct BarPageView: View {
         }
     }
     
+    //Criar icone de ambiente a partir de uma imagem qualquer (estacionamento)
     @ViewBuilder
     func createAmbientIconCustom(ambientText: String, imageName: String) -> some View{
         VStack{
@@ -78,35 +87,28 @@ struct BarPageView: View {
                 .font(.system(size: 6))
         }
     }
+
+    @State var review: String = ""
     
-    @ViewBuilder
-    func createMood(mood: String)-> some View {
-        ZStack {
-            Text(mood)
-                .font(.system(size: 14))
-        }
-        .frame(width: 106, height: 79)
-        .padding(20)
-        .background(Color.gray)
-        .cornerRadius(20)
-    }
+    @State var topBarChoice: ChoiceBar = .info
     
-    
-    @State var topBarChoice: ChoiceBar = .barName
-    
-    @State var isBarName: Bool = true
-    @State var isInfo: Bool = false
+    @State var isBarName: Bool = false
+    @State var isInfo: Bool = true
     @State var isReview: Bool = false
     
+    @State var isShowingWorkingHours: Bool = true
+    
     var body: some View {
+        
         VStack{
             Image("bakground")
                 .resizable()
                 .scaledToFit()
                 .padding(.bottom, 10)
             
-            //tabBar
+            //MARK: tabBar
             HStack{
+                //sobre o lugar
                 Group{
                     if isBarName{
                         Text("Sobre o lugar")
@@ -128,6 +130,7 @@ struct BarPageView: View {
                     }
                 }
                 
+                //Informações
                 Group{
                     if isInfo{
                         Text("Informações")
@@ -149,6 +152,8 @@ struct BarPageView: View {
                             }
                     }
                 }
+                
+                //Avaliações
                 Group{
                     if isReview{
                         Text("Avaliações")
@@ -172,8 +177,11 @@ struct BarPageView: View {
                 }
                 
             }
-//            Divider()
+            
+            //Escolhas TabBar
             switch topBarChoice{
+                    
+                //MARK: Sobre o lugar
                 case .barName:
                     VStack {
                         HStack{
@@ -198,7 +206,7 @@ struct BarPageView: View {
                                 .padding(.trailing, 15)
                             
                         }
-                        .padding(.vertical)
+                        .padding(.top)
                         
   
                         
@@ -209,7 +217,7 @@ struct BarPageView: View {
                                 .fixedSize(horizontal: false, vertical: true)
                                 Spacer()
                         }
-                        .padding(.vertical)
+                        .padding(.bottom)
                             
                         
                         HStack{
@@ -251,12 +259,121 @@ struct BarPageView: View {
                         
                     }
                     .padding(.horizontal)
+                    
+                //MARK: Informações
                 case .info:
-                    VStack{
-                        Text("aa")}
+                    ScrollView{
+                        
+                        Flemis()
+//                        NavigationView {
+//                            VStack {
+//                                List{
+//                                    Section("Horários de atendimento") {
+//                                        ForEach(contacts, id: \.self){ contact in
+//                                            Text(contact)
+//                                        }
+//                                    }
+//                                    .listRowSeparator(.hidden)
+//                                }
+//                                .scrollContentBackground(.hidden)
+//                            }
+//                        }
+                        
+                        
+                        HStack {
+                            Text("Endereço")
+                                .font(.system(size: 20))
+                            .bold()
+                            Spacer()
+                        }
+                        HStack {
+                            Text("Avenida Ipiranga, 6681 - Partenon 90719-303")
+                                .lineLimit(nil)
+                            .multilineTextAlignment(.leading)
+
+                            Spacer()
+                        }
+
+                        MapView()
+                            .frame(width: 342, height: 129)
+
+                        HStack{
+                            Image(systemName: "car.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 29)
+                                .padding(.leading)
+
+                            Spacer()
+
+                            Text("Abrir no uber")
+
+                            Spacer()
+                        }
+                        .frame(height: 41)
+                        .background(Color.gray)
+                        .cornerRadius(10)
+                    }
+//                    .background(Color.green)
                         .padding(.horizontal)
+                    
+                //MARK: Avaliações
                 case .review:
-                    Text("aa")
+                    ScrollView{
+                        HStack {
+                            Text("Queremos a sua avaliação")
+                                .font(.system(size: 20))
+                                .bold()
+                                .padding(.vertical)
+                            
+                            Spacer()
+                        }
+                        
+                        HStack{
+                            Image(systemName: "star")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 24)
+                            
+                            Image(systemName: "star")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 24)
+                            
+                            Image(systemName: "star")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 24)
+                            
+                            Image(systemName: "star")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 24)
+                            
+                            Image(systemName: "star")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 24)
+                            Spacer()
+                        }
+                            .padding(.bottom)
+                        
+                        
+//                        HStack {
+//                            Text("Escreva aqui")
+//                                .font(.system(size: 14))
+//                            Spacer()
+//                        }
+                        TextField("Escreva aqui", text: $review)
+//                            .font(Font.system(size: 14))
+                            .padding()
+                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray))
+                            .foregroundColor(.black)
+                            .frame(width: 342, height: 104)
+                        
+                    }
+                    .padding(.horizontal)
+                    
                     
    
             }
@@ -273,5 +390,41 @@ struct BarPageView: View {
 struct BarPageView_Previews: PreviewProvider {
     static var previews: some View {
         BarPageView()
+    }
+}
+
+
+struct Flemis: View {
+    @State var isShowingWorkingHours: Bool = true
+    
+    let contacts = [
+      "John",
+      "Ashley",
+      "Bobby",
+      "Jimmy",
+      "Fredie"
+    ]
+    
+    var body: some View {
+        VStack {
+            HStack {
+                Text("adsosakdiasda")
+                
+                Spacer()
+                
+                Button(action: {
+                    self.isShowingWorkingHours.toggle()
+                }, label: {
+                    Image(systemName: self.isShowingWorkingHours ? "chevron.down" : "chevron.right")
+                })
+            }
+            
+            if self.isShowingWorkingHours {
+                ForEach(self.contacts, id: \.self) { contact in
+                    Text("\(contact)")
+                }
+                .scrollContentBackground(.hidden)
+            }
+        }
     }
 }
