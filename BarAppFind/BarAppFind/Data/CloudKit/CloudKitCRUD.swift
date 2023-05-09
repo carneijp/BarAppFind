@@ -183,9 +183,8 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             if(jaExiste) {
-                print("Já existe usuário com este NickName.")
+                print("Já existe usuário com este Email.")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-                
             }
             else {
                 let newClient = CKRecord(recordType: "Clients")
@@ -345,7 +344,7 @@ class CloudKitCRUD: ObservableObject {
         CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { [weak self] (fetchedRecord, error) in
             if(error == nil) {
                 self?.fetchClientByEmail(email: email)
-                if !(self?.client?.email == email && self?.client?.password == password) {
+                if (self?.client?.email != email || self?.client?.password != password) {
                     print("Usuario ou senha incorretas.")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
                     self?.client = nil
@@ -492,7 +491,6 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    
     func fetchBars(barName: String) {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
@@ -575,98 +573,4 @@ class CloudKitCRUD: ObservableObject {
         }
         addDataBaseOperation(operation: queryOperation)
     }
-    
-    
-    //    func addBarHours(operationHours: OperationHours, bar: Bar) {
-    //        let reference = "\(bar.name)_\(bar.fakeID)"
-    //        let recordID = CKRecord.ID(recordName: reference)
-    //        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { [weak self] (fetchedRecord, error) in
-    //            if(error == nil) {
-    //                print("Já existe usuário com este CPF.")
-    //                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-    //
-    //            }
-    //            else if (fetchedRecord == nil) {
-    //                let newHours = CKRecord(recordType: "OperationHours")
-    //                newHours["BarName"] = operationHours.barName
-    //                newHours["Monday"] = operationHours.monday
-    //                newHours["Tuesday"] = operationHours.tuesday
-    //                newHours["Wednesday"] = operationHours.wednesday
-    //                newHours["Thrusday"] = operationHours.thrusday
-    //                newHours["Friday"] = operationHours.friday
-    //                newHours["Saturday"] = operationHours.saturday
-    //                newHours["Sunday"] = operationHours.sunday
-    //                self?.saveItemPublic(record: newHours)
-    //            }
-    //        }
-    //    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //    func fetchoperationhours(barName: String) {
-    //        let predicate = NSPredicate(format: "BarName = %@", argumentArray: ["\(barName)"])
-    //        let query = CKQuery(recordType: "OperationHours", predicate: predicate)
-    //        let queryOperation = CKQueryOperation(query: query)
-    //        var returnedItem: OperationHours?
-    //
-    //        if #available(iOS 15.0, *){
-    //            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-    //                switch returnedResult{
-    //                case .success(let record):
-    //                    guard let barName = record["BarName"] as? String else { return }
-    //                    guard let Monday = record["Monday"] as? String else { return }
-    //                    guard let Tuesday = record["Tuesday"] as? String else { return }
-    //                    guard let Wednesday = record["Wednesday"] as? String else { return }
-    //                    guard let Thrusday = record["Thrusday"] as? String else { return }
-    //                    guard let Friday = record["Friday"] as? String else { return }
-    //                    guard let Saturday = record["Saturday"] as? String else { return }
-    //                    guard let Sunday = record["Sunday"] as? String else { return }
-    //                    returnedItem = OperationHours(barName: barName, monday: Monday, tuesday: Tuesday, wednesday: Wednesday, thrusday: Thrusday, friday: Friday, saturday: Saturday, sunday: Sunday)
-    //                case .failure(let error):
-    //                    print("Error matched block error\(error)")
-    //                }
-    //            }
-    //        }
-    //        else{
-    //            queryOperation.recordFetchedBlock = {(returnedRecord)in
-    //                guard let barName = returnedRecord["BarName"] as? String else { return }
-    //                guard let Monday = returnedRecord["Monday"] as? String else { return }
-    //                guard let Tuesday = returnedRecord["Tuesday"] as? String else { return }
-    //                guard let Wednesday = returnedRecord["Wednesday"] as? String else { return }
-    //                guard let Thrusday = returnedRecord["Thrusday"] as? String else { return }
-    //                guard let Friday = returnedRecord["Friday"] as? String else { return }
-    //                guard let Saturday = returnedRecord["Saturday"] as? String else { return }
-    //                guard let Sunday = returnedRecord["Sunday"] as? String else { return }
-    //                returnedItem = OperationHours(barName: barName, monday: Monday, tuesday: Tuesday, wednesday: Wednesday, thrusday: Thrusday, friday: Friday, saturday: Saturday, sunday: Sunday)
-    //            }
-    //        }
-    //
-    //        //COMPLETIONS BLOCKS
-    //
-    //        if #available(iOS 15.0, *){
-    //            queryOperation.queryResultBlock = { [weak self] returnedResult in
-    //                DispatchQueue.main.async{
-    //                    self?.operationHours = returnedItem
-    //                }
-    //            }
-    //        }else{
-    //            queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-    //                self?.operationHours = returnedItem
-    //            }
-    //        }
-    //        addDataBaseOperation(operation: queryOperation)
-    //
-    //    }
-    
-    
-    
-    
-    
 }

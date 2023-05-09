@@ -63,7 +63,6 @@ class CloudKitUserIcloudViewModel: ObservableObject{
         case iCloudAccountNotDetermined
         case iCloudAccountRestricted
         case iCloudAccountUnknown
-        
     }
     
     
@@ -75,13 +74,10 @@ class CloudKitUserIcloudViewModel: ObservableObject{
                 }
             }
         }
-        
     }
-    
-    
-    
-    
 }
+
+
 //
 //struct CloudKitUserIcloud: View {
 //    @StateObject var cloudUser = CloudKitUserIcloudViewModel()
