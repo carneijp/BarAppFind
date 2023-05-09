@@ -10,7 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     var body: some View {
-        
+        Text("Profile View")
     }
 }
 
