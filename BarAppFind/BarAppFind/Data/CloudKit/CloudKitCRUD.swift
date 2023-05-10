@@ -2,6 +2,23 @@ import CloudKit
 import SwiftUI
 import Foundation
 
+class CKservice {
+    let container: CKContainer
+    let publicDB: CKDatabase
+    
+    static var instance = CKservice()
+    public var zoneID: CKRecordZone.ID?
+    private init() {
+        let zone = CKRecordZone(zoneID: .default)
+        zoneID = zone.zoneID
+        
+        container = CKContainer.init(identifier: "iCloud.com.JoaoPauloCarneiro.BarAppFind")
+        publicDB = container.publicCloudDatabase
+    }
+}
+
+
+
 class CloudKitCRUD: ObservableObject {
     
     @Published var barsList: [Bar] = []
@@ -27,7 +44,7 @@ class CloudKitCRUD: ObservableObject {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(bar.name)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
-
+        
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
@@ -38,7 +55,7 @@ class CloudKitCRUD: ObservableObject {
                     print("Error matched block error\(error)")
                 }
             }
-
+            
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
@@ -406,16 +423,23 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
+    
     func fetchBars() {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Bars", predicate: predicate)
-        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         let queryOperation = CKQueryOperation(query: query)
+        
+        
         var returnedItem: [Bar] = []
         var returnedPhotos: [URL] = []
         
+        
+        
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                print("\(returnedRecordID)")
+                print("Returned: Results: \(returnedResult)")
+                
                 switch returnedResult{
                 case .success(let record):
                     guard let barName = record["Name"] as? String else { return }
@@ -428,11 +452,11 @@ class CloudKitCRUD: ObservableObject {
                     guard let operationHours = record["OperationHours"] as? [String] else { return }
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
                     guard let region = record["Region"] as? String else { return }
-                    guard let characteristics = record["Characteristics"] as? [String] else { return }
+                    guard let characteristics = record["Caracteristicas"] as? [String] else { return }
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                     
-                    for i in 0...imageAsset.count{
+                    for i in 0..<imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
                         returnedPhotos.append(imageURL)
                     }
@@ -441,14 +465,15 @@ class CloudKitCRUD: ObservableObject {
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     returnedItem.append(bar)
-                    
+                    //                    print("returned item:\(returnedItem)")
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
+                
             }
         }
         else{
-            queryOperation.recordFetchedBlock = {(returnedRecord)in
+            queryOperation.recordFetchedBlock = { (returnedRecord)in
                 guard let barName = returnedRecord["Name"] as? String else { return }
                 guard let mood = returnedRecord["Mood"] as? [String] else { return }
                 guard let description = returnedRecord["Description"] as? String else { return }
@@ -459,11 +484,11 @@ class CloudKitCRUD: ObservableObject {
                 guard let operationHours = returnedRecord["OperationHours"] as? [String] else { return }
                 guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
                 guard let region = returnedRecord["Region"] as? String else { return }
-                guard let characteristics = returnedRecord["Characteristics"] as? [String] else { return }
+                guard let characteristics = returnedRecord["Caracteristicas"] as? [String] else { return }
                 guard let logoPhoto = returnedRecord["Logo"] as? CKAsset else { return }
                 guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                 
-                for i in 0...imageAsset.count{
+                for i in 0..<imageAsset.count{
                     guard let imageURL = imageAsset[i].fileURL else { return }
                     returnedPhotos.append(imageURL)
                 }
@@ -472,16 +497,25 @@ class CloudKitCRUD: ObservableObject {
                 bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                 bar.recieveLogoPhoto(logo: imageLogoPhoto)
                 returnedItem.append(bar)
-                
             }
         }
+        
+        barsList = returnedItem
         
         //COMPLETIONS BLOCKS
         
         if #available(iOS 15.0, *){
             queryOperation.queryResultBlock = { [weak self] returnedResult in
-                DispatchQueue.main.async{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
                     self?.barsList = returnedItem
+                    
+                    for bar in returnedItem {
+                        print(bar.name)
+                    }
+                    //                    for i in 0..<self!.barsList.count{
+                    //                        guard let bar = self.barsList[i] else { return }
+                    //                        print(bar)
+                    //                    }
                 }
             }
         }else{
@@ -514,11 +548,11 @@ class CloudKitCRUD: ObservableObject {
                     guard let operationHours = record["OperationHours"] as? [String] else { return }
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
                     guard let region = record["Region"] as? String else { return }
-                    guard let characteristics = record["Characteristics"] as? [String] else { return }
+                    guard let characteristics = record["Caracteristicas"] as? [String] else { return }
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                     
-                    for i in 0...imageAsset.count{
+                    for i in 0..<imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
                         returnedPhotos.append(imageURL)
                     }
@@ -527,6 +561,7 @@ class CloudKitCRUD: ObservableObject {
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     returnedItem = bar
+                    //                    print("returned item:\(returnedItem)")
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -544,11 +579,11 @@ class CloudKitCRUD: ObservableObject {
                 guard let operationHours = returnedRecord["OperationHours"] as? [String] else { return }
                 guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
                 guard let region = returnedRecord["Region"] as? String else { return }
-                guard let characteristics = returnedRecord["Characteristics"] as? [String] else { return }
+                guard let characteristics = returnedRecord["Caracteristicas"] as? [String] else { return }
                 guard let logoPhoto = returnedRecord["Logo"] as? CKAsset else { return }
                 guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                 
-                for i in 0...imageAsset.count{
+                for i in 0..<imageAsset.count{
                     guard let imageURL = imageAsset[i].fileURL else { return }
                     returnedPhotos.append(imageURL)
                 }
@@ -564,8 +599,9 @@ class CloudKitCRUD: ObservableObject {
         
         if #available(iOS 15.0, *){
             queryOperation.queryResultBlock = { [weak self] returnedResult in
-                DispatchQueue.main.async{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
                     self?.chossenBar = returnedItem
+                    //                    print(self?.chossenBar)
                 }
             }
         }else{
@@ -575,95 +611,6 @@ class CloudKitCRUD: ObservableObject {
         }
         addDataBaseOperation(operation: queryOperation)
     }
-    
-    
-    //    func addBarHours(operationHours: OperationHours, bar: Bar) {
-    //        let reference = "\(bar.name)_\(bar.fakeID)"
-    //        let recordID = CKRecord.ID(recordName: reference)
-    //        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { [weak self] (fetchedRecord, error) in
-    //            if(error == nil) {
-    //                print("Já existe usuário com este CPF.")
-    //                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-    //
-    //            }
-    //            else if (fetchedRecord == nil) {
-    //                let newHours = CKRecord(recordType: "OperationHours")
-    //                newHours["BarName"] = operationHours.barName
-    //                newHours["Monday"] = operationHours.monday
-    //                newHours["Tuesday"] = operationHours.tuesday
-    //                newHours["Wednesday"] = operationHours.wednesday
-    //                newHours["Thrusday"] = operationHours.thrusday
-    //                newHours["Friday"] = operationHours.friday
-    //                newHours["Saturday"] = operationHours.saturday
-    //                newHours["Sunday"] = operationHours.sunday
-    //                self?.saveItemPublic(record: newHours)
-    //            }
-    //        }
-    //    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    //    func fetchoperationhours(barName: String) {
-    //        let predicate = NSPredicate(format: "BarName = %@", argumentArray: ["\(barName)"])
-    //        let query = CKQuery(recordType: "OperationHours", predicate: predicate)
-    //        let queryOperation = CKQueryOperation(query: query)
-    //        var returnedItem: OperationHours?
-    //
-    //        if #available(iOS 15.0, *){
-    //            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-    //                switch returnedResult{
-    //                case .success(let record):
-    //                    guard let barName = record["BarName"] as? String else { return }
-    //                    guard let Monday = record["Monday"] as? String else { return }
-    //                    guard let Tuesday = record["Tuesday"] as? String else { return }
-    //                    guard let Wednesday = record["Wednesday"] as? String else { return }
-    //                    guard let Thrusday = record["Thrusday"] as? String else { return }
-    //                    guard let Friday = record["Friday"] as? String else { return }
-    //                    guard let Saturday = record["Saturday"] as? String else { return }
-    //                    guard let Sunday = record["Sunday"] as? String else { return }
-    //                    returnedItem = OperationHours(barName: barName, monday: Monday, tuesday: Tuesday, wednesday: Wednesday, thrusday: Thrusday, friday: Friday, saturday: Saturday, sunday: Sunday)
-    //                case .failure(let error):
-    //                    print("Error matched block error\(error)")
-    //                }
-    //            }
-    //        }
-    //        else{
-    //            queryOperation.recordFetchedBlock = {(returnedRecord)in
-    //                guard let barName = returnedRecord["BarName"] as? String else { return }
-    //                guard let Monday = returnedRecord["Monday"] as? String else { return }
-    //                guard let Tuesday = returnedRecord["Tuesday"] as? String else { return }
-    //                guard let Wednesday = returnedRecord["Wednesday"] as? String else { return }
-    //                guard let Thrusday = returnedRecord["Thrusday"] as? String else { return }
-    //                guard let Friday = returnedRecord["Friday"] as? String else { return }
-    //                guard let Saturday = returnedRecord["Saturday"] as? String else { return }
-    //                guard let Sunday = returnedRecord["Sunday"] as? String else { return }
-    //                returnedItem = OperationHours(barName: barName, monday: Monday, tuesday: Tuesday, wednesday: Wednesday, thrusday: Thrusday, friday: Friday, saturday: Saturday, sunday: Sunday)
-    //            }
-    //        }
-    //
-    //        //COMPLETIONS BLOCKS
-    //
-    //        if #available(iOS 15.0, *){
-    //            queryOperation.queryResultBlock = { [weak self] returnedResult in
-    //                DispatchQueue.main.async{
-    //                    self?.operationHours = returnedItem
-    //                }
-    //            }
-    //        }else{
-    //            queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-    //                self?.operationHours = returnedItem
-    //            }
-    //        }
-    //        addDataBaseOperation(operation: queryOperation)
-    //
-    //    }
     
     
     

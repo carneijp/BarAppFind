@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var cloud: CloudKitCRUD = CloudKitCRUD()
     var body: some View {
         VStack(alignment: .leading) {
+            Button{
+                cloud.fetchBars()
+            }label: {
+                Text("Atualiza")
+            }
             HStack {
                 Spacer()
                 LogoComponent()
@@ -46,22 +52,17 @@ struct HomeView: View {
                             .padding(.top, 14)
                     }
                     
-                    BarComponent()
-                        .padding(.top, 18)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
+                    ForEach(cloud.barsList, id: \.self) { bar in
+                        BarComponent()
+                    }
+                    
                 }
             }
             
             Spacer()
+        }
+        .onAppear(){
+            cloud.fetchBars()
         }
         .padding(.horizontal, 24)
     }
