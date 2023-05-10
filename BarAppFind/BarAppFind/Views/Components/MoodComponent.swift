@@ -13,10 +13,9 @@ struct MoodComponent: View {
     var body: some View {
         Image("")
             .resizable()
-            .padding(.all)
-            .background(.black)
+            .background(.secondary.opacity(0.5))
             .cornerRadius(12)
-            .frame(width: 110, height: 80)
+            .frame(width: (UIScreen.main.bounds.width - 58) / 3, height: 80)
     }
 }
 

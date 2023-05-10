@@ -10,29 +10,37 @@ import SwiftUI
 struct BarComponent: View {
     var body: some View {
         HStack {
-            Image(systemName: "circle.fill")
-                .foregroundColor(.gray)
-                .padding(.all, 16)
-                .background(.gray)
+            Image("trending1")
+                .resizable()
+                .scaledToFill()
                 .clipShape(Circle())
+                .frame(width: 56, height: 56)
+            
+            
+            HStack {
+                VStack {
+                    
+                    HStack {
+                        Text("**Nome** • 3km")
+                            .font(.system(size: 14))
                         
-            VStack {
-                HStack {
-                    Text("**Nome** • 3km")
-                        .font(.system(size: 14))
+                        Spacer()
+                    }
                     
-                    Spacer()
+                    HStack {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.yellow)
+                        
+                        Text("4,60 • aberto das 8h às 20h")
+                            .font(.system(size: 14))
+                        
+                        Spacer()
+                    }
                 }
+//                .background(.blue)
                 
-                HStack {
-                    Image(systemName: "star.fill")
-                        .foregroundColor(.yellow)
-                    
-                    Text("4,60 • aberto das 8h às 20h")
-                        .font(.system(size: 14))
-                    
-                    Spacer()
-                }
+                Image(systemName: "heart")
+                
             }
         }
     }

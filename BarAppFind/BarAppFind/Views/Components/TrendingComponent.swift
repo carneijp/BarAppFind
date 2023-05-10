@@ -8,27 +8,20 @@
 import SwiftUI
 
 struct TrendingComponent: View {
-    let trending: String
+    var trendingItem: String
     
     var body: some View {
-        NavigationLink {
-            BarPageView()
-        } label: {
-            Image("")
-                .resizable()
-                .padding(.all)
-                .frame(height: 104)
-                .scaledToFit()
-                .background(.gray)
-                .cornerRadius(14)
-        }
-
-
+        Image(trendingItem)
+            .resizable()
+            .scaledToFill()
+            .frame(width: UIScreen.main.bounds.width - 48, height: 150)
+            .background(.gray.opacity(0.5))
+            .cornerRadius(14)
     }
 }
 
 struct TrendingComponent_Previews: PreviewProvider {
     static var previews: some View {
-        TrendingComponent(trending: "mood1")
+        TrendingComponent(trendingItem: "trending1")
     }
 }

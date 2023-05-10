@@ -73,7 +73,7 @@ struct BarPageView: View {
                 Group{
                     if isBarName{
                         Text("Deusa Bar")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .underline()
                             .bold()
                     }else{
