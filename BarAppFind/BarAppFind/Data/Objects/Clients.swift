@@ -12,11 +12,11 @@ class Clients: ObservableObject {
     var firstName: String
     var lastName: String
     var password: String
-//    var photoTosave: String = ""
-//    var photoToUse: [URL?] = []
-//    var photo: 
+    var badges: [String] = []
+    var level: Int = 0
+    var favorites: [String] = []
     
-    init(email: String, firstName: String, password: String, lastName: String) {
+    init(email: String, firstName: String, password: String, lastName: String, ) {
         self.email = email //chave unica
         self.firstName = firstName
         self.password = password

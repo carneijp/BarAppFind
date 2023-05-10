@@ -12,7 +12,6 @@ class CloudKitCRUD: ObservableObject {
     @Published var client: Clients?
     @Published var chossenBar: Bar?
     
-    
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
             print("\(returnedRecors)")
@@ -23,7 +22,6 @@ class CloudKitCRUD: ObservableObject {
     private func addDataBaseOperation(operation: CKDatabaseOperation ) {
         CKContainer.default().publicCloudDatabase.add(operation)
     }
-    
     
     func addBar(bar: Bar) {
         var jaExiste: Bool = false
@@ -196,6 +194,9 @@ class CloudKitCRUD: ObservableObject {
                 newClient["FirstName"] = clients.firstName
                 newClient["LastName"] = clients.lastName
                 newClient["Password"] = clients.password
+                newClient["Badges"] = clients.badges
+                newClient["Favorites"] = clients.favorites
+                newClient["Level"] = clients.level
                 self.saveItemPublic(record: newClient)
             }
         }
@@ -243,12 +244,17 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func fetchItemsReview(barName: String) {
+    func fetchItemsReview(barName: String, cursor: CKQueryOperation.Cursor? = nil) {
+        
+        if(cursor == nil) {
+            self.reviewListByBar = []
+        }
+        
         let predicate = NSPredicate(format: "Bar = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         let queryOperation = CKQueryOperation(query: query)
-        var returnedItem: [Review] = []
+        queryOperation.cursor = cursor
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
@@ -259,20 +265,12 @@ class CloudKitCRUD: ObservableObject {
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let writerEmail = record["WriterEmail"] as? String else { return }
-                    returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
+                    DispatchQueue.main.async {
+                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName))
+                    }
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
-            }
-        }
-        else{
-            queryOperation.recordFetchedBlock = {(returnedRecord)in
-                guard let barName = returnedRecord["Bar"] as? String else { return }
-                guard let writerName = returnedRecord["Writer"] as? String else { return }
-                guard let description = returnedRecord["Description"] as? String else { return }
-                guard let grade = returnedRecord["Grade"] as? Double else { return }
-                guard let writerEmail = returnedRecord["WriterEmail"] as? String else { return }
-                returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
             }
         }
         
@@ -280,25 +278,31 @@ class CloudKitCRUD: ObservableObject {
         
         if #available(iOS 15.0, *){
             queryOperation.queryResultBlock = { [weak self] returnedResult in
-                DispatchQueue.main.async{
-                    self?.reviewListByBar = returnedItem
+                switch returnedResult {
+                case .success(let cursor):
+                    if cursor != nil {
+                        self?.fetchItemsReview(barName: barName, cursor: cursor)
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
                 }
-            }
-        }else{
-            queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-                self?.reviewListByBar = returnedItem
             }
         }
         addDataBaseOperation(operation: queryOperation)
         
     }
     
-    func fetchItemsReview(nickName: String) {
+    func fetchItemsReview(nickName: String, cursor: CKQueryOperation.Cursor? = nil) {
+        
+        if(cursor == nil) {
+            self.reviewListByBar = []
+        }
+        
         let predicate = NSPredicate(format: "WriterNickName = %@", argumentArray: ["\(nickName)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         let queryOperation = CKQueryOperation(query: query)
-        var returnedItem: [Review] = []
+        queryOperation.cursor = cursor
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
@@ -309,20 +313,12 @@ class CloudKitCRUD: ObservableObject {
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let writerEmail = record["WriterEmail"] as? String else { return }
-                    returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
+                    DispatchQueue.main.async {
+                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName))
+                    }
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
-            }
-        }
-        else{
-            queryOperation.recordFetchedBlock = {(returnedRecord)in
-                guard let barName = returnedRecord["Bar"] as? String else { return }
-                guard let writerName = returnedRecord["Writer"] as? String else { return }
-                guard let description = returnedRecord["Description"] as? String else { return }
-                guard let grade = returnedRecord["Grade"] as? Double else { return }
-                guard let writerEmail = returnedRecord["WriterEmail"] as? String else { return }
-                returnedItem.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName) )
             }
         }
         
@@ -330,13 +326,14 @@ class CloudKitCRUD: ObservableObject {
         
         if #available(iOS 15.0, *){
             queryOperation.queryResultBlock = { [weak self] returnedResult in
-                DispatchQueue.main.async{
-                    self?.reviewListByBar = returnedItem
+                switch returnedResult {
+                case .success(let cursor):
+                    if cursor != nil {
+                        self?.fetchItemsReview(nickName: nickName, cursor: cursor)
+                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
                 }
-            }
-        }else{
-            queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-                self?.reviewListByBar = returnedItem
             }
         }
         addDataBaseOperation(operation: queryOperation)
@@ -367,7 +364,6 @@ class CloudKitCRUD: ObservableObject {
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         queryOperation.resultsLimit = 1
-        var returnedItem: Clients?
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
@@ -377,38 +373,22 @@ class CloudKitCRUD: ObservableObject {
                     guard let LastName = record["LastName"] as? String else { return }
                     guard let FirtName = record["FirstName"] as? String else { return }
                     guard let Password = record["Password"] as? String else { return }
-                    returnedItem = Clients(email: Email, firstName: FirtName, password: Password, lastName: LastName)
+                    guard let Badges = record["Badges"] as? [String] else { return }
+                    guard let Favorites = record["Favorites"] as? [String] else { return }
+                    guard let Level = record["Level"] as? Int else { return }
+                    var clients = Clients(email: Email, firstName: FirtName, password: Password, lastName: LastName)
+                    clients.level = Level
+                    clients.badges = Badges
+                    clients.favorites = Favorites
+                    self.client = clients
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
             }
         }
-        else{
-            queryOperation.recordFetchedBlock = {(returnedRecord)in
-                guard let Email = returnedRecord["Email"] as? String else { return }
-                guard let LastName = returnedRecord["LastName"] as? String else { return }
-                guard let FirtName = returnedRecord["FirstName"] as? String else { return }
-                guard let Password = returnedRecord["Password"] as? String else { return }
-                returnedItem = Clients(email: Email, firstName: FirtName, password: Password, lastName: LastName)
-            }
-        }
         
-        //COMPLETIONS BLOCKS
-        
-        if #available(iOS 15.0, *){
-            queryOperation.queryResultBlock = { [weak self] returnedResult in
-                DispatchQueue.main.async{
-                    self?.client = returnedItem
-                }
-            }
-        }else{
-            queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-                self?.client = returnedItem
-            }
-        }
         addDataBaseOperation(operation: queryOperation)
     }
-    
     
     func fetchBars(cursor: CKQueryOperation.Cursor? = nil) {
         if(cursor == nil) {
