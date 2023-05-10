@@ -90,10 +90,10 @@ struct BarPageView: View {
 
     @State var review: String = ""
     
-    @State var topBarChoice: ChoiceBar = .info
+    @State var topBarChoice: ChoiceBar = .barName
     
-    @State var isBarName: Bool = false
-    @State var isInfo: Bool = true
+    @State var isBarName: Bool = true
+    @State var isInfo: Bool = false
     @State var isReview: Bool = false
     
     @State var isShowingWorkingHours: Bool = true
@@ -168,7 +168,7 @@ struct BarPageView: View {
                             .padding(.leading, 40)
                             .foregroundColor(.gray)
                             .onTapGesture {
-                                self.topBarChoice = .info
+                                self.topBarChoice = .review
                                 isBarName = false
                                 isInfo = false
                                 isReview = true
@@ -415,7 +415,7 @@ struct Flemis: View {
                 Button(action: {
                     self.isShowingWorkingHours.toggle()
                 }, label: {
-                    Image(systemName: self.isShowingWorkingHours ? "chevron.down" : "chevron.right")
+                    Image(systemName: self.isShowingWorkingHours ? "chevron.up" : "chevron.down")
                 })
             }
             
