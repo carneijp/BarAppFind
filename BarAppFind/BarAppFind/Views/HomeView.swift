@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var trendingIndex = 0
+    @StateObject var cloud: CloudKitCRUD = CloudKitCRUD()
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -82,7 +83,6 @@ struct HomeView: View {
                                 }
                             }
                             .padding(.horizontal, 24)
-
                         }
                         
                         //Bars Section
@@ -102,24 +102,30 @@ struct HomeView: View {
                                 }
                             }
                             .padding(.top, 14)
-
                             
-                            BarComponent()
-                                .padding(.top, 18)
+                            ForEach(cloud.barsList, id: \.self) { bar in
+                                NavigationLink {
+                                    BarPageView(name: bar.name)
+                                } label: {
+                                    BarComponent(bar: bar)
+                                        .foregroundColor(.primary)
+                                }
 
-                            BarComponent()
-                                .padding(.top, 16)
-
-                            BarComponent()
-                                .padding(.top, 16)
-
+//                                BarComponent(bar: bar)
+                            }
                         }
                         .padding(.horizontal, 24)
+
                     }
+
                 }
                 
                 Spacer()
             }
+        }
+
+        .onAppear(){
+            cloud.fetchBars()
         }
     }
 }

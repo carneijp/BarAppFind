@@ -19,7 +19,17 @@ class City: ObservableObject {
     }
 }
 
-class Bar: ObservableObject {
+class Bar: ObservableObject, Hashable, Identifiable {
+    static func == (lhs: Bar, rhs: Bar) -> Bool {
+        lhs.name == rhs.name
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(latitude)
+        hasher.combine(longitude)
+    }
+    
     @StateObject var cloud = CloudKitCRUD()
     var name: String
     var description: String
