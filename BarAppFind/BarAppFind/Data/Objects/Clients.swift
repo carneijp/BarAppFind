@@ -16,7 +16,7 @@ class Clients: ObservableObject {
     var level: Int = 0
     var favorites: [String] = []
     
-    init(email: String, firstName: String, password: String, lastName: String, ) {
+    init(email: String, firstName: String, password: String, lastName: String) {
         self.email = email //chave unica
         self.firstName = firstName
         self.password = password

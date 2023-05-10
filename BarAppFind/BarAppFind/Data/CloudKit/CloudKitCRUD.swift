@@ -341,20 +341,42 @@ class CloudKitCRUD: ObservableObject {
     }
     
     func validateClientLogin(email: String, password: String) {
-        let recordID = CKRecord.ID(recordName: email)
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { [weak self] (fetchedRecord, error) in
-            if(error == nil) {
-                self?.fetchClientByEmail(email: email)
-                if !(self?.client?.email == email && self?.client?.password == password) {
+        
+        var jaExiste: Bool = false
+        let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(email)"])
+        let query = CKQuery(recordType: "Clients", predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
+        
+        if #available(iOS 15.0, *){
+            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                switch returnedResult{
+                case .success(let record):
+                    jaExiste = true
+                    print("Result: ", record)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+            }
+            
+            queryOperation.queryResultBlock = { returnedResult in
+                switch returnedResult {
+                case .success(let record):
+                    print("result2", record as Any)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+            }
+        }
+        
+        addDataBaseOperation(operation: queryOperation)
+        DispatchQueue.main.async {
+            if(jaExiste) {
+                self.fetchClientByEmail(email: email)
+                if (self.client?.email != email || self.client?.password != password) {
+                    self.client = nil
                     print("Usuario ou senha incorretas.")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-                    self?.client = nil
                 }
-                
-            }
-            else if (fetchedRecord == nil) {
-                print("Usuario ou senha incorretas.")
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
             }
         }
     }
