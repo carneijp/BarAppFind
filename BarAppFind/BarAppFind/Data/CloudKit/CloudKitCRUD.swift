@@ -2,20 +2,6 @@ import CloudKit
 import SwiftUI
 import Foundation
 
-class CKservice {
-    let container: CKContainer
-    let publicDB: CKDatabase
-    
-    static var instance = CKservice()
-    public var zoneID: CKRecordZone.ID?
-    private init() {
-        let zone = CKRecordZone(zoneID: .default)
-        zoneID = zone.zoneID
-        
-        container = CKContainer.init(identifier: "iCloud.com.JoaoPauloCarneiro.BarAppFind")
-        publicDB = container.publicCloudDatabase
-    }
-}
 
 
 
