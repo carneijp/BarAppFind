@@ -13,6 +13,7 @@
 		6CC1121B2A04334B0009C2BC /* BarPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1121A2A04334B0009C2BC /* BarPageView.swift */; };
 		6CC7A0942A098D80008329B7 /* ReviewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7A0932A098D80008329B7 /* ReviewComponent.swift */; };
 		8232C2B72A04AB600059E4CF /* mazabar.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8232C2B62A04AB600059E4CF /* mazabar.jpg */; };
+		824266942A0BD1C100E5F186 /* BarListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824266932A0BD1C100E5F186 /* BarListView.swift */; };
 		82FC66972A0423B7008DF9CC /* TrendingComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC66962A0423B7008DF9CC /* TrendingComponent.swift */; };
 		82FC66992A042571008DF9CC /* LogoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC66982A042571008DF9CC /* LogoComponent.swift */; };
 		82FC669F2A042CF3008DF9CC /* MoodComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FC669E2A042CF3008DF9CC /* MoodComponent.swift */; };
@@ -24,10 +25,13 @@
 		851D895429FDE7D900282473 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895329FDE7D900282473 /* ProfileView.swift */; };
 		851D895629FE0EA500282473 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895529FE0EA500282473 /* MapViewModel.swift */; };
 		851D895929FE950100282473 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851D895829FE950100282473 /* City.swift */; };
+		85285E262A02EABD00139191 /* CloudKitCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85285E252A02EABD00139191 /* CloudKitCRUD.swift */; };
+		85285E282A02EB0C00139191 /* CloudKitUserIcloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */; };
 		8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */; };
 		8562AEF629FC5C4D003E32E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8562AEF529FC5C4D003E32E7 /* Assets.xcassets */; };
 		8562AEF929FC5C4D003E32E7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8562AEF829FC5C4D003E32E7 /* Preview Assets.xcassets */; };
-		85D53D3529FE9A6D006C4A4F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D53D3429FE9A6D006C4A4F /* User.swift */; };
+		85D53D3529FE9A6D006C4A4F /* Clients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D53D3429FE9A6D006C4A4F /* Clients.swift */; };
+		B3057D7A2A0573D300121EEF /* Script.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3057D792A0573D300121EEF /* Script.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +41,7 @@
 		6CC1121A2A04334B0009C2BC /* BarPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarPageView.swift; sourceTree = "<group>"; };
 		6CC7A0932A098D80008329B7 /* ReviewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewComponent.swift; sourceTree = "<group>"; };
 		8232C2B62A04AB600059E4CF /* mazabar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = mazabar.jpg; sourceTree = "<group>"; };
+		824266932A0BD1C100E5F186 /* BarListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarListView.swift; sourceTree = "<group>"; };
 		82FC66962A0423B7008DF9CC /* TrendingComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingComponent.swift; sourceTree = "<group>"; };
 		82FC66982A042571008DF9CC /* LogoComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoComponent.swift; sourceTree = "<group>"; };
 		82FC669E2A042CF3008DF9CC /* MoodComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodComponent.swift; sourceTree = "<group>"; };
@@ -49,11 +54,15 @@
 		851D895529FE0EA500282473 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		851D895829FE950100282473 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		85285DF72A019F4600139191 /* BarAppFind.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BarAppFind.entitlements; sourceTree = "<group>"; };
+		85285E252A02EABD00139191 /* CloudKitCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitCRUD.swift; sourceTree = "<group>"; };
+		85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitUserIcloud.swift; sourceTree = "<group>"; };
 		8562AEEE29FC5C4C003E32E7 /* BarAppFind.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BarAppFind.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarAppFindApp.swift; sourceTree = "<group>"; };
 		8562AEF529FC5C4D003E32E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8562AEF829FC5C4D003E32E7 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		85D53D3429FE9A6D006C4A4F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		85D53D3429FE9A6D006C4A4F /* Clients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clients.swift; sourceTree = "<group>"; };
+		85F7CB2E2A0ADF75006F4887 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B3057D792A0573D300121EEF /* Script.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Script.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				851D895829FE950100282473 /* City.swift */,
-				85D53D3429FE9A6D006C4A4F /* User.swift */,
+				85D53D3429FE9A6D006C4A4F /* Clients.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -103,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				851D894D29FDE7A900282473 /* HomeView.swift */,
+				824266932A0BD1C100E5F186 /* BarListView.swift */,
 				6CC1121A2A04334B0009C2BC /* BarPageView.swift */,
 				851D895129FDE7C900282473 /* BucketListView.swift */,
 				851D895329FDE7D900282473 /* ProfileView.swift */,
@@ -115,9 +125,20 @@
 		85285DFC2A01A0F400139191 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				85285E242A02EA9900139191 /* CloudKit */,
 				851D895A29FE950A00282473 /* Objects */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		85285E242A02EA9900139191 /* CloudKit */ = {
+			isa = PBXGroup;
+			children = (
+				85285E252A02EABD00139191 /* CloudKitCRUD.swift */,
+				85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */,
+				B3057D792A0573D300121EEF /* Script.swift */,
+			);
+			path = CloudKit;
 			sourceTree = "<group>";
 		};
 		8562AEE529FC5C4C003E32E7 = {
@@ -139,6 +160,7 @@
 		8562AEF029FC5C4C003E32E7 /* BarAppFind */ = {
 			isa = PBXGroup;
 			children = (
+				85F7CB2E2A0ADF75006F4887 /* Info.plist */,
 				85285DF72A019F4600139191 /* BarAppFind.entitlements */,
 				85285DFC2A01A0F400139191 /* Data */,
 				8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */,
@@ -146,7 +168,6 @@
 				85285DFA2A01A00100139191 /* Views */,
 				85285DF82A019FCF00139191 /* Model */,
 				8562AEF529FC5C4D003E32E7 /* Assets.xcassets */,
-				8232C2B62A04AB600059E4CF /* mazabar.jpg */,
 				8562AEF729FC5C4D003E32E7 /* Preview Content */,
 			);
 			path = BarAppFind;
@@ -220,7 +241,6 @@
 			files = (
 				8562AEF929FC5C4D003E32E7 /* Preview Assets.xcassets in Resources */,
 				8562AEF629FC5C4D003E32E7 /* Assets.xcassets in Resources */,
-				8232C2B72A04AB600059E4CF /* mazabar.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,18 +253,24 @@
 			files = (
 				6C7F35012A09754400FBEF83 /* ItemComponents.swift in Sources */,
 				82FC669F2A042CF3008DF9CC /* MoodComponent.swift in Sources */,
+				85285E262A02EABD00139191 /* CloudKitCRUD.swift in Sources */,
 				851D895029FDE7B900282473 /* MapView.swift in Sources */,
 				851D894C29FDE75700282473 /* GeneralTab.swift in Sources */,
 				6CC1121B2A04334B0009C2BC /* BarPageView.swift in Sources */,
 				6CC7A0942A098D80008329B7 /* ReviewComponent.swift in Sources */,
+				824266942A0BD1C100E5F186 /* BarListView.swift in Sources */,
 				851D895429FDE7D900282473 /* ProfileView.swift in Sources */,
+				B3057D7A2A0573D300121EEF /* Script.swift in Sources */,
 				851D894E29FDE7A900282473 /* HomeView.swift in Sources */,
 				8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */,
 				6C8313F72A0C1ED500A6A412 /* MapPopUpComponent.swift in Sources */,
 				85D53D3529FE9A6D006C4A4F /* User.swift in Sources */,
+				85D53D3529FE9A6D006C4A4F /* Clients.swift in Sources */,
 				82FC66A72A04409D008DF9CC /* BarComponent.swift in Sources */,
 				6C8313F52A0C17A400A6A412 /* LoginAlertComponent.swift in Sources */,
 				82FC66992A042571008DF9CC /* LogoComponent.swift in Sources */,
+				85285E282A02EB0C00139191 /* CloudKitUserIcloud.swift in Sources */,
+				85D53D3529FE9A6D006C4A4F /* Clients.swift in Sources */,
 				851D895229FDE7C900282473 /* BucketListView.swift in Sources */,
 				851D895929FE950100282473 /* City.swift in Sources */,
 				82FC66972A0423B7008DF9CC /* TrendingComponent.swift in Sources */,
@@ -381,12 +407,14 @@
 				DEVELOPMENT_TEAM = K8P3CNSPZS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BarAppFind/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -415,12 +443,14 @@
 				DEVELOPMENT_TEAM = K8P3CNSPZS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BarAppFind/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -8,67 +8,131 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State private var trendingIndex = 0
+    @StateObject var cloud: CloudKitCRUD = CloudKitCRUD()
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Spacer()
                 LogoComponent()
-                    .padding(.top)
+                    .padding(.vertical, 8)
                 Spacer()
             }
             
+            // MARK: - ScrollView Vertical
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
-                    TrendingComponent(trending: "trending1")
-                        .padding(.top, 14)
-                    
-                    Text("Hoje eu tô afim de...")
-                        .font(.system(size: 14))
-                        .padding(.top, 14)
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(moods, id: \.self) { mood in
-                                MoodComponent(mood: mood)
+
+                    // MARK: - Trendings Carousel
+                    VStack {
+//                        ScrollView(.horizontal, showsIndicators: false) {
+//                            HStack(spacing: 10) {
+//                                ForEach(trendings.indices, id: \.self) { index in
+//                                    NavigationLink {
+//                                        BarPageView()
+//                                    } label: {
+//                                        TrendingComponent(trendingItem: trendings[index])
+//                                    }
+//
+//                                }
+//                            }
+//                            .padding(.horizontal, 24)
+//                        }
+                        
+                        TabView(selection: $trendingIndex) {
+                            ForEach(trendings.indices, id: \.self) { index in
+                                NavigationLink {
+                                    BarPageView()
+                                } label: {
+                                    TrendingComponent(trendingItem: trendings[index])
+                                }
+
                             }
                         }
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                        .frame(height: 150)
+                        
+                        // Index Trending Carousel
+                        HStack(spacing: 8) {
+                            ForEach((0..<3), id: \.self) { index in
+                                Circle()
+                                    .fill(index == self.trendingIndex ? Color.secondary : Color.secondary.opacity(0.2))
+                                    .frame(width: 8, height: 8)
+
+                            }
+                        }
+                        .padding(.top, 8)
                     }
+
                     
-                    HStack {
-                        Text("Bares próximos a mim")
+                    // MARK: - Moods + Bars
+                    VStack(alignment: .leading) {
+                        
+                        //Mood Section
+                        Text("Hoje eu tô afim de...")
                             .font(.system(size: 14))
                             .padding(.top, 14)
+                            .padding(.leading, 24)
                         
-                        Spacer()
+                        //Mood Section
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 10) {
+                                ForEach(moods, id: \.self) { mood in
+                                    MoodComponent(mood: mood)
+                                }
+                            }
+                            .padding(.horizontal, 24)
+                        }
                         
-                        Text("Ver todos")
-                            .font(.system(size: 14))
+                        //Bars Section
+                        VStack {
+                            HStack {
+                                Text("Bares próximos a mim")
+                                    .font(.system(size: 14))
+                                
+                                Spacer()
+                                
+                                NavigationLink {
+                                    BarListView()
+                                } label: {
+                                    Text("Ver todos")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(Color("blue"))
+                                }
+                            }
                             .padding(.top, 14)
+                            
+                            ForEach(cloud.barsList, id: \.self) { bar in
+                                NavigationLink {
+                                    BarPageView(name: bar.name)
+                                } label: {
+                                    BarComponent(bar: bar)
+                                        .foregroundColor(.primary)
+                                }
+
+//                                BarComponent(bar: bar)
+                            }
+                        }
+                        .padding(.horizontal, 24)
+
                     }
-                    
-                    BarComponent()
-                        .padding(.top, 18)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
-                    BarComponent()
-                        .padding(.top, 16)
+
                 }
+                
+                Spacer()
             }
-            
-            Spacer()
         }
-        .padding(.horizontal, 24)
+
+        .onAppear(){
+            cloud.fetchBars()
+        }
     }
 }
-
+    
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
     }
 }
+

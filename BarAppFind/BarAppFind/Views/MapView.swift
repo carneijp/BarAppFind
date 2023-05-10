@@ -9,6 +9,8 @@ import SwiftUI
 import MapKit
 struct MapView: View {
     @StateObject var viewModel = MapViewModel()
+    @EnvironmentObject var cloud: CloudKitCRUD
+
     
     var body: some View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true)

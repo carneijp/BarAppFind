@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 class City: ObservableObject {
     var name: String
@@ -18,71 +19,70 @@ class City: ObservableObject {
     }
 }
 
-
-class Bar: ObservableObject {
+class Bar: ObservableObject, Hashable, Identifiable {
+    static func == (lhs: Bar, rhs: Bar) -> Bool {
+        lhs.name == rhs.name
+    }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(latitude)
+        hasher.combine(longitude)
+    }
+    
+    @StateObject var cloud = CloudKitCRUD()
     var name: String
-    var description: String = ""
-    var mood: String = ""
+    var description: String
+    var caracteristicas: [String]
+    var mood: [String]
     var expensive: String = ""
-    var grade: Double = 0.0
+    var grade: Double
     var reviews: [Review] = []
-    var operatinHours: [[String]] = [[]]
-    var photos: [String] = []
+    var operatinHours: [String]
+    var photosTOSave: [String] = []
+    var photosLogo: URL? = nil
+    var photoLogoTOSave: String = ""
+    var photosToUse: [URL?] = []
     var latitude: Double
     var longitude: Double
+    var endereco: String
+    var regiao: String
     
-    
-    init(name: String, latitude: Double, longitude: Double){
+    init(name: String, description: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String, caracteristicas: [String]) {
         self.name = name
+        self.description = description
+        self.caracteristicas = caracteristicas
+        self.mood = mood
+        self.grade = grade
+        self.operatinHours = operatinhours
         self.latitude = latitude
         self.longitude = longitude
+        self.endereco = endereco
+        self.regiao = regiao
     }
-    func changeDescription(description: String) {
-        self.description = description
+    func recieveLogoPhoto(logo: URL){
+        self.photosLogo = logo
     }
-    func addPhotos(photo: String) {
-        self.photos.append(photo)
+    func recieveAllPhotos(photosToSAVE:[String]){
+        self.photosTOSave = photosToSAVE
     }
-    func removePhoto(photo: String) {
-        for i in 0...photos.count {
-            if photos[i] == photo{
-                photos.remove(at: i)
-            }
-        }
+    func recieveAllPhotos(photosToUSE:[URL]){
+        self.photosToUse = photosToUSE
     }
+    func recieveAllReviews(){
+        cloud.fetchItemsReview(barName: self.name)
+        self.reviews = cloud.reviewListByBar
+    }
+    
 }
 
 struct Review {
-    var writer: User
+    var writerEmail: String
+    var writerName: String
     var grade: Double
     var description: String
-    var bar: Bar
+    var barName: String
 }
 
-var cidade = City(name: "Porto Alegre")
-
-class BarsMock: ObservableObject {
-    
-    var bar1 = Bar(name: "Maza", latitude: -30.06213, longitude: -51.174497)
-    var bar2 = Bar(name: "Maza", latitude: -30.062134, longitude: -51.174497)
-    var bar3 = Bar(name: "Maza", latitude: -30.0624, longitude: -51.174497)
-    var bar4 = Bar(name: "Maza", latitude: -30.0134, longitude: -51.174497)
-    var bar5 = Bar(name: "Maza", latitude: -30.034, longitude: -51.174497)
-    var bar6 = Bar(name: "Maza", latitude: -30.2134, longitude: -51.174497)
-    var bar7 = Bar(name: "Maza", latitude: -30.34, longitude: -51.174497)
-    var bar8 = Bar(name: "Maza", latitude: -30.4, longitude: -51.174497)
-
-    @Published var bares: [Bar] = []
-    
-    init() {
-        self.bares = [bar1, bar2, bar3, bar4, bar5, bar6, bar7, bar8]
-    }
-    
-}
-
-var trendings: [String] = ["trending1", "trending2", "trending3"]
-var moods: [String] = ["mood1", "mood2", "mood3", "mood4", "mood5", "mood6"]
-
-
-
+var trendings: [String] = ["trending1","trending2","trending3"]
+var moods: [String] = ["mood1","mood2","mood3","mood4","mood5","mood6"]

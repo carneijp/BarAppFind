@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject private var cloud: CloudKitCRUD
     var body: some View {
-        Text("Profile")
+        Text("Profile View")
     }
 }
 
