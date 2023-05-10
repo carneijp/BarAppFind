@@ -424,22 +424,21 @@ class CloudKitCRUD: ObservableObject {
     }
     
     
-    func fetchBars() {
+    func fetchBars(cursor: CKQueryOperation.Cursor? = nil) {
+        if(cursor == nil) {
+            self.barsList = []
+        }
+        
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
+        queryOperation.resultsLimit = 50
+        queryOperation.cursor = cursor
         
-        
-        var returnedItem: [Bar] = []
         var returnedPhotos: [URL] = []
-        
-        
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-                print("\(returnedRecordID)")
-                print("Returned: Results: \(returnedResult)")
-                
                 switch returnedResult{
                 case .success(let record):
                     guard let barName = record["Name"] as? String else { return }
@@ -464,74 +463,39 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
-                    returnedItem.append(bar)
-                    //                    print("returned item:\(returnedItem)")
+                    
+                    DispatchQueue.main.async {
+                        self.barsList.append(bar)
+                    }
+                    
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
-                
             }
         }
-        else{
-            queryOperation.recordFetchedBlock = { (returnedRecord)in
-                guard let barName = returnedRecord["Name"] as? String else { return }
-                guard let mood = returnedRecord["Mood"] as? [String] else { return }
-                guard let description = returnedRecord["Description"] as? String else { return }
-                guard let address = returnedRecord["Address"] as? String else { return }
-                guard let grade = returnedRecord["Grade"] as? Double else { return }
-                guard let latitude = returnedRecord["Latitude"] as? Double else { return }
-                guard let longitude = returnedRecord["Longitude"] as? Double else { return }
-                guard let operationHours = returnedRecord["OperationHours"] as? [String] else { return }
-                guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
-                guard let region = returnedRecord["Region"] as? String else { return }
-                guard let characteristics = returnedRecord["Caracteristicas"] as? [String] else { return }
-                guard let logoPhoto = returnedRecord["Logo"] as? CKAsset else { return }
-                guard let imageLogoPhoto = logoPhoto.fileURL else { return }
-                
-                for i in 0..<imageAsset.count{
-                    guard let imageURL = imageAsset[i].fileURL else { return }
-                    returnedPhotos.append(imageURL)
-                }
-                
-                let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
-                bar.recieveAllPhotos(photosToUSE: returnedPhotos)
-                bar.recieveLogoPhoto(logo: imageLogoPhoto)
-                returnedItem.append(bar)
-            }
-        }
-        
-        barsList = returnedItem
         
         //COMPLETIONS BLOCKS
         
         if #available(iOS 15.0, *){
             queryOperation.queryResultBlock = { [weak self] returnedResult in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
-                    self?.barsList = returnedItem
-                    
-                    for bar in returnedItem {
-                        print(bar.name)
+                switch returnedResult {
+                case .success(let cursor):
+                    if cursor != nil {
+                        self?.fetchBars(cursor: cursor)
                     }
-                    //                    for i in 0..<self!.barsList.count{
-                    //                        guard let bar = self.barsList[i] else { return }
-                    //                        print(bar)
-                    //                    }
+                case .failure(let err):
+                    print(err.localizedDescription)
                 }
-            }
-        }else{
-            queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-                self?.barsList = returnedItem
             }
         }
         addDataBaseOperation(operation: queryOperation)
     }
-    
     
     func fetchBars(barName: String) {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
-        var returnedItem: Bar?
+        
         var returnedPhotos: [URL] = []
         
         if #available(iOS 15.0, *){
@@ -560,60 +524,17 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
-                    returnedItem = bar
-                    //                    print("returned item:\(returnedItem)")
+                    DispatchQueue.main.async {
+                        self.barsList.append(bar)
+                        self.chossenBar = bar
+                    }
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
             }
         }
-        else{
-            queryOperation.recordFetchedBlock = { (returnedRecord)in
-                guard let barName = returnedRecord["Name"] as? String else { return }
-                guard let mood = returnedRecord["Mood"] as? [String] else { return }
-                guard let description = returnedRecord["Description"] as? String else { return }
-                guard let address = returnedRecord["Address"] as? String else { return }
-                guard let grade = returnedRecord["Grade"] as? Double else { return }
-                guard let latitude = returnedRecord["Latitude"] as? Double else { return }
-                guard let longitude = returnedRecord["Longitude"] as? Double else { return }
-                guard let operationHours = returnedRecord["OperationHours"] as? [String] else { return }
-                guard let imageAsset = returnedRecord["Image"] as? [CKAsset] else { return }
-                guard let region = returnedRecord["Region"] as? String else { return }
-                guard let characteristics = returnedRecord["Caracteristicas"] as? [String] else { return }
-                guard let logoPhoto = returnedRecord["Logo"] as? CKAsset else { return }
-                guard let imageLogoPhoto = logoPhoto.fileURL else { return }
-                
-                for i in 0..<imageAsset.count{
-                    guard let imageURL = imageAsset[i].fileURL else { return }
-                    returnedPhotos.append(imageURL)
-                }
-                
-                let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
-                bar.recieveAllPhotos(photosToUSE: returnedPhotos)
-                bar.recieveLogoPhoto(logo: imageLogoPhoto)
-                returnedItem = bar
-            }
-        }
-        
-        //COMPLETIONS BLOCKS
-        
-        if #available(iOS 15.0, *){
-            queryOperation.queryResultBlock = { [weak self] returnedResult in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 6){
-                    self?.chossenBar = returnedItem
-                    //                    print(self?.chossenBar)
-                }
-            }
-        }else{
-            queryOperation.queryCompletionBlock = { [weak self] returnedCursor, returnedError in
-                self?.chossenBar = returnedItem
-            }
-        }
         addDataBaseOperation(operation: queryOperation)
     }
-    
-    
-    
     
     
 }

@@ -11,11 +11,6 @@ struct HomeView: View {
     @StateObject var cloud: CloudKitCRUD = CloudKitCRUD()
     var body: some View {
         VStack(alignment: .leading) {
-            Button{
-                cloud.fetchBars()
-            }label: {
-                Text("Atualiza")
-            }
             HStack {
                 Spacer()
                 LogoComponent()
