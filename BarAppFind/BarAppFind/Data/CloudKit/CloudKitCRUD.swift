@@ -10,7 +10,7 @@ class CloudKitCRUD: ObservableObject {
     @Published var barsList: [Bar] = []
     @Published var reviewListByBar: [Review] = []
     @Published var client: Clients?
-    @Published var chossenBar: Bar?
+    @Published var chossenBar: [Bar] = []
     
     
     private func saveItemPublic(record: CKRecord) {
@@ -55,7 +55,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             if(jaExiste) {
-                print("Já existe usuário com este CPF.")
+                print("Já existe bar com este nome.")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
             }
             else {
@@ -511,8 +511,7 @@ class CloudKitCRUD: ObservableObject {
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     DispatchQueue.main.async {
-                        self.barsList.append(bar)
-                        self.chossenBar = bar
+                        self.chossenBar = [bar]
                     }
                 case .failure(let error):
                     print("Error matched block error\(error)")

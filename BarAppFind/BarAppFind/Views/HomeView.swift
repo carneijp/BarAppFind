@@ -43,7 +43,8 @@ struct HomeView: View {
                         TabView(selection: $trendingIndex) {
                             ForEach(trendings.indices, id: \.self) { index in
                                 NavigationLink {
-                                    BarPageView()
+                                    BarPageView(barname: trendings[index])
+                                        .environmentObject(cloud)
                                 } label: {
                                     TrendingComponent(trendingItem: trendings[index])
                                 }
@@ -105,7 +106,8 @@ struct HomeView: View {
                             
                             ForEach(cloud.barsList, id: \.self) { bar in
                                 NavigationLink {
-                                    BarPageView(name: bar.name)
+                                    BarPageView(barname: bar.name)
+                                        .environmentObject(cloud)
                                 } label: {
                                     BarComponent(bar: bar)
                                         .foregroundColor(.primary)

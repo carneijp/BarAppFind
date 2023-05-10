@@ -4,11 +4,13 @@
 //
 //  Created by Eduardo Pretto on 04/05/23.
 //
-
+import ClockKit
+import Foundation
 import SwiftUI
 import MapKit
 
 struct BarPageView: View {
+    var barname: String
     
     let contacts = [
       "John",
@@ -87,7 +89,7 @@ struct BarPageView: View {
                 .font(.system(size: 6))
         }
     }
-
+    
     @State var review: String = ""
     
     @State var topBarChoice: ChoiceBar = .barName
@@ -97,6 +99,10 @@ struct BarPageView: View {
     @State var isReview: Bool = false
     
     @State var isShowingWorkingHours: Bool = true
+    
+    @EnvironmentObject var cloud: CloudKitCRUD
+    
+    
     
     var body: some View {
         
@@ -264,7 +270,7 @@ struct BarPageView: View {
                 case .info:
                     ScrollView{
                         
-                        Flemis()
+                        Flemis(workingHours: cloud.chossenBar[0].operatinHours )
 //                        NavigationView {
 //                            VStack {
 //                                List{
@@ -383,13 +389,16 @@ struct BarPageView: View {
             
             Spacer()
         }
+        .onAppear(){
+            cloud.fetchBars(barName: barname)
+        }
         .navigationBarTitle("Deusa Bar", displayMode: .inline)
     }
 }
 
 struct BarPageView_Previews: PreviewProvider {
     static var previews: some View {
-        BarPageView()
+        BarPageView(barname: "Quentins")
     }
 }
 
@@ -397,13 +406,7 @@ struct BarPageView_Previews: PreviewProvider {
 struct Flemis: View {
     @State var isShowingWorkingHours: Bool = true
     
-    let contacts = [
-      "John",
-      "Ashley",
-      "Bobby",
-      "Jimmy",
-      "Fredie"
-    ]
+    var workingHours: [String]
     
     var body: some View {
         VStack {
@@ -420,8 +423,8 @@ struct Flemis: View {
             }
             
             if self.isShowingWorkingHours {
-                ForEach(self.contacts, id: \.self) { contact in
-                    Text("\(contact)")
+                ForEach(self.workingHours, id: \.self) { workingHour in
+                    Text("\(workingHour)")
                 }
                 .scrollContentBackground(.hidden)
             }
