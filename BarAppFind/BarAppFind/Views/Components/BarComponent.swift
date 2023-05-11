@@ -12,15 +12,15 @@ struct BarComponent: View {
     
     var body: some View {
         HStack {
-            
             if let photoLogo = bar.photosLogo, let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
-                    .frame(width: 56, height: 56)
+                    .overlay(Circle().stroke(Color.primary, lineWidth: 0.5))
+                    .frame(width: 50, height: 50)
+                    .padding(.trailing, 5)
             }
-
 
             HStack {
                 VStack {
@@ -30,12 +30,13 @@ struct BarComponent: View {
                         
                         Spacer()
                     }
+                    .padding(.bottom, 0.5)
                     
-                    HStack {
+                    HStack(spacing: 5) {
                         Image(systemName: "star.fill")
                             .foregroundColor(.yellow)
                         
-                        Text("\(bar.grade) • \(bar.operatinHours[0])")
+                        Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
                             .font(.system(size: 14))
                         
                         Spacer()

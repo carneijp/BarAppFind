@@ -102,16 +102,16 @@ struct HomeView: View {
                                 }
                             }
                             .padding(.top, 14)
+                            .padding(.bottom, 20)
                             
                             ForEach(cloud.barsList, id: \.self) { bar in
                                 NavigationLink {
-                                    BarPageView(name: bar.name)
+                                    BarPageView()
                                 } label: {
                                     BarComponent(bar: bar)
                                         .foregroundColor(.primary)
+                                        .padding(.bottom, 10)
                                 }
-
-//                                BarComponent(bar: bar)
                             }
                         }
                         .padding(.horizontal, 24)
@@ -123,9 +123,10 @@ struct HomeView: View {
                 Spacer()
             }
         }
-
-        .onAppear(){
-            cloud.fetchBars()
+        .onAppear() {
+            if cloud.barsList.count != 10 {
+                cloud.fetchBars()
+            }
         }
     }
 }
