@@ -54,9 +54,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }else if let location = chosen{
             region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.defaultSpan)
         }
-        else if let user = userLocation{
-            region = user
-        }
+        
     }
     
     func chekIfLocationService() {
@@ -83,7 +81,7 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         case .denied:
             print("You have denied location permission, you can change on settings.")
         case .authorizedAlways, .authorizedWhenInUse:
-            userLocation = MKCoordinateRegion(center: locationManager.location!.coordinate,
+            region = MKCoordinateRegion(center: locationManager.location!.coordinate,
                                         span:  MapDetails.defaultSpan)
         @unknown default:
             break

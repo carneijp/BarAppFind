@@ -51,7 +51,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             if(jaExiste) {
-                print("Já existe usuário com este CPF.")
+                print("Já existe um bar com esse nome.")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
             }
             else {
@@ -441,13 +441,7 @@ class CloudKitCRUD: ObservableObject {
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
                     
-                    for i in 0..<imageAsset.count{
-                        guard let imageURL = imageAsset[i].fileURL else { return }
-                        returnedPhotos.append(imageURL)
-                    }
-                    
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
-                    bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     
                     DispatchQueue.main.async {
