@@ -8,15 +8,18 @@
 import SwiftUI
 
 struct ReviewComponent: View {
-    let name: String
-    let stars: Int
-    let comment: String
+//    let name: String
+//    let stars: Int
+//    let comment: String
+    
+    let review: Review
     
     var body: some View {
         VStack{
             HStack{
-                Text(name)
+                Text(review.writerName)
                     .font(.system(size: 14))
+                    .padding(.top, 5)
                 Image(systemName: "star")
                 Image(systemName: "star")
                 Image(systemName: "star")
@@ -28,7 +31,7 @@ struct ReviewComponent: View {
             }
             .padding(.vertical, 5)
             HStack {
-                Text(comment)
+                Text(review.description)
                     .font(.system(size: 12))
                     .padding(.bottom, 10)
                 Spacer()
@@ -42,6 +45,6 @@ struct ReviewComponent: View {
 
 struct ReviewComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewComponent(name: "Eduardo", stars: 3, comment: "Ameiii muito bom o lugar, recomendo! Somente tinha muito álcool no meu drink kkkk")
+        ReviewComponent(review: Review(writerEmail: "aa", writerName: "Eduardo", grade: 3, description: "muiro bom", barName: "aa"))
     }
 }

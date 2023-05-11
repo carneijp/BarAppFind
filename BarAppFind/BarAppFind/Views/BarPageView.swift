@@ -12,13 +12,13 @@ import MapKit
 struct BarPageView: View {
     var barname: String
     
-    let contacts = [
-      "John",
-      "Ashley",
-      "Bobby",
-      "Jimmy",
-      "Fredie"
-    ]
+//    let contacts = [
+//      "John",
+//      "Ashley",
+//      "Bobby",
+//      "Jimmy",
+//      "Fredie"
+//    ]
     
     enum ChoiceBar {
         case barName, info, review
@@ -90,7 +90,7 @@ struct BarPageView: View {
         }
     }
     
-    @State var review: String = ""
+//    @State var review: String = ""
     
     @State var topBarChoice: ChoiceBar = .barName
     
@@ -100,6 +100,8 @@ struct BarPageView: View {
     
     @State var isShowingWorkingHours: Bool = true
     
+    @State var bar: Bar?
+    
     @EnvironmentObject var cloud: CloudKitCRUD
     
     
@@ -107,10 +109,13 @@ struct BarPageView: View {
     var body: some View {
         
         VStack{
-            Image("bakground")
-                .resizable()
-                .scaledToFit()
-                .padding(.bottom, 10)
+            
+            if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+                    .padding(.bottom, 10)
+            }
             
             //MARK: tabBar
             HStack{
@@ -189,101 +194,92 @@ struct BarPageView: View {
                     
                 //MARK: Sobre o lugar
                 case .barName:
-                    VStack {
-                        HStack{
-                            Text("Deusa Bar")
-                                .font(.title2)
-                                .bold()
-                                .padding(.trailing)
-                            
-                            Image(systemName: "star.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 15)
-                            
-                            Text("4,6")
-                                .font(.system(size: 14))
-                            
-                            Spacer()
-                            Image(systemName: "heart")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 15)
-                                .padding(.trailing, 15)
-                            
-                        }
-                        .padding(.top)
-                        
-  
-                        
-                        HStack {
-                            Text("Bar com ótimos drinks, atuando junto aos clientes desde 2015. Contamos com diversas opções de drinks e petiscos.")
-                                .font(.system(size: 16))
-                                .lineLimit(nil)
-                                .fixedSize(horizontal: false, vertical: true)
+                    ScrollView{
+                        VStack {
+                            HStack{
+                                Text("\(bar?.name ?? "Loading...")")
+                                    .font(.title2)
+                                    .bold()
+                                    .padding(.trailing)
+                                
+                                Image(systemName: "star.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 15)
+//                                Text("\(bar?.grade ?? 0.0)")
+                                Text(String(format: "%.1f", bar?.grade ?? 0.0))
+                                //                            Text(String(format: "%.1f", bar?.grade))
+                                //                            Text("\(String(format: "%.1f", bar?.grade)) ?? String(0.0)")
+                                    .font(.system(size: 14))
+                                
                                 Spacer()
-                        }
-                        .padding(.bottom)
+                                Image(systemName: "heart")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 15)
+                                    .padding(.trailing, 15)
+                                
+                            }
+                            .padding(.top)
                             
-                        
-                        HStack{
-                            createCustomIcon(imageName: "Instagram", text: "Instagram")
-                                    
                             
+                            
+                            HStack {
+                                Text("\(bar?.description ?? "Loading...")")
+                                    .font(.system(size: 16))
+                                    .lineLimit(nil)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Spacer()
+                            }
+                            .padding(.bottom)
+                            
+                            
+                            HStack{
+                                createCustomIcon(imageName: "Instagram", text: "Instagram")
+                                
+                                
                                 createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
+                                
+                                Spacer()
+                            }
+                            .padding(.bottom)
                             
-                            Spacer()
-                        }
-                        .padding(.bottom)
-                        
-                        HStack {
-                            Text("Boa escolha para ...")
-                                .font(.system(size: 14))
-                            Spacer()
-                        }
-                        
-                        HStack{
+                            HStack {
+                                Text("Boa escolha para ...")
+                                    .font(.system(size: 14))
+                                Spacer()
+                            }
                             
-                            MoodComponent(mood: "mood")
-                            MoodComponent(mood: "mood")
-                            MoodComponent(mood: "mood")
+                            HStack{
+                                if let moods = bar?.mood{
+                                    ForEach(moods, id:\.self){ mood in
+                                        MoodComponent(mood: mood)
+                                    }
+                                }
+                            }
+                            
+                            HStack {
+                                Text("Sobre o ambiente")
+                                    .font(.system(size:20))
+                                    .bold()
+                                Spacer()
+                            }
+                            .padding(.vertical)
+                            
+                            HStack{
+                                createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
+                                createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
+                                Spacer()
+                            }
+                            
                         }
-                        
-                        HStack {
-                            Text("Sobre o ambiente")
-                                .font(.system(size:20))
-                            .bold()
-                            Spacer()
-                        }
-                        .padding(.vertical)
-                        
-                        HStack{
-                            createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
-                            createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
-                            Spacer()
-                        }
-                        
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
-                    
                 //MARK: Informações
                 case .info:
                     ScrollView{
                         
-                        Flemis(workingHours: cloud.chossenBar[0].operatinHours )
-//                        NavigationView {
-//                            VStack {
-//                                List{
-//                                    Section("Horários de atendimento") {
-//                                        ForEach(contacts, id: \.self){ contact in
-//                                            Text(contact)
-//                                        }
-//                                    }
-//                                    .listRowSeparator(.hidden)
-//                                }
-//                                .scrollContentBackground(.hidden)
-//                            }
-//                        }
+                        Flemis(workingHours: bar?.operatinHours ?? [] )
                         
                         
                         HStack {
@@ -293,7 +289,7 @@ struct BarPageView: View {
                             Spacer()
                         }
                         HStack {
-                            Text("Avenida Ipiranga, 6681 - Partenon 90719-303")
+                            Text("\(bar?.endereco ?? "Loading ...")")
                                 .lineLimit(nil)
                             .multilineTextAlignment(.leading)
 
@@ -326,59 +322,14 @@ struct BarPageView: View {
                 //MARK: Avaliações
                 case .review:
                     ScrollView{
-                        HStack {
-                            Text("Queremos a sua avaliação")
-                                .font(.system(size: 20))
-                                .bold()
-                                .padding(.vertical)
-                            
-                            Spacer()
+                        TextFieldComponent(barName: self.barname)                        
+                        //fazer tela vazia se nao tiver review
+                        ForEach(cloud.reviewListByBar, id: \.self){ review in
+                            ReviewComponent(review: review)
                         }
-                        
-                        HStack{
-                            Image(systemName: "star")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 24)
-                            
-                            Image(systemName: "star")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 24)
-                            
-                            Image(systemName: "star")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 24)
-                            
-                            Image(systemName: "star")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 24)
-                            
-                            Image(systemName: "star")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 24)
-                            Spacer()
-                        }
-                            .padding(.bottom)
-                        
-                        
-//                        HStack {
-//                            Text("Escreva aqui")
-//                                .font(.system(size: 14))
-//                            Spacer()
-//                        }
-                        TextField("Escreva aqui", text: $review)
-//                            .font(Font.system(size: 14))
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray))
-                            .foregroundColor(.black)
-                            .frame(width: 342, height: 104)
-                        
                     }
                     .padding(.horizontal)
+                    
                     
                     
    
@@ -390,9 +341,12 @@ struct BarPageView: View {
             Spacer()
         }
         .onAppear(){
-            cloud.fetchBars(barName: barname)
+            cloud.fetchBar(barName: barname) { bar in
+                self.bar = bar
+            }
+            cloud.fetchItemsReview(barName: barname)
         }
-        .navigationBarTitle("Deusa Bar", displayMode: .inline)
+        .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
     }
 }
 
@@ -411,7 +365,7 @@ struct Flemis: View {
     var body: some View {
         VStack {
             HStack {
-                Text("adsosakdiasda")
+                Text("Horário de Atendimento")
                 
                 Spacer()
                 

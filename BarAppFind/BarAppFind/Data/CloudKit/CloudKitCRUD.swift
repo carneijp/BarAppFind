@@ -10,7 +10,6 @@ class CloudKitCRUD: ObservableObject {
     @Published var barsList: [Bar] = []
     @Published var reviewListByBar: [Review] = []
     @Published var client: Clients?
-    @Published var chossenBar: [Bar] = []
     
     
     private func saveItemPublic(record: CKRecord) {
@@ -477,7 +476,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func fetchBars(barName: String) {
+    func fetchBar(barName: String, completion: @escaping (Bar?) -> Void) {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
@@ -510,16 +509,13 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
-                    DispatchQueue.main.async {
-                        self.chossenBar = [bar]
-                    }
+                    completion(bar)
                 case .failure(let error):
                     print("Error matched block error\(error)")
+                    completion(nil)
                 }
             }
         }
         addDataBaseOperation(operation: queryOperation)
     }
-    
-    
 }
