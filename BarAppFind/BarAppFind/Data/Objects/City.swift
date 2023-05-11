@@ -77,7 +77,7 @@ class Bar: ObservableObject, Hashable, Identifiable {
     
 }
 
-struct Review {
+struct Review: Hashable{    
     var writerEmail: String
     var writerName: String
     var grade: Double
