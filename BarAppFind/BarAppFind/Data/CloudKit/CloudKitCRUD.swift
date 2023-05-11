@@ -3,8 +3,6 @@ import SwiftUI
 import Foundation
 
 
-
-
 class CloudKitCRUD: ObservableObject {
     
     @Published var barsList: [Bar] = []

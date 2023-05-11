@@ -15,7 +15,7 @@ struct MapView: View {
     var body: some View {
         Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
             .onAppear {
-                viewModel.chekIfLocationService()
+                viewModel.wheretoZoom()
             }
             .navigationTitle("Map")
     }
