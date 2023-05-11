@@ -12,6 +12,8 @@ import MapKit
 struct BarPageView: View {
     var barname: String
     
+    private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
+    
 //    let contacts = [
 //      "John",
 //      "Ashley",
@@ -64,9 +66,9 @@ struct BarPageView: View {
     
     //Criar icone de ambiente a partir de uma imagem do sistema (climatizado)
     @ViewBuilder
-    func createAmbientIconSystem(ambientText: String, imageName: String) -> some View{
+    func createAmbientIcon(ambientText: String) -> some View{
         VStack{
-            Image(systemName: imageName)
+            Image(ambient[ambientText, default: ""])
                 .resizable()
                 .scaledToFit()
                 .frame(width: 35, height: 31)
@@ -77,18 +79,18 @@ struct BarPageView: View {
     }
     
     //Criar icone de ambiente a partir de uma imagem qualquer (estacionamento)
-    @ViewBuilder
-    func createAmbientIconCustom(ambientText: String, imageName: String) -> some View{
-        VStack{
-            Image(imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: 35, height: 31)
-            
-            Text(ambientText)
-                .font(.system(size: 6))
-        }
-    }
+//    @ViewBuilder
+//    func createAmbientIconCustom(ambientText: String, imageName: String) -> some View{
+//        VStack{
+//            Image(imageName)
+//                .resizable()
+//                .scaledToFit()
+//                .frame(width: 35, height: 31)
+//
+//            Text(ambientText)
+//                .font(.system(size: 6))
+//        }
+//    }
     
 //    @State var review: String = ""
     
@@ -108,94 +110,94 @@ struct BarPageView: View {
     
     var body: some View {
         
-        VStack{
-            
-            if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.bottom, 10)
-            }
-            
-            //MARK: tabBar
-            HStack{
-                //sobre o lugar
-                Group{
-                    if isBarName{
-                        Text("Sobre o lugar")
-                            .font(.system(size: 14))
-                            .foregroundColor(.black)
-                            .underline()
-                            .bold()
-                    }else{
-                        Text("Sobre o lugar")
-                            .font(.system(size: 14))
+        ScrollView {
+            VStack{
+                
+                if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.bottom, 10)
+                }
+                
+                //MARK: tabBar
+                HStack{
+                    //sobre o lugar
+                    Group{
+                        if isBarName{
+                            Text("Sobre o lugar")
+                                .font(.system(size: 14))
+                                .foregroundColor(.black)
+                                .underline()
+                                .bold()
+                        }else{
+                            Text("Sobre o lugar")
+                                .font(.system(size: 14))
 
-                            .foregroundColor(.gray)
-                            .onTapGesture {
-                                self.topBarChoice = .barName
-                                isBarName = true
-                                isInfo = false
-                                isReview = false
-                            }
+                                .foregroundColor(.gray)
+                                .onTapGesture {
+                                    self.topBarChoice = .barName
+                                    isBarName = true
+                                    isInfo = false
+                                    isReview = false
+                                }
+                        }
                     }
-                }
-                
-                //Informações
-                Group{
-                    if isInfo{
-                        Text("Informações")
-                            .font(.system(size: 14))
-                            .padding(.leading, 40)
-                            .foregroundColor(.black)
-                            .underline()
-                            .bold()
-                    }else{
-                        Text("Informações")
-                            .font(.system(size: 14))
-                            .padding(.leading, 40)
-                            .foregroundColor(.gray)
-                            .onTapGesture {
-                                self.topBarChoice = .info
-                                isBarName = false
-                                isInfo = true
-                                isReview = false
-                            }
-                    }
-                }
-                
-                //Avaliações
-                Group{
-                    if isReview{
-                        Text("Avaliações")
-                            .padding(.leading, 40)
-                            .font(.system(size: 14))
-                            .foregroundColor(.black)
-                            .underline()
-                            .bold()
-                    }else{
-                        Text("Avaliações")
-                            .font(.system(size: 14))
-                            .padding(.leading, 40)
-                            .foregroundColor(.gray)
-                            .onTapGesture {
-                                self.topBarChoice = .review
-                                isBarName = false
-                                isInfo = false
-                                isReview = true
-                            }
-                    }
-                }
-                
-            }
-            
-            //Escolhas TabBar
-            switch topBarChoice{
                     
-                //MARK: Sobre o lugar
-                case .barName:
-                    ScrollView{
-                        VStack {
+                    //Informações
+                    Group{
+                        if isInfo{
+                            Text("Informações")
+                                .font(.system(size: 14))
+                                .padding(.leading, 40)
+                                .foregroundColor(.black)
+                                .underline()
+                                .bold()
+                        }else{
+                            Text("Informações")
+                                .font(.system(size: 14))
+                                .padding(.leading, 40)
+                                .foregroundColor(.gray)
+                                .onTapGesture {
+                                    self.topBarChoice = .info
+                                    isBarName = false
+                                    isInfo = true
+                                    isReview = false
+                                }
+                        }
+                    }
+                    
+                    //Avaliações
+                    Group{
+                        if isReview{
+                            Text("Avaliações")
+                                .padding(.leading, 40)
+                                .font(.system(size: 14))
+                                .foregroundColor(.black)
+                                .underline()
+                                .bold()
+                        }else{
+                            Text("Avaliações")
+                                .font(.system(size: 14))
+                                .padding(.leading, 40)
+                                .foregroundColor(.gray)
+                                .onTapGesture {
+                                    self.topBarChoice = .review
+                                    isBarName = false
+                                    isInfo = false
+                                    isReview = true
+                                }
+                        }
+                    }
+                    
+                }
+                
+                //Escolhas TabBar
+                switch topBarChoice{
+                        
+                        //MARK: Sobre o lugar
+                    case .barName:
+                        VStack(alignment: .leading) {
                             HStack{
                                 Text("\(bar?.name ?? "Loading...")")
                                     .font(.title2)
@@ -206,10 +208,7 @@ struct BarPageView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 15)
-//                                Text("\(bar?.grade ?? 0.0)")
                                 Text(String(format: "%.1f", bar?.grade ?? 0.0))
-                                //                            Text(String(format: "%.1f", bar?.grade))
-                                //                            Text("\(String(format: "%.1f", bar?.grade)) ?? String(0.0)")
                                     .font(.system(size: 14))
                                 
                                 Spacer()
@@ -223,15 +222,11 @@ struct BarPageView: View {
                             .padding(.top)
                             
                             
-                            
-                            HStack {
-                                Text("\(bar?.description ?? "Loading...")")
-                                    .font(.system(size: 16))
-                                    .lineLimit(nil)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                Spacer()
-                            }
-                            .padding(.bottom)
+                            Text("\(bar?.description ?? "Loading...")")
+                                .font(.system(size: 16))
+                                .lineLimit(nil)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(.bottom)
                             
                             
                             HStack{
@@ -239,16 +234,12 @@ struct BarPageView: View {
                                 
                                 
                                 createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
-                                
-                                Spacer()
                             }
                             .padding(.bottom)
                             
-                            HStack {
-                                Text("Boa escolha para ...")
-                                    .font(.system(size: 14))
-                                Spacer()
-                            }
+                            Text("Boa escolha para ...")
+                                .font(.system(size: 14))
+                                .padding(.bottom)
                             
                             HStack{
                                 if let moods = bar?.mood{
@@ -267,86 +258,89 @@ struct BarPageView: View {
                             .padding(.vertical)
                             
                             HStack{
-                                createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
-                                createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
-                                Spacer()
+                                //                                    createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
+                                //                                    createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
+                                //                                    ForEach(bar?.caracteristicas, id: \.self){ caracteristica in
+                                if let caracteristicas = bar?.caracteristicas{
+                                    ForEach(caracteristicas, id:\.self){ caracteristica in
+                                        createAmbientIcon(ambientText: caracteristica)
+                                    }
+                                }
                             }
-                            
                         }
-                        .padding(.horizontal)
-                    }
-                //MARK: Informações
-                case .info:
-                    ScrollView{
+                            .padding(.horizontal)
                         
-                        Flemis(workingHours: bar?.operatinHours ?? [] )
-                        
-                        
-                        HStack {
+                    //MARK: Informações
+                    case .info:
+                        VStack(alignment: .leading){
+                            
+                            Flemis(workingHours: bar?.operatinHours ?? [] )
+                            
+                            
                             Text("Endereço")
                                 .font(.system(size: 20))
-                            .bold()
-                            Spacer()
+                                .bold()
+                                .padding(.vertical)
+                            HStack {
+                                Text("\(bar?.endereco ?? "Loading ...")")
+                                    .lineLimit(nil)
+                                .multilineTextAlignment(.leading)
+
+                                Spacer()
+                            }
+
+                            MapView()
+                                .frame(width: 342, height: 129)
+
+                            HStack{
+                                Image(systemName: "car.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 29)
+                                    .padding(.leading)
+
+                                Spacer()
+
+                                Text("Abrir no uber")
+
+                                Spacer()
+                            }
+                            .frame(height: 41)
+                            .background(Color.gray)
+                            .cornerRadius(10)
                         }
-                        HStack {
-                            Text("\(bar?.endereco ?? "Loading ...")")
-                                .lineLimit(nil)
-                            .multilineTextAlignment(.leading)
-
-                            Spacer()
+    //                    .background(Color.green)
+                            .padding(.horizontal)
+                        
+                    //MARK: Avaliações
+                    case .review:
+                        ScrollView{
+                            TextFieldComponent(barName: self.barname)
+                            //fazer tela vazia se nao tiver review
+                            ForEach(cloud.reviewListByBar, id: \.self){ review in
+                                ReviewComponent(review: review)
+                            }
                         }
-
-                        MapView()
-                            .frame(width: 342, height: 129)
-
-                        HStack{
-                            Image(systemName: "car.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 29)
-                                .padding(.leading)
-
-                            Spacer()
-
-                            Text("Abrir no uber")
-
-                            Spacer()
-                        }
-                        .frame(height: 41)
-                        .background(Color.gray)
-                        .cornerRadius(10)
-                    }
-//                    .background(Color.green)
                         .padding(.horizontal)
-                    
-                //MARK: Avaliações
-                case .review:
-                    ScrollView{
-                        TextFieldComponent(barName: self.barname)                        
-                        //fazer tela vazia se nao tiver review
-                        ForEach(cloud.reviewListByBar, id: \.self){ review in
-                            ReviewComponent(review: review)
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    
-                    
-   
-            }
+                        
+                        
+                        
+       
+                }
 
-            
-            
-            
-            Spacer()
-        }
-        .onAppear(){
-            cloud.fetchBar(barName: barname) { bar in
-                self.bar = bar
+                
+                
+                
+                Spacer()
             }
-            cloud.fetchItemsReview(barName: barname)
-        }
+            .onAppear(){
+                cloud.fetchBar(barName: barname) { bar in
+                    self.bar = bar
+                }
+                cloud.fetchItemsReview(barName: barname)
+            }
         .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+        }
     }
 }
 
@@ -363,10 +357,13 @@ struct Flemis: View {
     var workingHours: [String]
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 Text("Horário de Atendimento")
-                
+                    .font(.system(size: 20))
+                    .bold()
+                    .padding(.top)
+                    .padding(.bottom, 5)
                 Spacer()
                 
                 Button(action: {

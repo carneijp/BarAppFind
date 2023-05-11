@@ -112,9 +112,9 @@
 		85285DFA2A01A00100139191 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				6CC1121A2A04334B0009C2BC /* BarPageView.swift */,
 				851D894D29FDE7A900282473 /* HomeView.swift */,
 				824266932A0BD1C100E5F186 /* BarListView.swift */,
-				6CC1121A2A04334B0009C2BC /* BarPageView.swift */,
 				851D895129FDE7C900282473 /* BucketListView.swift */,
 				851D895329FDE7D900282473 /* ProfileView.swift */,
 				851D894F29FDE7B900282473 /* MapView.swift */,

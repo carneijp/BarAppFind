@@ -14,9 +14,10 @@ struct TextFieldComponent: View {
     let barName: String
     
     var body: some View {
-        VStack(alignment: .leading){
+        VStack(alignment: .leading) {
             Text("Queremos sua avaliação")
             
+            // estrelas
             HStack {
                 ForEach(1..<6){ i in
                     Button(){
@@ -36,54 +37,51 @@ struct TextFieldComponent: View {
             }
             .padding(.top)
             
+            // input do usuário
             TextField("Escreva aqui", text: $review)
-            //                            .font(Font.system(size: 14))
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray))
                 .foregroundColor(.black)
                 .frame(width: 342, height: 104)
 
-            HStack{
-                Spacer()
-                
-                Text("Cancelar")
-                    .padding()
-                    .background(Color.gray)
-                    .cornerRadius(10)
-                    .onTapGesture {
-                        review = ""
-                        grade = 0.0
-                        print("aa")
-                    }
-                
-                Spacer()
-                Button(){
-                    if self.grade > 0.0 && self.review != ""{
-                        if let client = cloud.client {
-                            cloud.addReview(review: Review(writerEmail: client.email, writerName: client.firstName, grade: self.grade, description: self.review, barName: self.barName))
-                            
+            HStack(spacing: 20) {
+                Group {
+                    Text("Cancelar")
+                        .onTapGesture {
+                            review = ""
+                            grade = 0.0
+                            print("aa")
                         }
-//                        else{
-//                                LoginAlertComponent()
-//                            }
-                    }
-                }label: {
-                    Text("Enviar")
-                        .foregroundColor(.black)
-                        .padding()
+                        .frame(maxWidth: .infinity)
                         .background(Color.gray)
                         .cornerRadius(10)
-                }
-                
-
                     
-                
-                Spacer()
+                    Button(){
+                        if self.grade > 0.0 && self.review != ""{
+                            if let client = cloud.client {
+                                cloud.addReview(review: Review(writerEmail: client.email, writerName: client.firstName, grade: self.grade, description: self.review, barName: self.barName))
+                                
+                            }
+                            //                        else{
+                            //                                LoginAlertComponent()
+                            //                            }
+                        }
+                    } label: {
+                        Text("Enviar")
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.gray)
+                            .cornerRadius(10)
+                    }
+                }
+                .padding(.horizontal, 10)
             }
-            
-            
+            .background(.blue)
+  
         }
-        .padding()
+//        .padding()
+//        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .background(.red)
     }
 }
 
