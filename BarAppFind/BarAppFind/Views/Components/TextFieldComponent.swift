@@ -15,7 +15,7 @@ struct TextFieldComponent: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-//            Spacer()
+            //            Spacer()
             Text("Queremos sua avaliação")
                 .font(.system(size: 20))
                 .bold()
@@ -46,9 +46,9 @@ struct TextFieldComponent: View {
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray))
                 .foregroundColor(.black)
-//                .padding()
-//                .frame(width: 342, height: 104)
-
+            //                .padding()
+            //                .frame(width: 342, height: 104)
+            
             HStack() {
                 Group {
                     Button(){
@@ -61,8 +61,7 @@ struct TextFieldComponent: View {
                             .background(Color.gray)
                             .cornerRadius(10)
                     }
-                    
-Spacer()
+                    Spacer()
                     Button(){
                         if self.grade > 0.0 && self.review != ""{
                             if let client = cloud.client {
@@ -79,9 +78,9 @@ Spacer()
                     }
                 }
             }
-//            Spacer()
+            //            Spacer()
         }
-        .padding(.horizontal)
+        //        .padding(.horizontal)
     }
 }
 
