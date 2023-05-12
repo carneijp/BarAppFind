@@ -284,7 +284,6 @@ class CloudKitCRUD: ObservableObject {
     }
     
     func fetchItemsReview(nickName: String, cursor: CKQueryOperation.Cursor? = nil) {
-        
         if(cursor == nil) {
             self.reviewListByBar = []
         }
@@ -562,6 +561,7 @@ class CloudKitCRUD: ObservableObject {
                 switch returnedResult{
                 case .success(let record):
                     record["Favorites"] = listFavorites
+                    self.saveItemPublic(record: record)
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
@@ -583,6 +583,7 @@ class CloudKitCRUD: ObservableObject {
                 switch returnedResult{
                 case .success(let record):
                     record["Level"] = level
+                    self.saveItemPublic(record: record)
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
