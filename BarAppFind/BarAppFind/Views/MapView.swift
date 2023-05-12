@@ -19,9 +19,9 @@ struct MapView: View {
     
     var body: some View {
         ZStack{
+            
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 .onAppear {
-                    //                    viewModel.chekIfLocationService()
                         viewModel.wheretoZoom()
                 }
                 .onChange(of: viewModel.chosen) { newValue in
@@ -31,7 +31,7 @@ struct MapView: View {
                 VStack{
                     ComponenteLargeMap(chosen: $viewModel.chosen)
                         .environmentObject(viewModel)
-                        .padding()
+//                        .padding()
                     Spacer()
                 }
             }
@@ -47,29 +47,32 @@ struct ComponenteLargeMap: View {
     
     var body: some View {
         VStack{
-            Text("Bairros")
-            menu
-            Spacer()
-            HStack{
-                Spacer()
-                Button{
-                    chosen = nil
-                    viewModel.wheretoZoom()
-                    
-                }label: {
-                    Image(systemName: "location.circle.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .scaledToFit()
-                }.padding(.bottom)
+            
+            VStack{
+                //                VStack{
+                Text("Bairros")
+                    .font(.title2)
+                    .bold()
+                menu
+                    .shadow(radius: 5)
+                    .padding()
+                
+            }.background(Color.white)
+            if showListMenu{
+                listViewModel(showListMenu: $showListMenu, chosen: $viewModel.chosen)
+                    .padding(.horizontal)
             }
+            Spacer()
+            buttonUser
+            
         }
+
     }
 }
 
 
 extension ComponenteLargeMap {
-    private var menu: some View{
+    private var menu: some View {
         VStack(){
             Button{
                 showListMenu.toggle()
@@ -90,13 +93,26 @@ extension ComponenteLargeMap {
                     }
                     .padding(.horizontal)
             }
-            if showListMenu{
-                listViewModel(showListMenu: $showListMenu, chosen: $viewModel.chosen)
-            }
             
         }
         .background(Color(.white))
         .cornerRadius(10)
+    }
+    
+    private var buttonUser: some View {
+        HStack{
+            Spacer()
+            Button{
+                chosen = nil
+                viewModel.wheretoZoom()
+                
+            }label: {
+                Image(systemName: "location.circle.fill")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .scaledToFit()
+            }.padding(.bottom)
+        }
     }
 }
 
@@ -106,26 +122,35 @@ struct listViewModel: View{
     @EnvironmentObject var viewModel: MapViewModel
     var body: some View{
         List{
-            Text("Cidade Baixa")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .onTapGesture {
-                    chosen = .cidadeBaixaCoordinate
-                    showListMenu = false
-                }
-            Text("Quarto Distrito")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .onTapGesture {
-                    chosen = .quartoDistritoCoordinate
-                    showListMenu = false
-                }
-            Text("Bom Fim")
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .onTapGesture {
-                    chosen = .bomFimCoordinate
-                    showListMenu = false
-                }
+            Button{
+                chosen = .quartoDistritoCoordinate
+                showListMenu = false
+            }label: {
+                Text("Quarto Distrito")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .listRowSeparator(.hidden)
+
+            Button{
+                chosen = .cidadeBaixaCoordinate
+                showListMenu = false
+            }label: {
+                Text("Cidade Baixa")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .listRowSeparator(.hidden)
+
+            Button{
+                chosen = .bomFimCoordinate
+                showListMenu = false
+            }label: {
+                Text("Bom Fim")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .listRowSeparator(.hidden)
         }
         .listStyle(PlainListStyle())
+        .frame(maxHeight: 140)
     }
 }
 
