@@ -18,7 +18,7 @@ struct GeneralTab: View {
                 Label("Home", systemImage: "house.fill")
             }
             NavigationStack{
-                MapView()
+                MapView(mapStyle: .large)
             }
             .tabItem{
                 Label("Map", systemImage: "map.fill")

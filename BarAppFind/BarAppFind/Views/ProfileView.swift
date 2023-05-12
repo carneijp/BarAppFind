@@ -25,7 +25,7 @@ struct ProfileView: View {
         
         ZStack {
             VStack {
-
+                
                 // MARK: - Header
                 Text("Fala, barzeiro! 🤪🤟")
                     .bold()
@@ -47,7 +47,7 @@ struct ProfileView: View {
                 }
                 .foregroundColor(.primary)
                 .padding(.bottom, 40)
-
+                
                 // MARK: - Tab Bar
                 HStack {
                     Group {
@@ -93,7 +93,7 @@ struct ProfileView: View {
                                     .foregroundColor(.primary)
                             }
                             .padding(.trailing, 24)
-
+                            
                         } else {
                             VStack {
                                 Text("Editar Perfil")
@@ -106,7 +106,7 @@ struct ProfileView: View {
                                     }
                             }
                             .padding(.trailing, 24)
-
+                            
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width/2)
@@ -161,7 +161,7 @@ struct ProfileView: View {
                         .padding(.top, 32)
                         .padding(.horizontal, 24)
                     }
-
+                    
                 case .profileEdit:
                     HStack {
                         Text("Detalhes da conta")
