@@ -512,8 +512,6 @@ class CloudKitCRUD: ObservableObject {
         }
         addDataBaseOperation(operation: queryOperation)
     }
-<<<<<<< HEAD
-    
     func addFavoriteBar(client: Clients, barName: String){
         let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(client.email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
@@ -590,6 +588,4 @@ class CloudKitCRUD: ObservableObject {
         
         addDataBaseOperation(operation: queryOperation)
     }
-=======
->>>>>>> featBarPage
 }
