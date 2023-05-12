@@ -60,12 +60,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func chekIfLocationService() {
-        DispatchQueue.global(qos: .background).async {
+        
+        DispatchQueue.global(qos: .userInitiated).async {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager = CLLocationManager()
                 self.locationManager!.delegate = self
-                self.checkLocationPermission()
-            } else {
+            }else{
                 print("location servise desable, please enable for a better experience.")
             }
         }
