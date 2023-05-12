@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct ModalComponent: View {
+    @EnvironmentObject var cloud: CloudKitCRUD
     @Environment(\.presentationMode) var presentation
+    @State private var email: String = ""
+    @State private var firstName: String = ""
+    @State private var lastName: String = ""
+    @State private var password: String = ""
+
     
     var body: some View {
         VStack {
@@ -38,36 +44,71 @@ struct ModalComponent: View {
                 .clipShape(Circle())
                 .frame(width: 200, height: 200)
             
-            Button {
-                
-            } label: {
-                HStack(spacing: 14) {
-                    Image(systemName: "apple.logo")
-                    
-                    Text("Login com Apple")
-                        .bold()
-                        .font(.system(size: 17))
-                }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 10)
-            .background(.tertiary.opacity(0.3))
-            .foregroundColor(.primary)
-            .cornerRadius(100)
-            .padding(.bottom, 20)
-
-            Text("ou")
-                .font(.system(size: 18))
-                .padding(.bottom, 20)
+            TextField("Digite o seu e-mail", text: $email)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .padding(.all)
+                .border(.secondary)
+                .padding(.horizontal)
             
-            Button {
-                
-            } label: {
-                Text("Login com e-mail")
-                    .underline()
-                    .font(.system(size: 18))
+            TextField("Nome", text: $firstName)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .padding(.all)
+                .border(.secondary)
+                .padding(.horizontal)
+            
+            TextField("Sobrenome", text: $lastName)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .padding(.all)
+                .border(.secondary)
+                .padding(.horizontal)
+            
+            TextField("Senha", text: $password)
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .padding(.all)
+                .border(.secondary)
+                .padding(.horizontal)
+            
+            Button{
+                cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName))
+            }label: {
+                Text("CRIAR")
             }
-            .foregroundColor(.primary)
+
+            
+//            Button {
+//
+//            } label: {
+//                HStack(spacing: 14) {
+//                    Image(systemName: "apple.logo")
+//
+//                    Text("Login com Apple")
+//                        .bold()
+//                        .font(.system(size: 17))
+//                }
+//            }
+//            .padding(.horizontal, 24)
+//            .padding(.vertical, 10)
+//            .background(.tertiary.opacity(0.3))
+//            .foregroundColor(.primary)
+//            .cornerRadius(100)
+//            .padding(.bottom, 20)
+//
+//            Text("ou")
+//                .font(.system(size: 18))
+//                .padding(.bottom, 20)
+//
+//            Button {
+//
+//            } label: {
+//                Text("Login com e-mail")
+//                    .underline()
+//                    .font(.system(size: 18))
+//            }
+//            .foregroundColor(.primary)
 
             
             
