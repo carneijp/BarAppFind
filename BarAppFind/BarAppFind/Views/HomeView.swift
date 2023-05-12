@@ -13,6 +13,8 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
+            
+            // Logo
             HStack {
                 Spacer()
                 LogoComponent()

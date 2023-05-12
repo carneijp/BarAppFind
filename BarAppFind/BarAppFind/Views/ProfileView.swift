@@ -9,9 +9,13 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var cloud: CloudKitCRUD
-    @State var topProfileChoice: ChoiceProfile = .myConquests
-    @State var isMyConquests: Bool = true
-    @State var isProfileEdit: Bool = false
+    @State private var topProfileChoice: ChoiceProfile = .myConquests
+    @State private var isMyConquests: Bool = true
+    @State private var isProfileEdit: Bool = false
+    @State private var isPresented: Bool = false
+    @State private var showModal: Bool = false
+    @State private var showModalConquest: Bool = false
+    @State private var arrowDirection: ArrowDirection = .up
     
     enum ChoiceProfile {
         case myConquests, profileEdit
@@ -19,49 +23,61 @@ struct ProfileView: View {
     
     var body: some View {
         
-        VStack {
-            
-            // MARK: - Header
-            Text("Fala, barzeiro! 🤪🤟")
-                .bold()
-                .font(.system(size: 26))
+        ZStack {
+            VStack {
+
+                // MARK: - Header
+                Text("Fala, barzeiro! 🤪🤟")
+                    .bold()
+                    .font(.system(size: 26))
+                    .padding(.bottom, 30)
+                
+                
+                Button {
+                    showModal = true
+                } label: {
+                    HStack {
+                        Text("Cadastre-se aqui")
+                    }
+                    .padding(.all)
+                    .frame(width: UIScreen.main.bounds.width - 180)
+                    .background()
+                    .cornerRadius(8)
+                    .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
+                }
+                .foregroundColor(.primary)
                 .padding(.bottom, 40)
-            
-            Text("Cadastre-se aqui")
-                .padding(.bottom, 40)
-            
-            
-            
-            // MARK: - Tab Bar
-            GeometryReader { geo in
+
+                // MARK: - Tab Bar
                 HStack {
                     Group {
                         if isMyConquests {
                             VStack(spacing: 4) {
                                 Text("Minhas Conquistas")
                                     .foregroundColor(.primary)
+                                    .font(.system(size: 14))
                                 
                                 Rectangle()
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
                             }
-                            .padding(.leading, 14)
-                            .frame(width: geo.frame(in: .global).width/2)
+                            .padding(.leading, 24)
                             
                         } else {
                             VStack {
                                 Text("Minhas Conquistas")
                                     .foregroundColor(.secondary)
+                                    .font(.system(size: 14))
                                     .onTapGesture {
                                         self.topProfileChoice = .myConquests
                                         isMyConquests = true
                                         isProfileEdit = false
                                     }
                             }
-                            .padding(.leading, 14)
-                            .frame(width: geo.frame(in: .global).width/2)
+                            .padding(.leading, 24)
                         }
                     }
+                    .frame(width: UIScreen.main.bounds.width/2)
                     
                     Spacer()
                     
@@ -69,18 +85,19 @@ struct ProfileView: View {
                         if isProfileEdit {
                             VStack(spacing: 4) {
                                 Text("Editar Perfil")
+                                    .font(.system(size: 14))
                                     .foregroundColor(.primary)
                                 
                                 Rectangle()
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
                             }
-                            .padding(.horizontal, 24)
-                            .frame(width: geo.frame(in: .global).width/2)
+                            .padding(.trailing, 24)
 
                         } else {
                             VStack {
                                 Text("Editar Perfil")
+                                    .font(.system(size: 14))
                                     .foregroundColor(.secondary)
                                     .onTapGesture {
                                         self.topProfileChoice = .profileEdit
@@ -88,20 +105,121 @@ struct ProfileView: View {
                                         isProfileEdit = true
                                     }
                             }
-                            .padding(.horizontal, 24)
-                            .frame(width: geo.frame(in: .global).width/2)
+                            .padding(.trailing, 24)
 
                         }
                     }
+                    .frame(width: UIScreen.main.bounds.width/2)
+                    
                 }
+                
+                // MARK: - Conteúdo Tab Bar
+                switch topProfileChoice {
+                case .myConquests:
+                    ScrollView {
+                        VStack(spacing: 32) {
+                            
+                            //MARK: Provisório
+                            Grid(horizontalSpacing: 18) {
+                                GridRow {
+                                    MedalComponent()
+                                        .onTapGesture {
+                                            showModalConquest = true
+                                        }
+                                        .iOSPopover(showModalConquest: $showModalConquest, arrowDirection: arrowDirection.direction) {
+                                            ConquestModalComponent()
+                                                .frame(width: UIScreen.main.bounds.width - 48, height: 130)
+                                        }
+                                    
+                                    MedalComponent()
+                                }
+                            }
+                            
+                            Grid(horizontalSpacing: 18) {
+                                GridRow {
+                                    MedalComponent()
+                                    MedalComponent()
+                                }
+                            }
+                            
+                            Grid(horizontalSpacing: 18) {
+                                GridRow {
+                                    MedalComponent()
+                                    MedalComponent()
+                                }
+                            }
+                            
+                            Grid(horizontalSpacing: 18) {
+                                GridRow {
+                                    MedalComponent()
+                                    MedalComponent()
+                                }
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding(.top, 32)
+                        .padding(.horizontal, 24)
+                    }
+
+                case .profileEdit:
+                    HStack {
+                        Text("Detalhes da conta")
+                            .font(.system(size: 16))
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                        
+                    }
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 30)
+                    .background(.secondary.opacity(0.1))
+                    .cornerRadius(12)
+                    .padding(.top, 24)
+                    .padding(.horizontal, 24)
+                }
+                
+                // MARK: -
+                Spacer()
             }
+            .padding(.top, 80)
+            .sheet(isPresented: $showModal) {
+                ModalComponent()
+            }
+            
+            CustomAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
         }
-        .padding(.top, 40)
+        .onAppear() {
+            // verificar antes se o usuário está logado. Caso esteja, isPresented fica false.
+            self.isPresented = true
+        }
     }
 }
 
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
+    }
+}
+
+// MARK: Popover Arrow Direction
+enum ArrowDirection: String,CaseIterable{
+    case up = "Up"
+    case down = "Down"
+    case left = "Left"
+    case right = "Right"
+    
+    var direction: UIPopoverArrowDirection{
+        switch self {
+        case .up:
+            return .up
+        case .down:
+            return .down
+        case .left:
+            return .left
+        case .right:
+            return .right
+        }
     }
 }
