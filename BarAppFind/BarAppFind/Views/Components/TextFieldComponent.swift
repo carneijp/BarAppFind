@@ -28,12 +28,12 @@ struct TextFieldComponent: View {
                     }label: {
                         if Double(i) <= grade {
                             Image(systemName: "star.fill")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .frame(width: 26, height: 24)
                         }
                         else {
                             Image(systemName: "star")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .frame(width: 26, height: 24)
                         }
                     }
@@ -44,8 +44,8 @@ struct TextFieldComponent: View {
             TextField("Escreva aqui", text: $review, axis: .vertical)
                 .lineLimit(5, reservesSpace: true)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray))
-                .foregroundColor(.black)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
+                .foregroundColor(.primary)
             //                .padding()
             //                .frame(width: 342, height: 104)
             
@@ -56,9 +56,9 @@ struct TextFieldComponent: View {
                         grade = 0.0
                     }label: {
                         Text("Cancelar")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .frame(width: 161, height: 27)
-                            .background(Color.gray)
+                            .background(Color("gray4"))
                             .cornerRadius(10)
                     }
                     Spacer()
@@ -71,9 +71,9 @@ struct TextFieldComponent: View {
                         }
                     } label: {
                         Text("Enviar")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .frame(width: 161, height: 27)
-                            .background(Color.gray)
+                            .background(Color("gray1"))
                             .cornerRadius(10)
                     }
                 }
