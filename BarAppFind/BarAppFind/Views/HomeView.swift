@@ -117,11 +117,6 @@ struct HomeView: View {
                             }
                         }
                         .padding(.horizontal, 24)
-
-                    }
-                    
-                    ForEach(cloud.barsList, id: \.self) { bar in
-                        BarComponent()
                     }
                 }
                 
