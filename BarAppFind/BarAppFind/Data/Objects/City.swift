@@ -48,6 +48,7 @@ class Bar: ObservableObject, Hashable, Identifiable {
     var endereco: String
     var regiao: String
     
+    
     init(name: String, description: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String, caracteristicas: [String]) {
         self.name = name
         self.description = description
@@ -76,7 +77,7 @@ class Bar: ObservableObject, Hashable, Identifiable {
     
 }
 
-struct Review {
+struct Review: Hashable{    
     var writerEmail: String
     var writerName: String
     var grade: Double

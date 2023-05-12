@@ -50,7 +50,6 @@ struct HomeView: View {
                     ForEach(cloud.barsList, id: \.self) { bar in
                         BarComponent()
                     }
-                    
                 }
             }
             
