@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct BarComponent: View {
-    var bar: Bar
-    @StateObject private var cloud: CloudKitCRUD = CloudKitCRUD()
+    @State var bar: Bar
+    @EnvironmentObject var cloud: CloudKitCRUD
     
     var body: some View {
         HStack {
@@ -43,12 +43,22 @@ struct BarComponent: View {
                         Spacer()
                     }
                 }
-                
                 if let cliente = cloud.client {
-                    Image(systemName: cliente.favorites.contains(bar.name) ? "heart.fill" : "heart")
-                        .onTapGesture {
-                            cloud.addFavoriteBar(client: cliente, barName: bar.name)
-                        }
+                    if cliente.favorites.contains(bar.name){
+                        Image(systemName:"heart.fill")
+                            .onTapGesture {
+                                cloud.removeFavoriteBar(client: cliente, barName: bar.name)
+                                let referencia = cliente.favorites.firstIndex(of: bar.name)
+                                cliente.favorites.remove(at: referencia ?? -1)
+                            }
+                    }else{
+                        Image(systemName: "heart")
+                            .onTapGesture {
+                                cloud.addFavoriteBar(client: cliente, barName: bar.name)
+                                cliente.favorites.append(bar.name)
+                            }
+                    }
+                    
                 } else{
                     Image(systemName: "heart")
                         .onTapGesture {
