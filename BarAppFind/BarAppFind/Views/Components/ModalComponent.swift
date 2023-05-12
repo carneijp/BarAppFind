@@ -16,7 +16,8 @@ struct ModalComponent: View {
                 Text("Login com E-mail")
                     .font(.system(size: 16))
                 .bold()
-                .padding(.leading, 105)
+                .padding(.leading, UIScreen.main.bounds.width/3.7)
+//                .background(.blue)
                 
                 Spacer()
                 
