@@ -588,4 +588,6 @@ class CloudKitCRUD: ObservableObject {
         
         addDataBaseOperation(operation: queryOperation)
     }
+    
+    
 }

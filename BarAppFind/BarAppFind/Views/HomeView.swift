@@ -129,6 +129,7 @@ struct HomeView: View {
             if cloud.barsList.count != 10 {
                 cloud.fetchBars()
             }
+            
         }
     }
 }

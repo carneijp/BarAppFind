@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BarComponent: View {
     var bar: Bar
+    @StateObject private var cloud: CloudKitCRUD = CloudKitCRUD()
     
     var body: some View {
         HStack {
@@ -43,7 +44,19 @@ struct BarComponent: View {
                     }
                 }
                 
-                Image(systemName: "heart")
+                if let cliente = cloud.client {
+                    Image(systemName: cliente.favorites.contains(bar.name) ? "heart.fill" : "heart")
+                        .onTapGesture {
+                            cloud.addFavoriteBar(client: cliente, barName: bar.name)
+                        }
+                } else{
+                    Image(systemName: "heart")
+                        .onTapGesture {
+                            print("Voce deve estar logado para favoritar.")
+                        }
+                }
+                
+                
                 
             }
         }
