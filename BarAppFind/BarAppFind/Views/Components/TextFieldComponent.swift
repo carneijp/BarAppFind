@@ -15,7 +15,10 @@ struct TextFieldComponent: View {
     
     var body: some View {
         VStack(alignment: .leading) {
+//            Spacer()
             Text("Queremos sua avaliação")
+                .font(.system(size: 20))
+                .bold()
             
             // estrelas
             HStack {
@@ -26,62 +29,59 @@ struct TextFieldComponent: View {
                         if Double(i) <= grade {
                             Image(systemName: "star.fill")
                                 .foregroundColor(.black)
+                                .frame(width: 26, height: 24)
                         }
                         else {
                             Image(systemName: "star")
                                 .foregroundColor(.black)
+                                .frame(width: 26, height: 24)
                         }
-                            
                     }
                 }
             }
-            .padding(.top)
             
             // input do usuário
-            TextField("Escreva aqui", text: $review)
+            TextField("Escreva aqui", text: $review, axis: .vertical)
+                .lineLimit(5, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray))
                 .foregroundColor(.black)
-                .frame(width: 342, height: 104)
+//                .padding()
+//                .frame(width: 342, height: 104)
 
-            HStack(spacing: 20) {
+            HStack() {
                 Group {
-                    Text("Cancelar")
-                        .onTapGesture {
-                            review = ""
-                            grade = 0.0
-                            print("aa")
-                        }
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray)
-                        .cornerRadius(10)
+                    Button(){
+                        review = ""
+                        grade = 0.0
+                    }label: {
+                        Text("Cancelar")
+                            .foregroundColor(.black)
+                            .frame(width: 161, height: 27)
+                            .background(Color.gray)
+                            .cornerRadius(10)
+                    }
                     
+Spacer()
                     Button(){
                         if self.grade > 0.0 && self.review != ""{
                             if let client = cloud.client {
                                 cloud.addReview(review: Review(writerEmail: client.email, writerName: client.firstName, grade: self.grade, description: self.review, barName: self.barName))
                                 
                             }
-                            //                        else{
-                            //                                LoginAlertComponent()
-                            //                            }
                         }
                     } label: {
                         Text("Enviar")
                             .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
+                            .frame(width: 161, height: 27)
                             .background(Color.gray)
                             .cornerRadius(10)
                     }
                 }
-                .padding(.horizontal, 10)
             }
-            .background(.blue)
-  
+//            Spacer()
         }
-//        .padding()
-//        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        .background(.red)
+        .padding(.horizontal)
     }
 }
 
