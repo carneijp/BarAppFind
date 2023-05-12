@@ -77,13 +77,32 @@ class Bar: ObservableObject, Hashable, Identifiable {
     
 }
 
-struct Review: Hashable{    
+class Review: ObservableObject, Hashable, Identifiable {
+    
+    
     var writerEmail: String
     var writerName: String
     var grade: Double
     var description: String
     var barName: String
+    
+    init(writerEmail: String, writerName: String, grade: Double, description: String, barName: String) {
+        self.writerEmail = writerEmail
+        self.writerName = writerName
+        self.grade = grade
+        self.description = description
+        self.barName = barName
+    }
+    
+    static func == (lhs: Review, rhs: Review) -> Bool {
+        lhs.writerName == rhs.writerName
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(writerEmail)
+        hasher.combine(barName)
+    }
 }
 
-var trendings: [String] = ["trending1","trending2","trending3"]
+var trendings: [String] = ["Bibah","Brita","Quentins"]
 var moods: [String] = ["mood1","mood2","mood3","mood4","mood5","mood6"]

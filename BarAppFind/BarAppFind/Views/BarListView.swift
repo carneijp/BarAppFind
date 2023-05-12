@@ -16,7 +16,7 @@ struct BarListView: View {
             VStack {
                 ForEach(cloud.barsList, id: \.self) { bar in
                     NavigationLink {
-                        BarPageView()
+                        BarPageView(barname: bar.name)
                     } label: {
                         BarComponent(bar: bar)
                             .foregroundColor(.primary)

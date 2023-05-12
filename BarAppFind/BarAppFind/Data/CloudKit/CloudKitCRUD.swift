@@ -8,7 +8,6 @@ class CloudKitCRUD: ObservableObject {
     @Published var barsList: [Bar] = []
     @Published var reviewListByBar: [Review] = []
     @Published var client: Clients?
-    @Published var chossenBar: Bar?
     
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
@@ -471,7 +470,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func fetchBars(barName: String) {
+    func fetchBar(barName: String, completion: @escaping (Bar?) -> Void) {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
@@ -504,18 +503,15 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
-                    DispatchQueue.main.async {
-                        self.barsList.append(bar)
-                        self.chossenBar = bar
-                    }
+                    completion(bar)
                 case .failure(let error):
                     print("Error matched block error\(error)")
+                    completion(nil)
                 }
             }
         }
         addDataBaseOperation(operation: queryOperation)
     }
-    
     func addFavoriteBar(client: Clients, barName: String){
         let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(client.email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
