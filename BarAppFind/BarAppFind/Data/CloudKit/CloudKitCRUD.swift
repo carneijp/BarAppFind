@@ -20,7 +20,7 @@ class CloudKitCRUD: ObservableObject {
         CKContainer.default().publicCloudDatabase.add(operation)
     }
     
-    func addBar(bar: Bar) {
+    func addBar(bar: Bar,  completion: @escaping () -> Void) {
         var jaExiste: Bool = false
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(bar.name)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
@@ -44,68 +44,66 @@ class CloudKitCRUD: ObservableObject {
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
-            }
-        }
-        
-        addDataBaseOperation(operation: queryOperation)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            if(jaExiste) {
-                print("Já existe um bar com esse nome.")
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-            }
-            else {
-                let newBar = CKRecord(recordType: "Bars")
-                
-                var assets:[CKAsset] = []
-                for i in 0..<bar.photosTOSave.count{
-                    print("preparando fotos")
+                if(jaExiste) {
+                    print("Já existe um bar com esse nome.")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
+                    completion()
+                }
+                else {
+                    let newBar = CKRecord(recordType: "Bars")
+                    
+                    var assets:[CKAsset] = []
+                    for i in 0..<bar.photosTOSave.count{
+                        guard
+                            let Image = UIImage(named: "\(bar.photosTOSave[i])"),
+                            let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(bar.photosTOSave[i]).jpg"),
+                            let data = Image.jpegData(compressionQuality: 1.0) else { return }
+                        
+                        do {
+                            try data.write(to: url)
+                            let asset = CKAsset(fileURL: url)
+                            assets.append(asset)
+                        }catch let error {
+                            print(error)
+                        }
+                    }
+                    
+                    var logo: CKAsset?
                     guard
-                        let Image = UIImage(named: "\(bar.photosTOSave[i])"),
-                        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(bar.photosTOSave[i]).jpg"),
+                        let Image = UIImage(named: "\(bar.photoLogoTOSave)"),
+                        let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(bar.photoLogoTOSave).jpg"),
                         let data = Image.jpegData(compressionQuality: 1.0) else { return }
                     
-                    do {
+                    do{
+                        print("entrei no do")
                         try data.write(to: url)
                         let asset = CKAsset(fileURL: url)
-                        assets.append(asset)
+                        logo = asset
+                        print("sai do do")
                     }catch let error {
                         print(error)
                     }
-                }
-                
-                var logo: CKAsset?
-                guard
-                    let Image = UIImage(named: "\(bar.photoLogoTOSave)"),
-                    let url = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathExtension("\(bar.photoLogoTOSave).jpg"),
-                    let data = Image.jpegData(compressionQuality: 1.0) else { return }
-                
-                do{
-                    print("entrei no do")
-                    try data.write(to: url)
-                    let asset = CKAsset(fileURL: url)
-                    logo = asset
-                    print("sai do do")
-                }catch let error {
-                    print(error)
-                }
-                newBar["Logo"] = logo
-                newBar["Image"] = assets
-                newBar["Name"] = bar.name
-                newBar["Description"] = bar.description
-                newBar["Mood"] = bar.mood
-                newBar["Grade"] = bar.grade
-                newBar["Latitude"] = bar.latitude
-                newBar["Caracteristicas"] = bar.caracteristicas
-                newBar["Longitude"] = bar.longitude
-                newBar["OperationHours"] = bar.operatinHours
-                newBar["Region"] = bar.regiao
-                newBar["Address"] = bar.endereco
-                
-                self.saveItemPublic(record: newBar)
+                    newBar["Logo"] = logo
+                    newBar["Image"] = assets
+                    newBar["Name"] = bar.name
+                    newBar["Description"] = bar.description
+                    newBar["Mood"] = bar.mood
+                    newBar["Grade"] = bar.grade
+                    newBar["Latitude"] = bar.latitude
+                    newBar["Caracteristicas"] = bar.caracteristicas
+                    newBar["Longitude"] = bar.longitude
+                    newBar["OperationHours"] = bar.operatinHours
+                    newBar["Region"] = bar.regiao
+                    newBar["Address"] = bar.endereco
+                    
+                    self.saveItemPublic(record: newBar)
+                    completion()
             }
         }
+        addDataBaseOperation(operation: queryOperation)
+        }
     }
-    
+//    tem que arrumar o addreview para funcionar igual funciona o add bar and add user
     func addReview(review: Review) {
         let predicate = NSPredicate(format: "Bar == %@ AND WriterEmail == %@", argumentArray: ["\(review.barName)", "\(review.writerEmail)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
@@ -143,7 +141,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func addUser(clients: Clients) {
+    func addUser(clients: Clients, completion: @escaping () -> Void) {
         var jaExiste: Bool = false
         let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(clients.email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
@@ -158,38 +156,40 @@ class CloudKitCRUD: ObservableObject {
                 case .failure(let error):
                     print("Error matched block error\(error)")
                 }
+                
             }
             
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
                     print("result2", record as Any)
-                    jaExiste = true
                 case .failure(let error):
                     print("Error matched block error\(error)")
+                }
+                
+                if(jaExiste) {
+                    print("Já existe usuário com este NickName.")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
+                    completion()
+                }
+                else {
+                    let newClient = CKRecord(recordType: "Clients")
+                    newClient["Email"] = clients.email
+                    newClient["FirstName"] = clients.firstName
+                    newClient["LastName"] = clients.lastName
+                    newClient["Password"] = clients.password
+                    newClient["Badges"] = ["Badge1"]
+                    newClient["Favorites"] = ["Favorite1"]
+                    newClient["Level"] = clients.level
+                    self.saveItemPublic(record: newClient)
+                    completion()
                 }
             }
         }
         
         addDataBaseOperation(operation: queryOperation)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            if(jaExiste) {
-                print("Já existe usuário com este NickName.")
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-                
-            }
-            else {
-                let newClient = CKRecord(recordType: "Clients")
-                newClient["Email"] = clients.email
-                newClient["FirstName"] = clients.firstName
-                newClient["LastName"] = clients.lastName
-                newClient["Password"] = clients.password
-                newClient["Badges"] = ["Badge1"]
-                newClient["Favorites"] = ["Favorite1"]
-                newClient["Level"] = clients.level
-                self.saveItemPublic(record: newClient)
-            }
-        }
+        
+        
     }
     
     func addCity(cidade: City) {
@@ -235,7 +235,6 @@ class CloudKitCRUD: ObservableObject {
     }
     
     func fetchItemsReview(barName: String, cursor: CKQueryOperation.Cursor? = nil) {
-        
         if(cursor == nil) {
             self.reviewListByBar = []
         }
@@ -354,10 +353,12 @@ class CloudKitCRUD: ObservableObject {
                             clients.favorites = Favorites
                             
                             if clients.email == email && clients.password == password {
-                                self.client = clients
+                                DispatchQueue.main.async {
+                                    self.client = clients
+                                }
                                 completion()
                             } else {
-                                #warning("Informar que senha e usuários estão incorretos")
+#warning("Informar que senha e usuários estão incorretos")
                                 completion()
                             }
                         case .failure(let err):
@@ -373,44 +374,44 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-//    public func fetchClientByEmail(email: String) {
-//        let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(email)"])
-//        let query = CKQuery(recordType: "Clients", predicate: predicate)
-//        let queryOperation = CKQueryOperation(query: query)
-//        queryOperation.resultsLimit = 1
-//
-//        if #available(iOS 15.0, *){
-//            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-//                switch returnedResult{
-//                case .success(let record):
-//                    guard let Email = record["Email"] as? String else { return }
-//                    print("peguei email")
-//                    guard let LastName = record["LastName"] as? String else { return }
-//                    print("peguei ultimo nome")
-//                    guard let FirtName = record["FirstName"] as? String else { return }
-//                    print("peguei first name")
-//                    guard let Password = record["Password"] as? String else { return }
-//                    print("peguei senha")
-//                    guard let Badges = record["Badges"] as? [String] else { return }
-//                    print("peguei bagdes")
-//                    guard let Favorites = record["Favorites"] as? [String] else { return }
-//                    print("peguei favoritos")
-//                    guard let Level = record["Level"] as? Int else { return }
-//                    print("peguei nivel")
-//                    let clients = Clients(email: Email, firstName: FirtName, password: Password, lastName: LastName)
-//                    clients.level = Level
-//                    clients.badges = Badges
-//                    clients.favorites = Favorites
-//                    print("criei usuario")
-//                    self.client = clients
-//                case .failure(let error):
-//                    print("Error matched block error\(error)")
-//                }
-//            }
-//        }
-//
-//        addDataBaseOperation(operation: queryOperation)
-//    }
+    //    public func fetchClientByEmail(email: String) {
+    //        let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(email)"])
+    //        let query = CKQuery(recordType: "Clients", predicate: predicate)
+    //        let queryOperation = CKQueryOperation(query: query)
+    //        queryOperation.resultsLimit = 1
+    //
+    //        if #available(iOS 15.0, *){
+    //            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+    //                switch returnedResult{
+    //                case .success(let record):
+    //                    guard let Email = record["Email"] as? String else { return }
+    //                    print("peguei email")
+    //                    guard let LastName = record["LastName"] as? String else { return }
+    //                    print("peguei ultimo nome")
+    //                    guard let FirtName = record["FirstName"] as? String else { return }
+    //                    print("peguei first name")
+    //                    guard let Password = record["Password"] as? String else { return }
+    //                    print("peguei senha")
+    //                    guard let Badges = record["Badges"] as? [String] else { return }
+    //                    print("peguei bagdes")
+    //                    guard let Favorites = record["Favorites"] as? [String] else { return }
+    //                    print("peguei favoritos")
+    //                    guard let Level = record["Level"] as? Int else { return }
+    //                    print("peguei nivel")
+    //                    let clients = Clients(email: Email, firstName: FirtName, password: Password, lastName: LastName)
+    //                    clients.level = Level
+    //                    clients.badges = Badges
+    //                    clients.favorites = Favorites
+    //                    print("criei usuario")
+    //                    self.client = clients
+    //                case .failure(let error):
+    //                    print("Error matched block error\(error)")
+    //                }
+    //            }
+    //        }
+    //
+    //        addDataBaseOperation(operation: queryOperation)
+    //    }
     
     func fetchBars(cursor: CKQueryOperation.Cursor? = nil) {
         if(cursor == nil) {
@@ -540,16 +541,16 @@ class CloudKitCRUD: ObservableObject {
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
         queryOperation.resultsLimit = 50
-        var count: Int = 0
         var listFavorites = client.favorites
+        var count: Int = listFavorites.firstIndex(of: barName) ?? -1
         
-        for favorite in client.favorites {
-            if favorite == barName {
-                return
-            }
-            count+=1
-        }
-        
+//        for favorite in client.favorites {
+//            if favorite == barName {
+//                return
+//            }
+//            count+=1
+//        }
+//
         listFavorites.remove(at: count)
         
         if #available(iOS 15.0, *){
@@ -588,4 +589,6 @@ class CloudKitCRUD: ObservableObject {
         
         addDataBaseOperation(operation: queryOperation)
     }
+    
+    
 }
