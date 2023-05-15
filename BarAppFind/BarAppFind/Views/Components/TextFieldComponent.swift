@@ -84,7 +84,7 @@ struct TextFieldComponent: View {
             }
             //            Spacer()
         }
-        .padding(.horizontal)
+//        .padding(.horizontal)
         .onReceive(pub) { output in
             if let review = output.object as? Review {
                 self.cloud.reviewListByBar.append(review)
