@@ -70,10 +70,12 @@ class Bar: ObservableObject, Hashable, Identifiable {
     func recieveAllPhotos(photosToUSE:[URL]){
         self.photosToUse = photosToUSE
     }
-    func recieveAllReviews(){
-        cloud.fetchItemsReview(barName: self.name)
-        self.reviews = cloud.reviewListByBar
-    }
+//    func recieveAllReviews(){
+//        cloud.fetchItemsReview(barName: self.name){
+//            self.reviews = self.cloud.reviewListByBar
+//        }
+//        
+//    }
     
 }
 

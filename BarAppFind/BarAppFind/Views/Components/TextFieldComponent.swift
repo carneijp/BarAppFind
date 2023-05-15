@@ -13,6 +13,9 @@ struct TextFieldComponent: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     let barName: String
     
+    let pub = NotificationCenter.default
+                .publisher(for: NSNotification.Name("addReview"))
+    
     var body: some View {
         VStack(alignment: .leading) {
 //            Spacer()
@@ -62,12 +65,12 @@ struct TextFieldComponent: View {
                             .cornerRadius(10)
                     }
                     
-Spacer()
+                    Spacer()
                     Button(){
-                        if self.grade > 0.0 && self.review != ""{
+                        if self.grade > 0.0{
                             if let client = cloud.client {
-                                cloud.addReview(review: Review(writerEmail: client.email, writerName: client.firstName, grade: self.grade, description: self.review, barName: self.barName))
-                                
+                                let review: Review = Review(writerEmail: client.email, writerName: client.firstName, grade: grade, description: review, barName: barName)
+                                cloud.addReview(review: review)
                             }
                         }
                     } label: {
@@ -82,6 +85,11 @@ Spacer()
 //            Spacer()
         }
         .padding(.horizontal)
+        .onReceive(pub) { output in
+            if let review = output.object as? Review {
+                self.cloud.reviewListByBar.append(review)
+            }
+        }
     }
 }
 

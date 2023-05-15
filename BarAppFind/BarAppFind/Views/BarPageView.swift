@@ -316,16 +316,12 @@ struct BarPageView: View {
                     case .review:
                         ScrollView{
                             TextFieldComponent(barName: self.barname)
-                            //fazer tela vazia se nao tiver review
                             ForEach(cloud.reviewListByBar, id: \.self){ review in
                                 ReviewComponent(review: review)
                             }
                         }
                         .padding(.horizontal)
-                        
-                        
-                        
-       
+
                 }
 
                 
@@ -337,7 +333,8 @@ struct BarPageView: View {
                 cloud.fetchBar(barName: barname) { bar in
                     self.bar = bar
                 }
-                cloud.fetchItemsReview(barName: barname)
+                self.cloud.reviewListByBar = []
+                cloud.fetchItemsReview(barName: barname) {}
             }
         .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
         }

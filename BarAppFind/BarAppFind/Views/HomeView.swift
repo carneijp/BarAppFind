@@ -14,14 +14,14 @@ struct HomeView: View {
     var body: some View {
         VStack(alignment: .leading) {
             Button{
-                cloud.addUser(clients: Clients(email: "gbcmidias@gmail.com", firstName: "Guilherme", password: "12345", lastName: "Cavali")){
+                cloud.addUser(clients: Clients(email: "EduardoRiboli71@gmail.com", firstName: "Mochila", password: "12345", lastName: "Mochila")){
                     print("criei")
                 }
             }label: {
                 Text("cria")
             }
             Button{
-                cloud.validateClientLogin(email: "gbcmidias@gmail.com", password: "12345") {
+                cloud.validateClientLogin(email: "EduardoRiboli71@gmail.com", password: "12345") {
                     print("loguei")
                     print(cloud.$client)
                 }
