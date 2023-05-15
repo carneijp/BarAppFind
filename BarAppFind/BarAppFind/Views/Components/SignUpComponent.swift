@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ModalComponent: View {
+struct SignUpComponent: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     @Environment(\.presentationMode) var presentation
     @State private var email: String = ""
@@ -49,38 +49,23 @@ struct ModalComponent: View {
             // Inputs do Usuário
             Group {
                 TextField("Digite o seu e-mail", text: $email)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
                 
                 TextField("Nome", text: $firstName)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
                 
                 TextField("Sobrenome", text: $lastName)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
                 
                 TextField("Senha", text: $password)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
-                
-                Button{
-                    cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName))
-                }label: {
-                    Text("CRIAR")
-                }
+            }
+            .textInputAutocapitalization(.never)
+            .disableAutocorrection(true)
+            .padding(.all)
+            .border(.secondary)
+            .padding(.horizontal)
+            
+            Button{
+                cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName))
+            }label: {
+                Text("CRIAR")
             }
 
             Button {
@@ -97,11 +82,18 @@ struct ModalComponent: View {
         .sheet(isPresented: $showLogin) {
             SignInComponent()
         }
+        
+        .onAppear() {
+            // verificar se está logado
+            // se estiver logado
+            // presentation.wrappedValue.dismiss()
+        }
+        
     }
 }
 
 struct ModalComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ModalComponent()
+        SignUpComponent()
     }
 }
