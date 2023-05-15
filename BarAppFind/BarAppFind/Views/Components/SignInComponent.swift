@@ -1,30 +1,27 @@
 //
-//  ModalComponent.swift
+//  SignInComponent.swift
 //  BarAppFind
 //
-//  Created by Guilherme Borges Cavali on 11/05/23.
+//  Created by Guilherme Borges Cavali on 15/05/23.
 //
 
 import SwiftUI
 
-struct ModalComponent: View {
+struct SignInComponent: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     @Environment(\.presentationMode) var presentation
     @State private var email: String = ""
-    @State private var firstName: String = ""
-    @State private var lastName: String = ""
     @State private var password: String = ""
-    @State private var showLogin: Bool = false
 
     
     var body: some View {
         VStack {
             HStack {
-                Text("Cadastre o seu E-mail")
+                Text("Login com E-mail")
                     .font(.system(size: 16))
-                .bold()
-                .padding(.leading, 85)
-//                .background(.blue)
+                    .bold()
+                    .padding(.leading, UIScreen.main.bounds.width/3.7)
+                //                .background(.blue)
                 
                 Spacer()
                 
@@ -55,20 +52,6 @@ struct ModalComponent: View {
                     .border(.secondary)
                     .padding(.horizontal)
                 
-                TextField("Nome", text: $firstName)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
-                
-                TextField("Sobrenome", text: $lastName)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
-                
                 TextField("Senha", text: $password)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
@@ -76,32 +59,16 @@ struct ModalComponent: View {
                     .border(.secondary)
                     .padding(.horizontal)
                 
-                Button{
-                    cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName))
-                }label: {
-                    Text("CRIAR")
-                }
             }
-
-            Button {
-                showLogin = true
-            } label: {
-                Text("Fazer Login")
-                    .underline()
-            }
-            .padding(.top)
-            .foregroundColor(.primary)
-
+            
             Spacer()
         }
-        .sheet(isPresented: $showLogin) {
-            SignInComponent()
-        }
+        
     }
 }
 
-struct ModalComponent_Previews: PreviewProvider {
+struct SignInComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ModalComponent()
+        SignInComponent()
     }
 }
