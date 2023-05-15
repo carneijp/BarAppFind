@@ -35,11 +35,11 @@ struct CustomAlertComponent: View {
                     } label: {
                         Text("Mais tarde")
                             .font(.system(size: 14))
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                     .padding(.vertical, 5)
                     .padding(.horizontal, 24)
-                    .background(.secondary.opacity(0.8))
+                    .background(Color("gray4"))
                     .cornerRadius(12)
                     
                     Spacer()
@@ -48,11 +48,11 @@ struct CustomAlertComponent: View {
                     } label: {
                         Text("Fazer Login")
                             .font(.system(size: 14))
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                     .padding(.vertical, 5)
                     .padding(.horizontal, 24)
-                    .background(.primary)
+                    .background(Color("gray1"))
                     .cornerRadius(12)
 
                 }
