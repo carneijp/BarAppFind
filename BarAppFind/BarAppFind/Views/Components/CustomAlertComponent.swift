@@ -48,11 +48,11 @@ struct CustomAlertComponent: View {
                     } label: {
                         Text("Fazer Login")
                             .font(.system(size: 14))
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                     .padding(.vertical, 5)
                     .padding(.horizontal, 24)
-                    .background(.primary)
+                    .background(Color("gray1"))
                     .cornerRadius(12)
 
                 }
