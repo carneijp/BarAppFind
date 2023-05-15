@@ -12,10 +12,13 @@ struct SignInComponent: View {
     @Environment(\.presentationMode) var presentation
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var showSignUp: Bool = false
 
     
     var body: some View {
         VStack {
+            
+            // Header da Sheet / Modal
             HStack {
                 Text("Faça o seu Login")
                     .font(.system(size: 16))
@@ -36,6 +39,8 @@ struct SignInComponent: View {
             .background(.secondary.opacity(0.05))
             .padding(.bottom, 30)
             
+            
+            // Logo do App
             Image("trending1")
                 .resizable()
                 .scaledToFit()
@@ -56,6 +61,7 @@ struct SignInComponent: View {
             .border(.secondary)
             .padding(.horizontal)
             
+            // Botão de Logar
             Button {
                 cloud.validateClientLogin(email: email, password: password) {
                     print("loguei")
@@ -65,9 +71,21 @@ struct SignInComponent: View {
             } label: {
                 Text("Entrar")
             }
-
+            .padding(.vertical)
+            
+            // Botão de Cadastrar
+            
+            Button {
+                showSignUp = true
+            } label: {
+                Text("Quero me cadastrar")
+            }
+            
             
             Spacer()
+        }
+        .sheet(isPresented: $showSignUp) {
+            SignUpComponent()
         }
         
     }

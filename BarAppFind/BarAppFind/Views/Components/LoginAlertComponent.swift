@@ -1,58 +1,40 @@
 //
-//  LoginAlertComponent.swift
+//  ConquestModalComponent.swift
 //  BarAppFind
 //
-//  Created by Eduardo Pretto on 10/05/23.
+//  Created by Guilherme Borges Cavali on 12/05/23.
 //
 
 import SwiftUI
 
-struct LoginAlertComponent: View {
+struct ConquestModalComponent: View {
     var body: some View {
-        VStack{
-            HStack(alignment: .top){
-                Image(systemName: "exclamationmark.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 27, height: 26)
+        HStack(spacing: 24) {
+            Image(systemName: "medal.fill")
+                .padding(.all, 8)
+                .background(.tertiary)
+                .cornerRadius(12)
+            
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Bonfiner de Carteirinha")
+                    .font(.system(size: 16))
+                    .bold()
                 
-                VStack(alignment: .leading){
-                    Text("Login necessário")
-                        .font(.system(size: 16))
-                        .padding(.bottom, 5)
-                    
-                    Text("Para publicar reviews realize o login")
-                        .font(.system(size: 14))
-
-                }
-                Spacer()
-            }
-            .padding(.bottom, 20)
-            HStack{
-                Text("Mais tarde")
+                Text("Você conhece todos os bares do bairro Bom Fim! 🤩")
                     .font(.system(size: 14))
-                    .padding(.horizontal)
-                    .padding(.vertical, 2)
-                    .background(Color.green)
-                    .cornerRadius(10)
-                
-                Text("Fazer Login")
-                    .font(.system(size: 14))
-                    .padding(.horizontal)
-                    .padding(.vertical, 2)
-                    .background(Color.green)
-                    .cornerRadius(10)
             }
         }
-        .padding()
-        .background(.yellow)
-        .cornerRadius(20)
-        .padding(.all, 30)
+        .padding(.all, 32)
+        .background()
+        .cornerRadius(12)
+        .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
+        .frame(height: 130)
+//        .padding(.horizontal, 24)
     }
 }
 
-struct LoginAlertComponent_Previews: PreviewProvider {
+struct ConquestModalComponent_Previews: PreviewProvider {
     static var previews: some View {
-        LoginAlertComponent()
+        ConquestModalComponent()
     }
 }

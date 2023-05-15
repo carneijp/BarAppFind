@@ -19,12 +19,13 @@ struct SignUpComponent: View {
     
     var body: some View {
         VStack {
+            
+            // Header da Sheet
             HStack {
                 Text("Cadastre o seu E-mail")
                     .font(.system(size: 16))
                 .bold()
                 .padding(.leading, 85)
-//                .background(.blue)
                 
                 Spacer()
                 
@@ -39,12 +40,12 @@ struct SignUpComponent: View {
             .background(.secondary.opacity(0.05))
             .padding(.bottom, 30)
             
+            // Logo do App
             Image("trending1")
                 .resizable()
                 .scaledToFit()
                 .clipShape(Circle())
                 .frame(width: 200, height: 200)
-            
             
             // Inputs do Usuário
             Group {
@@ -61,34 +62,31 @@ struct SignUpComponent: View {
             .padding(.all)
             .border(.secondary)
             .padding(.horizontal)
+
             
+            // Botão de Cadastrar Conta
             Button{
                 cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){}
+                presentation.wrappedValue.dismiss()
             }label: {
                 Text("CRIAR")
             }
-            
-
-            Button {
-                showLogin = true
-            } label: {
-                Text("Fazer Login")
-                    .underline()
-            }
             .padding(.top)
-            .foregroundColor(.primary)
 
             Spacer()
         }
+        // Faz aparecer a sheet de Cadastrar usuário
         .sheet(isPresented: $showLogin) {
             SignInComponent()
         }
         
+        // Verifica se o usuário está logado quando a Sheet aparecer
         .onAppear() {
-            if (cloud.client != nil){
-                presentation.wrappedValue.dismiss()
-            }
+            // verificar se está logado
+            // se estiver logado
+            // presentation.wrappedValue.dismiss()
         }
+        
     }
 }
 
