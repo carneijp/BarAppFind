@@ -20,7 +20,7 @@ struct MedalComponent: View {
         }
         .padding(.vertical)
         .frame(width: 150, height: 70)
-        .background(.secondary.opacity(0.1))
+        .background(Color("gray0"))
         .cornerRadius(12)
 //        .shadow(color: .secondary, radius: 4)
     }

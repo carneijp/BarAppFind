@@ -104,6 +104,8 @@ struct BarPageView: View {
     
     @State var bar: Bar?
     
+    @State var reviewListIsEmpty: Bool = true
+    
     @EnvironmentObject var cloud: CloudKitCRUD
     
     
@@ -127,7 +129,7 @@ struct BarPageView: View {
                         if isBarName{
                             Text("Sobre o lugar")
                                 .font(.system(size: 14))
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .underline()
                                 .bold()
                         }else{
@@ -150,7 +152,7 @@ struct BarPageView: View {
                             Text("Informações")
                                 .font(.system(size: 14))
                                 .padding(.leading, 40)
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .underline()
                                 .bold()
                         }else{
@@ -173,7 +175,7 @@ struct BarPageView: View {
                             Text("Avaliações")
                                 .padding(.leading, 40)
                                 .font(.system(size: 14))
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                                 .underline()
                                 .bold()
                         }else{
@@ -300,18 +302,23 @@ struct BarPageView: View {
                                 Image(systemName: "car.fill")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(height: 29)
+                                    .foregroundColor(Color("white"))
+                                    .frame(height: 14)
                                     .padding(.leading)
 
-                                Spacer()
+//                                Spacer()
 
                                 Text("Abrir no uber")
+                                    .font(.system(size: 16))
+                                    .bold()
+                                    .foregroundColor(Color("white"))
 
-                                Spacer()
+//                                Spacer()
                             }
-                            .frame(height: 41)
-                            .background(Color("gray5"))
+                            .frame(width:UIScreen.main.bounds.width - 48, height: 41)
+                            .background(Color("gray1"))
                             .cornerRadius(10)
+                            .padding(.top)
                         }
     //                    .background(Color.green)
                             .padding(.horizontal)
@@ -320,11 +327,25 @@ struct BarPageView: View {
                     case .review:
                         ScrollView{
                             TextFieldComponent(barName: self.barname)
-                            ForEach(cloud.reviewListByBar, id: \.self){ review in
-                                ReviewComponent(review: review)
+                                .padding(.bottom)
+                            
+                            if cloud.reviewListByBar.count != 0{
+                                ForEach(cloud.reviewListByBar, id: \.self){ review in
+                                    ReviewComponent(review: review)
+                                }
+                            }else{
+                                EmptyViewReviews()
                             }
+                            
+//                            if !reviewListIsEmpty{
+//                                ForEach(cloud.reviewListByBar, id: \.self){ review in
+//                                    ReviewComponent(review: review)
+//                                }
+//                            }else{
+//                                EmptyViewReviews()
+//                            }
                         }
-                        .padding(.horizontal)
+                        .padding([.horizontal, .top])
 
                 }
 

@@ -38,7 +38,7 @@ struct ReviewComponent: View {
             }
         }
         .padding(.horizontal)
-        .background(Color.gray)
+        .background(Color("gray0"))
         .cornerRadius(20)
     }
 }

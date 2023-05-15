@@ -35,7 +35,7 @@ struct CustomAlertComponent: View {
                     } label: {
                         Text("Mais tarde")
                             .font(.system(size: 14))
-                            .foregroundColor(.primary)
+                            .foregroundColor(Color("white"))
                     }
                     .padding(.vertical, 5)
                     .padding(.horizontal, 24)
@@ -48,7 +48,7 @@ struct CustomAlertComponent: View {
                     } label: {
                         Text("Fazer Login")
                             .font(.system(size: 14))
-                            .foregroundColor(.primary)
+                            .foregroundColor(Color("white"))
                     }
                     .padding(.vertical, 5)
                     .padding(.horizontal, 24)
