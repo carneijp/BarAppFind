@@ -59,7 +59,7 @@ struct TextFieldComponent: View {
                         grade = 0.0
                     }label: {
                         Text("Cancelar")
-                            .foregroundColor(.primary)
+                            .foregroundColor(Color("white"))
                             .frame(width: 161, height: 27)
                             .background(Color("gray4"))
                             .cornerRadius(10)
@@ -75,7 +75,7 @@ struct TextFieldComponent: View {
                         }
                     } label: {
                         Text("Enviar")
-                            .foregroundColor(.primary)
+                            .foregroundColor(Color("white"))
                             .frame(width: 161, height: 27)
                             .background(Color("gray1"))
                             .cornerRadius(10)

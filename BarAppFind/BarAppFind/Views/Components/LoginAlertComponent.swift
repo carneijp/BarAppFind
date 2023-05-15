@@ -1,40 +1,81 @@
 //
-//  ConquestModalComponent.swift
+//  CustomAlertComponent.swift
 //  BarAppFind
 //
-//  Created by Guilherme Borges Cavali on 12/05/23.
+//  Created by Guilherme Borges Cavali on 11/05/23.
 //
 
 import SwiftUI
 
-struct ConquestModalComponent: View {
+struct LoginAlertComponent: View {
+    var title: String
+    var description: String
+    @Binding var isShow: Bool
+    
     var body: some View {
-        HStack(spacing: 24) {
-            Image(systemName: "medal.fill")
-                .padding(.all, 8)
-                .background(.tertiary)
-                .cornerRadius(12)
-            
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Bonfiner de Carteirinha")
-                    .font(.system(size: 16))
-                    .bold()
+        VStack {
+            VStack(spacing: 20) {
+                HStack(alignment: .top, spacing: 16) {
+                    Image(systemName: "exclamationmark.circle.fill")
+                    
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text(self.title)
+                            .font(.system(size: 16))
+                        
+                        
+                        Text(self.description)
+                            .font(.system(size: 14))
+                    }
+                }
                 
-                Text("Você conhece todos os bares do bairro Bom Fim! 🤩")
-                    .font(.system(size: 14))
+                // Botões do PopUp
+                HStack {
+                    Button {
+                        self.isShow = false
+                    } label: {
+                        Text("Mais tarde")
+                            .font(.system(size: 14))
+                            .foregroundColor(Color("white"))
+                    }
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 24)
+                    .background(Color("gray4"))
+                    .cornerRadius(12)
+                    
+                    Spacer()
+                    
+                    Button {
+                    } label: {
+                        Text("Fazer Login")
+                            .font(.system(size: 14))
+                            .foregroundColor(Color("white"))
+                    }
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 24)
+                    .background(Color("gray1"))
+                    .cornerRadius(12)
+
+                }
+
+
+                
             }
+            .padding(.horizontal, 32)
+            .padding(.vertical, 24)
+            .frame(width: UIScreen.main.bounds.width - 48)
+            .background(.white)
+            .cornerRadius(12)
+            .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
+            .animation(.spring())
         }
-        .padding(.all, 32)
-        .background()
-        .cornerRadius(12)
-        .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
-        .frame(height: 130)
-//        .padding(.horizontal, 24)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        .background(.secondary.opacity(0.6))
+        .offset(y: isShow ? -10 : UIScreen.main.bounds.height)
     }
 }
 
-struct ConquestModalComponent_Previews: PreviewProvider {
+struct CustomAlertComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ConquestModalComponent()
+        LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: .constant(true) )
     }
 }
