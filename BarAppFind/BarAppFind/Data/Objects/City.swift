@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CoreLocation
 
 class City: ObservableObject {
     var name: String
@@ -47,6 +48,7 @@ class Bar: ObservableObject, Hashable, Identifiable {
     var longitude: Double
     var endereco: String
     var regiao: String
+    var coordinate: CLLocationCoordinate2D
     
     
     init(name: String, description: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String, caracteristicas: [String]) {
@@ -60,6 +62,7 @@ class Bar: ObservableObject, Hashable, Identifiable {
         self.longitude = longitude
         self.endereco = endereco
         self.regiao = regiao
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     func recieveLogoPhoto(logo: URL){
         self.photosLogo = logo

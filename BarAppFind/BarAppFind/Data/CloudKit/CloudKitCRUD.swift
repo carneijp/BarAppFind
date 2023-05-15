@@ -2,7 +2,7 @@ import CloudKit
 import SwiftUI
 import Foundation
 
-
+@MainActor
 class CloudKitCRUD: ObservableObject {
     
     @Published var barsList: [Bar] = []

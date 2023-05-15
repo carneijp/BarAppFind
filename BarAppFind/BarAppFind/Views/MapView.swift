@@ -7,12 +7,16 @@
 
 import SwiftUI
 import MapKit
+import CloudKit
 
 enum MapStyle {
     case compact, large
 }
 
+
+
 struct MapView: View {
+    @State var barsList: [Bar] = [Bar(name: "asd", description: "asd", mood: ["asdasd"], grade: 1.0, latitude: -31, longitude: -51, operatinhours: ["20:00"], endereco: "Rua Jorge", regiao: "Brasil", caracteristicas: ["soda"])]
     @ObservedObject var viewModel = MapViewModel()
     @EnvironmentObject var cloud: CloudKitCRUD
     let mapStyle: MapStyle
@@ -20,18 +24,26 @@ struct MapView: View {
     var body: some View {
         ZStack{
             
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+//            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+                
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
+                
+                // LIMITADO - Usar MapMarker
+                // RUIM - Reimplementar isso do zero
+                // Trazer o mapa de UIKit
+                    MapMarker(coordinate: bar.coordinate)
+                }
                 .onAppear {
-                        viewModel.wheretoZoom()
+                    viewModel.wheretoZoom()
                 }
                 .onChange(of: viewModel.chosen) { newValue in
                     viewModel.wheretoZoom()
                 }
+                
             if mapStyle == .large{
                 VStack{
                     ComponenteLargeMap(chosen: $viewModel.chosen)
                         .environmentObject(viewModel)
-//                        .padding()
                     Spacer()
                 }
             }
@@ -49,7 +61,6 @@ struct ComponenteLargeMap: View {
         VStack{
             
             VStack{
-                //                VStack{
                 Text("Bairros")
                     .font(.title2)
                     .bold()
