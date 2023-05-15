@@ -54,7 +54,7 @@ struct BarPageView: View {
                     .scaledToFill()
                     .frame(width: 35, height: 31)
                     .padding(10)
-                    .background(Color.gray)
+                    .background(Color("gray5"))
                     .cornerRadius(10)
     //                .background(Color.green)
             }
@@ -229,13 +229,13 @@ struct BarPageView: View {
                                 .padding(.bottom)
                             
                             
-                            HStack{
-                                createCustomIcon(imageName: "Instagram", text: "Instagram")
-                                
-                                
-                                createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
-                            }
-                            .padding(.bottom)
+//                            HStack{
+//                                createCustomIcon(imageName: "Instagram", text: "Instagram")
+//
+//
+//                                createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
+//                            }
+//                            .padding(.bottom)
                             
                             Text("Boa escolha para ...")
                                 .font(.system(size: 14))
@@ -244,7 +244,7 @@ struct BarPageView: View {
                             HStack{
                                 if let moods = bar?.mood{
                                     ForEach(moods, id:\.self){ mood in
-                                        MoodComponent(mood: mood)
+                                        BarViewMoodComponent(mood: mood)
                                     }
                                 }
                             }
@@ -262,8 +262,12 @@ struct BarPageView: View {
                                 //                                    createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
                                 //                                    ForEach(bar?.caracteristicas, id: \.self){ caracteristica in
                                 if let caracteristicas = bar?.caracteristicas{
-                                    ForEach(caracteristicas, id:\.self){ caracteristica in
-                                        createAmbientIcon(ambientText: caracteristica)
+                                    VStack(alignment: .leading){
+                                        ForEach(caracteristicas, id:\.self){ caracteristica in
+                                            Text(caracteristica)
+                                                .font(.system(size: 16))
+                                                .padding(.bottom, 3)
+                                        }
                                     }
                                 }
                             }
@@ -306,7 +310,7 @@ struct BarPageView: View {
                                 Spacer()
                             }
                             .frame(height: 41)
-                            .background(Color.gray)
+                            .background(Color("gray5"))
                             .cornerRadius(10)
                         }
     //                    .background(Color.green)
@@ -355,24 +359,36 @@ struct Flemis: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
+            HStack(alignment: .center) {
                 Text("Horário de Atendimento")
                     .font(.system(size: 20))
                     .bold()
+                    .foregroundColor(.primary)
                     .padding(.top)
                     .padding(.bottom, 5)
-                Spacer()
+//                    .background(Color.green)
+
+//                Spacer()
                 
                 Button(action: {
                     self.isShowingWorkingHours.toggle()
                 }, label: {
                     Image(systemName: self.isShowingWorkingHours ? "chevron.up" : "chevron.down")
+                        .resizable()
+                        .scaledToFit()
                 })
+                .frame(width: 14, height: 28)
+//                .background(Color.green)
+                
             }
+                .padding(.bottom, 5)
+
             
             if self.isShowingWorkingHours {
                 ForEach(self.workingHours, id: \.self) { workingHour in
                     Text("\(workingHour)")
+                        .font(.system(size: 14))
+                        .padding(.bottom, 5)
                 }
                 .scrollContentBackground(.hidden)
             }
