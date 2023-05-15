@@ -13,12 +13,9 @@ struct TextFieldComponent: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     let barName: String
     
-    let pub = NotificationCenter.default
-                .publisher(for: NSNotification.Name("addReview"))
-    
     var body: some View {
         VStack(alignment: .leading) {
-            //            Spacer()
+//            Spacer()
             Text("Queremos sua avaliação")
                 .font(.system(size: 20))
                 .bold()
@@ -49,9 +46,9 @@ struct TextFieldComponent: View {
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color.gray))
                 .foregroundColor(.black)
-            //                .padding()
-            //                .frame(width: 342, height: 104)
-            
+//                .padding()
+//                .frame(width: 342, height: 104)
+
             HStack() {
                 Group {
                     Button(){
@@ -65,12 +62,12 @@ struct TextFieldComponent: View {
                             .cornerRadius(10)
                     }
                     
-                    Spacer()
+Spacer()
                     Button(){
-                        if self.grade > 0.0{
+                        if self.grade > 0.0 && self.review != ""{
                             if let client = cloud.client {
-                                let review: Review = Review(writerEmail: client.email, writerName: client.firstName, grade: grade, description: review, barName: barName)
-                                cloud.addReview(review: review)
+                                cloud.addReview(review: Review(writerEmail: client.email, writerName: client.firstName, grade: self.grade, description: self.review, barName: self.barName))
+                                
                             }
                         }
                     } label: {
@@ -82,14 +79,9 @@ struct TextFieldComponent: View {
                     }
                 }
             }
-            //            Spacer()
+//            Spacer()
         }
         .padding(.horizontal)
-        .onReceive(pub) { output in
-            if let review = output.object as? Review {
-                self.cloud.reviewListByBar.append(review)
-            }
-        }
     }
 }
 

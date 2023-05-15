@@ -49,7 +49,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func wheretoZoom(){
             self.chekIfLocationService()
-            
             if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
                 self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.defaultSpan)
             }else if let location = self.chosen{

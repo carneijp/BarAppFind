@@ -9,11 +9,26 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var trendingIndex = 0
-    @StateObject var cloud: CloudKitCRUD = CloudKitCRUD()
+    @EnvironmentObject var cloud: CloudKitCRUD
 
     var body: some View {
         VStack(alignment: .leading) {
-            
+            Button{
+                cloud.addUser(clients: Clients(email: "EduardoRiboli71@gmail.com", firstName: "Mochila", password: "12345", lastName: "Mochila")){
+                    print("criei")
+                }
+            }label: {
+                Text("cria")
+            }
+            Button{
+                cloud.validateClientLogin(email: "EduardoRiboli71@gmail.com", password: "12345") {
+                    print("loguei")
+                    print(cloud.$client)
+                }
+            }label: {
+                Text("loga")
+                
+            }
             // Logo
             HStack {
                 Spacer()
@@ -113,6 +128,7 @@ struct HomeView: View {
                                         .environmentObject(cloud)
                                 } label: {
                                     BarComponent(bar: bar)
+                                        .environmentObject(cloud)
                                         .foregroundColor(.primary)
                                         .padding(.bottom, 10)
                                 }
@@ -126,9 +142,11 @@ struct HomeView: View {
             }
         }
         .onAppear() {
+            
             if cloud.barsList.count != 10 {
                 cloud.fetchBars()
             }
+            
         }
     }
 }

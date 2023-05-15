@@ -70,7 +70,7 @@ struct CustomAlertComponent: View {
         }
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background(.secondary.opacity(0.6))
-        .offset(y: isShow ? 0 : UIScreen.main.bounds.height)
+        .offset(y: isShow ? -10 : UIScreen.main.bounds.height)
     }
 }
 
