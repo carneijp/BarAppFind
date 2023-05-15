@@ -17,7 +17,7 @@ struct SignInComponent: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Login com E-mail")
+                Text("Faça o seu Login")
                     .font(.system(size: 16))
                     .bold()
                     .padding(.leading, UIScreen.main.bounds.width/3.7)
@@ -46,20 +46,22 @@ struct SignInComponent: View {
             // Inputs do Usuário
             Group {
                 TextField("Digite o seu e-mail", text: $email)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
+
                 
                 TextField("Senha", text: $password)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-                    .padding(.all)
-                    .border(.secondary)
-                    .padding(.horizontal)
-                
             }
+            .textInputAutocapitalization(.never)
+            .disableAutocorrection(true)
+            .padding(.all)
+            .border(.secondary)
+            .padding(.horizontal)
+            
+            Button {
+                presentation.wrappedValue.dismiss()
+            } label: {
+                Text("Entrar")
+            }
+
             
             Spacer()
         }

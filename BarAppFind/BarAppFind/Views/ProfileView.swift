@@ -185,7 +185,7 @@ struct ProfileView: View {
             }
             .padding(.top, 80)
             .sheet(isPresented: $showModal) {
-                ModalComponent()
+                SignUpComponent()
             }
             
             CustomAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)

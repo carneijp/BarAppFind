@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ModalComponent: View {
+struct SignUpComponent: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     @Environment(\.presentationMode) var presentation
     @State private var email: String = ""
@@ -55,7 +55,6 @@ struct ModalComponent: View {
                 TextField("Sobrenome", text: $lastName)
                 
                 TextField("Senha", text: $password)
-                   
             }
             .textInputAutocapitalization(.never)
             .disableAutocorrection(true)
@@ -84,11 +83,18 @@ struct ModalComponent: View {
         .sheet(isPresented: $showLogin) {
             SignInComponent()
         }
+        
+        .onAppear() {
+            // verificar se está logado
+            // se estiver logado
+            // presentation.wrappedValue.dismiss()
+        }
+        
     }
 }
 
 struct ModalComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ModalComponent()
+        SignUpComponent()
     }
 }
