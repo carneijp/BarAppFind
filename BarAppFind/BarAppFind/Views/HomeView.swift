@@ -13,22 +13,6 @@ struct HomeView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            Button{
-                cloud.addUser(clients: Clients(email: "EduardoRiboli71@gmail.com", firstName: "Mochila", password: "12345", lastName: "Mochila")){
-                    print("criei")
-                }
-            }label: {
-                Text("cria")
-            }
-            Button{
-                cloud.validateClientLogin(email: "EduardoRiboli71@gmail.com", password: "12345") {
-                    print("loguei")
-                    print(cloud.$client)
-                }
-            }label: {
-                Text("loga")
-                
-            }
             // Logo
             HStack {
                 Spacer()

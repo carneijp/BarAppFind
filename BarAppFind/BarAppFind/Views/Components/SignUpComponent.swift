@@ -85,11 +85,10 @@ struct SignUpComponent: View {
         }
         
         .onAppear() {
-            // verificar se está logado
-            // se estiver logado
-            // presentation.wrappedValue.dismiss()
+            if (cloud.client != nil){
+                presentation.wrappedValue.dismiss()
+            }
         }
-        
     }
 }
 

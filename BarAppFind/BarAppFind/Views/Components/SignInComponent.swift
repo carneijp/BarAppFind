@@ -57,6 +57,10 @@ struct SignInComponent: View {
             .padding(.horizontal)
             
             Button {
+                cloud.validateClientLogin(email: email, password: password) {
+                    print("loguei")
+                    print(cloud.$client)
+                }
                 presentation.wrappedValue.dismiss()
             } label: {
                 Text("Entrar")

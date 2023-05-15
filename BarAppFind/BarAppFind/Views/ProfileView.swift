@@ -27,26 +27,27 @@ struct ProfileView: View {
             VStack {
                 
                 // MARK: - Header
-                Text("Fala, barzeiro! 🤪🤟")
-                    .bold()
-                    .font(.system(size: 26))
-                    .padding(.bottom, 30)
-                
-                
-                Button {
-                    showModal = true
-                } label: {
-                    HStack {
-                        Text("Cadastre-se aqui")
+                    Text("Fala, \(cloud.client?.firstName ?? "barzeiro")! 🤪🤟")
+                        .bold()
+                        .font(.system(size: 26))
+                        .padding(.bottom, 30)
+               
+                if cloud.client == nil {
+                    Button {
+                        showModal = true
+                    } label: {
+                        HStack {
+                            Text("Cadastre-se aqui")
+                        }
+                        .padding(.all)
+                        .frame(width: UIScreen.main.bounds.width - 180)
+                        .background()
+                        .cornerRadius(8)
+                        .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
                     }
-                    .padding(.all)
-                    .frame(width: UIScreen.main.bounds.width - 180)
-                    .background()
-                    .cornerRadius(8)
-                    .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
+                    .foregroundColor(.primary)
+                    .padding(.bottom, 40)
                 }
-                .foregroundColor(.primary)
-                .padding(.bottom, 40)
                 
                 // MARK: - Tab Bar
                 HStack {
@@ -191,8 +192,9 @@ struct ProfileView: View {
             CustomAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
         }
         .onAppear() {
-            // verificar antes se o usuário está logado. Caso esteja, isPresented fica false.
-            self.isPresented = true
+            if cloud.client == nil {
+                self.isPresented = true
+            }
         }
     }
 }
