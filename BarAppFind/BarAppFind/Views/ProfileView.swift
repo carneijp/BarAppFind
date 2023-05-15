@@ -9,14 +9,16 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var cloud: CloudKitCRUD
+    // Tab Bar do Perfil -> Padrão: Minhas Conquistas
     @State private var topProfileChoice: ChoiceProfile = .myConquests
     @State private var isMyConquests: Bool = true
     @State private var isProfileEdit: Bool = false
     @State private var isPresented: Bool = false
-    @State private var showModal: Bool = false
+    @State private var showSignIn: Bool = false
     @State private var showModalConquest: Bool = false
     @State private var arrowDirection: ArrowDirection = .up
     
+    // Opções da Tab Bar
     enum ChoiceProfile {
         case myConquests, profileEdit
     }
@@ -32,9 +34,9 @@ struct ProfileView: View {
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
                 
-                
+                // Se não estiver logado
                 Button {
-                    showModal = true
+                    showSignIn = true
                 } label: {
                     HStack {
                         Text("Cadastre-se aqui")
@@ -47,6 +49,7 @@ struct ProfileView: View {
                 }
                 .foregroundColor(.primary)
                 .padding(.bottom, 40)
+
                 
                 // MARK: - Tab Bar
                 HStack {
@@ -183,15 +186,18 @@ struct ProfileView: View {
                 // MARK: -
                 Spacer()
             }
-            .padding(.top, 80)
-            .sheet(isPresented: $showModal) {
-                SignUpComponent()
+            .padding(.top, 100)
+            
+            // Faz aparecer a tela de login de usuário
+            .sheet(isPresented: $showSignIn) {
+                SignInComponent()
             }
             
-            CustomAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
+            // Pop Up De Login Necessário
+            LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
         }
+        // Faz aparecer o Pop Up de Login Necessário
         .onAppear() {
-            // verificar antes se o usuário está logado. Caso esteja, isPresented fica false.
             self.isPresented = true
         }
     }

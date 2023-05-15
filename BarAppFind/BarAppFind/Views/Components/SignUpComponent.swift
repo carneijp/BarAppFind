@@ -64,23 +64,14 @@ struct SignUpComponent: View {
             .padding(.horizontal)
 
             
-            // Botão de Criar Conta
+            // Botão de Cadastrar Conta
             Button{
                 cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName))
+                presentation.wrappedValue.dismiss()
             }label: {
                 Text("CRIAR")
             }
-
-            
-            // Botão de Fazer Login
-            Button {
-                showLogin = true
-            } label: {
-                Text("Fazer Login")
-                    .underline()
-            }
             .padding(.top)
-            .foregroundColor(.primary)
 
             Spacer()
         }

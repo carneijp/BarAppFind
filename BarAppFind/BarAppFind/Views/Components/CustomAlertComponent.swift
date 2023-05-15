@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-struct CustomAlertComponent: View {
+struct LoginAlertComponent: View {
     var title: String
     var description: String
     @Binding var isShow: Bool
     
     var body: some View {
         VStack {
-            VStack(spacing: 8) {
+            VStack(spacing: 20) {
                 HStack(alignment: .top, spacing: 16) {
                     Image(systemName: "exclamationmark.circle.fill")
                     
@@ -28,7 +28,7 @@ struct CustomAlertComponent: View {
                     }
                 }
                 
-                
+                // Botões do PopUp
                 HStack {
                     Button {
                         self.isShow = false
@@ -76,6 +76,6 @@ struct CustomAlertComponent: View {
 
 struct CustomAlertComponent_Previews: PreviewProvider {
     static var previews: some View {
-        CustomAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: .constant(true) )
+        LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: .constant(true) )
     }
 }

@@ -17,7 +17,7 @@
 		824266982A0D701A00E5F186 /* CustomAlertComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824266972A0D701A00E5F186 /* CustomAlertComponent.swift */; };
 		825C2E362A12AA3B006DE0E8 /* SignInComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C2E352A12AA3B006DE0E8 /* SignInComponent.swift */; };
 		82AC3FCC2A0ED71E005F49D7 /* TesteLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AC3FCB2A0ED71D005F49D7 /* TesteLoginView.swift */; };
-		82B935102A0E703600BC51F0 /* ConquestModalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B9350F2A0E703600BC51F0 /* ConquestModalComponent.swift */; };
+		82B935102A0E703600BC51F0 /* LoginAlertComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B9350F2A0E703600BC51F0 /* LoginAlertComponent.swift */; };
 		82B935142A0E7A0D00BC51F0 /* ConquestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B935132A0E7A0D00BC51F0 /* ConquestModel.swift */; };
 		82B935162A0EA8FA00BC51F0 /* BarMoodComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B935152A0EA8FA00BC51F0 /* BarMoodComponent.swift */; };
 		82CABE3A2A0D8E1A002DFF54 /* SignUpComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CABE392A0D8E1A002DFF54 /* SignUpComponent.swift */; };
@@ -52,7 +52,7 @@
 		824266972A0D701A00E5F186 /* CustomAlertComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertComponent.swift; sourceTree = "<group>"; };
 		825C2E352A12AA3B006DE0E8 /* SignInComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInComponent.swift; sourceTree = "<group>"; };
 		82AC3FCB2A0ED71D005F49D7 /* TesteLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TesteLoginView.swift; sourceTree = "<group>"; };
-		82B9350F2A0E703600BC51F0 /* ConquestModalComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConquestModalComponent.swift; sourceTree = "<group>"; };
+		82B9350F2A0E703600BC51F0 /* LoginAlertComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAlertComponent.swift; sourceTree = "<group>"; };
 		82B935132A0E7A0D00BC51F0 /* ConquestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConquestModel.swift; sourceTree = "<group>"; };
 		82B935152A0EA8FA00BC51F0 /* BarMoodComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarMoodComponent.swift; sourceTree = "<group>"; };
 		82CABE392A0D8E1A002DFF54 /* SignUpComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpComponent.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 				824266952A0D59AD00E5F186 /* MedalComponent.swift */,
 				824266972A0D701A00E5F186 /* CustomAlertComponent.swift */,
 				82CABE392A0D8E1A002DFF54 /* SignUpComponent.swift */,
-				82B9350F2A0E703600BC51F0 /* ConquestModalComponent.swift */,
+				82B9350F2A0E703600BC51F0 /* LoginAlertComponent.swift */,
 				82B935152A0EA8FA00BC51F0 /* BarMoodComponent.swift */,
 				6CC7A0932A098D80008329B7 /* ReviewComponent.swift */,
 				6C8313F62A0C1ED500A6A412 /* MapPopUpComponent.swift */,
@@ -298,7 +298,7 @@
 				82FC66A72A04409D008DF9CC /* BarComponent.swift in Sources */,
 				825C2E362A12AA3B006DE0E8 /* SignInComponent.swift in Sources */,
 				82FC66992A042571008DF9CC /* LogoComponent.swift in Sources */,
-				82B935102A0E703600BC51F0 /* ConquestModalComponent.swift in Sources */,
+				82B935102A0E703600BC51F0 /* LoginAlertComponent.swift in Sources */,
 				85285E282A02EB0C00139191 /* CloudKitUserIcloud.swift in Sources */,
 				85D53D3529FE9A6D006C4A4F /* Clients.swift in Sources */,
 				851D895229FDE7C900282473 /* BucketListView.swift in Sources */,

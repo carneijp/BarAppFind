@@ -12,6 +12,7 @@ struct SignInComponent: View {
     @Environment(\.presentationMode) var presentation
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var showSignUp: Bool = false
 
     
     var body: some View {
@@ -66,8 +67,21 @@ struct SignInComponent: View {
             } label: {
                 Text("Entrar")
             }
+            .padding(.vertical)
+            
+            // Botão de Cadastrar
+            
+            Button {
+                showSignUp = true
+            } label: {
+                Text("Quero me cadastrar")
+            }
+            
             
             Spacer()
+        }
+        .sheet(isPresented: $showSignUp) {
+            SignUpComponent()
         }
         
     }
