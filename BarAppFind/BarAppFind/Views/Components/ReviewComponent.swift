@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct ReviewComponent: View {
-//    let name: String
-//    let stars: Int
-//    let comment: String
     
     let review: Review
     
@@ -20,11 +17,14 @@ struct ReviewComponent: View {
                 Text(review.writerName)
                     .font(.system(size: 14))
                     .padding(.top, 5)
-                Image(systemName: "star")
-                Image(systemName: "star")
-                Image(systemName: "star")
-                Image(systemName: "star")
-                Image(systemName: "star")
+                ForEach(1..<6){ i in
+                    if(i<=Int(review.grade)){
+                        Image(systemName: "star.fill")
+                    }
+                    else{
+                        Image(systemName: "star")
+                    }
+                }
                 
                 
                 Spacer()
