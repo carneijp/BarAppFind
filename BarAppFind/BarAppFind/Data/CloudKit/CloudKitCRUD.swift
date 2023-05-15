@@ -543,14 +543,6 @@ class CloudKitCRUD: ObservableObject {
         queryOperation.resultsLimit = 50
         var listFavorites = client.favorites
         var count: Int = listFavorites.firstIndex(of: barName) ?? -1
-        
-//        for favorite in client.favorites {
-//            if favorite == barName {
-//                return
-//            }
-//            count+=1
-//        }
-//
         listFavorites.remove(at: count)
         
         if #available(iOS 15.0, *){

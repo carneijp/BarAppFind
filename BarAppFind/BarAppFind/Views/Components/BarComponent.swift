@@ -50,12 +50,14 @@ struct BarComponent: View {
                                 cloud.removeFavoriteBar(client: cliente, barName: bar.name)
                                 let referencia = cliente.favorites.firstIndex(of: bar.name)
                                 cliente.favorites.remove(at: referencia ?? -1)
+                                cloud.client = cliente
                             }
                     }else{
                         Image(systemName: "heart")
                             .onTapGesture {
                                 cloud.addFavoriteBar(client: cliente, barName: bar.name)
                                 cliente.favorites.append(bar.name)
+                                cloud.client = cliente
                             }
                     }
                     
@@ -65,9 +67,6 @@ struct BarComponent: View {
                             print("Voce deve estar logado para favoritar.")
                         }
                 }
-                
-                
-                
             }
         }
     }
