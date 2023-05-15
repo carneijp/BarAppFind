@@ -16,6 +16,8 @@ struct SignInComponent: View {
     
     var body: some View {
         VStack {
+            
+            // Header da Sheet / Modal
             HStack {
                 Text("Faça o seu Login")
                     .font(.system(size: 16))
@@ -36,6 +38,8 @@ struct SignInComponent: View {
             .background(.secondary.opacity(0.05))
             .padding(.bottom, 30)
             
+            
+            // Logo do App
             Image("trending1")
                 .resizable()
                 .scaledToFit()
@@ -56,12 +60,12 @@ struct SignInComponent: View {
             .border(.secondary)
             .padding(.horizontal)
             
+            // Botão de Logar
             Button {
                 presentation.wrappedValue.dismiss()
             } label: {
                 Text("Entrar")
             }
-
             
             Spacer()
         }
