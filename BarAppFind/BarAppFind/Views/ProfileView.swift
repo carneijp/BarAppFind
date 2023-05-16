@@ -68,6 +68,7 @@ struct ProfileView: View {
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
                             }
+                            .padding(.leading, 24)
                             
                         } else {
                             VStack {
@@ -80,10 +81,10 @@ struct ProfileView: View {
                                         isProfileEdit = false
                                     }
                             }
+                            .padding(.leading, 24)
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width/2)
-                    .padding(.leading, 24)
                     
                     Spacer()
                     
@@ -99,6 +100,7 @@ struct ProfileView: View {
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
                             }
+                            .padding(.trailing, 24)
                             
                         } else {
                             VStack {
@@ -111,11 +113,10 @@ struct ProfileView: View {
                                         isProfileEdit = true
                                     }
                             }
+                            .padding(.trailing, 24)
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width/2)
-                    .padding(.trailing, 24)
-                    
                 }
                 
                 // MARK: - Conteúdo Tab Bar
