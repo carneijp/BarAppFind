@@ -17,7 +17,7 @@ struct HomeView: View {
             HStack {
                 Spacer()
                 LogoComponent()
-                    .padding(.top, 10)
+                    .padding(.top, 20)
                 Spacer()
             }
             
@@ -29,13 +29,7 @@ struct HomeView: View {
                     VStack {
                         TabView(selection: $trendingIndex) {
                             ForEach(trendings.indices, id: \.self) { index in
-                                NavigationLink {
-                                    BarPageView(barname: trendings[index])
-                                        .environmentObject(cloud)
-                                } label: {
-                                    TrendingComponent(trendingItem: trendings[index])
-                                }
-
+                                TrendingComponent(trendingItem: trendings[index])
                             }
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -59,7 +53,7 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         
                         //Mood Section
-                        Text("Onde é...")
+                        Text("Qual o seu mood hoje?")
                             .font(.system(size: 14))
                             .padding(.leading, 24)
                         
@@ -67,7 +61,11 @@ struct HomeView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
                                 ForEach(moodsImage.indices, id: \.self) { index in
-                                    MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
+                                    NavigationLink {
+                                        MoodListView()
+                                    } label: {
+                                        MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
+                                    }
                                 }
                             }
                             .padding(.horizontal, 24)
@@ -108,7 +106,6 @@ struct HomeView: View {
                         }
                         .padding(.horizontal, 24)
                     }
-                    .offset(y: -16)
 
                 }
                 
