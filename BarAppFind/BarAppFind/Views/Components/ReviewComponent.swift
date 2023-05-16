@@ -20,12 +20,18 @@ struct ReviewComponent: View {
                 ForEach(1..<6){ i in
                     if(i<=Int(review.grade)){
                         Image(systemName: "star.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 16)
                     }
                     else{
                         Image(systemName: "star")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 16)
                     }
                 }
-                
+                .padding(.top, 2)
                 
                 Spacer()
             }
