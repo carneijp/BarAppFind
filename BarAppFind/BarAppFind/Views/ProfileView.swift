@@ -34,6 +34,8 @@ struct ProfileView: View {
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
                 
+                
+                // Botão de Fazer Login
                 if cloud.client == nil {
                     Button {
                         showSignIn = true
@@ -53,6 +55,8 @@ struct ProfileView: View {
                 
                 // MARK: - Tab Bar
                 HStack {
+                    
+                    // Tab 1: Minhas Conquistas
                     Group {
                         if isMyConquests {
                             VStack(spacing: 4) {
@@ -64,7 +68,6 @@ struct ProfileView: View {
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
                             }
-                            .padding(.leading, 24)
                             
                         } else {
                             VStack {
@@ -77,13 +80,14 @@ struct ProfileView: View {
                                         isProfileEdit = false
                                     }
                             }
-                            .padding(.leading, 24)
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width/2)
+                    .padding(.leading, 24)
                     
                     Spacer()
                     
+                    // Tab 2: Editar Perfil
                     Group {
                         if isProfileEdit {
                             VStack(spacing: 4) {
@@ -95,7 +99,6 @@ struct ProfileView: View {
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
                             }
-                            .padding(.trailing, 24)
                             
                         } else {
                             VStack {
@@ -108,21 +111,20 @@ struct ProfileView: View {
                                         isProfileEdit = true
                                     }
                             }
-                            .padding(.trailing, 24)
-                            
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width/2)
+                    .padding(.trailing, 24)
                     
                 }
                 
                 // MARK: - Conteúdo Tab Bar
                 switch topProfileChoice {
+                    
+                // Conteúdo Tab. 1 - Minhas Conquistas
                 case .myConquests:
                     ScrollView {
                         VStack(spacing: 32) {
-                            
-                            //MARK: Provisório
                             Grid(horizontalSpacing: 18) {
                                 GridRow {
                                     MedalComponent()
@@ -138,33 +140,13 @@ struct ProfileView: View {
                                 }
                             }
                             
-                            Grid(horizontalSpacing: 18) {
-                                GridRow {
-                                    MedalComponent()
-                                    MedalComponent()
-                                }
-                            }
-                            
-                            Grid(horizontalSpacing: 18) {
-                                GridRow {
-                                    MedalComponent()
-                                    MedalComponent()
-                                }
-                            }
-                            
-                            Grid(horizontalSpacing: 18) {
-                                GridRow {
-                                    MedalComponent()
-                                    MedalComponent()
-                                }
-                            }
-                            
                             Spacer()
                         }
                         .padding(.top, 32)
                         .padding(.horizontal, 24)
                     }
-                    
+                
+                // Conteúdo Tab. 2 - Editar Perfil
                 case .profileEdit:
                     HStack {
                         Text("Detalhes da conta")
@@ -183,7 +165,7 @@ struct ProfileView: View {
                     .padding(.horizontal, 24)
                 }
                 
-                // MARK: -
+                // MARK: - Final da View
                 Spacer()
             }
             .padding(.top, 100)
@@ -193,7 +175,7 @@ struct ProfileView: View {
                 SignInComponent()
             }
             
-            // Pop Up De Login Necessário
+            // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
         }
         // Faz aparecer o Pop Up de Login Necessário
@@ -211,7 +193,7 @@ struct Profile_Previews: PreviewProvider {
     }
 }
 
-// MARK: Popover Arrow Direction
+// MARK: Popover Arrow Direction - Não mexer!
 enum ArrowDirection: String,CaseIterable{
     case up = "Up"
     case down = "Down"
