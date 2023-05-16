@@ -16,14 +16,13 @@ struct MoodComponent: View {
             Image(moodImage)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 60, height: 80)
-//                .padding(.bottom, 13)
+//                .frame(width: 40, height: 60)
             
             Text(moodName)
                 .font(.system(size: 14))
         }
         .frame(width: 80, height: 100)
-        .padding(.top, 50)
+        .padding(.top, 30)
         .padding(.bottom, 20)
         .padding(.horizontal, 21)
         .background(Color("gray6"))
