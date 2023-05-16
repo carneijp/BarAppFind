@@ -11,6 +11,8 @@ struct LoginAlertComponent: View {
     var title: String
     var description: String
     @Binding var isShow: Bool
+    @State private var showSignIn: Bool = false
+//    @Environment(\.presentationMode) var presentation
     
     var body: some View {
         VStack(spacing: 20) {
@@ -45,6 +47,8 @@ struct LoginAlertComponent: View {
                 Spacer()
                 
                 Button {
+                    showSignIn = true
+                    self.isShow = false
                 } label: {
                     Text("Fazer Login")
                         .font(.system(size: 14))
@@ -67,6 +71,9 @@ struct LoginAlertComponent: View {
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 20)
         .background(.secondary.opacity(0.6))
         .offset(y: isShow ? -10 : UIScreen.main.bounds.height)
+        .sheet(isPresented: $showSignIn) {
+            SignInComponent()
+        }
     }
 }
 
