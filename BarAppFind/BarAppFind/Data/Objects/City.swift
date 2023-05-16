@@ -106,5 +106,7 @@ class Review: ObservableObject, Hashable, Identifiable {
     }
 }
 
-var trendings: [String] = ["Bibah","Brita","Quentins"]
-var moods: [String] = ["mood1","mood2","mood3","mood4","mood5","mood6"]
+var trendings: [String] = ["trending1","trending2","trending3"]
+var moodsImage: [String] = ["casal","familia","tematico","esquenta","fofoca","barzinho"]
+var moodsName: [String] = ["casal","familia","tematico","esquenta","fofoca","barzinho"]
+

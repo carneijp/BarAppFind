@@ -17,30 +17,15 @@ struct HomeView: View {
             HStack {
                 Spacer()
                 LogoComponent()
-                    .padding(.vertical, 8)
                 Spacer()
             }
             
-            // MARK: - ScrollView Vertical
+            // MARK: - ScrollView Vertical Principal da home
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
 
                     // MARK: - Trendings Carousel
                     VStack {
-//                        ScrollView(.horizontal, showsIndicators: false) {
-//                            HStack(spacing: 10) {
-//                                ForEach(trendings.indices, id: \.self) { index in
-//                                    NavigationLink {
-//                                        BarPageView()
-//                                    } label: {
-//                                        TrendingComponent(trendingItem: trendings[index])
-//                                    }
-//
-//                                }
-//                            }
-//                            .padding(.horizontal, 24)
-//                        }
-                        
                         TabView(selection: $trendingIndex) {
                             ForEach(trendings.indices, id: \.self) { index in
                                 NavigationLink {
@@ -64,7 +49,6 @@ struct HomeView: View {
 
                             }
                         }
-                        .padding(.top, 8)
                     }
 
                     
@@ -72,25 +56,27 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         
                         //Mood Section
-                        Text("Hoje eu tô afim de...")
+                        Text("Onde é...")
                             .font(.system(size: 14))
-                            .padding(.top, 14)
+                            .padding(.top, 8)
                             .padding(.leading, 24)
                         
                         //Mood Section
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 10) {
-                                ForEach(moods, id: \.self) { mood in
-                                    MoodComponent(mood: mood)
+                            HStack(spacing: 20) {
+                                ForEach(moodsImage.indices, id: \.self) { index in
+                                    MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
                                 }
                             }
                             .padding(.horizontal, 24)
+                            .padding(.bottom, 14)
                         }
+                        .padding(.bottom, 14)
                         
                         //Bars Section
                         VStack {
                             HStack {
-                                Text("Bares próximos a mim")
+                                Text("Sugestões de bares hoje")
                                     .font(.system(size: 14))
                                 
                                 Spacer()
@@ -103,7 +89,7 @@ struct HomeView: View {
                                         .foregroundColor(Color("blue"))
                                 }
                             }
-                            .padding(.top, 14)
+//                            .padding(.top, 14)
                             .padding(.bottom, 20)
                             
                             ForEach(cloud.barsList, id: \.self) { bar in

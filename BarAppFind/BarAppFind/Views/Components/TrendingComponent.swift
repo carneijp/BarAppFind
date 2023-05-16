@@ -13,9 +13,8 @@ struct TrendingComponent: View {
     var body: some View {
         Image(trendingItem)
             .resizable()
-            .scaledToFill()
-            .frame(width: UIScreen.main.bounds.width - 48, height: 150)
-            .background(.gray.opacity(0.5))
+            .scaledToFit()
+            .frame(width: UIScreen.main.bounds.width - 48)
             .cornerRadius(14)
     }
 }
