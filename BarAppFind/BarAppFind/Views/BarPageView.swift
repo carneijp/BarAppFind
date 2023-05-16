@@ -325,7 +325,7 @@ struct BarPageView: View {
                         
                     //MARK: Avaliações
                     case .review:
-                        ScrollView{
+                        VStack{
                             TextFieldComponent(barName: self.barname)
                                 .padding(.bottom)
                             
