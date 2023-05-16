@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BarListView: View {
-    @StateObject var cloud: CloudKitCRUD = CloudKitCRUD()
+    @EnvironmentObject var cloud: CloudKitCRUD
     @State private var searchText: String = ""
     
     var body: some View {
@@ -25,9 +25,10 @@ struct BarListView: View {
                 }
             }
             .padding(.horizontal, 24)
-            .padding(.top, 50)
+            .padding(.top, 20)
         }
-//        .searchable(text: $text)
+        .navigationTitle("Todos os Bares")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
             if cloud.barsList.count != 10 {
                 cloud.fetchBars()

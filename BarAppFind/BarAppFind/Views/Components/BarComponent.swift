@@ -26,7 +26,7 @@ struct BarComponent: View {
             HStack {
                 VStack {
                     HStack {
-                        Text("**\(bar.name)** • 3km")
+                        Text("**\(bar.name)**")
                             .font(.system(size: 14))
                         
                         Spacer()
@@ -35,7 +35,7 @@ struct BarComponent: View {
                     
                     HStack(spacing: 5) {
                         Image(systemName: "star.fill")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.primary)
                         
                         Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
                             .font(.system(size: 14))
