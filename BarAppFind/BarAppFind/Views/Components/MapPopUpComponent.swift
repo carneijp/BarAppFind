@@ -8,28 +8,31 @@
 import SwiftUI
 
 struct MapPopUpComponent: View {
+    var bar: Bar
     var body: some View {
         VStack {
-            Image("bakground")
-                .resizable()
-                .scaledToFit()
+            if let photoLogo = bar.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+            }
             VStack(alignment: .leading){
                 HStack{
-                    Text("Deusa Bar")
+                    Text(bar.name)
                         .font(.system(size: 14))
                         .bold()
                     
-                    Text("•")
-                    
-                    Text("3km")
-                        .font(.system(size: 12))
+//                    Text("•")
+//
+//                    Text("3km")
+//                        .font(.system(size: 12))
                 }
                     .foregroundColor(.white)
                 HStack{
                     Image(systemName: "star.fill")
 
                     
-                    Text("4,60")
+                    Text("\(bar.grade)")
                         .font(.system(size: 14))
                     
                     Text("•")
@@ -52,6 +55,6 @@ struct MapPopUpComponent: View {
 
 struct MapPopUpComponent_Previews: PreviewProvider {
     static var previews: some View {
-        MapPopUpComponent()
+        MapPopUpComponent(bar: Bar(name: "", description: "", mood: [""], grade: 0.0, latitude: 51, longitude: 51, operatinhours: [""], endereco: "", regiao: "", caracteristicas: [""]))
     }
 }

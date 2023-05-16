@@ -16,38 +16,72 @@ enum MapStyle {
 
 
 struct MapView: View {
-    @State var barsList: [Bar] = [Bar(name: "asd", description: "asd", mood: ["asdasd"], grade: 1.0, latitude: -31, longitude: -51, operatinhours: ["20:00"], endereco: "Rua Jorge", regiao: "Brasil", caracteristicas: ["soda"])]
+    @State var barsList: [Bar] = []
     @ObservedObject var viewModel = MapViewModel()
     @EnvironmentObject var cloud: CloudKitCRUD
     let mapStyle: MapStyle
+    @State var shownBar: Bar?
+    @State var showBarSmallDescription: Bool = false
     
     var body: some View {
         ZStack{
             
-//            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
-                
+            //            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+            
             Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
                 
                 // LIMITADO - Usar MapMarker
                 // RUIM - Reimplementar isso do zero
                 // Trazer o mapa de UIKit
-                    MapMarker(coordinate: bar.coordinate)
+                MapAnnotation(coordinate: bar.coordinate){
+                    Group{
+                        VStack{
+//                            if let photoLogo = bar.photosLogo, let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+//                                Image(uiImage: image)
+//                                    .resizable()
+//                                    .clipShape(Circle())
+//                                    .frame(height: 36)
+//                                    .scaledToFit()
+//                            }
+                            Image(systemName: "mappin.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 36)
+                                .foregroundColor(.red)
+//
+                            Circle()
+                                .scaledToFit()
+                                .frame(height: 5)
+                                .foregroundColor(.black)
+                                .fixedSize()
+                                .offset(y:-6)
+                        }
+                    }
+                    .onTapGesture {
+                        shownBar = bar
+                        showBarSmallDescription.toggle()
+                    }
                 }
-                .onAppear {
-                    viewModel.wheretoZoom()
-                }
-                .onChange(of: viewModel.chosen) { newValue in
-                    viewModel.wheretoZoom()
-                }
-                
+            }
+            .onTapGesture {
+                if
+                showBarSmallDescription = false
+            }
+            
+            
             if mapStyle == .large{
                 VStack{
-                    ComponenteLargeMap(chosen: $viewModel.chosen)
+                    ComponenteLargeMap(chosen: $viewModel.chosen, shownBar: $shownBar, showBarSmallDescription: $showBarSmallDescription)
                         .environmentObject(viewModel)
                     Spacer()
                 }
             }
             
+        }.onAppear {
+            viewModel.wheretoZoom()
+        }
+        .onChange(of: viewModel.chosen) { newValue in
+            viewModel.wheretoZoom()
         }
     }
 }
@@ -56,6 +90,8 @@ struct ComponenteLargeMap: View {
     @Binding var chosen: MapDetails?
     @EnvironmentObject var viewModel: MapViewModel
     @State var showListMenu: Bool = false
+    @Binding var shownBar: Bar?
+    @Binding var showBarSmallDescription: Bool
     
     var body: some View {
         VStack{
@@ -74,10 +110,22 @@ struct ComponenteLargeMap: View {
                     .padding(.horizontal)
             }
             Spacer()
-            buttonUser
-            
+            if showBarSmallDescription{
+                Button{
+                    if let barName = shownBar?.name{
+                        BarPageView(barname: barName)
+                    }
+                }label: {
+                    if let bar = shownBar{
+                        MapPopUpComponent(bar: bar)
+                    }
+                }
+                
+            }else{
+                buttonUser
+            }
         }
-
+        
     }
 }
 
@@ -122,7 +170,7 @@ extension ComponenteLargeMap {
                     .resizable()
                     .frame(width: 50, height: 50)
                     .scaledToFit()
-            }.padding(.bottom)
+            }.padding()
         }
     }
 }
@@ -141,7 +189,7 @@ struct listViewModel: View{
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .listRowSeparator(.hidden)
-
+            
             Button{
                 chosen = .cidadeBaixaCoordinate
                 showListMenu = false
@@ -150,7 +198,7 @@ struct listViewModel: View{
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .listRowSeparator(.hidden)
-
+            
             Button{
                 chosen = .bomFimCoordinate
                 showListMenu = false

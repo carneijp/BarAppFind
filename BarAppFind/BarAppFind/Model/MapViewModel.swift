@@ -12,6 +12,7 @@ enum MapDetails{
     case quartoDistritoCoordinate
     static let initialCoordinate = CLLocationCoordinate2D(latitude: -30.038563, longitude: -51.199948)
     static let defaultSpan: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
+    static let zoomArea: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009)
     
     var description: String {
         switch self {
@@ -27,10 +28,10 @@ enum MapDetails{
     var coordinate: CLLocationCoordinate2D {
         switch self {
         case .bomFimCoordinate:
-            return CLLocationCoordinate2D(latitude: -30.032882, longitude: -51.213410)
+            return CLLocationCoordinate2D(latitude: -30.03421, longitude: -51.20884)
             
         case .cidadeBaixaCoordinate:
-            return CLLocationCoordinate2D(latitude: -30.039670, longitude: -51.223117)
+            return CLLocationCoordinate2D(latitude: -30.03763, longitude: -51.22270)
             
         case .quartoDistritoCoordinate:
             return CLLocationCoordinate2D(latitude: -30.009066, longitude: -51.206277)
@@ -50,17 +51,16 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     func wheretoZoom(){
             self.chekIfLocationService()
             if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
-                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.defaultSpan)
+                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
             }else if let location = self.chosen{
-                self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.defaultSpan)
+                self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
             }else if let user = self.userLocation{
                 self.region = user
             }
-    }
+        }
     
     func chekIfLocationService() {
-        
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.main.async {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager = CLLocationManager()
                 self.locationManager!.delegate = self
@@ -69,6 +69,17 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
         }
     }
+    
+//    func checkForLocation() {
+//        DispatchQueue.global().async {
+//            if CLLocationManager.locationServicesEnabled() {
+//                self.locationManager = CLLocationManager()
+//                self.locationManager!.delegate = self
+//            }else{
+//                print("location servise desable, please enable for a better experience.")
+//            }
+//        }
+//    }
     
     private func checkLocationPermission() {
         
@@ -93,6 +104,6 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//        checkLocationPermission()
+        checkLocationPermission()
     }
 }
