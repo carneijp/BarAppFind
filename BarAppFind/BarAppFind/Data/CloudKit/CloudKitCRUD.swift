@@ -4,15 +4,14 @@ import Foundation
 
 @MainActor
 class CloudKitCRUD: ObservableObject {
-    
     @Published var barsList: [Bar] = []
     @Published var reviewListByBar: [Review] = []
     @Published var client: Clients?
     
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
-//            print("\(returnedRecors)")
-//            print("\(returnedError)")
+            print("\(returnedRecors)")
+            print("\(returnedError)")
         }
     }
     
@@ -246,6 +245,9 @@ class CloudKitCRUD: ObservableObject {
     
     func fetchItemsReview(barName: String, cursor: CKQueryOperation.Cursor? = nil, completion: @escaping() -> Void) {
 //        reviews de todos os reviews do bar
+        if(cursor == nil) {
+            self.reviewListByBar = []
+        }
         
         let predicate = NSPredicate(format: "Bar = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
@@ -420,6 +422,16 @@ class CloudKitCRUD: ObservableObject {
                     var returnedPhotos: [URL] = []
                     guard let imageURL = imageAsset[0].fileURL else { return }
                     returnedPhotos.append(imageURL)
+//                    var media: Double = 0.0
+//                    self.fetchItemsReview(barName: barName) {
+//                        let countBars = self.reviewListByBar.count
+//                        if countBars == 0{
+//                            media = 5.0
+//                        }else{
+//                            let grade = self.reviewListByBar.map{$0.grade}.reduce(0, +)
+//                            media = Double(grade) / Double(countBars)
+//                        }
+//                    }
                     
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
@@ -515,6 +527,26 @@ class CloudKitCRUD: ObservableObject {
             }
         }
         
+        addDataBaseOperation(operation: queryOperation)
+    }
+    
+    func changeGrade(grade: Double, barName: String){
+        let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(barName)"])
+        let query = CKQuery(recordType: "Bars", predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
+
+        if #available(iOS 15.0, *){
+            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                switch returnedResult{
+                case .success(let bar):
+                    bar["Grade"] = grade
+                    self.saveItemPublic(record: bar)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+            }
+        }
+
         addDataBaseOperation(operation: queryOperation)
     }
     

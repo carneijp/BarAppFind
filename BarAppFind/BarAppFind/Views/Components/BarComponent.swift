@@ -37,8 +37,8 @@ struct BarComponent: View {
                         Image(systemName: "star.fill")
                             .foregroundColor(.primary)
                         
-                        Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
-                            .font(.system(size: 14))
+                            Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                                .font(.system(size: 14))
                         
                         Spacer()
                     }
