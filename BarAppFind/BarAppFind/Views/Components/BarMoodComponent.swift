@@ -10,6 +10,7 @@ import SwiftUI
 struct BarMoodComponent: View {
     @State var bar: Bar
     @EnvironmentObject private var cloud: CloudKitCRUD
+    var moodColor: String
     
     var body: some View {
         VStack(spacing: 0) {
@@ -25,6 +26,7 @@ struct BarMoodComponent: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text(bar.name)
                     .font(.system(size: 16))
+                    .bold()
                 
                 HStack {
                     Image(systemName: "star.fill")
@@ -37,7 +39,7 @@ struct BarMoodComponent: View {
             .padding(.horizontal, 12)
             .padding(.top, 10)
             .padding(.bottom, 10)
-            .background(Color("gray5"))
+            .background(Color(moodColor))
             
         }
         .frame(width: 160)
@@ -50,6 +52,6 @@ struct BarMoodComponent: View {
 
 struct BarMoodComponent_Previews: PreviewProvider {
     static var previews: some View {
-        BarMoodComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []))
+        BarMoodComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []), moodColor: "casal")
     }
 }

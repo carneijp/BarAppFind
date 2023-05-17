@@ -113,4 +113,6 @@ var trendings: [String] = ["trending1","trending2","trending3"]
 var moodsImage: [String] = ["Family friendly","Fofoca","Barzinho","Esquenta","Role de casal","Ambientes temáticos"]
 var moodsName: [String] = ["Family friendly","Fofoca","Barzinho","Esquenta","Role de casal","Ambientes temáticos"]
 var moodsBanner: [String] = ["Family friendly2","Fofoca2","Barzinho2","Esquenta2","Role de casal2","Ambientes temáticos2"]
+var moodsColors: [String] = ["Family friendly3","Fofoca3","Barzinho3","Esquenta3","Role de casal3","Ambientes temáticos3"]
+
 

@@ -29,15 +29,19 @@ struct MoodListView: View {
                 }
             }
             
-            LazyVGrid(columns: columns, spacing: 14) {
+            LazyVGrid(columns: columns, spacing: 18) {
                 ForEach(cloud.barsList.filter({ $0.mood.contains(moodName) }), id: \.self) { bar in
                     NavigationLink {
                         BarPageView(barname: bar.name)
                             .toolbarRole(.editor)
                     } label: {
-                        BarMoodComponent(bar: bar)
-                            .environmentObject(cloud)
-                            .foregroundColor(.primary)
+                        ForEach(moodsColors.indices, id: \.self) { index in
+                            if "\(moodName)3" == moodsColors[index] {
+                                BarMoodComponent(bar: bar, moodColor: moodsColors[index])
+                                    .environmentObject(cloud)
+                                    .foregroundColor(.primary)
+                            }
+                        }
                     }
                 }
             }
