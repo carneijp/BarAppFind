@@ -9,7 +9,6 @@ import SwiftUI
 
 struct BarListView: View {
     @EnvironmentObject var cloud: CloudKitCRUD
-    @State private var searchText: String = ""
     
     var body: some View {
         ScrollView {

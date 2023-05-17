@@ -68,7 +68,7 @@ struct LoginAlertComponent: View {
         .cornerRadius(12)
         .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
         .animation(.spring())
-        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 20)
+        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 40)
         .background(.secondary.opacity(0.6))
         .offset(y: isShow ? -10 : UIScreen.main.bounds.height)
         .sheet(isPresented: $showSignIn) {
