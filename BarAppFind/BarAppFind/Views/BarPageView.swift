@@ -205,7 +205,9 @@ struct BarPageView: View {
                                         print("Voce deve estar logado para favoritar.")
                                     }
                                 
-                            }}
+                            }
+                            
+                        }
                         .padding(.top)
                         
                         

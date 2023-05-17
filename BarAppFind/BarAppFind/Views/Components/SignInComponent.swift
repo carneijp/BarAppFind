@@ -53,7 +53,7 @@ struct SignInComponent: View {
                 TextField("Digite o seu e-mail", text: $email)
 
                 
-                TextField("Senha", text: $password)
+                SecureField("Senha", text: $password)
             }
             .textInputAutocapitalization(.never)
             .disableAutocorrection(true)

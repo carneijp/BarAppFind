@@ -41,17 +41,6 @@ struct FavoritesView: View {
             .padding(.horizontal, 24)
             .padding(.top, 50)
         }
-        //        .searchable(text: $text)
-        //        .onChange(of: cloud.client, perform: { newValue in
-        //            if cloud.client != nil{
-        //                logado = true
-        //            }
-        //        })
-        //            if cloud.client == nil {
-        //                a = false
-        //            } else {
-        //                a = true
-        //            }
     }
 }
 
