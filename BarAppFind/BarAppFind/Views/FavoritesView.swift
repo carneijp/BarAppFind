@@ -23,6 +23,7 @@ struct FavoritesView: View {
                         ForEach(cloud.barsList.filter({ client.favorites.contains($0.name) }), id: \.self) { bar in
                             NavigationLink {
                                 BarPageView(barname: bar.name)
+                                    .toolbarRole(.editor)
                             } label: {
                                 BarComponent(bar: bar)
                                     .foregroundColor(.primary)

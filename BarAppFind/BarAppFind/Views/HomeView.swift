@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var trendingIndex = 0
     @EnvironmentObject var cloud: CloudKitCRUD
+    @State var isShowing: Bool = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -31,6 +32,7 @@ struct HomeView: View {
                                 NavigationLink {
                                     BarPageView(barname: trendings[index])
                                         .environmentObject(cloud)
+                                        .toolbarRole(.editor)
                                 } label: {
                                     TrendingComponent(trendingItem: trendings[index])
                                 }
@@ -83,6 +85,7 @@ struct HomeView: View {
                                 
                                 NavigationLink {
                                     BarListView()
+                                        .toolbarRole(.editor)
                                 } label: {
                                     Text("Ver todos")
                                         .font(.system(size: 14))
@@ -96,6 +99,7 @@ struct HomeView: View {
                                 NavigationLink {
                                     BarPageView(barname: bar.name)
                                         .environmentObject(cloud)
+                                        .toolbarRole(.editor)
                                 } label: {
                                     BarComponent(bar: bar)
                                         .environmentObject(cloud)
