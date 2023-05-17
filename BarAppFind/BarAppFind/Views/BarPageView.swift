@@ -228,7 +228,7 @@ struct BarPageView: View {
                         HStack(){
                             if let moods = bar?.mood{
                                 ForEach(moods, id:\.self){ mood in
-                                    BarViewMoodComponent(mood: mood)
+                                    MoodSmallComponent(moodName: mood)
                                 }
                             }
                         }
