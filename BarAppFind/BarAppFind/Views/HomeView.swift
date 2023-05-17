@@ -62,7 +62,9 @@ struct HomeView: View {
                             HStack(spacing: 12) {
                                 ForEach(moodsImage.indices, id: \.self) { index in
                                     NavigationLink {
-                                        MoodListView()
+                                        MoodListView(moodName: moodsName[index])
+                                            .toolbarRole(.editor)
+                                        
                                     } label: {
                                         MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
                                     }
