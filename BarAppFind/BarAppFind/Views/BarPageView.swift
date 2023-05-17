@@ -14,13 +14,13 @@ struct BarPageView: View {
     
     private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
     
-//    let contacts = [
-//      "John",
-//      "Ashley",
-//      "Bobby",
-//      "Jimmy",
-//      "Fredie"
-//    ]
+    //    let contacts = [
+    //      "John",
+    //      "Ashley",
+    //      "Bobby",
+    //      "Jimmy",
+    //      "Fredie"
+    //    ]
     
     enum ChoiceBar {
         case barName, info, review
@@ -56,7 +56,7 @@ struct BarPageView: View {
                     .padding(10)
                     .background(Color("gray5"))
                     .cornerRadius(10)
-    //                .background(Color.green)
+                //                .background(Color.green)
             }
             Text(text)
                 .font(.system(size: 10))
@@ -79,20 +79,20 @@ struct BarPageView: View {
     }
     
     //Criar icone de ambiente a partir de uma imagem qualquer (estacionamento)
-//    @ViewBuilder
-//    func createAmbientIconCustom(ambientText: String, imageName: String) -> some View{
-//        VStack{
-//            Image(imageName)
-//                .resizable()
-//                .scaledToFit()
-//                .frame(width: 35, height: 31)
-//
-//            Text(ambientText)
-//                .font(.system(size: 6))
-//        }
-//    }
+    //    @ViewBuilder
+    //    func createAmbientIconCustom(ambientText: String, imageName: String) -> some View{
+    //        VStack{
+    //            Image(imageName)
+    //                .resizable()
+    //                .scaledToFit()
+    //                .frame(width: 35, height: 31)
+    //
+    //            Text(ambientText)
+    //                .font(.system(size: 6))
+    //        }
+    //    }
     
-//    @State var review: String = ""
+    //    @State var review: String = ""
     
     @State var topBarChoice: ChoiceBar = .barName
     
@@ -135,7 +135,7 @@ struct BarPageView: View {
                         }else{
                             Text("Sobre o lugar")
                                 .font(.system(size: 14))
-
+                            
                                 .foregroundColor(.gray)
                                 .onTapGesture {
                                     self.topBarChoice = .barName
@@ -196,159 +196,167 @@ struct BarPageView: View {
                 
                 //Escolhas TabBar
                 switch topBarChoice{
-                        
-                        //MARK: Sobre o lugar
-                    case .barName:
-                        VStack(alignment: .leading) {
-                            HStack{
-                                Text("\(bar?.name ?? "Loading...")")
-                                    .font(.title2)
-                                    .bold()
-                                    .padding(.trailing)
-                                
-                                Image(systemName: "star.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 15)
-                                Text(String(format: "%.1f", bar?.grade ?? 0.0))
-                                    .font(.system(size: 14))
-                                
-                                Spacer()
-                                Image(systemName: "heart")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 15)
-                                    .padding(.trailing, 15)
-                                
-                            }
-                            .padding(.top)
-                            
-                            
-                            Text("\(bar?.description ?? "Loading...")")
-                                .font(.system(size: 16))
-                                .lineLimit(nil)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .padding(.bottom)
-                            
-                            
-//                            HStack{
-//                                createCustomIcon(imageName: "Instagram", text: "Instagram")
-//
-//
-//                                createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
-//                            }
-//                            .padding(.bottom)
-                            
-                            Text("Boa escolha para ...")
-                                .font(.system(size: 14))
-                                .padding(.bottom)
-                            
-                            HStack{
-                                if let moods = bar?.mood{
-                                    ForEach(moods, id:\.self){ mood in
-                                        BarViewMoodComponent(mood: mood)
-                                    }
-                                }
-                            }
-                            
-                            HStack {
-                                Text("Sobre o ambiente")
-                                    .font(.system(size:20))
-                                    .bold()
-                                Spacer()
-                            }
-                            .padding(.vertical)
-                            
-                            HStack{
-                                //                                    createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
-                                //                                    createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
-                                //                                    ForEach(bar?.caracteristicas, id: \.self){ caracteristica in
-                                if let caracteristicas = bar?.caracteristicas{
-                                    VStack(alignment: .leading){
-                                        ForEach(caracteristicas, id:\.self){ caracteristica in
-                                            Text(caracteristica)
-                                                .font(.system(size: 16))
-                                                .padding(.bottom, 3)
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                            .padding(.horizontal)
-                        
-                    //MARK: Informações
-                    case .info:
-                        VStack(alignment: .leading){
-                            
-                            Flemis(workingHours: bar?.operatinHours ?? [] )
-                            
-                            
-                            Text("Endereço")
-                                .font(.system(size: 20))
+                    
+                    //MARK: Sobre o lugar
+                case .barName:
+                    VStack(alignment: .leading) {
+                        HStack{
+                            Text("\(bar?.name ?? "Loading...")")
+                                .font(.title2)
                                 .bold()
-                                .padding(.vertical)
-                            HStack {
-                                Text("\(bar?.endereco ?? "Loading ...")")
-                                    .lineLimit(nil)
-                                .multilineTextAlignment(.leading)
-
-                                Spacer()
-                            }
-
-                            MapView(mapStyle: .compact)
-                                .frame(width: 342, height: 129)
-
-                            HStack{
-                                Image(systemName: "car.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(Color("white"))
-                                    .frame(height: 14)
-                                    .padding(.leading)
-
-//                                Spacer()
-
-                                Text("Abrir no uber")
-                                    .font(.system(size: 16))
-                                    .bold()
-                                    .foregroundColor(Color("white"))
-
-//                                Spacer()
-                            }
-                            .frame(width:UIScreen.main.bounds.width - 48, height: 41)
-                            .background(Color("gray1"))
-                            .cornerRadius(10)
-                            .padding(.top)
+                                .padding(.trailing)
+                            
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 15)
+                            Text(String(format: "%.1f", bar?.grade ?? 0.0))
+                                .font(.system(size: 14))
+                            
+                            Spacer()
+                            Image(systemName: "heart")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 15)
+                                .padding(.trailing, 15)
+                            
                         }
-    //                    .background(Color.green)
-                            .padding(.horizontal)
+                        .padding(.top)
                         
+                        
+                        Text("\(bar?.description ?? "Loading...")")
+                            .font(.system(size: 16))
+                            .lineLimit(nil)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.bottom)
+                        
+                        
+                        //                            HStack{
+                        //                                createCustomIcon(imageName: "Instagram", text: "Instagram")
+                        //
+                        //
+                        //                                createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
+                        //                            }
+                        //                            .padding(.bottom)
+                        
+                        Text("Boa escolha para ...")
+                            .font(.system(size: 14))
+                            .padding(.bottom)
+                        
+                        HStack{
+                            if let moods = bar?.mood{
+                                ForEach(moods, id:\.self){ mood in
+                                    BarViewMoodComponent(mood: mood)
+                                }
+                            }
+                        }
+                        
+                        HStack {
+                            Text("Sobre o ambiente")
+                                .font(.system(size:20))
+                                .bold()
+                            Spacer()
+                        }
+                        .padding(.vertical)
+                        
+                        HStack{
+                            //                                    createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
+                            //                                    createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
+                            //                                    ForEach(bar?.caracteristicas, id: \.self){ caracteristica in
+                            if let caracteristicas = bar?.caracteristicas{
+                                VStack(alignment: .leading){
+                                    ForEach(caracteristicas, id:\.self){ caracteristica in
+                                        Text(caracteristica)
+                                            .font(.system(size: 16))
+                                            .padding(.bottom, 3)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    //MARK: Informações
+                case .info:
+                    VStack(alignment: .leading){
+                        
+                        Flemis(workingHours: bar?.operatinHours ?? [] )
+                        
+                        
+                        Text("Endereço")
+                            .font(.system(size: 20))
+                            .bold()
+                            .padding(.vertical)
+                        HStack {
+                            Text("\(bar?.endereco ?? "Loading ...")")
+                                .lineLimit(nil)
+                                .multilineTextAlignment(.leading)
+                            
+                            Spacer()
+                        }
+                        
+                        MapView(mapStyle: .compact)
+                            .frame(width: 342, height: 129)
+                        
+                        HStack{
+                            Image(systemName: "car.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(Color("white"))
+                                .frame(height: 14)
+                                .padding(.leading)
+                            
+                            //                                Spacer()
+                            
+                            Text("Abrir no uber")
+                                .font(.system(size: 16))
+                                .bold()
+                                .foregroundColor(Color("white"))
+                            
+                            //                                Spacer()
+                        }
+                        .frame(width:UIScreen.main.bounds.width - 48, height: 41)
+                        .background(Color("gray1"))
+                        .cornerRadius(10)
+                        .padding(.top)
+                    }
+                    //                    .background(Color.green)
+                    .padding(.horizontal)
+                    
                     //MARK: Avaliações
-                    case .review:
-                        VStack{
+                case .review:
+                    VStack{
+                        
+                        if let client = cloud.client {
+                            if cloud.reviewListByBar.filter( { client.firstName == $0.writerName } ).count == 0 {
+                                TextFieldComponent(barName: self.barname)
+                                    .padding(.bottom)
+                            }
+                        } else {
                             TextFieldComponent(barName: self.barname)
                                 .padding(.bottom)
-                            
-                            if cloud.reviewListByBar.count != 0{
-                                ForEach(cloud.reviewListByBar, id: \.self){ review in
-                                    ReviewComponent(review: review)
-                                }
-                            }else{
-                                EmptyViewReviews()
-                            }
-                            
-//                            if !reviewListIsEmpty{
-//                                ForEach(cloud.reviewListByBar, id: \.self){ review in
-//                                    ReviewComponent(review: review)
-//                                }
-//                            }else{
-//                                EmptyViewReviews()
-//                            }
                         }
-                        .padding([.horizontal, .top])
-
+                        
+                        if cloud.reviewListByBar.count != 0{
+                            ForEach(cloud.reviewListByBar, id: \.self){ review in
+                                ReviewComponent(review: review)
+                            }
+                        }else{
+                            EmptyViewReviews()
+                        }
+                        
+                        //                            if !reviewListIsEmpty{
+                        //                                ForEach(cloud.reviewListByBar, id: \.self){ review in
+                        //                                    ReviewComponent(review: review)
+                        //                                }
+                        //                            }else{
+                        //                                EmptyViewReviews()
+                        //                            }
+                    }
+                    .padding([.horizontal, .top])
+                    
                 }
-
+                
                 
                 
                 
@@ -361,7 +369,7 @@ struct BarPageView: View {
                 self.cloud.reviewListByBar = []
                 cloud.fetchItemsReview(barName: barname) {}
             }
-        .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+            .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
         }
     }
 }
@@ -387,9 +395,9 @@ struct Flemis: View {
                     .foregroundColor(.primary)
                     .padding(.top)
                     .padding(.bottom, 5)
-//                    .background(Color.green)
-
-//                Spacer()
+                //                    .background(Color.green)
+                
+                //                Spacer()
                 
                 Button(action: {
                     self.isShowingWorkingHours.toggle()
@@ -399,11 +407,11 @@ struct Flemis: View {
                         .scaledToFit()
                 })
                 .frame(width: 14, height: 28)
-//                .background(Color.green)
+                //                .background(Color.green)
                 
             }
-                .padding(.bottom, 5)
-
+            .padding(.bottom, 5)
+            
             
             if self.isShowingWorkingHours {
                 ForEach(self.workingHours, id: \.self) { workingHour in
