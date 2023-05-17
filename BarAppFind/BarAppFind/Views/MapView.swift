@@ -17,6 +17,7 @@ enum MapStyle {
 
 struct MapView: View {
     @State var barsList: [Bar] = []
+    var bar: Bar?
     @ObservedObject var viewModel = MapViewModel()
     @EnvironmentObject var cloud: CloudKitCRUD
     let mapStyle: MapStyle
@@ -24,67 +25,95 @@ struct MapView: View {
     @State var showBarSmallDescription: Bool = false
     
     var body: some View {
-        ZStack{
-            
-            //            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
-            
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
+        if mapStyle == .large{
+            ZStack{
                 
-                // LIMITADO - Usar MapMarker
-                // RUIM - Reimplementar isso do zero
-                // Trazer o mapa de UIKit
-                MapAnnotation(coordinate: bar.coordinate){
-                    Group{
-                        VStack{
-//                            if let photoLogo = bar.photosLogo, let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
-//                                Image(uiImage: image)
-//                                    .resizable()
-//                                    .clipShape(Circle())
-//                                    .frame(height: 36)
-//                                    .scaledToFit()
-//                            }
-                            Image(systemName: "mappin.circle.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 36)
-                                .foregroundColor(.red)
-//
-                            Circle()
-                                .scaledToFit()
-                                .frame(height: 5)
-                                .foregroundColor(.black)
-                                .fixedSize()
-                                .offset(y:-6)
+                //            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+                
+                Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
+                    MapAnnotation(coordinate: bar.coordinate){
+                        Group{
+                            VStack{
+                                Image(systemName: "mappin.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 36)
+                                    .foregroundColor(.red)
+                                Circle()
+                                    .scaledToFit()
+                                    .frame(height: 5)
+                                    .foregroundColor(.black)
+                                    .fixedSize()
+                                    .offset(y:-6)
+                            }
+                            .frame(width:60 ,height:60)
+                        }
+                        .onTapGesture {
+                            if showBarSmallDescription && shownBar != bar{
+                                shownBar = bar
+                            }else{
+                                shownBar = bar
+                                showBarSmallDescription = true
+                            }
+                            
                         }
                     }
-                    .onTapGesture {
-                        shownBar = bar
-                        showBarSmallDescription.toggle()
-                    }
                 }
-            }
-            .onTapGesture {
-                if
-                showBarSmallDescription = false
-            }
-            
-            
-            if mapStyle == .large{
+                .onTapGesture {
+                    showBarSmallDescription = false
+                }
                 VStack{
                     ComponenteLargeMap(chosen: $viewModel.chosen, shownBar: $shownBar, showBarSmallDescription: $showBarSmallDescription)
                         .environmentObject(viewModel)
                     Spacer()
                 }
+                
+            }
+            .onAppear {
+                viewModel.wheretoZoom()
+            }
+            .onChange(of: viewModel.chosen) { newValue in
+                viewModel.wheretoZoom()
             }
             
-        }.onAppear {
-            viewModel.wheretoZoom()
-        }
-        .onChange(of: viewModel.chosen) { newValue in
-            viewModel.wheretoZoom()
+        }else{
+            if mapStyle == .compact{
+                ZStack{
+                    if let barChosen = bar {
+                        Map(coordinateRegion: $viewModel.region,showsUserLocation: true,  annotationItems: [barChosen]) {bar in
+                            MapAnnotation(coordinate: bar.coordinate) {
+                                Group{
+                                    VStack{
+                                        Image(systemName: "mappin.circle.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 36)
+                                            .foregroundColor(.red)
+                                        //
+                                        Circle()
+                                            .scaledToFit()
+                                            .frame(height: 5)
+                                            .foregroundColor(.black)
+                                            .fixedSize()
+                                            .offset(y:-6)
+                                    }
+                                    .frame(width:60 ,height:60)
+                                }
+                            }
+                        }
+                    }
+                }
+                .onAppear {
+                    viewModel.latitude = bar?.latitude
+                    viewModel.longitude = bar?.longitude
+                    viewModel.wheretoZoom()
+                }
+            }
         }
     }
 }
+
+
 
 struct ComponenteLargeMap: View {
     @Binding var chosen: MapDetails?
@@ -111,7 +140,7 @@ struct ComponenteLargeMap: View {
             }
             Spacer()
             if showBarSmallDescription{
-                Button{
+                NavigationLink{
                     if let barName = shownBar?.name{
                         BarPageView(barname: barName)
                     }
@@ -174,6 +203,7 @@ extension ComponenteLargeMap {
         }
     }
 }
+
 
 struct listViewModel: View{
     @Binding var showListMenu: Bool

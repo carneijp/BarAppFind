@@ -289,7 +289,7 @@ struct BarPageView: View {
                                 Spacer()
                             }
 
-                            MapView(mapStyle: .compact)
+                            MapView(bar: self.bar, mapStyle: .compact)
                                 .frame(width: 342, height: 129)
 
                             HStack{

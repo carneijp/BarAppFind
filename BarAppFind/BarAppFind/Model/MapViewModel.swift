@@ -51,7 +51,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     func wheretoZoom(){
             self.chekIfLocationService()
             if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
-                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
+                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
             }else if let location = self.chosen{
                 self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
             }else if let user = self.userLocation{
@@ -60,14 +60,14 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     
     func chekIfLocationService() {
-        DispatchQueue.main.async {
+//        DispatchQueue.main.async {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager = CLLocationManager()
                 self.locationManager!.delegate = self
             }else{
                 print("location servise desable, please enable for a better experience.")
             }
-        }
+//        }
     }
     
 //    func checkForLocation() {
