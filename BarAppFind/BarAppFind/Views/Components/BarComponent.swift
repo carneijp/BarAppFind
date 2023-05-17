@@ -46,6 +46,7 @@ struct BarComponent: View {
                 if let cliente = cloud.client {
                     if cliente.favorites.contains(bar.name){
                         Image(systemName:"heart.fill")
+                            .foregroundColor(.red)
                             .onTapGesture {
                                 cloud.removeFavoriteBar(client: cliente, barName: bar.name)
                                 let referencia = cliente.favorites.firstIndex(of: bar.name)

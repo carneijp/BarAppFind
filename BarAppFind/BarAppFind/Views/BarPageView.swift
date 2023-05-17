@@ -79,7 +79,10 @@ struct BarPageView: View {
                 if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                     Image(uiImage: image)
                         .resizable()
-                        .scaledToFit()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+//                        .frame(width: 498, height: 200)
+                        .clipped()
                         .padding(.bottom, 10)
                 }
                 
@@ -184,6 +187,7 @@ struct BarPageView: View {
                             if let cliente = cloud.client {
                                 if cliente.favorites.contains(barname){
                                     Image(systemName:"heart.fill")
+                                        .foregroundColor(.red)
                                         .onTapGesture {
                                             cloud.removeFavoriteBar(client: cliente, barName: barname)
                                             let referencia = cliente.favorites.firstIndex(of: barname)
@@ -329,8 +333,8 @@ struct BarPageView: View {
                 self.cloud.reviewListByBar = []
                 cloud.fetchItemsReview(barName: barname) {}
             }
-            .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
-        }
+            
+        }.navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
     }
 }
 
