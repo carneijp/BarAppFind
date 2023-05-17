@@ -55,17 +55,17 @@
 //        bira.photoLogoTOSave = "RReBira"
 //        cloud.addBar(bar: bira )
 //        
-//        var brita: Bar = Bar(name: "Brita", description: "🟠 Um espaço multicultural a céu aberto.", mood: ["Fofoca", "Barzinho", "Esquenta", "Role de casal"], grade: 5.0, latitude: -30.040944420631558, longitude: -51.21833618668556, operatinhours: ["monday: Fechado", "tuesday: Fechado", "wednesday: 18:00-00:00", "thrusday: 18:00-00:00", "friday: 18:00-01:30", "saturday: 18:00-01:30", "sunday: 17:00-00:00"], endereco: "R. Gen. Lima e Silva, 1037 - Centro Histórico, Porto Alegre", regiao: "Cidade Baixa", caracteristicas: ["Estacionamento"])
+//        var brita: Bar = Bar(name: "Brita", description: "🟠 Um espaço multicultural a céu aberto.", mood: ["Fofoca", "Barzinho", "Role de casal"], grade: 5.0, latitude: -30.040944420631558, longitude: -51.21833618668556, operatinhours: ["monday: Fechado", "tuesday: Fechado", "wednesday: 18:00-00:00", "thrusday: 18:00-00:00", "friday: 18:00-01:30", "saturday: 18:00-01:30", "sunday: 17:00-00:00"], endereco: "R. Gen. Lima e Silva, 1037 - Centro Histórico, Porto Alegre", regiao: "Cidade Baixa", caracteristicas: ["Estacionamento"])
 //        brita.recieveAllPhotos(photosToSAVE: ["Brita1", "Brita2", "Brita3"])
 //        brita.photoLogoTOSave = "Brita"
 //        cloud.addBar(bar: brita)
 //        
-//        var ceu: Bar = Bar(name: "Céu Bar e Arte", description: "A dona do melhor Caipão do sul do Brasil ✌️", mood: ["Esquenta", "Fofoca", "Barzinho", "Familu friendly"], grade: 5.0, latitude: -30.044803976971046, longitude:  -51.21568220365493, operatinhours: ["monday: Fechado", "tuesday: 18:00-00:00", "wednesday: 18:00-00:00", "thrusday: 18:00-00:00", "friday: 18:00-01:00", "saturday: 18:00-01:00", "sunday: 18:00-00:00"], endereco: "R. General Lima e Silva, 1487 - Azenha, Porto Alegre", regiao: "", caracteristicas: ["Estacionamento"])
+//        var ceu: Bar = Bar(name: "Céu Bar e Arte", description: "A dona do melhor Caipão do sul do Brasil ✌️", mood: ["Esquenta", "Barzinho", "Family friendly"], grade: 5.0, latitude: -30.044803976971046, longitude:  -51.21568220365493, operatinhours: ["monday: Fechado", "tuesday: 18:00-00:00", "wednesday: 18:00-00:00", "thrusday: 18:00-00:00", "friday: 18:00-01:00", "saturday: 18:00-01:00", "sunday: 18:00-00:00"], endereco: "R. General Lima e Silva, 1487 - Azenha, Porto Alegre", regiao: "", caracteristicas: ["Estacionamento"])
 //        ceu.recieveAllPhotos(photosToSAVE: ["Ceu1", "Ceu2", "Ceu3"])
 //        ceu.photoLogoTOSave = "Ceu"
 //        cloud.addBar(bar: ceu)
 //        
-//        var agante: Bar =  Bar(name: "El Aguante", description: "El aguante: Pela cultura democrática de botequim aguante! 👋 Venha curtir uns traguitos, croquetes y conservas!", mood: ["Barzinho", "Fofoca", "Esquenta", "Role de casal"], grade: 5.0, latitude: -30.033459015263357, longitude: -51.20590034783193, operatinhours: ["monday: Fechado", "tuesday: 17:00-23:00", "wednesday: 17:00-23:00", "thrusday: 17:00-23:00", "friday: 16:00-23:00", "saturday: 17:00-23:00", "sunday: Fechado"], endereco: "R. Miguel Tostes, 611 - Rio Branco, Porto Alegre", regiao: "Bom Fim", caracteristicas: ["Estacionamento"])
+//        var agante: Bar =  Bar(name: "El Aguante", description: "El aguante: Pela cultura democrática de botequim aguante! 👋 Venha curtir uns traguitos, croquetes y conservas!", mood: ["Barzinho", "Fofoca", "Role de casal"], grade: 5.0, latitude: -30.033459015263357, longitude: -51.20590034783193, operatinhours: ["monday: Fechado", "tuesday: 17:00-23:00", "wednesday: 17:00-23:00", "thrusday: 17:00-23:00", "friday: 16:00-23:00", "saturday: 17:00-23:00", "sunday: Fechado"], endereco: "R. Miguel Tostes, 611 - Rio Branco, Porto Alegre", regiao: "Bom Fim", caracteristicas: ["Estacionamento"])
 //        agante.recieveAllPhotos(photosToSAVE: ["ElAguante1", "ElAguante2"])
 //        agante.photoLogoTOSave = "ElAguante"
 //        cloud.addBar(bar: agante)
@@ -80,7 +80,7 @@
 //        bibah.photoLogoTOSave = "Bibah"
 //        cloud.addBar(bar: bibah)
 //        
-//        var armazem: Bar = Bar(name: "Armazem", description: "Um lugar para conhecer uma variedade de bebidas enquanto aproveita o clima da redenção.", mood: ["Barzinho, Fofoca, Family friendly, Esquenta, Role de casal"], grade: 5.0, latitude: -30.03566772494728, longitude: -51.21140817666721, operatinhours: ["monday: 18:00-23:00", "tuesday: 18:00-23:00", "wednesday: 18:00-23:00", "thrusday: 18:00-23:00", "friday: 18:00-23:00", "saturday: 18:00-23:00", "sunday: 18:00-23:00"], endereco: "Avenida Borges de Medeiros, Viaduto Otávio Rocha, 786 - Centro Histórico, Porto Alegre", regiao: "Cidade Baixa", caracteristicas: ["Estacionamento"])
+//        var armazem: Bar = Bar(name: "Armazem", description: "Um lugar para conhecer uma variedade de bebidas enquanto aproveita o clima da redenção.", mood: ["Fofoca", "Family friendly", "Role de casal"], grade: 5.0, latitude: -30.03566772494728, longitude: -51.21140817666721, operatinhours: ["monday: 18:00-23:00", "tuesday: 18:00-23:00", "wednesday: 18:00-23:00", "thrusday: 18:00-23:00", "friday: 18:00-23:00", "saturday: 18:00-23:00", "sunday: 18:00-23:00"], endereco: "Avenida Borges de Medeiros, Viaduto Otávio Rocha, 786 - Centro Histórico, Porto Alegre", regiao: "Cidade Baixa", caracteristicas: ["Estacionamento"])
 //        armazem.recieveAllPhotos(photosToSAVE: ["Armazem1", "Armazem2", "Armazem3"])
 //        armazem.photoLogoTOSave = "Armazem"
 //        cloud.addBar(bar: armazem)

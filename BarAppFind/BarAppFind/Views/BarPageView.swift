@@ -12,16 +12,7 @@ import MapKit
 struct BarPageView: View {
     var barname: String
     
-    private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
-    
-    //    let contacts = [
-    //      "John",
-    //      "Ashley",
-    //      "Bobby",
-    //      "Jimmy",
-    //      "Fredie"
-    //    ]
-    
+
     enum ChoiceBar {
         case barName, info, review
     }
@@ -63,36 +54,6 @@ struct BarPageView: View {
             
         }
     }
-    
-    //Criar icone de ambiente a partir de uma imagem do sistema (climatizado)
-    @ViewBuilder
-    func createAmbientIcon(ambientText: String) -> some View{
-        VStack{
-            Image(ambient[ambientText, default: ""])
-                .resizable()
-                .scaledToFit()
-                .frame(width: 35, height: 31)
-            
-            Text(ambientText)
-                .font(.system(size: 6))
-        }
-    }
-    
-    //Criar icone de ambiente a partir de uma imagem qualquer (estacionamento)
-    //    @ViewBuilder
-    //    func createAmbientIconCustom(ambientText: String, imageName: String) -> some View{
-    //        VStack{
-    //            Image(imageName)
-    //                .resizable()
-    //                .scaledToFit()
-    //                .frame(width: 35, height: 31)
-    //
-    //            Text(ambientText)
-    //                .font(.system(size: 6))
-    //        }
-    //    }
-    
-    //    @State var review: String = ""
     
     @State var topBarChoice: ChoiceBar = .barName
     
@@ -214,13 +175,36 @@ struct BarPageView: View {
                                 .font(.system(size: 14))
                             
                             Spacer()
-                            Image(systemName: "heart")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 15)
-                                .padding(.trailing, 15)
-                            
-                        }
+                            //                            Image(systemName: "heart")
+                            //                                .resizable()
+                            //                                .scaledToFit()
+                            //                                .frame(width: 15)
+                            //                                .padding(.trailing, 15)
+                            if let cliente = cloud.client {
+                                if cliente.favorites.contains(barname){
+                                    Image(systemName:"heart.fill")
+                                        .onTapGesture {
+                                            cloud.removeFavoriteBar(client: cliente, barName: barname)
+                                            let referencia = cliente.favorites.firstIndex(of: barname)
+                                            cliente.favorites.remove(at: referencia ?? -1)
+                                            cloud.client = cliente
+                                        }
+                                }else{
+                                    Image(systemName: "heart")
+                                        .onTapGesture {
+                                            cloud.addFavoriteBar(client: cliente, barName: barname)
+                                            cliente.favorites.append(barname)
+                                            cloud.client = cliente
+                                        }
+                                }
+                                
+                            } else{
+                                Image(systemName: "heart")
+                                    .onTapGesture {
+                                        print("Voce deve estar logado para favoritar.")
+                                    }
+                                
+                            }}
                         .padding(.top)
                         
                         
@@ -229,21 +213,12 @@ struct BarPageView: View {
                             .lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom)
-                        
-                        
-                        //                            HStack{
-                        //                                createCustomIcon(imageName: "Instagram", text: "Instagram")
-                        //
-                        //
-                        //                                createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
-                        //                            }
-                        //                            .padding(.bottom)
-                        
+                    
                         Text("Boa escolha para ...")
                             .font(.system(size: 14))
                             .padding(.bottom)
                         
-                        HStack{
+                        HStack(){
                             if let moods = bar?.mood{
                                 ForEach(moods, id:\.self){ mood in
                                     BarViewMoodComponent(mood: mood)
@@ -259,10 +234,7 @@ struct BarPageView: View {
                         }
                         .padding(.vertical)
                         
-                        HStack{
-                            //                                    createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
-                            //                                    createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
-                            //                                    ForEach(bar?.caracteristicas, id: \.self){ caracteristica in
+//                        HStack{
                             if let caracteristicas = bar?.caracteristicas{
                                 VStack(alignment: .leading){
                                     ForEach(caracteristicas, id:\.self){ caracteristica in
@@ -272,7 +244,7 @@ struct BarPageView: View {
                                     }
                                 }
                             }
-                        }
+//                        }
                     }
                     .padding(.horizontal)
                     
@@ -305,22 +277,16 @@ struct BarPageView: View {
                                 .foregroundColor(Color("white"))
                                 .frame(height: 14)
                                 .padding(.leading)
-                            
-                            //                                Spacer()
-                            
                             Text("Abrir no uber")
                                 .font(.system(size: 16))
                                 .bold()
                                 .foregroundColor(Color("white"))
-                            
-                            //                                Spacer()
                         }
                         .frame(width:UIScreen.main.bounds.width - 48, height: 41)
                         .background(Color("gray1"))
                         .cornerRadius(10)
                         .padding(.top)
                     }
-                    //                    .background(Color.green)
                     .padding(.horizontal)
                     
                     //MARK: Avaliações
@@ -344,23 +310,12 @@ struct BarPageView: View {
                         }else{
                             EmptyViewReviews()
                         }
-                        
-                        //                            if !reviewListIsEmpty{
-                        //                                ForEach(cloud.reviewListByBar, id: \.self){ review in
-                        //                                    ReviewComponent(review: review)
-                        //                                }
-                        //                            }else{
-                        //                                EmptyViewReviews()
-                        //                            }
                     }
                     .padding([.horizontal, .top])
                     
                 }
-                
-                
-                
-                
-                Spacer()
+
+               // Spacer()
             }
             .onAppear(){
                 cloud.fetchBar(barName: barname) { bar in
@@ -395,9 +350,6 @@ struct Flemis: View {
                     .foregroundColor(.primary)
                     .padding(.top)
                     .padding(.bottom, 5)
-                //                    .background(Color.green)
-                
-                //                Spacer()
                 
                 Button(action: {
                     self.isShowingWorkingHours.toggle()
@@ -407,7 +359,6 @@ struct Flemis: View {
                         .scaledToFit()
                 })
                 .frame(width: 14, height: 28)
-                //                .background(Color.green)
                 
             }
             .padding(.bottom, 5)
