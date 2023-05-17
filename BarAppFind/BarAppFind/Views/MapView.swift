@@ -7,49 +7,125 @@
 
 import SwiftUI
 import MapKit
+import CloudKit
 
 enum MapStyle {
     case compact, large
 }
 
+
+
 struct MapView: View {
+    @State var barsList: [Bar] = []
+    var bar: Bar?
     @ObservedObject var viewModel = MapViewModel()
     @EnvironmentObject var cloud: CloudKitCRUD
     let mapStyle: MapStyle
+    @State var shownBar: Bar?
+    @State var showBarSmallDescription: Bool = false
     
     var body: some View {
-        ZStack{
-            
-            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
-                .onAppear {
-                        viewModel.wheretoZoom()
+        if mapStyle == .large{
+            ZStack{
+                
+                //            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
+                
+                Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
+                    MapAnnotation(coordinate: bar.coordinate){
+                        Group{
+                            VStack{
+                                Image(systemName: "mappin.circle.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 36)
+                                    .foregroundColor(.red)
+                                Circle()
+                                    .scaledToFit()
+                                    .frame(height: 5)
+                                    .foregroundColor(.black)
+                                    .fixedSize()
+                                    .offset(y:-6)
+                            }
+                            .frame(width:60 ,height:60)
+                        }
+                        .onTapGesture {
+                            if showBarSmallDescription && shownBar != bar{
+                                shownBar = bar
+                            }else{
+                                shownBar = bar
+                                showBarSmallDescription = true
+                            }
+                            
+                        }
+                    }
                 }
-                .onChange(of: viewModel.chosen) { newValue in
-                    viewModel.wheretoZoom()
+                .onTapGesture {
+                    showBarSmallDescription = false
                 }
-            if mapStyle == .large{
                 VStack{
-                    ComponenteLargeMap(chosen: $viewModel.chosen)
+                    ComponenteLargeMap(chosen: $viewModel.chosen, shownBar: $shownBar, showBarSmallDescription: $showBarSmallDescription)
                         .environmentObject(viewModel)
-//                        .padding()
                     Spacer()
                 }
+                
+            }
+            .onAppear {
+                viewModel.wheretoZoom()
+            }
+            .onChange(of: viewModel.chosen) { newValue in
+                viewModel.wheretoZoom()
             }
             
+        }else{
+            if mapStyle == .compact{
+                ZStack{
+                    if let barChosen = bar {
+                        Map(coordinateRegion: $viewModel.region,showsUserLocation: true,  annotationItems: [barChosen]) {bar in
+                            MapAnnotation(coordinate: bar.coordinate) {
+                                Group{
+                                    VStack{
+                                        Image(systemName: "mappin.circle.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 36)
+                                            .foregroundColor(.red)
+                                        //
+                                        Circle()
+                                            .scaledToFit()
+                                            .frame(height: 5)
+                                            .foregroundColor(.black)
+                                            .fixedSize()
+                                            .offset(y:-6)
+                                    }
+                                    .frame(width:60 ,height:60)
+                                }
+                            }
+                        }
+                    }
+                }
+                .onAppear {
+                    viewModel.latitude = bar?.latitude
+                    viewModel.longitude = bar?.longitude
+                    viewModel.wheretoZoom()
+                }
+            }
         }
     }
 }
+
+
 
 struct ComponenteLargeMap: View {
     @Binding var chosen: MapDetails?
     @EnvironmentObject var viewModel: MapViewModel
     @State var showListMenu: Bool = false
+    @Binding var shownBar: Bar?
+    @Binding var showBarSmallDescription: Bool
     
     var body: some View {
         VStack{
             
             VStack{
-                //                VStack{
                 Text("Bairros")
                     .font(.title2)
                     .bold()
@@ -63,10 +139,22 @@ struct ComponenteLargeMap: View {
                     .padding(.horizontal)
             }
             Spacer()
-            buttonUser
-            
+            if showBarSmallDescription{
+                NavigationLink{
+                    if let barName = shownBar?.name{
+                        BarPageView(barname: barName)
+                    }
+                }label: {
+                    if let bar = shownBar{
+                        MapPopUpComponent(bar: bar)
+                    }
+                }
+                
+            }else{
+                buttonUser
+            }
         }
-
+        
     }
 }
 
@@ -111,10 +199,11 @@ extension ComponenteLargeMap {
                     .resizable()
                     .frame(width: 50, height: 50)
                     .scaledToFit()
-            }.padding(.bottom)
+            }.padding()
         }
     }
 }
+
 
 struct listViewModel: View{
     @Binding var showListMenu: Bool
@@ -130,7 +219,7 @@ struct listViewModel: View{
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .listRowSeparator(.hidden)
-
+            
             Button{
                 chosen = .cidadeBaixaCoordinate
                 showListMenu = false
@@ -139,7 +228,7 @@ struct listViewModel: View{
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .listRowSeparator(.hidden)
-
+            
             Button{
                 chosen = .bomFimCoordinate
                 showListMenu = false

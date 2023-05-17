@@ -2,7 +2,7 @@ import CloudKit
 import SwiftUI
 import Foundation
 
-
+@MainActor
 class CloudKitCRUD: ObservableObject {
     
     @Published var barsList: [Bar] = []
@@ -11,8 +11,8 @@ class CloudKitCRUD: ObservableObject {
     
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
-            print("\(returnedRecors)")
-            print("\(returnedError)")
+//            print("\(returnedRecors)")
+//            print("\(returnedError)")
         }
     }
     
@@ -414,11 +414,16 @@ class CloudKitCRUD: ObservableObject {
                     guard let region = record["Region"] as? String else { return }
                     guard let characteristics = record["Caracteristicas"] as? [String] else { return }
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
+                    guard let imageAsset = record["Image"] as? [CKAsset] else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
+                    
+                    var returnedPhotos: [URL] = []
+                    guard let imageURL = imageAsset[0].fileURL else { return }
+                    returnedPhotos.append(imageURL)
                     
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
-                    
+                    bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     DispatchQueue.main.async {
                         self.barsList.append(bar)
                     }
@@ -452,6 +457,7 @@ class CloudKitCRUD: ObservableObject {
         let queryOperation = CKQueryOperation(query: query)
         
         var returnedPhotos: [URL] = []
+        
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in

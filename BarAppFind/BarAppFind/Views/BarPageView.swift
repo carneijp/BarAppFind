@@ -204,6 +204,7 @@ struct BarPageView: View {
                             Text("\(bar?.name ?? "Loading...")")
                                 .font(.title2)
                                 .bold()
+//<<<<<<< HEAD
                                 .padding(.trailing)
                             
                             Image(systemName: "star.fill")
@@ -220,6 +221,9 @@ struct BarPageView: View {
                                 .frame(width: 15)
                                 .padding(.trailing, 15)
                             
+//=======
+//
+//>>>>>>> featMaps
                         }
                         .padding(.top)
                         
@@ -295,8 +299,10 @@ struct BarPageView: View {
                             Spacer()
                         }
                         
-                        MapView(mapStyle: .compact)
-                            .frame(width: 342, height: 129)
+                            
+                            MapView(bar: self.bar, mapStyle: .compact)
+                                .frame(width: 342, height: 129)
+
                         
                         HStack{
                             Image(systemName: "car.fill")
