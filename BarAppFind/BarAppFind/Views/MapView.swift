@@ -23,12 +23,11 @@ struct MapView: View {
     let mapStyle: MapStyle
     @State var shownBar: Bar?
     @State var showBarSmallDescription: Bool = false
+    @State var didTap: Bool = false
     
     var body: some View {
         if mapStyle == .large{
             ZStack{
-                
-                //            Map(coordinateRegion: $viewModel.region, showsUserLocation: true)
                 
                 Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
                     MapAnnotation(coordinate: bar.coordinate){
@@ -46,22 +45,32 @@ struct MapView: View {
                                     .fixedSize()
                                     .offset(y:-6)
                             }
+                            .scaleEffect(shownBar == bar && showBarSmallDescription ? 1.5 : 1)
                             .frame(width:60 ,height:60)
-                        }
-                        .onTapGesture {
-                            if showBarSmallDescription && shownBar != bar{
-                                shownBar = bar
-                            }else{
-                                shownBar = bar
-                                showBarSmallDescription = true
-                            }
-                            
+                            .animation(.linear(duration: 0.5))
+                            .highPriorityGesture(
+                                TapGesture()
+                                    .onEnded { state in
+                                            shownBar = bar
+                                            showBarSmallDescription = true
+                                        
+                                        didTap = true
+                                        
+                                        viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: shownBar?.latitude ?? 0.0, longitude: shownBar?.longitude ?? 0.0) , span: viewModel.region.span)
+                                    }
+                            )
                         }
                     }
                 }
+                .animation(.linear( duration: 2))
                 .onTapGesture {
-                    showBarSmallDescription = false
+                    if !didTap {
+                        showBarSmallDescription = false
+                    }
+                    didTap = false
                 }
+                
+                
                 VStack{
                     ComponenteLargeMap(chosen: $viewModel.chosen, shownBar: $shownBar, showBarSmallDescription: $showBarSmallDescription)
                         .environmentObject(viewModel)
