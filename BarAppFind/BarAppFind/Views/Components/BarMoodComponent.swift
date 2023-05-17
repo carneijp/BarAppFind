@@ -8,37 +8,48 @@
 import SwiftUI
 
 struct BarMoodComponent: View {
+    @State var bar: Bar
+    @EnvironmentObject private var cloud: CloudKitCRUD
+    
     var body: some View {
         VStack(spacing: 0) {
-            Image("trending1")
-                .resizable()
-                .scaledToFill()
-            
-            VStack(alignment: .leading, spacing: 3) {
-                Text("Nome")
-                    .font(.system(size: 14))
+            // logo dos bares
+            if let photoLogo = bar.photosLogo, let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFill()
+                    .clipped()
+                    .frame(height: 120)
+            }
+                        
+            VStack(alignment: .leading, spacing: 6) {
+                Text(bar.name)
+                    .font(.system(size: 16))
                 
                 HStack {
                     Image(systemName: "star.fill")
-                    Text("4.6")
+                    Text(String(format: "%.1f", bar.grade))
                         .font(.system(size: 14))
 
                     Spacer()
                 }
             }
             .padding(.horizontal, 12)
-            .padding(.top, 6)
+            .padding(.top, 10)
             .padding(.bottom, 10)
-            .background(.blue)
+            .background(Color("gray5"))
             
         }
-        .frame(width: 170, height: 200)
+        .frame(width: 160)
+        .background(.black)
         .cornerRadius(8)
+        .shadow(radius: 3, x: 0, y: 2)
+
     }
 }
 
 struct BarMoodComponent_Previews: PreviewProvider {
     static var previews: some View {
-        BarMoodComponent()
+        BarMoodComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []))
     }
 }
