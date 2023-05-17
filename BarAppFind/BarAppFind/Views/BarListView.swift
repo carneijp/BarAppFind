@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BarListView: View {
     @EnvironmentObject var cloud: CloudKitCRUD
+    @Binding var showSignIn: Bool
     
     var body: some View {
         ScrollView {
@@ -17,7 +18,7 @@ struct BarListView: View {
                     NavigationLink {
                         BarPageView(barname: bar.name)
                     } label: {
-                        BarComponent(bar: bar)
+                        BarComponent(bar: bar, showSignIn: $showSignIn)
                             .foregroundColor(.primary)
                             .padding(.bottom, 10)
                     }
@@ -38,6 +39,6 @@ struct BarListView: View {
 
 struct BarListView_Previews: PreviewProvider {
     static var previews: some View {
-        BarListView()
+        BarListView(showSignIn: .constant(false))
     }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct BarComponent: View {
     @State var bar: Bar
     @EnvironmentObject var cloud: CloudKitCRUD
+    @Binding var showSignIn: Bool
     
     var body: some View {
         HStack {
@@ -22,7 +23,7 @@ struct BarComponent: View {
                     .frame(width: 50, height: 50)
                     .padding(.trailing, 5)
             }
-
+            
             HStack {
                 VStack {
                     HStack {
@@ -65,7 +66,10 @@ struct BarComponent: View {
                     Image(systemName: "heart")
                         .onTapGesture {
                             print("Voce deve estar logado para favoritar.")
+                            showSignIn = true
                         }
+                    
+                    
                 }
             }
         }
@@ -74,6 +78,6 @@ struct BarComponent: View {
 
 struct BarComponent_Previews: PreviewProvider {
     static var previews: some View {
-        BarComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []))
+        BarComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []), showSignIn: .constant(true))
     }
 }

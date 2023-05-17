@@ -22,7 +22,7 @@ struct FavoritesView: View {
                             NavigationLink {
                                 BarPageView(barname: bar.name)
                             } label: {
-                                BarComponent(bar: bar)
+                                BarComponent(bar: bar, showSignIn: $logado)
                                     .foregroundColor(.primary)
                                     .padding(.bottom, 10)
                             }
