@@ -17,12 +17,12 @@ struct EmptyViewFavorites: View {
                 .frame(width: 140, height: 140)
                 .padding(.bottom)
             
-            Text("Você não possui bares favoritos")
+            Text("Sem favoritos ainda")
                 .font(.system(size: 20))
                 .padding(.vertical)
 
 
-            Text("texto")
+            Text("Seus bares favoritos aparecerão aqui!")
                 .font(.system(size: 14))
                 .foregroundColor(Color("gray3"))
                 .multilineTextAlignment(.center)

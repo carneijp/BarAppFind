@@ -15,13 +15,13 @@ struct GeneralTab: View {
                 HomeView()
             }
             .tabItem{
-                Label("Home", systemImage: "house.fill")
+                Label("Menu", systemImage: "house.fill")
             }
             NavigationStack{
                 MapView(mapStyle: .large)
             }
             .tabItem{
-                Label("Map", systemImage: "map.fill")
+                Label("Mapa", systemImage: "map.fill")
             }
             NavigationStack{
                 FavoritesView()

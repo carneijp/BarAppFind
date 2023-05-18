@@ -12,7 +12,8 @@ import MapKit
 struct BarPageView: View {
     var barname: String
     
-
+    private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
+    
     enum ChoiceBar {
         case barName, info, review
     }
@@ -79,7 +80,10 @@ struct BarPageView: View {
                 if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                     Image(uiImage: image)
                         .resizable()
-                        .scaledToFit()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+//                        .frame(width: 498, height: 200)
+                        .clipped()
                         .padding(.bottom, 10)
                 }
                 
@@ -88,68 +92,107 @@ struct BarPageView: View {
                     //sobre o lugar
                     Group{
                         if isBarName{
-                            Text("Sobre o lugar")
-                                .font(.system(size: 14))
-                                .foregroundColor(.primary)
-                                .underline()
-                                .bold()
+                            VStack(spacing: 4){
+                                Text("Sobre o lugar")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.primary)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.primary)
+//                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }else{
+                            VStack(spacing: 4){
                             Text("Sobre o lugar")
                                 .font(.system(size: 14))
                             
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                                 .onTapGesture {
                                     self.topBarChoice = .barName
                                     isBarName = true
                                     isInfo = false
                                     isReview = false
                                 }
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(.clear)
+                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                        }
                         }
                     }
                     
                     //Informações
                     Group{
                         if isInfo{
-                            Text("Informações")
-                                .font(.system(size: 14))
-                                .padding(.leading, 40)
-                                .foregroundColor(.primary)
-                                .underline()
-                                .bold()
+                            VStack(spacing: 4){
+                                Text("Informações")
+                                    .font(.system(size: 14))
+//                                    .padding(.leading, 40)
+                                    .foregroundColor(.primary)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.primary)
+//                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }else{
-                            Text("Informações")
-                                .font(.system(size: 14))
-                                .padding(.leading, 40)
-                                .foregroundColor(.gray)
-                                .onTapGesture {
-                                    self.topBarChoice = .info
-                                    isBarName = false
-                                    isInfo = true
-                                    isReview = false
-                                }
+                            VStack(spacing: 4){
+                                Text("Informações")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.secondary)
+                                    .onTapGesture {
+                                        self.topBarChoice = .info
+                                        isBarName = false
+                                        isInfo = true
+                                        isReview = false
+                                    }
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.clear)
+//                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }
                     }
                     
                     //Avaliações
                     Group{
                         if isReview{
-                            Text("Avaliações")
-                                .padding(.leading, 40)
-                                .font(.system(size: 14))
-                                .foregroundColor(.primary)
-                                .underline()
-                                .bold()
+                            VStack(spacing: 4){
+                                Text("Avaliações")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.primary)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.primary)
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }else{
-                            Text("Avaliações")
-                                .font(.system(size: 14))
-                                .padding(.leading, 40)
-                                .foregroundColor(.gray)
-                                .onTapGesture {
-                                    self.topBarChoice = .review
-                                    isBarName = false
-                                    isInfo = false
-                                    isReview = true
-                                }
+                            VStack(spacing: 4){
+                                Text("Avaliações")
+                                    .font(.system(size: 14))
+//                                    .padding(.leading, 40)
+                                    .foregroundColor(.secondary)
+                                    .onTapGesture {
+                                        self.topBarChoice = .review
+                                        isBarName = false
+                                        isInfo = false
+                                        isReview = true
+                                        
+                                    }
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.clear)
+                                //                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                
+                                
+                            }
                         }
                     }
                     
@@ -175,7 +218,7 @@ struct BarPageView: View {
                             if let bar = bar {
                                 let review = cloud.reviewListByBar.filter({ $0.barName == bar.name })
                                 
-                                var countBars = review.count
+                                let countBars = review.count
                                 
                                 if countBars == 0 {
                                     Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
@@ -188,9 +231,11 @@ struct BarPageView: View {
                             }
                             Spacer()
                             
+
                             if let cliente = cloud.client {
                                 if cliente.favorites.contains(barname){
                                     Image(systemName:"heart.fill")
+                                        .foregroundColor(.red)
                                         .onTapGesture {
                                             cloud.removeFavoriteBar(client: cliente, barName: barname)
                                             let referencia = cliente.favorites.firstIndex(of: barname)
@@ -212,7 +257,9 @@ struct BarPageView: View {
                                         print("Voce deve estar logado para favoritar.")
                                     }
                                 
-                            }}
+                            }
+                            
+                        }
                         .padding(.top)
                         
                         
@@ -222,16 +269,21 @@ struct BarPageView: View {
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom)
                     
-                        Text("Boa escolha para ...")
+                        Text("Ótimo para ...")
                             .font(.system(size: 14))
-                            .padding(.bottom)
+//                            .padding(.bottom)
                         
-                        HStack(){
-                            if let moods = bar?.mood{
-                                ForEach(moods, id:\.self){ mood in
-                                    BarViewMoodComponent(mood: mood)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                if let moods = bar?.mood{
+                                    ForEach(moods, id:\.self){ mood in
+                                        MoodSmallComponent(moodName: mood)
+                                            .padding(.vertical)
+                                            .padding(.trailing, 10)
+                                    }
                                 }
                             }
+                            .padding(.leading, 4)
                         }
                         
                         HStack {
@@ -272,30 +324,96 @@ struct BarPageView: View {
                                 .lineLimit(nil)
                                 .multilineTextAlignment(.leading)
                             
-                            Spacer()
+//                            Spacer()
                         }
                         
+// <<<<<<< HEAD
                             
                             MapView(bar: self.bar, mapStyle: .compact)
-                                .frame(width: 342, height: 129)
+                                .frame(height: 129)
 
+//
+//                        HStack{
+//                            Spacer()
+//                            Image(systemName: "car.fill")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .foregroundColor(Color("white"))
+//                                .frame(height: 14)
+//                                .padding(.leading)
+//                            Text("Abrir no uber")
+//                                .font(.system(size: 16))
+//                                .bold()
+//                                .foregroundColor(Color("white"))
+//                            Spacer()
+//                        }
+//                        .frame(height: 41)
+//                        .background(Color("gray1"))
+//                        .cornerRadius(10)
+//                        .padding(.top)
                         
                         HStack{
-                            Image(systemName: "car.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(Color("white"))
-                                .frame(height: 14)
-                                .padding(.leading)
-                            Text("Abrir no uber")
-                                .font(.system(size: 16))
-                                .bold()
-                                .foregroundColor(Color("white"))
+                            Button(action: {
+                                print("abrir uber")
+                            }, label: {
+                                Image("Uber")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                            .frame(width: 166, height: 47)
+                            .background(Color.black)
+                            .cornerRadius(10)
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                print("abrir 99")
+                            }, label: {
+                                Image("99")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                            .frame(width: 166, height: 47)
+                            .background(Color("amarelo"))
+                            .cornerRadius(10)
                         }
-                        .frame(width:UIScreen.main.bounds.width - 48, height: 41)
-                        .background(Color("gray1"))
-                        .cornerRadius(10)
-                        .padding(.top)
+                        .padding(.bottom)
+// =======
+                        
+//                         MapView(bar: self.bar, mapStyle: .compact)
+//                             .frame(width: 342, height: 129)
+                        
+//                         Button{
+//                             callUber()
+//                         }label: {
+//                             Group{
+//                                 HStack{
+//                                     Image(systemName: "car.fill")
+//                                         .resizable()
+//                                         .scaledToFit()
+//                                         .foregroundColor(Color("white"))
+//                                         .frame(height: 14)
+//                                         .padding(.leading)
+                                    
+//                                     //                                Spacer()
+                                    
+//                                     Text("Abrir no uber")
+//                                         .font(.system(size: 16))
+//                                         .bold()
+//                                         .foregroundColor(Color("white"))
+                                    
+//                                     //                                Spacer()
+//                                 }
+//                                 .frame(width:UIScreen.main.bounds.width - 48, height: 41)
+//                                 .background(Color("gray1"))
+//                                 .cornerRadius(10)
+//                                 .padding(.top)
+//                             }
+//                         }
+                        
+                        
+                        
+// >>>>>>> Dev
                     }
                     .padding(.horizontal)
                     
@@ -334,23 +452,35 @@ struct BarPageView: View {
                 self.cloud.reviewListByBar = []
                 cloud.fetchItemsReview(barName: barname) {}
             }
-            .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
-        }
+            
+        }.navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
     }
     
     func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
-        var grade = review.map{$0.grade}.reduce(0, +)
-        var finalGrade = Double(grade) / Double(review.count)
+        let grade = review.map{$0.grade}.reduce(0, +)
+        let finalGrade = Double(grade) / Double(review.count)
         var index: Int = 0
         for i in 0..<cloud.barsList.count{
             if cloud.barsList[i].name == bar.name{
                 index = i
             }
         }
+        if cloud.barsList.count <= 0 { return 0.0 }
         cloud.barsList[index].grade = finalGrade
         cloud.changeGrade(grade: finalGrade, barName: bar.name)
         return finalGrade
     }
+    
+    func callUber(){
+        if let uberURL = URL(string: "uber://"){
+            UIApplication.shared.canOpenURL(uberURL)
+            UIApplication.shared.open(uberURL)
+        } else {
+            let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
+            UIApplication.shared.open(fallbackURL)
+        }
+    }
+    
 }
 
 struct BarPageView_Previews: PreviewProvider {
@@ -373,7 +503,7 @@ struct Flemis: View {
                     .bold()
                     .foregroundColor(.primary)
                     .padding(.top)
-                    .padding(.bottom, 5)
+//                    .padding(.bottom, 5)
                 
                 Button(action: {
                     self.isShowingWorkingHours.toggle()
@@ -381,10 +511,14 @@ struct Flemis: View {
                     Image(systemName: self.isShowingWorkingHours ? "chevron.up" : "chevron.down")
                         .resizable()
                         .scaledToFit()
+                        .frame(width: 16, height: 34)
+                        .offset(y: 8)
+                        .foregroundColor(Color("gray4"))
                 })
                 .frame(width: 14, height: 28)
                 
             }
+//            .background(Color.red)
             .padding(.bottom, 5)
             
             

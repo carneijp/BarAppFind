@@ -11,7 +11,7 @@ import SwiftUI
 struct BarAppFindApp: App {
     var body: some Scene {
         WindowGroup {
-            GeneralTab()
+            SplashScreen()
                 .environmentObject(CloudKitCRUD())
         }
     }

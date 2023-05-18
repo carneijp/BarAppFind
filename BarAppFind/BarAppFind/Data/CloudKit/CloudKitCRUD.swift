@@ -10,8 +10,8 @@ class CloudKitCRUD: ObservableObject {
     
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
-            print("\(returnedRecors)")
-            print("\(returnedError)")
+//            print("\(returnedRecors)")
+//            print("\(returnedError)")
         }
     }
     
@@ -94,6 +94,7 @@ class CloudKitCRUD: ObservableObject {
                     newBar["OperationHours"] = bar.operatinHours
                     newBar["Region"] = bar.regiao
                     newBar["Address"] = bar.endereco
+                    newBar["InstaLink"] = bar.linktInsta
                     
                     self.saveItemPublic(record: newBar)
                     completion()
@@ -344,7 +345,7 @@ class CloudKitCRUD: ObservableObject {
         
     }
     
-    func validateClientLogin(email: String, password: String, completion: @escaping () -> Void) {
+    func validateClientLogin(email: String, password: String, completion: @escaping (Bool) -> Void) {
         let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         
@@ -372,20 +373,21 @@ class CloudKitCRUD: ObservableObject {
                                 DispatchQueue.main.async {
                                     self.client = clients
                                 }
-                                completion()
+                                completion(true)
                             } else {
                                 #warning("Informar que senha e usuários estão incorretos")
-                                completion()
+                                self.client = nil
+                                completion(false)
                             }
                         case .failure(let err):
                             print(err.localizedDescription)
-                            completion()
+                            completion(false)
                         }
                     }
                 }
             case .failure(let failure):
                 print(failure.localizedDescription)
-                completion()
+                completion(false)
             }
         }
     }
@@ -418,6 +420,7 @@ class CloudKitCRUD: ObservableObject {
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
+                    guard let linkInsta = record["InstaLink"] as? String else { return }
                     
                     var returnedPhotos: [URL] = []
                     guard let imageURL = imageAsset[0].fileURL else { return }
@@ -436,6 +439,7 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                    bar.linktInsta = linkInsta
                     DispatchQueue.main.async {
                         self.barsList.append(bar)
                     }
@@ -488,6 +492,7 @@ class CloudKitCRUD: ObservableObject {
                     guard let characteristics = record["Caracteristicas"] as? [String] else { return }
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
+                    guard let linkInsta = record["InstaLink"] as? String else { return }
                     
                     for i in 0..<imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
@@ -497,6 +502,7 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
+                    bar.linktInsta = linkInsta
                     completion(bar)
                 case .failure(let error):
                     print("Error matched block error\(error)")
@@ -556,7 +562,7 @@ class CloudKitCRUD: ObservableObject {
         let queryOperation = CKQueryOperation(query: query)
         queryOperation.resultsLimit = 50
         var listFavorites = client.favorites
-        var count: Int = listFavorites.firstIndex(of: barName) ?? -1
+        let count: Int = listFavorites.firstIndex(of: barName) ?? -1
         listFavorites.remove(at: count)
         
         if #available(iOS 15.0, *){
