@@ -63,7 +63,7 @@ struct HomeView: View {
                             
                             //Mood Section
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
+                                HStack(spacing: 12) {
                                     ForEach(moodsImage.indices, id: \.self) { index in
                                         NavigationLink {
                                             MoodListView(moodName: moodsName[index])
@@ -112,40 +112,43 @@ struct HomeView: View {
                             .padding(.horizontal, 24)
                         }
                         
-//                        //Bars Section
-//                        VStack {
-//                            HStack {
-//                                Text("Sugestões de bares hoje")
-//                                    .font(.system(size: 14))
-//                                
-//                                Spacer()
-//                                
-//                                NavigationLink {
-//                                    BarListView(showSignIn: $showSignIn)
-//                                        .toolbarRole(.editor)
-//                                } label: {
-//                                    Text("Ver todos")
-//                                        .font(.system(size: 14))
-//                                        .foregroundColor(Color("blue"))
-//                                }
-//                            }
-////                            .padding(.top, 14)
-//                            .padding(.bottom, 10)
-//
-//                            ForEach(cloud.barsList, id: \.self) { bar in
-//                                NavigationLink {
-//                                    BarPageView(barname: bar.name)
-//                                        .environmentObject(cloud)
-//                                        .toolbarRole(.editor)
-//                                } label: {
-//                                    BarComponent(bar: bar, showSignIn: $showSignIn)
-//                                        .environmentObject(cloud)
-//                                        .foregroundColor(.primary)
-//                                        .padding(.bottom, 10)
-//                                }
-//                            }
-//                        }
-//                        .padding(.horizontal, 24)
+<<<<<<< HEAD
+                        //Bars Section
+                        VStack {
+                            HStack {
+                                Text("Sugestões de bares hoje")
+                                    .font(.system(size: 14))
+                                
+                                Spacer()
+                                
+                                NavigationLink {
+                                    BarListView()
+                                        .toolbarRole(.editor)
+                                } label: {
+                                    Text("Ver todos")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(Color("blue"))
+                                }
+                            }
+//                            .padding(.top, 14)
+                            .padding(.bottom, 10)
+
+                            ForEach(cloud.barsList, id: \.self) { bar in
+                                NavigationLink {
+                                    BarPageView(barname: bar.name)
+                                        .environmentObject(cloud)
+                                        .toolbarRole(.editor)
+                                } label: {
+                                    BarComponent(bar: bar)
+                                        .environmentObject(cloud)
+                                        .foregroundColor(.primary)
+                                        .padding(.bottom, 10)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 24)
+=======
+>>>>>>> Dev
                     }
                     
                     Spacer()
@@ -160,23 +163,17 @@ struct HomeView: View {
                         if resultado{
                             print("loguei automatico")
                         }
-                        else{
-//                            print("falhei no login")
-                        }
                     }
-//                    print("falhei no login2")
-                }else{
-//                    print("falhei no login3")
                 }
             }
-            LoginAlertComponent(title: "tes", description: "tes", isShow: $showSignIn)
             
+            LoginAlertComponent(title: "tes", description: "tes", isShow: $showSignIn)
 //            if cloud.barsList.count != 10 {
 //                cloud.fetchBars()
 //            }
             
         }
-//        .padding(.top, 100)
+        .padding(.top, 100)
         
     }
 }

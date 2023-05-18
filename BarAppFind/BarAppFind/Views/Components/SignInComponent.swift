@@ -67,9 +67,17 @@ struct SignInComponent: View {
             
             // Botão de Logar
             Button {
-                cloud.validateClientLogin(email: email, password: password) {
-                    print("loguei")
-                    print(cloud.$client)
+                cloud.validateClientLogin(email: email, password: password) { result in
+                    if result{
+                        let login: String = $email.wrappedValue
+                        let senha: String = $password.wrappedValue
+                            UserDefaults.standard.set(login, forKey: "Email")
+                            UserDefaults.standard.set(senha, forKey: "Password")
+                            print("salvei")
+                    }
+                    else{
+                        print("login ou senha invalidos")
+                    }
                 }
                 presentation.wrappedValue.dismiss()
             } label: {

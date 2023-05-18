@@ -12,7 +12,8 @@ import MapKit
 struct BarPageView: View {
     var barname: String
     
-
+    private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
+    
     enum ChoiceBar {
         case barName, info, review
     }
@@ -178,7 +179,7 @@ struct BarPageView: View {
                             if let bar = bar {
                                 let review = cloud.reviewListByBar.filter({ $0.barName == bar.name })
                                 
-                                var countBars = review.count
+                                let countBars = review.count
                                 
                                 if countBars == 0 {
                                     Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
@@ -191,6 +192,7 @@ struct BarPageView: View {
                             }
                             Spacer()
                             
+
                             if let cliente = cloud.client {
                                 if cliente.favorites.contains(barname){
                                     Image(systemName:"heart.fill")
@@ -281,27 +283,40 @@ struct BarPageView: View {
                             Spacer()
                         }
                         
-                            
-                            MapView(bar: self.bar, mapStyle: .compact)
-                                .frame(width: 342, height: 129)
-
                         
-                        HStack{
-                            Image(systemName: "car.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(Color("white"))
-                                .frame(height: 14)
-                                .padding(.leading)
-                            Text("Abrir no uber")
-                                .font(.system(size: 16))
-                                .bold()
-                                .foregroundColor(Color("white"))
+                        MapView(bar: self.bar, mapStyle: .compact)
+                            .frame(width: 342, height: 129)
+                        
+                        Button{
+                            callUber()
+                        }label: {
+                            Group{
+                                HStack{
+                                    Image(systemName: "car.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundColor(Color("white"))
+                                        .frame(height: 14)
+                                        .padding(.leading)
+                                    
+                                    //                                Spacer()
+                                    
+                                    Text("Abrir no uber")
+                                        .font(.system(size: 16))
+                                        .bold()
+                                        .foregroundColor(Color("white"))
+                                    
+                                    //                                Spacer()
+                                }
+                                .frame(width:UIScreen.main.bounds.width - 48, height: 41)
+                                .background(Color("gray1"))
+                                .cornerRadius(10)
+                                .padding(.top)
+                            }
                         }
-                        .frame(width:UIScreen.main.bounds.width - 48, height: 41)
-                        .background(Color("gray1"))
-                        .cornerRadius(10)
-                        .padding(.top)
+                        
+                        
+                        
                     }
                     .padding(.horizontal)
                     
@@ -345,8 +360,8 @@ struct BarPageView: View {
     }
     
     func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
-        var grade = review.map{$0.grade}.reduce(0, +)
-        var finalGrade = Double(grade) / Double(review.count)
+        let grade = review.map{$0.grade}.reduce(0, +)
+        let finalGrade = Double(grade) / Double(review.count)
         var index: Int = 0
         for i in 0..<cloud.barsList.count{
             if cloud.barsList[i].name == bar.name{
@@ -357,6 +372,17 @@ struct BarPageView: View {
         cloud.changeGrade(grade: finalGrade, barName: bar.name)
         return finalGrade
     }
+    
+    func callUber(){
+        if let uberURL = URL(string: "uber://"){
+            UIApplication.shared.canOpenURL(uberURL)
+            UIApplication.shared.open(uberURL)
+        } else {
+            let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
+            UIApplication.shared.open(fallbackURL)
+        }
+    }
+    
 }
 
 struct BarPageView_Previews: PreviewProvider {
