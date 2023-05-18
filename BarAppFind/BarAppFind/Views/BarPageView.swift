@@ -179,7 +179,7 @@ struct BarPageView: View {
                             if let bar = bar {
                                 let review = cloud.reviewListByBar.filter({ $0.barName == bar.name })
                                 
-                                var countBars = review.count
+                                let countBars = review.count
                                 
                                 if countBars == 0 {
                                     Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
@@ -360,8 +360,8 @@ struct BarPageView: View {
     }
     
     func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
-        var grade = review.map{$0.grade}.reduce(0, +)
-        var finalGrade = Double(grade) / Double(review.count)
+        let grade = review.map{$0.grade}.reduce(0, +)
+        let finalGrade = Double(grade) / Double(review.count)
         var index: Int = 0
         for i in 0..<cloud.barsList.count{
             if cloud.barsList[i].name == bar.name{

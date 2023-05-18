@@ -11,7 +11,7 @@ struct SplashScreen: View {
     @State var efect = false
     var body: some View {
         ZStack{
-            Color("azulescuro")
+            Color(.darkGray)
             Image("logo")
                 .resizable()
                 .scaledToFit()

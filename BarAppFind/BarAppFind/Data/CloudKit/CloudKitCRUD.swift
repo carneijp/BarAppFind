@@ -344,7 +344,7 @@ class CloudKitCRUD: ObservableObject {
         
     }
     
-    func validateClientLogin(email: String, password: String, completion: @escaping () -> Void) {
+    func validateClientLogin(email: String, password: String, completion: @escaping (Bool) -> Void) {
         let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         
@@ -372,20 +372,21 @@ class CloudKitCRUD: ObservableObject {
                                 DispatchQueue.main.async {
                                     self.client = clients
                                 }
-                                completion()
+                                completion(true)
                             } else {
                                 #warning("Informar que senha e usuários estão incorretos")
-                                completion()
+                                self.client == nil
+                                completion(false)
                             }
                         case .failure(let err):
                             print(err.localizedDescription)
-                            completion()
+                            completion(false)
                         }
                     }
                 }
             case .failure(let failure):
                 print(failure.localizedDescription)
-                completion()
+                completion(false)
             }
         }
     }
