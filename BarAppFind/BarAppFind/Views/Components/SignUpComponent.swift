@@ -55,7 +55,7 @@ struct SignUpComponent: View {
                 
                 TextField("Sobrenome", text: $lastName)
                 
-                TextField("Senha", text: $password)
+                SecureField("Senha", text: $password)
             }
             .textInputAutocapitalization(.never)
             .disableAutocorrection(true)

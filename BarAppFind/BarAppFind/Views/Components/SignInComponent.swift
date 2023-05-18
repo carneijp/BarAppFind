@@ -41,11 +41,15 @@ struct SignInComponent: View {
             
             
             // Logo do App
-            Image("trending1")
+            Image("logo")
                 .resizable()
                 .scaledToFit()
+                .frame(width: 80, height: 80)
+                .padding(.all)
                 .clipShape(Circle())
-                .frame(width: 200, height: 200)
+                .shadow(radius: 1, x: 0, y: 2)
+                .padding(.top, 30)
+                .padding(.bottom, 20)
             
             
             // Inputs do Usuário
@@ -53,7 +57,7 @@ struct SignInComponent: View {
                 TextField("Digite o seu e-mail", text: $email)
 
                 
-                TextField("Senha", text: $password)
+                SecureField("Senha", text: $password)
             }
             .textInputAutocapitalization(.never)
             .disableAutocorrection(true)

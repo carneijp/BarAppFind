@@ -9,7 +9,6 @@ import SwiftUI
 
 struct BarListView: View {
     @EnvironmentObject var cloud: CloudKitCRUD
-    @State private var searchText: String = ""
     
     var body: some View {
         ScrollView {
@@ -17,6 +16,7 @@ struct BarListView: View {
                 ForEach(cloud.barsList, id: \.self) { bar in
                     NavigationLink {
                         BarPageView(barname: bar.name)
+                            .toolbarRole(.editor)
                     } label: {
                         BarComponent(bar: bar)
                             .foregroundColor(.primary)

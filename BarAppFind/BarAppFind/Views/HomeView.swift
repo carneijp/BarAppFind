@@ -10,13 +10,15 @@ import SwiftUI
 struct HomeView: View {
     @State private var trendingIndex = 0
     @EnvironmentObject var cloud: CloudKitCRUD
-    
+    @State var isShowing: Bool = false
+
     var body: some View {
         VStack(alignment: .leading) {
             // Logo
             HStack {
                 Spacer()
                 LogoComponent()
+                    .padding(.top, 20)
                 Spacer()
             }
             
@@ -28,6 +30,7 @@ struct HomeView: View {
                     VStack {
                         TabView(selection: $trendingIndex) {
                             ForEach(trendings.indices, id: \.self) { index in
+<<<<<<< HEAD
                                 NavigationLink {
                                     BarPageView(barname: trendings[index])
                                         .environmentObject(cloud)
@@ -35,11 +38,15 @@ struct HomeView: View {
                                     TrendingComponent(trendingItem: trendings[index])
                                 }
                                 
+=======
+                                TrendingComponent(trendingItem: trendings[index])
+>>>>>>> Dev
                             }
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .frame(height: 150)
-                        
+                        .offset(y: -10)
+
                         // Index Trending Carousel
                         HStack(spacing: 8) {
                             ForEach((0..<3), id: \.self) { index in
@@ -49,6 +56,7 @@ struct HomeView: View {
                                 
                             }
                         }
+                        .offset(y: -16)
                     }
                     
                     
@@ -56,22 +64,27 @@ struct HomeView: View {
                     VStack(alignment: .leading) {
                         
                         //Mood Section
-                        Text("Onde é...")
+                        Text("Qual o seu mood hoje?")
                             .font(.system(size: 14))
-                            .padding(.top, 8)
                             .padding(.leading, 24)
                         
                         //Mood Section
                         ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
+                            HStack(spacing: 12) {
                                 ForEach(moodsImage.indices, id: \.self) { index in
-                                    MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
+                                    NavigationLink {
+                                        MoodListView(moodName: moodsName[index])
+                                            .toolbarRole(.editor)
+                                        
+                                    } label: {
+                                        MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
+                                    }
                                 }
                             }
                             .padding(.horizontal, 24)
-                            .padding(.bottom, 14)
+                            .padding(.bottom, 8)
                         }
-                        .padding(.bottom, 14)
+                        .padding(.bottom, 18)
                         
                         //Bars Section
                         VStack {
@@ -83,19 +96,26 @@ struct HomeView: View {
                                 
                                 NavigationLink {
                                     BarListView()
+                                        .toolbarRole(.editor)
                                 } label: {
                                     Text("Ver todos")
                                         .font(.system(size: 14))
                                         .foregroundColor(Color("blue"))
                                 }
                             }
+<<<<<<< HEAD
                             //                            .padding(.top, 14)
                             .padding(.bottom, 20)
+=======
+//                            .padding(.top, 14)
+                            .padding(.bottom, 10)
+>>>>>>> Dev
                             
                             ForEach(cloud.barsList, id: \.self) { bar in
                                 NavigationLink {
                                     BarPageView(barname: bar.name)
                                         .environmentObject(cloud)
+                                        .toolbarRole(.editor)
                                 } label: {
                                     BarComponent(bar: bar)
                                         .environmentObject(cloud)
@@ -106,6 +126,7 @@ struct HomeView: View {
                         }
                         .padding(.horizontal, 24)
                     }
+
                 }
                 
                 Spacer()
@@ -126,4 +147,3 @@ struct Home_Previews: PreviewProvider {
         HomeView()
     }
 }
-

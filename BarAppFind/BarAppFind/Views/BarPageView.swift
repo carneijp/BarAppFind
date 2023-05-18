@@ -12,8 +12,12 @@ import MapKit
 struct BarPageView: View {
     var barname: String
     
+<<<<<<< HEAD
     private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
     
+=======
+
+>>>>>>> Dev
     enum ChoiceBar {
         case barName, info, review
     }
@@ -56,36 +60,6 @@ struct BarPageView: View {
         }
     }
     
-    //Criar icone de ambiente a partir de uma imagem do sistema (climatizado)
-    @ViewBuilder
-    func createAmbientIcon(ambientText: String) -> some View{
-        VStack{
-            Image(ambient[ambientText, default: ""])
-                .resizable()
-                .scaledToFit()
-                .frame(width: 35, height: 31)
-            
-            Text(ambientText)
-                .font(.system(size: 6))
-        }
-    }
-    
-    //Criar icone de ambiente a partir de uma imagem qualquer (estacionamento)
-    //    @ViewBuilder
-    //    func createAmbientIconCustom(ambientText: String, imageName: String) -> some View{
-    //        VStack{
-    //            Image(imageName)
-    //                .resizable()
-    //                .scaledToFit()
-    //                .frame(width: 35, height: 31)
-    //
-    //            Text(ambientText)
-    //                .font(.system(size: 6))
-    //        }
-    //    }
-    
-    //    @State var review: String = ""
-    
     @State var topBarChoice: ChoiceBar = .barName
     
     @State var isBarName: Bool = true
@@ -110,7 +84,10 @@ struct BarPageView: View {
                 if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                     Image(uiImage: image)
                         .resizable()
-                        .scaledToFit()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+//                        .frame(width: 498, height: 200)
+                        .clipped()
                         .padding(.bottom, 10)
                 }
                 
@@ -196,26 +173,66 @@ struct BarPageView: View {
                             Text("\(bar?.name ?? "Loading...")")
                                 .font(.title2)
                                 .bold()
+<<<<<<< HEAD
                             //<<<<<<< HEAD
+=======
+>>>>>>> Dev
                                 .padding(.trailing)
                             
                             Image(systemName: "star.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 15)
-                            Text(String(format: "%.1f", bar?.grade ?? 0.0))
-                                .font(.system(size: 14))
                             
+                            if let bar = bar {
+                                let review = cloud.reviewListByBar.filter({ $0.barName == bar.name })
+                                
+                                var countBars = review.count
+                                
+                                if countBars == 0 {
+                                    Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                                        .font(.system(size: 14))
+                                }
+                                else {
+                                    Text(String(format: "%.1f", getFinalGrade(from: bar, review: review)))
+                                        .font(.system(size: 14))
+                                }
+                            }
                             Spacer()
-                            Image(systemName: "heart")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 15)
-                                .padding(.trailing, 15)
                             
+<<<<<<< HEAD
                             //=======
                             //
                             //>>>>>>> featMaps
+=======
+                            if let cliente = cloud.client {
+                                if cliente.favorites.contains(barname){
+                                    Image(systemName:"heart.fill")
+                                        .foregroundColor(.red)
+                                        .onTapGesture {
+                                            cloud.removeFavoriteBar(client: cliente, barName: barname)
+                                            let referencia = cliente.favorites.firstIndex(of: barname)
+                                            cliente.favorites.remove(at: referencia ?? -1)
+                                            cloud.client = cliente
+                                        }
+                                }else{
+                                    Image(systemName: "heart")
+                                        .onTapGesture {
+                                            cloud.addFavoriteBar(client: cliente, barName: barname)
+                                            cliente.favorites.append(barname)
+                                            cloud.client = cliente
+                                        }
+                                }
+                                
+                            } else{
+                                Image(systemName: "heart")
+                                    .onTapGesture {
+                                        print("Voce deve estar logado para favoritar.")
+                                    }
+                                
+                            }
+                            
+>>>>>>> Dev
                         }
                         .padding(.top)
                         
@@ -225,24 +242,15 @@ struct BarPageView: View {
                             .lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom)
-                        
-                        
-                        //                            HStack{
-                        //                                createCustomIcon(imageName: "Instagram", text: "Instagram")
-                        //
-                        //
-                        //                                createSystemIcon(imageName: "square.and.arrow.up",text: "Compartilhar")
-                        //                            }
-                        //                            .padding(.bottom)
-                        
+                    
                         Text("Boa escolha para ...")
                             .font(.system(size: 14))
                             .padding(.bottom)
                         
-                        HStack{
+                        HStack(){
                             if let moods = bar?.mood{
                                 ForEach(moods, id:\.self){ mood in
-                                    BarViewMoodComponent(mood: mood)
+                                    MoodSmallComponent(moodName: mood)
                                 }
                             }
                         }
@@ -255,10 +263,7 @@ struct BarPageView: View {
                         }
                         .padding(.vertical)
                         
-                        HStack{
-                            //                                    createAmbientIconCustom(ambientText: "Estacionamento", imageName: "Estacionamento")
-                            //                                    createAmbientIconSystem(ambientText: "Climatizado", imageName: "snowflake")
-                            //                                    ForEach(bar?.caracteristicas, id: \.self){ caracteristica in
+//                        HStack{
                             if let caracteristicas = bar?.caracteristicas{
                                 VStack(alignment: .leading){
                                     ForEach(caracteristicas, id:\.self){ caracteristica in
@@ -268,7 +273,7 @@ struct BarPageView: View {
                                     }
                                 }
                             }
-                        }
+//                        }
                     }
                     .padding(.horizontal)
                     
@@ -326,7 +331,6 @@ struct BarPageView: View {
                         
                         
                     }
-                    //                    .background(Color.green)
                     .padding(.horizontal)
                     
                     //MARK: Avaliações
@@ -350,23 +354,12 @@ struct BarPageView: View {
                         }else{
                             EmptyViewReviews()
                         }
-                        
-                        //                            if !reviewListIsEmpty{
-                        //                                ForEach(cloud.reviewListByBar, id: \.self){ review in
-                        //                                    ReviewComponent(review: review)
-                        //                                }
-                        //                            }else{
-                        //                                EmptyViewReviews()
-                        //                            }
                     }
                     .padding([.horizontal, .top])
                     
                 }
-                
-                
-                
-                
-                Spacer()
+
+               // Spacer()
             }
             .onAppear(){
                 cloud.fetchBar(barName: barname) { bar in
@@ -375,8 +368,22 @@ struct BarPageView: View {
                 self.cloud.reviewListByBar = []
                 cloud.fetchItemsReview(barName: barname) {}
             }
-            .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+            
+        }.navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+    }
+    
+    func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
+        var grade = review.map{$0.grade}.reduce(0, +)
+        var finalGrade = Double(grade) / Double(review.count)
+        var index: Int = 0
+        for i in 0..<cloud.barsList.count{
+            if cloud.barsList[i].name == bar.name{
+                index = i
+            }
         }
+        cloud.barsList[index].grade = finalGrade
+        cloud.changeGrade(grade: finalGrade, barName: bar.name)
+        return finalGrade
     }
     
     func callUber(){
@@ -412,9 +419,6 @@ struct Flemis: View {
                     .foregroundColor(.primary)
                     .padding(.top)
                     .padding(.bottom, 5)
-                //                    .background(Color.green)
-                
-                //                Spacer()
                 
                 Button(action: {
                     self.isShowingWorkingHours.toggle()
@@ -424,7 +428,6 @@ struct Flemis: View {
                         .scaledToFit()
                 })
                 .frame(width: 14, height: 28)
-                //                .background(Color.green)
                 
             }
             .padding(.bottom, 5)
