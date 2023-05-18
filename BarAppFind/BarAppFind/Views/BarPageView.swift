@@ -13,15 +13,7 @@ struct BarPageView: View {
     var barname: String
     
     private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
-    
-    //    let contacts = [
-    //      "John",
-    //      "Ashley",
-    //      "Bobby",
-    //      "Jimmy",
-    //      "Fredie"
-    //    ]
-    
+
     enum ChoiceBar {
         case barName, info, review
     }
@@ -303,28 +295,36 @@ struct BarPageView: View {
                             MapView(bar: self.bar, mapStyle: .compact)
                                 .frame(width: 342, height: 129)
 
-                        
-                        HStack{
-                            Image(systemName: "car.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(Color("white"))
-                                .frame(height: 14)
-                                .padding(.leading)
-                            
-                            //                                Spacer()
-                            
-                            Text("Abrir no uber")
-                                .font(.system(size: 16))
-                                .bold()
-                                .foregroundColor(Color("white"))
-                            
-                            //                                Spacer()
+                        Button{
+                            callUber()
+                        }label: {
+                            Group{
+                                HStack{
+                                    Image(systemName: "car.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundColor(Color("white"))
+                                        .frame(height: 14)
+                                        .padding(.leading)
+                                    
+                                    //                                Spacer()
+                                    
+                                    Text("Abrir no uber")
+                                        .font(.system(size: 16))
+                                        .bold()
+                                        .foregroundColor(Color("white"))
+                                    
+                                    //                                Spacer()
+                                }
+                                .frame(width:UIScreen.main.bounds.width - 48, height: 41)
+                                .background(Color("gray1"))
+                                .cornerRadius(10)
+                                .padding(.top)
+                            }
                         }
-                        .frame(width:UIScreen.main.bounds.width - 48, height: 41)
-                        .background(Color("gray1"))
-                        .cornerRadius(10)
-                        .padding(.top)
+                        
+                       
+                        
                     }
                     //                    .background(Color.green)
                     .padding(.horizontal)
@@ -378,6 +378,20 @@ struct BarPageView: View {
             .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
         }
     }
+    
+    func callUber(){
+        if let uberURL = URL(string: "uber://"){
+                 UIApplication.shared.canOpenURL(uberURL)
+                    UIApplication.shared.open(uberURL)
+                } else {
+                    // Uber app is not installed, handle this situation
+                    // You can open a fallback URL or display an error message
+                    // For example:
+                    let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
+                    UIApplication.shared.open(fallbackURL)
+                }
+    }
+    
 }
 
 struct BarPageView_Previews: PreviewProvider {
