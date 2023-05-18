@@ -51,7 +51,7 @@ struct MapPopUpComponent: View {
         .padding(.bottom)
         .background(Color("gray5"))
         .cornerRadius(15)
-        .frame(width: 225, height: 185)
+        .frame(width: 277, height: 228)
         
     }
 }

@@ -40,7 +40,7 @@ struct FavoritesView: View {
             }else{
                 ZStack {
                     EmptyViewFavorites()
-                    LoginAlertComponent(title: "login", description: "logar", isShow: $isPresenting)
+                    LoginAlertComponent(title: "Login necessário", description: "Para ter acesso a lista de favoritos, realize login", isShow: $isPresenting)
                 }
                 .onAppear() {
                     if cloud.client == nil {
