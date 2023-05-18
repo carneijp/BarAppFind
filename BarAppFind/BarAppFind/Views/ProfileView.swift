@@ -17,6 +17,7 @@ struct ProfileView: View {
     @State private var showSignIn: Bool = false
     @State private var showModalConquest: Bool = false
     @State private var scale: CGFloat = 1.0
+    @State private var showAnimation: Bool = false
     
     // Opções da Tab Bar
     enum ChoiceProfile {
@@ -182,6 +183,9 @@ struct ProfileView: View {
                         .padding(.top, 16)
                         .padding(.horizontal, 24)
                     }
+//                    .onAppear() {
+//                        showAnimation = true
+//                    }
                     
                     // Conteúdo Tab. 2 - Editar Perfil
                 case .profileEdit:
