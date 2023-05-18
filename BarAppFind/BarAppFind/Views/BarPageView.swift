@@ -267,16 +267,21 @@ struct BarPageView: View {
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom)
                     
-                        Text("Boa escolha para ...")
+                        Text("Ótimo para ...")
                             .font(.system(size: 14))
-                            .padding(.bottom)
+//                            .padding(.bottom)
                         
-                        HStack(){
-                            if let moods = bar?.mood{
-                                ForEach(moods, id:\.self){ mood in
-                                    MoodSmallComponent(moodName: mood)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                                if let moods = bar?.mood{
+                                    ForEach(moods, id:\.self){ mood in
+                                        MoodSmallComponent(moodName: mood)
+                                            .padding(.vertical)
+                                            .padding(.trailing, 10)
+                                    }
                                 }
                             }
+                            .padding(.leading, 4)
                         }
                         
                         HStack {
@@ -324,25 +329,51 @@ struct BarPageView: View {
                             MapView(bar: self.bar, mapStyle: .compact)
                                 .frame(height: 129)
 
+//
+//                        HStack{
+//                            Spacer()
+//                            Image(systemName: "car.fill")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .foregroundColor(Color("white"))
+//                                .frame(height: 14)
+//                                .padding(.leading)
+//                            Text("Abrir no uber")
+//                                .font(.system(size: 16))
+//                                .bold()
+//                                .foregroundColor(Color("white"))
+//                            Spacer()
+//                        }
+//                        .frame(height: 41)
+//                        .background(Color("gray1"))
+//                        .cornerRadius(10)
+//                        .padding(.top)
                         
                         HStack{
+                            Button(action: {
+                                print("abrir uber")
+                            }, label: {
+                                Image("Uber")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                            .frame(width: 166, height: 47)
+                            .background(Color.black)
+                            .cornerRadius(10)
+                            
                             Spacer()
-                            Image(systemName: "car.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundColor(Color("white"))
-                                .frame(height: 14)
-                                .padding(.leading)
-                            Text("Abrir no uber")
-                                .font(.system(size: 16))
-                                .bold()
-                                .foregroundColor(Color("white"))
-                            Spacer()
+                            
+                            Button(action: {
+                                print("abrir 99")
+                            }, label: {
+                                Image("99")
+                                    .resizable()
+                                    .scaledToFit()
+                            })
+                            .frame(width: 166, height: 47)
+                            .background(Color("amarelo"))
+                            .cornerRadius(10)
                         }
-                        .frame(height: 41)
-                        .background(Color("gray1"))
-                        .cornerRadius(10)
-                        .padding(.top)
                     }
                     .padding(.horizontal)
                     
@@ -394,6 +425,7 @@ struct BarPageView: View {
                 index = i
             }
         }
+        if cloud.barsList.count <= 0 { return 0.0 }
         cloud.barsList[index].grade = finalGrade
         cloud.changeGrade(grade: finalGrade, barName: bar.name)
         return finalGrade

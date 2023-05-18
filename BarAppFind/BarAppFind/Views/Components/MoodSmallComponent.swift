@@ -23,7 +23,7 @@ struct MoodSmallComponent: View {
                 .font(.system(size: 11))
                 .padding(.bottom)
         }
-        .frame(width: 120, height: 150)
+        .frame(width: 125, height: 125)
 //        .padding(.top, 50)
 //        .padding(.bottom, 20)
 //        .padding(.horizontal, 21)
