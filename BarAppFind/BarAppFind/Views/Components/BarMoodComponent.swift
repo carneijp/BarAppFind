@@ -15,7 +15,7 @@ struct BarMoodComponent: View {
     var body: some View {
         VStack(spacing: 0) {
             // logo dos bares
-            if let photoLogo = bar.photosLogo, let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+            if let photoLogo = bar.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
