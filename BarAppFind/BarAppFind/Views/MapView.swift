@@ -64,10 +64,13 @@ struct MapView: View {
                 }
                 .animation(.linear( duration: 2))
                 .onTapGesture {
-                    if !didTap {
-                        showBarSmallDescription = false
-                    }
-                    didTap = false
+//                    withAnimation {
+                        if !didTap {
+                            showBarSmallDescription = false
+                        }
+                        didTap = false
+//                    }
+                    
                 }
                 
                 

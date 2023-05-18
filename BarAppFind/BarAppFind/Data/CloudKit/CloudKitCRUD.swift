@@ -10,8 +10,8 @@ class CloudKitCRUD: ObservableObject {
     
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
-            print("\(returnedRecors)")
-            print("\(returnedError)")
+//            print("\(returnedRecors)")
+//            print("\(returnedError)")
         }
     }
     
@@ -375,7 +375,7 @@ class CloudKitCRUD: ObservableObject {
                                 completion(true)
                             } else {
                                 #warning("Informar que senha e usuários estão incorretos")
-                                self.client == nil
+                                self.client = nil
                                 completion(false)
                             }
                         case .failure(let err):
@@ -557,7 +557,7 @@ class CloudKitCRUD: ObservableObject {
         let queryOperation = CKQueryOperation(query: query)
         queryOperation.resultsLimit = 50
         var listFavorites = client.favorites
-        var count: Int = listFavorites.firstIndex(of: barName) ?? -1
+        let count: Int = listFavorites.firstIndex(of: barName) ?? -1
         listFavorites.remove(at: count)
         
         if #available(iOS 15.0, *){

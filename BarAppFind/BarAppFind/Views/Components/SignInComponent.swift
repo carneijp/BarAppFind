@@ -67,7 +67,6 @@ struct SignInComponent: View {
             
             // Botão de Logar
             Button {
-                var deveraSalvar: Bool = false
                 cloud.validateClientLogin(email: email, password: password) { result in
                     if result{
                         let login: String = $email.wrappedValue
