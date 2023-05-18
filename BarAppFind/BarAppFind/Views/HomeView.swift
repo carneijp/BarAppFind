@@ -117,8 +117,18 @@ struct HomeView: View {
                 cloud.fetchBars()
             }
             
+            var a = getDateOfWeek()
+            print(a)
+            
         }
     }
+}
+
+func getDateOfWeek() -> String {
+    let index = Calendar.current.component(.weekday, from: Date()) // this returns an Int
+    let weekday: String = Calendar.current.weekdaySymbols[index - 1]
+    
+    return weekday
 }
     
 struct Home_Previews: PreviewProvider {
