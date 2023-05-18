@@ -212,6 +212,7 @@ extension ComponenteLargeMap {
                     .resizable()
                     .frame(width: 50, height: 50)
                     .scaledToFit()
+                    .foregroundColor(.blue)
             }.padding()
         }
     }

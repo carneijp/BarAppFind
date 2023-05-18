@@ -40,7 +40,7 @@ struct MapPopUpComponent: View {
                     
                     Text("•")
                     
-                    Text("Hoje: 8h às 20h")
+                    Text("\(bar.operatinHours[getDateOfweek()])")
                         .font(.system(size: 12))
 
                 }
@@ -53,6 +53,10 @@ struct MapPopUpComponent: View {
         .cornerRadius(15)
         .frame(width: 277, height: 228)
         
+    }
+    func getDateOfweek() -> Int {
+        let index = Calendar.current.component(.weekday, from: Date())
+        return (index + 5) % 7
     }
 }
 

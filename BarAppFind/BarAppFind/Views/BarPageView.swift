@@ -354,7 +354,7 @@ struct BarPageView: View {
                         
                         HStack{
                             Button(action: {
-                                print("abrir uber")
+                                callUber()
                             }, label: {
                                 Image("Uber")
                                     .resizable()
@@ -479,6 +479,11 @@ struct BarPageView: View {
             let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
             UIApplication.shared.open(fallbackURL)
         }
+    }
+    
+    func getDateOfweek() -> Int {
+        let index = Calendar.current.component(.weekday, from: Date())
+        return (index + 5) % 7
     }
     
 }
