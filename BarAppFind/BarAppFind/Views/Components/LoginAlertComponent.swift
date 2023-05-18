@@ -71,10 +71,13 @@ struct LoginAlertComponent: View {
         .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
         .animation(.spring())
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 40)
-        .background(.secondary.opacity(0.6))
+        .background(.secondary.opacity(0.01))
         .offset(y: isShow ? -10 : UIScreen.main.bounds.height)
         .sheet(isPresented: $showSignIn) {
             SignInComponent()
+        }
+        .onTapGesture {
+            self.isShow = false
         }
     }
 }

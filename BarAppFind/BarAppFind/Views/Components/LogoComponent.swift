@@ -10,7 +10,9 @@ import SwiftUI
 struct LogoComponent: View {
     var body: some View {
         Image("logo")
-            .frame(width: 60, height: 70)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 60, height: 60)
     }
 }
 

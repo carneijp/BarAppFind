@@ -63,7 +63,7 @@ struct HomeView: View {
                             
                             //Mood Section
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 12) {
+                                HStack(spacing: 16) {
                                     ForEach(moodsImage.indices, id: \.self) { index in
                                         NavigationLink {
                                             MoodListView(moodName: moodsName[index])

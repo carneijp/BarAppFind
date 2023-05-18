@@ -17,7 +17,8 @@ struct ProfileView: View {
     @State private var showSignIn: Bool = false
     @State private var showModalConquest: Bool = false
     @State private var scale: CGFloat = 1.0
-    @State private var showAnimation: Bool = false
+    @State private var showFirstConquest: Bool = false
+//    @State private var showAnimation: Bool = true
     
     // Opções da Tab Bar
     enum ChoiceProfile {
@@ -133,6 +134,8 @@ struct ProfileView: View {
                     // Conteúdo Tab. 1 - Minhas Conquistas
                 case .myConquests:
                     ScrollView {
+                        
+                        // Primeira conquista do App
                         HStack (spacing: 20) {
                             Image("Primeiro Acesso")
                                 .resizable()
@@ -154,20 +157,16 @@ struct ProfileView: View {
                         .cornerRadius(12)
                         .shadow(radius: 2, y: 2)
                         .padding(.top, 20)
-                        .scaleEffect(scale)
-                        .animation(Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true))
-                        .onAppear {
-                            self.scale = 1.08
+                        .onTapGesture {
+                            showFirstConquest = true
                         }
-
-//                        .scaleEffect(isZoomed ? 1.08 : 1.0)
+//                        .scaleEffect(scale)
 //                        .animation(Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true))
 //                        .onAppear {
-//                            self.isZoomed = true
+//                            self.scale = 1.08
 //                        }
-//                        .onTapGesture {
-//                            self.isZoomed = false
-//                        }
+
+
 
 
                         LazyVGrid(columns: columns, spacing: 18) {
@@ -183,9 +182,6 @@ struct ProfileView: View {
                         .padding(.top, 16)
                         .padding(.horizontal, 24)
                     }
-//                    .onAppear() {
-//                        showAnimation = true
-//                    }
                     
                     // Conteúdo Tab. 2 - Editar Perfil
                 case .profileEdit:
@@ -218,6 +214,10 @@ struct ProfileView: View {
             
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
+            
+            // PopUp de Primeira Conquista
+            FirstConquestComponent(isShow: $showFirstConquest)
+            
         }
         // Faz aparecer o Pop Up de Login Necessário
         .onAppear() {
