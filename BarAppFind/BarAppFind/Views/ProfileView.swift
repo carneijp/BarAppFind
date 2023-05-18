@@ -18,6 +18,9 @@ struct ProfileView: View {
     @State private var showModalConquest: Bool = false
     @State private var scale: CGFloat = 1.0
     @State private var showFirstConquest: Bool = false
+    @State private var showMedalConquest: Bool = false
+    @State private var medalName: String = ""
+
 //    @State private var showAnimation: Bool = true
     
     // Opções da Tab Bar
@@ -140,7 +143,7 @@ struct ProfileView: View {
                             Image("Primeiro Acesso")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 60, height: 60)
+                                .frame(width: 80, height: 80)
                                 .foregroundColor(Color("gray1"))
                                 .shadow(radius: 2, y: 2)
                     
@@ -166,16 +169,20 @@ struct ProfileView: View {
 //                            self.scale = 1.08
 //                        }
 
-
-
-
                         LazyVGrid(columns: columns, spacing: 18) {
                             ForEach(conquestMedals, id: \.self) { medal in
                                 if cloud.client == nil {
                                     MedalComponent(medalName: medal)
                                         .foregroundColor(.gray)
+                                        .onTapGesture {
+                                            showMedalConquest = true
+                                            medalName = medal
+                                        }
                                 } else {
                                     MedalComponent(medalName: medal)
+                                        .onTapGesture {
+                                            showMedalConquest = true
+                                        }
                                 }
                             }
                         }
@@ -217,6 +224,8 @@ struct ProfileView: View {
             
             // PopUp de Primeira Conquista
             FirstConquestComponent(isShow: $showFirstConquest)
+            
+            ConquestModalComponent(showMedalConquest: $showMedalConquest, medalName: $medalName)
             
         }
         // Faz aparecer o Pop Up de Login Necessário

@@ -89,6 +89,7 @@ struct HomeView: View {
                                     
                                     NavigationLink {
                                         BarListView(showSignIn: $showSignIn)
+                                            .toolbarRole(.editor)
                                     } label: {
                                         Text("Ver todos")
                                             .font(.system(size: 16))
@@ -151,6 +152,9 @@ struct HomeView: View {
                     Spacer()
                 }
             }
+            
+            LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
+
         }
         .onAppear() {
             if cloud.client == nil{
@@ -161,22 +165,13 @@ struct HomeView: View {
                             print("loguei automatico")
                         }
                         else{
-//                            print("falhei no login")
                         }
                     }
-//                    print("falhei no login2")
-                }else{
-//                    print("falhei no login3")
+                } else {
                 }
             }
-            LoginAlertComponent(title: "tes", description: "tes", isShow: $showSignIn)
-            
-//            if cloud.barsList.count != 10 {
-//                cloud.fetchBars()
-//            }
-            
         }
-//        .padding(.top, 100)
+        .padding(.top, 100)
         
     }
 }
