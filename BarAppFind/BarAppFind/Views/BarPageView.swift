@@ -481,6 +481,11 @@ struct BarPageView: View {
         }
     }
     
+    func getDateOfweek() -> Int {
+        let index = Calendar.current.component(.weekday, from: Date())
+        return (index + 5) % 7
+    }
+    
 }
 
 struct BarPageView_Previews: PreviewProvider {

@@ -38,7 +38,7 @@ struct BarComponent: View {
                         Image(systemName: "star.fill")
                             .foregroundColor(.primary)
                         
-                            Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                            Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[getDateOfweek()])")
                                 .font(.system(size: 14))
                         
                         Spacer()
@@ -74,6 +74,12 @@ struct BarComponent: View {
                 }
             }
         }
+    }
+    
+    
+    func getDateOfweek() -> Int {
+        let index = Calendar.current.component(.weekday, from: Date())
+        return (index + 5) % 7
     }
 }
 
