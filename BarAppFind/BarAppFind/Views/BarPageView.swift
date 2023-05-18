@@ -277,7 +277,6 @@ struct BarPageView: View {
                                         }
                                     }
                                 }
-    //                            .padding(.leading, 4)
                                 .padding(.horizontal, 24)
                             }
                             
@@ -290,7 +289,6 @@ struct BarPageView: View {
                             .padding(.vertical)
                             .padding(.horizontal, 24)
                             
-    //                        HStack{
                                 if let caracteristicas = bar?.caracteristicas{
                                     VStack(alignment: .leading){
                                         ForEach(caracteristicas, id:\.self){ caracteristica in
@@ -301,7 +299,6 @@ struct BarPageView: View {
                                     }
                                     .padding(.horizontal, 24)
                                 }
-    //                        }
                         }
                         .padding(.bottom)
                         
@@ -394,6 +391,7 @@ struct BarPageView: View {
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInAlert)
         }
+        .padding(.top, 130)
     }
     
     func getFinalGrade(from bar: Bar, review: [Review]) -> Double {

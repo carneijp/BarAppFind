@@ -31,6 +31,8 @@ struct BarMoodComponent: View {
 
                                 HStack {
                                     Image(systemName: "star.fill")
+                                        .font(.system(size: 13))
+
                                     Text(String(format: "%.1f", bar.grade))
                                         .font(.system(size: 14))
 
@@ -40,7 +42,7 @@ struct BarMoodComponent: View {
                             .padding(.horizontal, 12)
                             .padding(.top, 10)
                             .padding(.bottom, 10)
-                            .background(Color(moodColor).opacity(0.7))
+                            .background(Color(moodColor).opacity(0.9))
                         }
                     }
             }
