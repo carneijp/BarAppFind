@@ -25,7 +25,7 @@ struct FavoritesView: View {
                                 BarPageView(barname: bar.name)
                                     .toolbarRole(.editor)
                             } label: {
-                                BarComponent(bar: bar)
+                                BarComponent(bar: bar, showSignIn: $isPresenting)
                                     .foregroundColor(.primary)
                                     .padding(.bottom, 10)
                             }

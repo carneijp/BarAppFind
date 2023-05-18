@@ -16,12 +16,19 @@ struct ProfileView: View {
     @State private var isPresented: Bool = false
     @State private var showSignIn: Bool = false
     @State private var showModalConquest: Bool = false
-    @State private var arrowDirection: ArrowDirection = .up
+    @State private var scale: CGFloat = 1.0
+    @State private var showFirstConquest: Bool = false
+//    @State private var showAnimation: Bool = true
     
     // Opções da Tab Bar
     enum ChoiceProfile {
         case myConquests, profileEdit
     }
+    
+    private let columns = [
+        GridItem(.flexible(), spacing: 20),
+        GridItem(.flexible(), spacing: 20)
+    ]
     
     var body: some View {
         
@@ -29,7 +36,7 @@ struct ProfileView: View {
             VStack {
                 
                 // MARK: - Header
-                Text("Fala, \(cloud.client?.firstName ?? "barzeiro")! 🤪🤟")
+                Text("Olá, \(cloud.client?.firstName ?? "cliente")!")
                     .bold()
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
@@ -42,13 +49,15 @@ struct ProfileView: View {
                     } label: {
                         HStack {
                             Text("Fazer Login")
+                            Spacer()
+                            Image(systemName: "chevron.up")
                         }
                         .padding(.all)
-                        .frame(width: UIScreen.main.bounds.width - 180)
-                        .background()
+                        .background(Color("Fofoca3"))
                         .cornerRadius(8)
                         .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
                     }
+                    .frame(width: UIScreen.main.bounds.width - 28)
                     .foregroundColor(.primary)
                     .padding(.bottom, 40)
                 }
@@ -122,32 +131,59 @@ struct ProfileView: View {
                 // MARK: - Conteúdo Tab Bar
                 switch topProfileChoice {
                     
-                // Conteúdo Tab. 1 - Minhas Conquistas
+                    // Conteúdo Tab. 1 - Minhas Conquistas
                 case .myConquests:
                     ScrollView {
-                        VStack(spacing: 32) {
-                            Grid(horizontalSpacing: 18) {
-                                GridRow {
-                                    MedalComponent()
-                                        .onTapGesture {
-                                            showModalConquest = true
-                                        }
-                                        .iOSPopover(showModalConquest: $showModalConquest, arrowDirection: arrowDirection.direction) {
-                                            ConquestModalComponent()
-                                                .frame(width: UIScreen.main.bounds.width - 48, height: 130)
-                                        }
-                                    
-                                    MedalComponent()
+                        
+                        // Primeira conquista do App
+                        HStack (spacing: 20) {
+                            Image("Primeiro Acesso")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                .foregroundColor(Color("gray1"))
+                                .shadow(radius: 2, y: 2)
+                    
+                            Text("Primeiro Acesso")
+                                .font(.system(size: 16))
+                                .bold()
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(Color("white"))
+                        }
+                        .padding(.vertical, 30)
+                        .padding(.horizontal, 10)
+                        .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
+                        .background(Color("roxo"))
+                        .cornerRadius(12)
+                        .shadow(radius: 2, y: 2)
+                        .padding(.top, 20)
+                        .onTapGesture {
+                            showFirstConquest = true
+                        }
+//                        .scaleEffect(scale)
+//                        .animation(Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true))
+//                        .onAppear {
+//                            self.scale = 1.08
+//                        }
+
+
+
+
+                        LazyVGrid(columns: columns, spacing: 18) {
+                            ForEach(conquestMedals, id: \.self) { medal in
+                                if cloud.client == nil {
+                                    MedalComponent(medalName: medal)
+                                        .foregroundColor(.gray)
+                                } else {
+                                    MedalComponent(medalName: medal)
                                 }
                             }
-                            
-                            Spacer()
                         }
-                        .padding(.top, 32)
+                        .padding(.top, 16)
                         .padding(.horizontal, 24)
                     }
-                
-                // Conteúdo Tab. 2 - Editar Perfil
+                    
+                    // Conteúdo Tab. 2 - Editar Perfil
                 case .profileEdit:
                     HStack {
                         Text("Detalhes da conta")
@@ -178,6 +214,10 @@ struct ProfileView: View {
             
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
+            
+            // PopUp de Primeira Conquista
+            FirstConquestComponent(isShow: $showFirstConquest)
+            
         }
         // Faz aparecer o Pop Up de Login Necessário
         .onAppear() {
@@ -191,26 +231,5 @@ struct ProfileView: View {
 struct Profile_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
-    }
-}
-
-// MARK: Popover Arrow Direction - Não mexer!
-enum ArrowDirection: String,CaseIterable{
-    case up = "Up"
-    case down = "Down"
-    case left = "Left"
-    case right = "Right"
-    
-    var direction: UIPopoverArrowDirection{
-        switch self {
-        case .up:
-            return .up
-        case .down:
-            return .down
-        case .left:
-            return .left
-        case .right:
-            return .right
-        }
     }
 }
