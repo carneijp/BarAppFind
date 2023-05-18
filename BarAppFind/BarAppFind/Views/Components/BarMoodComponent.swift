@@ -20,33 +20,33 @@ struct BarMoodComponent: View {
                     .resizable()
                     .scaledToFill()
                     .clipped()
-                    .frame(height: 120)
-            }
-                        
-            VStack(alignment: .leading, spacing: 6) {
-                Text(bar.name)
-                    .font(.system(size: 16))
-                    .bold()
-                
-                HStack {
-                    Image(systemName: "star.fill")
-                    Text(String(format: "%.1f", bar.grade))
-                        .font(.system(size: 14))
+                    .frame(width: 160, height: 170)
+                    .overlay {
+                        VStack {
+                            Spacer()
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(bar.name)
+                                    .font(.system(size: 16))
+                                    .bold()
 
-                    Spacer()
-                }
+                                HStack {
+                                    Image(systemName: "star.fill")
+                                    Text(String(format: "%.1f", bar.grade))
+                                        .font(.system(size: 14))
+
+                                    Spacer()
+                                }
+                            }
+                            .padding(.horizontal, 12)
+                            .padding(.top, 10)
+                            .padding(.bottom, 10)
+                            .background(Color(moodColor).opacity(0.7))
+                        }
+                    }
             }
-            .padding(.horizontal, 12)
-            .padding(.top, 10)
-            .padding(.bottom, 10)
-            .background(Color(moodColor))
-            
         }
-        .frame(width: 160)
-        .background(.black)
         .cornerRadius(8)
         .shadow(radius: 3, x: 0, y: 2)
-
     }
 }
 

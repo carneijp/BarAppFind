@@ -8,26 +8,32 @@
 import SwiftUI
 
 struct MedalComponent: View {
+    var medalName: String
+    
     var body: some View {
-        HStack (spacing: 18) {
-            Image(systemName: "medal.fill")
-                .padding(.all, 8)
-                .background()
-                .cornerRadius(12)
+        HStack (spacing: 12) {
+            Image(medalName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 50, height: 50)
+                .foregroundColor(Color("gray1"))
+                .shadow(radius: 2, y: 2)
             
-            Text("Bonfiner de Carteirinha")
+            Text(medalName)
                 .font(.system(size: 14))
+                .bold()
+                .multilineTextAlignment(.center)
         }
-        .padding(.vertical)
-        .frame(width: 150, height: 70)
+        .padding(.vertical, 20)
+        .padding(.horizontal, 10)
+        .frame(width: 170 ,height: 80)
         .background(Color("gray0"))
         .cornerRadius(12)
-//        .shadow(color: .secondary, radius: 4)
     }
 }
 
 struct MedalComponent_Previews: PreviewProvider {
     static var previews: some View {
-        MedalComponent()
+        MedalComponent(medalName: "Primeiro Acesso")
     }
 }

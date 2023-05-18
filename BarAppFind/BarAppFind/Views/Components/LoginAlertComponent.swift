@@ -12,14 +12,14 @@ struct LoginAlertComponent: View {
     var description: String
     @Binding var isShow: Bool
     @State private var showSignIn: Bool = false
-//    @Environment(\.presentationMode) var presentation
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
             
             // Textos
             HStack(alignment: .top, spacing: 16) {
                 Image(systemName: "exclamationmark.circle.fill")
+                    .imageScale(.large)
                 
                 VStack(alignment: .leading, spacing: 12) {
                     Text(self.title)
@@ -29,23 +29,24 @@ struct LoginAlertComponent: View {
                         .font(.system(size: 14))
                 }
             }
+            .padding(.trailing, 10)
             
             // Botões do PopUp
-            HStack {
+            HStack(spacing: 20) {
                 Button {
                     self.isShow = false
                 } label: {
                     Text("Mais tarde")
                         .font(.system(size: 14))
                         .foregroundColor(Color("white"))
+                        .bold()
                 }
                 .padding(.vertical, 5)
                 .padding(.horizontal, 24)
                 .background(Color("gray4"))
                 .cornerRadius(12)
-                
-                Spacer()
-                
+                .shadow(radius: 1, y: 2)
+                                
                 Button {
                     showSignIn = true
                     self.isShow = false
@@ -53,16 +54,17 @@ struct LoginAlertComponent: View {
                     Text("Fazer Login")
                         .font(.system(size: 14))
                         .foregroundColor(Color("white"))
+                        .bold()
                 }
                 .padding(.vertical, 5)
                 .padding(.horizontal, 24)
                 .background(Color("gray1"))
                 .cornerRadius(12)
-
+                .shadow(radius: 1, y: 2)
             }
         }
         .padding(.horizontal, 32)
-        .padding(.vertical, 24)
+        .padding(.vertical, 30)
         .frame(width: UIScreen.main.bounds.width - 48)
         .background(Color("white"))
         .cornerRadius(12)

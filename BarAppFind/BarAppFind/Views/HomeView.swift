@@ -58,7 +58,7 @@ struct HomeView: View {
                             
                             //Mood Section
                             Text("Qual o seu mood hoje?")
-                                .font(.system(size: 14))
+                                .font(.system(size: 16))
                                 .padding(.leading, 24)
                             
                             //Mood Section
@@ -83,7 +83,7 @@ struct HomeView: View {
                             VStack {
                                 HStack {
                                     Text("Sugestões de bares hoje")
-                                        .font(.system(size: 14))
+                                        .font(.system(size: 16))
                                     
                                     Spacer()
                                     
@@ -91,7 +91,7 @@ struct HomeView: View {
                                         BarListView(showSignIn: $showSignIn)
                                     } label: {
                                         Text("Ver todos")
-                                            .font(.system(size: 14))
+                                            .font(.system(size: 16))
                                             .foregroundColor(Color("blue"))
                                     }
                                 }
