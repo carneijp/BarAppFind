@@ -133,9 +133,9 @@ struct HomeView: View {
                 print("falhei no login3")
             }
             
-            if cloud.barsList.count != 10 {
-                cloud.fetchBars()
-            }
+//            if cloud.barsList.count != 10 {
+//                cloud.fetchBars()
+//            }
             
         }
     }

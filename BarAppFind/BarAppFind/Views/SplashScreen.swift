@@ -8,27 +8,37 @@
 import SwiftUI
 
 struct SplashScreen: View {
-    @State var efect = false
-    var body: some View {
-        ZStack{
-            Color(.darkGray)
-            Image("logo")
-                .resizable()
-                .scaledToFit()
-                .scaleEffect(efect ? 1.5 : 1)
-                .frame(width: 337, height: 327)
-        }
-        .onAppear {
-            withAnimation {
-                efect = true
+    @EnvironmentObject var cloud: CloudKitCRUD
+    @State var size: Double = 0.8
+    @State var isActive: Bool = false
+    
+    var body: some View{
+        if isActive{
+            GeneralTab()
+//                .environmentObject(CloudKitCRUD())
+        }else{
+            ZStack{
+                Color("AzulSplash")
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 337)
+                    .scaleEffect(size)
+                
+                
+                
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                withAnimation {
-                    efect = false
+            .ignoresSafeArea()
+            .onAppear{
+                cloud.fetchBars()
+                withAnimation(.easeIn(duration: 2)){
+                    size = 1.5
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                    isActive = true
                 }
             }
         }
-        .ignoresSafeArea()
     }
 }
 
