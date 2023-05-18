@@ -82,9 +82,9 @@ struct HomeView: View {
                             //Bars Section
                             VStack {
                                 HStack {
-                                    Text("Sugestões de bares hoje")
-                                        .font(.system(size: 16))
-                                    
+                                        Text("Sugestões de bares hoje")
+                                            .font(.system(size: 16))
+                            
                                     Spacer()
                                     
                                     NavigationLink {
@@ -171,12 +171,23 @@ struct HomeView: View {
                 } else {
                 }
             }
+            LoginAlertComponent(title: "tes", description: "tes", isShow: $showSignIn)
+            
+//            if cloud.barsList.count != 10 {
+//                cloud.fetchBars()
+//            }
         }
         .padding(.top, 100)
         
     }
 }
 
+func getDateOfWeek() -> String {
+    let index = Calendar.current.component(.weekday, from: Date()) // this returns an Int
+    let weekday: String = Calendar.current.weekdaySymbols[index - 1]
+    
+    return weekday
+}
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()

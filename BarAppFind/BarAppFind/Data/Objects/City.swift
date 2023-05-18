@@ -49,6 +49,7 @@ class Bar: ObservableObject, Hashable, Identifiable {
     var endereco: String
     var regiao: String
     var coordinate: CLLocationCoordinate2D
+    var linktInsta: String = ""
     
     
     init(name: String, description: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String, caracteristicas: [String]) {

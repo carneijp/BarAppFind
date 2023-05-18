@@ -97,8 +97,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             DispatchQueue.main.async {
 //                locationManager.startUpdatingHeading()
 //                self.heading = locationManager.heading
-                self.userLocation = MKCoordinateRegion(center: locationManager.location!.coordinate,
-                                            span:  MapDetails.defaultSpan)
+                if let a = locationManager.location?.coordinate {
+                    self.userLocation = MKCoordinateRegion(center: a,
+                                                           span:  MapDetails.defaultSpan)
+                }
             }
             
         @unknown default:

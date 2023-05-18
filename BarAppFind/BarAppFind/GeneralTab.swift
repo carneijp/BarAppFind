@@ -25,7 +25,6 @@ struct GeneralTab: View {
             }
             NavigationStack{
                 FavoritesView()
-                //                BucketListView()
             }
             .tabItem{
                 Label("Favoritos", systemImage: "heart")
