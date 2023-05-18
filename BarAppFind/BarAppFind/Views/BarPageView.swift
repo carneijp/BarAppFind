@@ -221,7 +221,7 @@ struct BarPageView: View {
                                 let countBars = review.count
                                 
                                 if countBars == 0 {
-                                    Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                                    Text(String(format: "%.1f", bar.grade))
                                         .font(.system(size: 14))
                                 }
                                 else {
@@ -262,6 +262,9 @@ struct BarPageView: View {
                         }
                         .padding(.top)
                         
+                        Text("• \(bar?.operatinHours[getDateOfweek()] ?? "Loading...")")
+                            .font(.system(size: 17))
+                            .padding(.bottom)
                         
                         Text("\(bar?.description ?? "Loading...")")
                             .font(.system(size: 16))

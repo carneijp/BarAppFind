@@ -19,6 +19,8 @@ struct FavoritesView: View {
             if let client = cloud.client {
                 
                 if cloud.barsList.filter({ client.favorites.contains($0.name) }).count != 0 {
+                    Text("\(cloud.barsList.filter({ client.favorites.contains($0.name) }).count) lugares na sua lista de favoritos")
+                        .font(.system(size: 18))
                     ScrollView {
                         ForEach(cloud.barsList.filter({ client.favorites.contains($0.name) }), id: \.self) { bar in
                             NavigationLink {

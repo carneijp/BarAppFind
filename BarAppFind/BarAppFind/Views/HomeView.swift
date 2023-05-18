@@ -93,7 +93,7 @@ struct HomeView: View {
                                     } label: {
                                         Text("Ver todos")
                                             .font(.system(size: 16))
-                                            .foregroundColor(Color("blue"))
+                                            .foregroundColor(.primary)
                                     }
                                 }
                                 .padding(.bottom, 10)
