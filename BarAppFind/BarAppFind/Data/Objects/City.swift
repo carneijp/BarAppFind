@@ -117,10 +117,10 @@ class Review: ObservableObject, Hashable, Identifiable {
 }
 
 var trendings: [String] = ["trending1","trending2","trending3"]
-var moodsImage: [String] = ["Família","Fofoca","Barzinho","Esquenta","Role de casal","Temático"]
-var moodsName: [String] = ["Família","Fofoca","Barzinho","Esquenta","Role de casal","Temático"]
-var moodsBanner: [String] = ["Família2","Fofoca2","Barzinho2","Esquenta2","Role de casal2","Temático2"]
-var moodsColors: [String] = ["Família3","Fofoca3","Barzinho3","Esquenta3","Role de casal3","Temático3"]
+var moodsImage: [String] = ["Família","Fofoca","Barzinho","Esquenta","Casal","Temático"]
+var moodsName: [String] = ["Família","Fofoca","Barzinho","Esquenta","Casal","Temático"]
+var moodsBanner: [String] = ["Família2","Fofoca2","Barzinho2","Esquenta2","Casal2","Temático2"]
+var moodsColors: [String] = ["Família3","Fofoca3","Barzinho3","Esquenta3","Casal3","Temático3"]
 var conquestMedals: [String] = ["Bom finer", "Já sabe do que gosta", "Nível 2", "Nível 3", "Nível 4", "Nível 5", "Nível 6"]
 var medalDescriptions: [String] = ["Você conhece todos os bares do bairro Bom Fim! 🤩", "Você já definiu o seu gosto dentro do app🤩"]
 

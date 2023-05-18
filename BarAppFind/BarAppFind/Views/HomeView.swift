@@ -102,6 +102,7 @@ struct HomeView: View {
                                     NavigationLink {
                                         BarPageView(barname: bar.name)
                                             .environmentObject(cloud)
+                                            .toolbarRole(.editor)
                                     } label: {
                                         BarComponent(bar: bar, showSignIn: $showSignIn)
                                             .environmentObject(cloud)

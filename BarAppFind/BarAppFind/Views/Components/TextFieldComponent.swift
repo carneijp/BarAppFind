@@ -14,7 +14,7 @@ struct TextFieldComponent: View {
     let barName: String
     
     let pub = NotificationCenter.default
-                .publisher(for: NSNotification.Name("addReview"))
+        .publisher(for: NSNotification.Name("addReview"))
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -45,46 +45,44 @@ struct TextFieldComponent: View {
             
             // input do usuário
             TextField("Escreva aqui", text: $review, axis: .vertical)
-                .lineLimit(5, reservesSpace: true)
+                .lineLimit(4, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
                 .foregroundColor(.primary)
             //                .padding()
             //                .frame(width: 342, height: 104)
             
-            HStack() {
-                Group {
-                    Button(){
-                        review = ""
-                        grade = 0.0
-                    }label: {
-                        Text("Cancelar")
-                            .foregroundColor(Color("white"))
-                            .frame(width: 161, height: 27)
-                            .background(Color("gray4"))
-                            .cornerRadius(10)
-                    }
-                    
-                    Spacer()
-                    Button(){
-                        if self.grade > 0.0{
-                            if let client = cloud.client {
-                                let review: Review = Review(writerEmail: client.email, writerName: client.firstName, grade: grade, description: review, barName: barName)
-                                cloud.addReview(review: review)
-                            }
+            HStack(spacing: 20) {
+                Button(){
+                    review = ""
+                    grade = 0.0
+                }label: {
+                    Text("Cancelar")
+                        .foregroundColor(Color("white"))
+                        .frame(width: 161, height: 27)
+                        .background(Color("gray4"))
+                        .cornerRadius(10)
+                }
+                
+                Spacer()
+                Button(){
+                    if self.grade > 0.0{
+                        if let client = cloud.client {
+                            let review: Review = Review(writerEmail: client.email, writerName: client.firstName, grade: grade, description: review, barName: barName)
+                            cloud.addReview(review: review)
                         }
-                    } label: {
-                        Text("Enviar")
-                            .foregroundColor(Color("white"))
-                            .frame(width: 161, height: 27)
-                            .background(Color("gray1"))
-                            .cornerRadius(10)
                     }
+                } label: {
+                    Text("Enviar")
+                        .foregroundColor(Color("white"))
+                        .frame(width: 161, height: 27)
+                        .background(Color("gray1"))
+                        .cornerRadius(10)
                 }
             }
+            .padding(.top, 3)
             //            Spacer()
         }
-//        .padding(.horizontal)
         .onReceive(pub) { output in
             if let review = output.object as? Review {
                 self.cloud.reviewListByBar.append(review)

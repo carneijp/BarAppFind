@@ -261,6 +261,7 @@ struct BarPageView: View {
                             
                         }
                         .padding(.top)
+                        .padding(.horizontal, 24)
                         
                         
                         Text("\(bar?.description ?? "Loading...")")
@@ -268,10 +269,7 @@ struct BarPageView: View {
                             .lineLimit(nil)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom)
-                    
-                        Text("Ótimo para ...")
-                            .font(.system(size: 14))
-//                            .padding(.bottom)
+                            .padding(.horizontal, 24)
                         
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack{
@@ -283,7 +281,8 @@ struct BarPageView: View {
                                     }
                                 }
                             }
-                            .padding(.leading, 4)
+//                            .padding(.leading, 4)
+                            .padding(.horizontal, 24)
                         }
                         
                         HStack {
@@ -293,20 +292,22 @@ struct BarPageView: View {
                             Spacer()
                         }
                         .padding(.vertical)
+                        .padding(.horizontal, 24)
                         
 //                        HStack{
                             if let caracteristicas = bar?.caracteristicas{
                                 VStack(alignment: .leading){
                                     ForEach(caracteristicas, id:\.self){ caracteristica in
-                                        Text(caracteristica)
+                                        Text("• \(caracteristica)")
                                             .font(.system(size: 16))
                                             .padding(.bottom, 3)
                                     }
                                 }
+                                .padding(.horizontal, 24)
                             }
 //                        }
                     }
-                    .padding(.horizontal)
+//                    .padding(.horizontal, 24)
                     
                     //MARK: Informações
                 case .info:
@@ -415,7 +416,7 @@ struct BarPageView: View {
                         
 // >>>>>>> Dev
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 24)
                     
                     //MARK: Avaliações
                 case .review:
@@ -439,11 +440,9 @@ struct BarPageView: View {
                             EmptyViewReviews()
                         }
                     }
-                    .padding([.horizontal, .top])
-                    
-                }
+                    .padding(.top)
+                    .padding(.horizontal, 30)                }
 
-               // Spacer()
             }
             .onAppear(){
                 cloud.fetchBar(barName: barname) { bar in
