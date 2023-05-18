@@ -354,7 +354,7 @@ struct BarPageView: View {
                         
                         HStack{
                             Button(action: {
-                                print("abrir uber")
+                                callUber()
                             }, label: {
                                 Image("Uber")
                                     .resizable()
