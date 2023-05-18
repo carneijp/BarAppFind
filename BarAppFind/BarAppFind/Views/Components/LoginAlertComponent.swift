@@ -24,6 +24,7 @@ struct LoginAlertComponent: View {
                 VStack(alignment: .leading, spacing: 12) {
                     Text(self.title)
                         .font(.system(size: 16))
+                        .bold()
                     
                     Text(self.description)
                         .font(.system(size: 14))
