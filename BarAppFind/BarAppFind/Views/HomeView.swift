@@ -118,20 +118,23 @@ struct HomeView: View {
             }
         }
         .onAppear() {
-            if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
-               let savedPassword = UserDefaults.standard.string(forKey: "Password"){
-                cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
-                    if resultado{
-                        print("loguei automatico")
+            if cloud.client == nil{
+                if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
+                   let savedPassword = UserDefaults.standard.string(forKey: "Password"){
+                    cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
+                        if resultado{
+                            print("loguei automatico")
+                        }
+                        else{
+//                            print("falhei no login")
+                        }
                     }
-                    else{
-                        print("falhei no login")
-                    }
+//                    print("falhei no login2")
+                }else{
+//                    print("falhei no login3")
                 }
-                print("falhei no login2")
-            }else{
-                print("falhei no login3")
             }
+            
             
 //            if cloud.barsList.count != 10 {
 //                cloud.fetchBars()

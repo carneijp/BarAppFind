@@ -43,6 +43,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var chosen: MapDetails? = nil
     @Published var latitude: Double? = nil
     @Published var longitude: Double? = nil
+//    @Published var heading: CLHeading? = nil
     @Published var userLocation: MKCoordinateRegion?
     @Published var region = MKCoordinateRegion(center: MapDetails.initialCoordinate , span: MapDetails.defaultSpan)
     
@@ -94,6 +95,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             print("You have denied location permission, you can change on settings.")
         case .authorizedAlways, .authorizedWhenInUse:
             DispatchQueue.main.async {
+//                locationManager.startUpdatingHeading()
+//                self.heading = locationManager.heading
                 self.userLocation = MKCoordinateRegion(center: locationManager.location!.coordinate,
                                             span:  MapDetails.defaultSpan)
             }
