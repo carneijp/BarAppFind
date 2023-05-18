@@ -91,68 +91,107 @@ struct BarPageView: View {
                     //sobre o lugar
                     Group{
                         if isBarName{
-                            Text("Sobre o lugar")
-                                .font(.system(size: 14))
-                                .foregroundColor(.primary)
-                                .underline()
-                                .bold()
+                            VStack(spacing: 4){
+                                Text("Sobre o lugar")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.primary)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.primary)
+//                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }else{
+                            VStack(spacing: 4){
                             Text("Sobre o lugar")
                                 .font(.system(size: 14))
                             
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                                 .onTapGesture {
                                     self.topBarChoice = .barName
                                     isBarName = true
                                     isInfo = false
                                     isReview = false
                                 }
+                            Rectangle()
+                                .frame(height: 1)
+                                .foregroundColor(.clear)
+                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                        }
                         }
                     }
                     
                     //Informações
                     Group{
                         if isInfo{
-                            Text("Informações")
-                                .font(.system(size: 14))
-                                .padding(.leading, 40)
-                                .foregroundColor(.primary)
-                                .underline()
-                                .bold()
+                            VStack(spacing: 4){
+                                Text("Informações")
+                                    .font(.system(size: 14))
+//                                    .padding(.leading, 40)
+                                    .foregroundColor(.primary)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.primary)
+//                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }else{
-                            Text("Informações")
-                                .font(.system(size: 14))
-                                .padding(.leading, 40)
-                                .foregroundColor(.gray)
-                                .onTapGesture {
-                                    self.topBarChoice = .info
-                                    isBarName = false
-                                    isInfo = true
-                                    isReview = false
-                                }
+                            VStack(spacing: 4){
+                                Text("Informações")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.secondary)
+                                    .onTapGesture {
+                                        self.topBarChoice = .info
+                                        isBarName = false
+                                        isInfo = true
+                                        isReview = false
+                                    }
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.clear)
+//                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }
                     }
                     
                     //Avaliações
                     Group{
                         if isReview{
-                            Text("Avaliações")
-                                .padding(.leading, 40)
-                                .font(.system(size: 14))
-                                .foregroundColor(.primary)
-                                .underline()
-                                .bold()
+                            VStack(spacing: 4){
+                                Text("Avaliações")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(.primary)
+                                
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.primary)
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                            }
                         }else{
-                            Text("Avaliações")
-                                .font(.system(size: 14))
-                                .padding(.leading, 40)
-                                .foregroundColor(.gray)
-                                .onTapGesture {
-                                    self.topBarChoice = .review
-                                    isBarName = false
-                                    isInfo = false
-                                    isReview = true
-                                }
+                            VStack(spacing: 4){
+                                Text("Avaliações")
+                                    .font(.system(size: 14))
+//                                    .padding(.leading, 40)
+                                    .foregroundColor(.secondary)
+                                    .onTapGesture {
+                                        self.topBarChoice = .review
+                                        isBarName = false
+                                        isInfo = false
+                                        isReview = true
+                                        
+                                    }
+                                Rectangle()
+                                    .frame(height: 1)
+                                    .foregroundColor(.clear)
+                                //                                    .frame(width: )
+                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                
+                                
+                            }
                         }
                     }
                     
