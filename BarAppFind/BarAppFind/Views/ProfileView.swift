@@ -177,6 +177,7 @@ struct ProfileView: View {
                                     MedalComponent(medalName: medal)
                                         .onTapGesture {
                                             showMedalConquest = true
+                                            medalName = medal
                                         }
                                 }
                             }
