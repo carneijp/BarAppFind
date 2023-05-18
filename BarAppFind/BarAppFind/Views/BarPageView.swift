@@ -278,15 +278,16 @@ struct BarPageView: View {
                                 .lineLimit(nil)
                                 .multilineTextAlignment(.leading)
                             
-                            Spacer()
+//                            Spacer()
                         }
                         
                             
                             MapView(bar: self.bar, mapStyle: .compact)
-                                .frame(width: 342, height: 129)
+                                .frame(height: 129)
 
                         
                         HStack{
+                            Spacer()
                             Image(systemName: "car.fill")
                                 .resizable()
                                 .scaledToFit()
@@ -297,8 +298,9 @@ struct BarPageView: View {
                                 .font(.system(size: 16))
                                 .bold()
                                 .foregroundColor(Color("white"))
+                            Spacer()
                         }
-                        .frame(width:UIScreen.main.bounds.width - 48, height: 41)
+                        .frame(height: 41)
                         .background(Color("gray1"))
                         .cornerRadius(10)
                         .padding(.top)
@@ -379,7 +381,7 @@ struct Flemis: View {
                     .bold()
                     .foregroundColor(.primary)
                     .padding(.top)
-                    .padding(.bottom, 5)
+//                    .padding(.bottom, 5)
                 
                 Button(action: {
                     self.isShowingWorkingHours.toggle()
@@ -387,10 +389,14 @@ struct Flemis: View {
                     Image(systemName: self.isShowingWorkingHours ? "chevron.up" : "chevron.down")
                         .resizable()
                         .scaledToFit()
+                        .frame(width: 16, height: 34)
+                        .offset(y: 8)
+                        .foregroundColor(Color("gray4"))
                 })
                 .frame(width: 14, height: 28)
                 
             }
+//            .background(Color.red)
             .padding(.bottom, 5)
             
             
