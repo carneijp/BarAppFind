@@ -94,6 +94,7 @@ class CloudKitCRUD: ObservableObject {
                     newBar["OperationHours"] = bar.operatinHours
                     newBar["Region"] = bar.regiao
                     newBar["Address"] = bar.endereco
+                    newBar["InstaLink"] = bar.linktInsta
                     
                     self.saveItemPublic(record: newBar)
                     completion()
@@ -419,6 +420,7 @@ class CloudKitCRUD: ObservableObject {
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
                     guard let imageAsset = record["Image"] as? [CKAsset] else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
+                    guard let linkInsta = record["InstaLink"] as? String else { return }
                     
                     var returnedPhotos: [URL] = []
                     guard let imageURL = imageAsset[0].fileURL else { return }
@@ -437,6 +439,7 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
+                    bar.linktInsta = linkInsta
                     DispatchQueue.main.async {
                         self.barsList.append(bar)
                     }
@@ -489,6 +492,7 @@ class CloudKitCRUD: ObservableObject {
                     guard let characteristics = record["Caracteristicas"] as? [String] else { return }
                     guard let logoPhoto = record["Logo"] as? CKAsset else { return }
                     guard let imageLogoPhoto = logoPhoto.fileURL else { return }
+                    guard let linkInsta = record["InstaLink"] as? String else { return }
                     
                     for i in 0..<imageAsset.count{
                         guard let imageURL = imageAsset[i].fileURL else { return }
@@ -498,6 +502,7 @@ class CloudKitCRUD: ObservableObject {
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveAllPhotos(photosToUSE: returnedPhotos)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
+                    bar.linktInsta = linkInsta
                     completion(bar)
                 case .failure(let error):
                     print("Error matched block error\(error)")
