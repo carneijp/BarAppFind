@@ -30,17 +30,7 @@ struct HomeView: View {
                     VStack {
                         TabView(selection: $trendingIndex) {
                             ForEach(trendings.indices, id: \.self) { index in
-<<<<<<< HEAD
-                                NavigationLink {
-                                    BarPageView(barname: trendings[index])
-                                        .environmentObject(cloud)
-                                } label: {
-                                    TrendingComponent(trendingItem: trendings[index])
-                                }
-                                
-=======
                                 TrendingComponent(trendingItem: trendings[index])
->>>>>>> Dev
                             }
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -103,14 +93,9 @@ struct HomeView: View {
                                         .foregroundColor(Color("blue"))
                                 }
                             }
-<<<<<<< HEAD
-                            //                            .padding(.top, 14)
-                            .padding(.bottom, 20)
-=======
 //                            .padding(.top, 14)
                             .padding(.bottom, 10)
->>>>>>> Dev
-                            
+
                             ForEach(cloud.barsList, id: \.self) { bar in
                                 NavigationLink {
                                     BarPageView(barname: bar.name)

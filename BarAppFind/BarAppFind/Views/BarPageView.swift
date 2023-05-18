@@ -12,12 +12,8 @@ import MapKit
 struct BarPageView: View {
     var barname: String
     
-<<<<<<< HEAD
     private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
     
-=======
-
->>>>>>> Dev
     enum ChoiceBar {
         case barName, info, review
     }
@@ -173,10 +169,6 @@ struct BarPageView: View {
                             Text("\(bar?.name ?? "Loading...")")
                                 .font(.title2)
                                 .bold()
-<<<<<<< HEAD
-                            //<<<<<<< HEAD
-=======
->>>>>>> Dev
                                 .padding(.trailing)
                             
                             Image(systemName: "star.fill")
@@ -200,11 +192,7 @@ struct BarPageView: View {
                             }
                             Spacer()
                             
-<<<<<<< HEAD
-                            //=======
-                            //
-                            //>>>>>>> featMaps
-=======
+
                             if let cliente = cloud.client {
                                 if cliente.favorites.contains(barname){
                                     Image(systemName:"heart.fill")
@@ -232,7 +220,6 @@ struct BarPageView: View {
                                 
                             }
                             
->>>>>>> Dev
                         }
                         .padding(.top)
                         
