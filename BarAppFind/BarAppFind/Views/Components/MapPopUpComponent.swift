@@ -10,11 +10,14 @@ import SwiftUI
 struct MapPopUpComponent: View {
     var bar: Bar
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             if let photoLogo = bar.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 277, height: 147)
+                    .clipped()
+                
             }
             VStack(alignment: .leading){
                 HStack{
@@ -27,12 +30,12 @@ struct MapPopUpComponent: View {
 //                    Text("3km")
 //                        .font(.system(size: 12))
                 }
-                    .foregroundColor(.white)
+//                    .foregroundColor(.white)
                 HStack{
                     Image(systemName: "star.fill")
 
                     
-                    Text("\(bar.grade)")
+                    Text(String(format: "%.1f", bar.grade))
                         .font(.system(size: 14))
                     
                     Text("•")
@@ -41,12 +44,12 @@ struct MapPopUpComponent: View {
                         .font(.system(size: 12))
 
                 }
-                    .foregroundColor(.white)
-
+//                .foregroundColor(.primary)
             }
+            .padding(.horizontal)
         }
         .padding(.bottom)
-        .background(Color.gray)
+        .background(Color("gray5"))
         .cornerRadius(15)
         .frame(width: 225, height: 185)
         
