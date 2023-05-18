@@ -17,6 +17,7 @@ struct BarListView: View {
                 ForEach(cloud.barsList, id: \.self) { bar in
                     NavigationLink {
                         BarPageView(barname: bar.name)
+                            .toolbarRole(.editor)
                     } label: {
                         BarComponent(bar: bar, showSignIn: $showSignIn)
                             .foregroundColor(.primary)

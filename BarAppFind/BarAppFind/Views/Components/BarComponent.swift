@@ -38,8 +38,8 @@ struct BarComponent: View {
                         Image(systemName: "star.fill")
                             .foregroundColor(.primary)
                         
-                        Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
-                            .font(.system(size: 14))
+                            Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                                .font(.system(size: 14))
                         
                         Spacer()
                     }
@@ -47,6 +47,7 @@ struct BarComponent: View {
                 if let cliente = cloud.client {
                     if cliente.favorites.contains(bar.name){
                         Image(systemName:"heart.fill")
+                            .foregroundColor(.red)
                             .onTapGesture {
                                 cloud.removeFavoriteBar(client: cliente, barName: bar.name)
                                 let referencia = cliente.favorites.firstIndex(of: bar.name)

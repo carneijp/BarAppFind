@@ -152,6 +152,7 @@ struct ComponenteLargeMap: View {
                 NavigationLink{
                     if let barName = shownBar?.name{
                         BarPageView(barname: barName)
+                            .toolbarRole(.editor)
                     }
                 }label: {
                     if let bar = shownBar{

@@ -79,7 +79,10 @@ struct BarPageView: View {
                 if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                     Image(uiImage: image)
                         .resizable()
-                        .scaledToFit()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+//                        .frame(width: 498, height: 200)
+                        .clipped()
                         .padding(.bottom, 10)
                 }
                 
@@ -165,25 +168,33 @@ struct BarPageView: View {
                             Text("\(bar?.name ?? "Loading...")")
                                 .font(.title2)
                                 .bold()
-//<<<<<<< HEAD
                                 .padding(.trailing)
                             
                             Image(systemName: "star.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 15)
-                            Text(String(format: "%.1f", bar?.grade ?? 0.0))
-                                .font(.system(size: 14))
                             
+                            if let bar = bar {
+                                let review = cloud.reviewListByBar.filter({ $0.barName == bar.name })
+                                
+                                var countBars = review.count
+                                
+                                if countBars == 0 {
+                                    Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                                        .font(.system(size: 14))
+                                }
+                                else {
+                                    Text(String(format: "%.1f", getFinalGrade(from: bar, review: review)))
+                                        .font(.system(size: 14))
+                                }
+                            }
                             Spacer()
-                            //                            Image(systemName: "heart")
-                            //                                .resizable()
-                            //                                .scaledToFit()
-                            //                                .frame(width: 15)
-                            //                                .padding(.trailing, 15)
+                            
                             if let cliente = cloud.client {
                                 if cliente.favorites.contains(barname){
                                     Image(systemName:"heart.fill")
+                                        .foregroundColor(.red)
                                         .onTapGesture {
                                             cloud.removeFavoriteBar(client: cliente, barName: barname)
                                             let referencia = cliente.favorites.firstIndex(of: barname)
@@ -205,7 +216,9 @@ struct BarPageView: View {
                                         print("Voce deve estar logado para favoritar.")
                                     }
                                 
-                            }}
+                            }
+                            
+                        }
                         .padding(.top)
                         
                         
@@ -222,7 +235,7 @@ struct BarPageView: View {
                         HStack(){
                             if let moods = bar?.mood{
                                 ForEach(moods, id:\.self){ mood in
-                                    BarViewMoodComponent(mood: mood)
+                                    MoodSmallComponent(moodName: mood)
                                 }
                             }
                         }
@@ -327,8 +340,22 @@ struct BarPageView: View {
                 self.cloud.reviewListByBar = []
                 cloud.fetchItemsReview(barName: barname) {}
             }
-            .navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+            
+        }.navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+    }
+    
+    func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
+        var grade = review.map{$0.grade}.reduce(0, +)
+        var finalGrade = Double(grade) / Double(review.count)
+        var index: Int = 0
+        for i in 0..<cloud.barsList.count{
+            if cloud.barsList[i].name == bar.name{
+                index = i
+            }
         }
+        cloud.barsList[index].grade = finalGrade
+        cloud.changeGrade(grade: finalGrade, barName: bar.name)
+        return finalGrade
     }
 }
 

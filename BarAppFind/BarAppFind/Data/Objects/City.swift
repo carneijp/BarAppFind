@@ -73,6 +73,13 @@ class Bar: ObservableObject, Hashable, Identifiable {
     func recieveAllPhotos(photosToUSE:[URL]){
         self.photosToUse = photosToUSE
     }
+    
+//    private func mediaGrade(){
+//        
+//        
+//        
+//        
+//    }
 //    func recieveAllReviews(){
 //        cloud.fetchItemsReview(barName: self.name){
 //            self.reviews = self.cloud.reviewListByBar
