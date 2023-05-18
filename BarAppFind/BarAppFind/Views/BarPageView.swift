@@ -168,22 +168,29 @@ struct BarPageView: View {
                             Text("\(bar?.name ?? "Loading...")")
                                 .font(.title2)
                                 .bold()
-//<<<<<<< HEAD
                                 .padding(.trailing)
                             
                             Image(systemName: "star.fill")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 15)
-                            Text(String(format: "%.1f", bar?.grade ?? 0.0))
-                                .font(.system(size: 14))
                             
+                            if let bar = bar {
+                                let review = cloud.reviewListByBar.filter({ $0.barName == bar.name })
+                                
+                                var countBars = review.count
+                                
+                                if countBars == 0 {
+                                    Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                                        .font(.system(size: 14))
+                                }
+                                else {
+                                    Text(String(format: "%.1f", getFinalGrade(from: bar, review: review)))
+                                        .font(.system(size: 14))
+                                }
+                            }
                             Spacer()
-                            //                            Image(systemName: "heart")
-                            //                                .resizable()
-                            //                                .scaledToFit()
-                            //                                .frame(width: 15)
-                            //                                .padding(.trailing, 15)
+                            
                             if let cliente = cloud.client {
                                 if cliente.favorites.contains(barname){
                                     Image(systemName:"heart.fill")
@@ -335,6 +342,20 @@ struct BarPageView: View {
             }
             
         }.navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+    }
+    
+    func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
+        var grade = review.map{$0.grade}.reduce(0, +)
+        var finalGrade = Double(grade) / Double(review.count)
+        var index: Int = 0
+        for i in 0..<cloud.barsList.count{
+            if cloud.barsList[i].name == bar.name{
+                index = i
+            }
+        }
+        cloud.barsList[index].grade = finalGrade
+        cloud.changeGrade(grade: finalGrade, barName: bar.name)
+        return finalGrade
     }
 }
 
