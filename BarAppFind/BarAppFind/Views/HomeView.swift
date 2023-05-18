@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var trendingIndex = 0
     @EnvironmentObject var cloud: CloudKitCRUD
-
+    
     var body: some View {
         VStack(alignment: .leading) {
             // Logo
@@ -23,7 +23,7 @@ struct HomeView: View {
             // MARK: - ScrollView Vertical Principal da home
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading) {
-
+                    
                     // MARK: - Trendings Carousel
                     VStack {
                         TabView(selection: $trendingIndex) {
@@ -34,7 +34,7 @@ struct HomeView: View {
                                 } label: {
                                     TrendingComponent(trendingItem: trendings[index])
                                 }
-
+                                
                             }
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -46,11 +46,11 @@ struct HomeView: View {
                                 Circle()
                                     .fill(index == self.trendingIndex ? Color.secondary : Color.secondary.opacity(0.2))
                                     .frame(width: 8, height: 8)
-
+                                
                             }
                         }
                     }
-
+                    
                     
                     // MARK: - Moods + Bars
                     VStack(alignment: .leading) {
@@ -89,7 +89,7 @@ struct HomeView: View {
                                         .foregroundColor(Color("blue"))
                                 }
                             }
-//                            .padding(.top, 14)
+                            //                            .padding(.top, 14)
                             .padding(.bottom, 20)
                             
                             ForEach(cloud.barsList, id: \.self) { bar in
@@ -120,7 +120,7 @@ struct HomeView: View {
         }
     }
 }
-    
+
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()

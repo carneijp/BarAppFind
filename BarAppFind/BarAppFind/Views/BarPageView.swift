@@ -13,7 +13,7 @@ struct BarPageView: View {
     var barname: String
     
     private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
-
+    
     enum ChoiceBar {
         case barName, info, review
     }
@@ -196,7 +196,7 @@ struct BarPageView: View {
                             Text("\(bar?.name ?? "Loading...")")
                                 .font(.title2)
                                 .bold()
-//<<<<<<< HEAD
+                            //<<<<<<< HEAD
                                 .padding(.trailing)
                             
                             Image(systemName: "star.fill")
@@ -213,9 +213,9 @@ struct BarPageView: View {
                                 .frame(width: 15)
                                 .padding(.trailing, 15)
                             
-//=======
-//
-//>>>>>>> featMaps
+                            //=======
+                            //
+                            //>>>>>>> featMaps
                         }
                         .padding(.top)
                         
@@ -291,10 +291,10 @@ struct BarPageView: View {
                             Spacer()
                         }
                         
-                            
-                            MapView(bar: self.bar, mapStyle: .compact)
-                                .frame(width: 342, height: 129)
-
+                        
+                        MapView(bar: self.bar, mapStyle: .compact)
+                            .frame(width: 342, height: 129)
+                        
                         Button{
                             callUber()
                         }label: {
@@ -323,7 +323,7 @@ struct BarPageView: View {
                             }
                         }
                         
-                       
+                        
                         
                     }
                     //                    .background(Color.green)
@@ -381,15 +381,12 @@ struct BarPageView: View {
     
     func callUber(){
         if let uberURL = URL(string: "uber://"){
-                 UIApplication.shared.canOpenURL(uberURL)
-                    UIApplication.shared.open(uberURL)
-                } else {
-                    // Uber app is not installed, handle this situation
-                    // You can open a fallback URL or display an error message
-                    // For example:
-                    let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
-                    UIApplication.shared.open(fallbackURL)
-                }
+            UIApplication.shared.canOpenURL(uberURL)
+            UIApplication.shared.open(uberURL)
+        } else {
+            let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
+            UIApplication.shared.open(fallbackURL)
+        }
     }
     
 }
