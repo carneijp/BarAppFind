@@ -112,41 +112,6 @@ struct HomeView: View {
                             }
                             .padding(.horizontal, 24)
                         }
-                        
-//                        //Bars Section
-//                        VStack {
-//                            HStack {
-//                                Text("Sugestões de bares hoje")
-//                                    .font(.system(size: 14))
-//                                
-//                                Spacer()
-//                                
-//                                NavigationLink {
-//                                    BarListView(showSignIn: $showSignIn)
-//                                        .toolbarRole(.editor)
-//                                } label: {
-//                                    Text("Ver todos")
-//                                        .font(.system(size: 14))
-//                                        .foregroundColor(Color("blue"))
-//                                }
-//                            }
-////                            .padding(.top, 14)
-//                            .padding(.bottom, 10)
-//
-//                            ForEach(cloud.barsList, id: \.self) { bar in
-//                                NavigationLink {
-//                                    BarPageView(barname: bar.name)
-//                                        .environmentObject(cloud)
-//                                        .toolbarRole(.editor)
-//                                } label: {
-//                                    BarComponent(bar: bar, showSignIn: $showSignIn)
-//                                        .environmentObject(cloud)
-//                                        .foregroundColor(.primary)
-//                                        .padding(.bottom, 10)
-//                                }
-//                            }
-//                        }
-//                        .padding(.horizontal, 24)
                     }
                     
                     Spacer()

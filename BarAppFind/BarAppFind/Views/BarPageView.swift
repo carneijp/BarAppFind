@@ -323,35 +323,11 @@ struct BarPageView: View {
                             Text("\(bar?.endereco ?? "Loading ...")")
                                 .lineLimit(nil)
                                 .multilineTextAlignment(.leading)
-                            
-//                            Spacer()
                         }
-                        
-// <<<<<<< HEAD
                             
                             MapView(bar: self.bar, mapStyle: .compact)
                                 .frame(height: 129)
 
-//
-//                        HStack{
-//                            Spacer()
-//                            Image(systemName: "car.fill")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .foregroundColor(Color("white"))
-//                                .frame(height: 14)
-//                                .padding(.leading)
-//                            Text("Abrir no uber")
-//                                .font(.system(size: 16))
-//                                .bold()
-//                                .foregroundColor(Color("white"))
-//                            Spacer()
-//                        }
-//                        .frame(height: 41)
-//                        .background(Color("gray1"))
-//                        .cornerRadius(10)
-//                        .padding(.top)
-                        
                         HStack{
                             Button(action: {
                                 callUber()
@@ -367,7 +343,8 @@ struct BarPageView: View {
                             Spacer()
                             
                             Button(action: {
-                                print("abrir 99")
+                                call99()
+//                                print("abrir 99")
                             }, label: {
                                 Image("99")
                                     .resizable()
@@ -378,42 +355,6 @@ struct BarPageView: View {
                             .cornerRadius(10)
                         }
                         .padding(.bottom)
-// =======
-                        
-//                         MapView(bar: self.bar, mapStyle: .compact)
-//                             .frame(width: 342, height: 129)
-                        
-//                         Button{
-//                             callUber()
-//                         }label: {
-//                             Group{
-//                                 HStack{
-//                                     Image(systemName: "car.fill")
-//                                         .resizable()
-//                                         .scaledToFit()
-//                                         .foregroundColor(Color("white"))
-//                                         .frame(height: 14)
-//                                         .padding(.leading)
-                                    
-//                                     //                                Spacer()
-                                    
-//                                     Text("Abrir no uber")
-//                                         .font(.system(size: 16))
-//                                         .bold()
-//                                         .foregroundColor(Color("white"))
-                                    
-//                                     //                                Spacer()
-//                                 }
-//                                 .frame(width:UIScreen.main.bounds.width - 48, height: 41)
-//                                 .background(Color("gray1"))
-//                                 .cornerRadius(10)
-//                                 .padding(.top)
-//                             }
-//                         }
-                        
-                        
-                        
-// >>>>>>> Dev
                     }
                     .padding(.horizontal)
                     
@@ -471,15 +412,50 @@ struct BarPageView: View {
         return finalGrade
     }
     
+    func goToInstaPage(link: String){
+        let instagramURL = URL(string: link)!
+        
+        if UIApplication.shared.canOpenURL(instagramURL) {
+            UIApplication.shared.open(instagramURL, options: [:], completionHandler: nil)
+        } else {
+            // Instagram app is not installed, open in Safari as a fallback
+            let safariURL = URL(string: link)!
+            UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
+        }
+    }
+    
     func callUber(){
+        
         if let uberURL = URL(string: "uber://"){
             UIApplication.shared.canOpenURL(uberURL)
             UIApplication.shared.open(uberURL)
         } else {
-            let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
-            UIApplication.shared.open(fallbackURL)
+            if let itunesUrl = NSURL(string: "https://apps.apple.com/us/app/uber/id368677368"), UIApplication.shared.canOpenURL(itunesUrl as URL) {
+                UIApplication.shared.open(itunesUrl as URL)
+            }
         }
     }
+    
+    func call99() {
+        if let url99 = URL(string: "99app://"){
+            UIApplication.shared.canOpenURL(url99)
+            UIApplication.shared.open(url99)
+        }else{
+            if let itunesUrl = NSURL(string: "https://apps.apple.com/br/app/99-private-drivers-and-taxi/id553663691?l=en"), UIApplication.shared.canOpenURL(itunesUrl as URL) {
+                 UIApplication.shared.open(itunesUrl as URL)
+               }
+        }
+       
+//        if let uberURL = URL(string: "99pop://"){
+//            UIApplication.shared.canOpenURL(uberURL)
+//            UIApplication.shared.open(uberURL)
+//        } else {
+//            if let fallbackURL = URL(string: "https://apps.apple.com/br/app/99-vá-de-carro-moto-ou-taxi/id553663691"){
+//                UIApplication.shared.open(fallbackURL)}
+//        }
+    }
+
+    
     
     func getDateOfweek() -> Int {
         let index = Calendar.current.component(.weekday, from: Date())
