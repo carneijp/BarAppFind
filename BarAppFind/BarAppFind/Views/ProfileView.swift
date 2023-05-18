@@ -163,11 +163,6 @@ struct ProfileView: View {
                         .onTapGesture {
                             showFirstConquest = true
                         }
-//                        .scaleEffect(scale)
-//                        .animation(Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true))
-//                        .onAppear {
-//                            self.scale = 1.08
-//                        }
 
                         LazyVGrid(columns: columns, spacing: 18) {
                             ForEach(conquestMedals, id: \.self) { medal in
