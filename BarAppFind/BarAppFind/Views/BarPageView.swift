@@ -261,17 +261,48 @@ struct BarPageView: View {
                             
                             // MARK: - FAZER LÓGICA DAS CORES AQUI
                             
-                            Text("• \(bar?.operatinHours[0] ?? "Loading...")")
-                                .font(.system(size: 14))
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 20)
-                            // Se fechado: usar o background abaixo. Se aberto: trocar o ".red" por ".green"
-                                .background(.red.opacity(0.3))
-                                .cornerRadius(8)
-                                .padding(.horizontal, 24)
-                                .padding(.bottom, 12)
-                                .shadow(radius: 1, y: 2)
+                            if let horario = bar?.operatinHours[0] {
+                                if horario.localizedCaseInsensitiveContains("fechado"){
+                                    Text("• \(bar?.operatinHours[0] ?? "Loading...")")
+                                        .font(.system(size: 14))
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 20)
+                                    // Se fechado: usar o background abaixo. Se aberto: trocar o ".red" por ".green"
+                                        .background(.red.opacity(0.3))
+                                        .cornerRadius(8)
+                                        .padding(.horizontal, 24)
+                                        .padding(.bottom, 12)
+                                        .shadow(radius: 1, y: 2)
+                                }else{
+                                    Text("• \(bar?.operatinHours[0] ?? "Loading...")")
+                                        .font(.system(size: 14))
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 20)
+                                    // Se fechado: usar o background abaixo. Se aberto: trocar o ".red" por ".green"
+                                        .background(.green.opacity(0.3))
+                                        .cornerRadius(8)
+                                        .padding(.horizontal, 24)
+                                        .padding(.bottom, 12)
+                                        .shadow(radius: 1, y: 2)
+                                }
+                            }else{
+                                Text("• Loading...")
+                                    .font(.system(size: 14))
+                                    .padding(.vertical, 6)
+                                    .padding(.horizontal, 20)
+                            }
                             
+//                            Text("• \(bar?.operatinHours[0] ?? "Loading...")")
+//                                .font(.system(size: 14))
+//                                .padding(.vertical, 6)
+//                                .padding(.horizontal, 20)
+//                            // Se fechado: usar o background abaixo. Se aberto: trocar o ".red" por ".green"
+//                                .background(.red.opacity(0.3))
+//                                .cornerRadius(8)
+//                                .padding(.horizontal, 24)
+//                                .padding(.bottom, 12)
+//                                .shadow(radius: 1, y: 2)
+//
                             // MARK: -
                                                         
                             Text("\(bar?.description ?? "Loading...")")
