@@ -256,13 +256,14 @@ struct BarPageView: View {
                                 
                             }
                             .padding(.top, 18)
+// <<<<<<< HEAD
                             .padding(.horizontal, 24)
                             .padding(.bottom, 6)
                             
                             // MARK: - FAZER LÓGICA DAS CORES AQUI
-                            if let horario = bar?.operatinHours[0] {
+                            if let horario = bar?.operatinHours[getDateOfweek()] {
                                 if horario.localizedCaseInsensitiveContains("fechado"){
-                                    Text(bar?.operatinHours[0] ?? "Loading...")
+                                    Text(bar?.operatinHours[getDateOfweek()] ?? "Loading...")
                                         .font(.system(size: 14))
                                         .padding(.vertical, 6)
                                         .padding(.horizontal, 20)
@@ -272,7 +273,7 @@ struct BarPageView: View {
                                         .padding(.bottom, 12)
                                         .shadow(radius: 1, y: 2)
                                 }else{
-                                    Text(bar?.operatinHours[0] ?? "Loading...")
+                                    Text(bar?.operatinHours[getDateOfweek()] ?? "Loading...")
                                         .font(.system(size: 14))
                                         .padding(.vertical, 6)
                                         .padding(.horizontal, 20)
@@ -340,10 +341,68 @@ struct BarPageView: View {
                         .padding(.bottom)
                         
                         //MARK: - Informações
+// =======
+// //                            .padding(.horizontal, 24)
+//                             .padding(.bottom, 12)
+                            
+                        
+                        
+//                         Text("• \(bar?.operatinHours[getDateOfweek()] ?? "Loading...")")
+//                             .font(.system(size: 17))
+//                             .padding(.bottom)
+                        
+//                         Text("\(bar?.description ?? "Loading...")")
+//                             .font(.system(size: 16))
+//                             .lineLimit(nil)
+//                             .fixedSize(horizontal: false, vertical: true)
+//                             .padding(.bottom)
+                    
+//                         Text("Ótimo para ...")
+//                             .font(.system(size: 14))
+// //                            .padding(.bottom)
+                        
+//                         ScrollView(.horizontal, showsIndicators: false){
+//                             HStack{
+//                                 if let moods = bar?.mood{
+//                                     ForEach(moods, id:\.self){ mood in
+//                                         MoodSmallComponent(moodName: mood)
+//                                             .padding(.vertical)
+//                                             .padding(.trailing, 10)
+//                                     }
+//                                 }
+//                             }
+//                             .padding(.leading, 4)
+//                         }
+                        
+//                         HStack {
+//                             Text("Sobre o ambiente")
+//                                 .font(.system(size:20))
+//                                 .bold()
+//                             Spacer()
+//                         }
+//                         .padding(.vertical)
+                        
+// //                        HStack{
+//                             if let caracteristicas = bar?.caracteristicas{
+//                                 VStack(alignment: .leading){
+//                                     ForEach(caracteristicas, id:\.self){ caracteristica in
+//                                         Text(caracteristica)
+//                                             .font(.system(size: 16))
+//                                             .padding(.bottom, 3)
+//                                     }
+//                                 }
+//                             }
+// //                        }
+//                     }
+//                     .padding(.horizontal)
+                    
+//                     //MARK: Informações
+
+// >>>>>>> Dev
                     case .info:
                         VStack(alignment: .leading){
                             
-                            Flemis(workingHours: bar?.operatinHours ?? [] )
+                            Flemis(indexEntrada: getDateOfweek(), workingHours: bar?.operatinHours ?? [] )
                             
                             
                             Text("Endereço")
@@ -356,13 +415,14 @@ struct BarPageView: View {
                                     .multilineTextAlignment(.leading)
                                 
                             }
-                            
-                            MapView(bar: self.bar, mapStyle: .compact)
-                                .frame(height: 129)
+                                
+                                MapView(bar: self.bar, mapStyle: .compact)
+                                    .frame(height: 129)
+                                    .cornerRadius(10)
                             
                             HStack{
                                 Button(action: {
-                                    callUber()
+                                    goToUber()
                                 }, label: {
                                     Image("Uber")
                                         .resizable()
@@ -375,15 +435,16 @@ struct BarPageView: View {
                                 Spacer()
                                 
                                 Button(action: {
-                                    print("abrir 99")
+                                    goToInstaPage(link: bar!.linktInsta)
                                 }, label: {
-                                    Image("99")
-                                        .resizable()
-                                        .scaledToFit()
-                                })
-                                .frame(width: 166, height: 47)
-                                .background(Color("amarelo"))
-                                .cornerRadius(10)
+                                Image("Instagram2")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .padding(.all, 5)
+                            })
+                            .frame(width: 166, height: 47)
+                            .background(Color("amarelo"))
+                            .cornerRadius(10)
                             }
                             .padding(.bottom)
                             
@@ -446,15 +507,34 @@ struct BarPageView: View {
         return finalGrade
     }
     
-    func callUber(){
+    func goToInstaPage(link: String){
+        let instagramURL = URL(string: link)!
+        
+        if UIApplication.shared.canOpenURL(instagramURL) {
+            UIApplication.shared.open(instagramURL, options: [:], completionHandler: nil)
+        } else {
+            // Instagram app is not installed, open in Safari as a fallback
+            let safariURL = URL(string: link)!
+            UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
+        }
+    }
+    
+    
+    func goToUber(){
         if let uberURL = URL(string: "uber://"){
             UIApplication.shared.canOpenURL(uberURL)
             UIApplication.shared.open(uberURL)
-        } else {
-            let fallbackURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
-            UIApplication.shared.open(fallbackURL)
+//            else {
+                // Instagram app is not installed, open in Safari as a fallback
+                let safariURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
+                UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
+//            }
         }
+        
+        
     }
+
+    
     
     func getDateOfweek() -> Int {
         let index = Calendar.current.component(.weekday, from: Date())
@@ -472,7 +552,7 @@ struct BarPageView_Previews: PreviewProvider {
 
 struct Flemis: View {
     @State var isShowingWorkingHours: Bool = true
-    
+    var indexEntrada: Int
     var workingHours: [String]
     
     var body: some View {
@@ -499,15 +579,25 @@ struct Flemis: View {
             }
             .padding(.bottom, 5)
             
-            
             if self.isShowingWorkingHours {
-                ForEach(self.workingHours, id: \.self) { workingHour in
-                    Text("\(workingHour)")
-                        .font(.system(size: 14))
-                        .padding(.bottom, 5)
+                
+                ForEach(0..<self.workingHours.count, id:\.self){ i in
+                    if i == indexEntrada{
+                        Text("\(self.workingHours[i])")
+                            .font(.system(size: 14))
+                            .padding(.bottom, 5)
+                            .bold()
+                    }else{
+                        Text("\(self.workingHours[i])")
+                            .font(.system(size: 14))
+                            .padding(.bottom, 5)
+                    }
                 }
                 .scrollContentBackground(.hidden)
+
             }
         }
+        
+        
     }
 }
