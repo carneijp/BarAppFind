@@ -343,7 +343,7 @@ struct BarPageView: View {
                             Spacer()
                             
                             Button(action: {
-                                call99()
+                                goToInstaPage(link: bar!.linktInsta)
 //                                print("abrir 99")
                             }, label: {
                                 Image("99")
