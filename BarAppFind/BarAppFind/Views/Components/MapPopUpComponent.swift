@@ -19,39 +19,48 @@ struct MapPopUpComponent: View {
                     .clipped()
                 
             }
-            VStack(alignment: .leading){
-                HStack{
+            
+            HStack {
+                VStack(alignment: .leading, spacing: 8){
                     Text(bar.name)
-                        .font(.system(size: 14))
+                        .font(.system(size: 16))
                         .bold()
                     
-//                    Text("•")
-//
-//                    Text("3km")
-//                        .font(.system(size: 12))
-                }
-//                    .foregroundColor(.white)
-                HStack{
-                    Image(systemName: "star.fill")
+                    HStack{
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 13))
+                            .offset(y: -2)
+                        
+                        Text(String(format: "%.1f", bar.grade))
+                            .font(.system(size: 14))
+                        
+                        Text("•")
+                        
+                        Text("\(bar.operatinHours[getDateOfweek()])")
+                            .font(.system(size: 14))
 
-                    
-                    Text(String(format: "%.1f", bar.grade))
-                        .font(.system(size: 14))
-                    
-                    Text("•")
-                    
-                    Text("\(bar.operatinHours[getDateOfweek()])")
-                        .font(.system(size: 12))
-
+                    }
                 }
-//                .foregroundColor(.primary)
+                
+                Spacer ()
+                
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 30, height: 30)
+                    .padding(.all, 4)
+                    .clipShape(Circle())
+                    .shadow(radius: 2, y: 2)
+                    .padding(.trailing, 6)
             }
+            .padding(.top, 8)
             .padding(.horizontal)
         }
         .padding(.bottom)
-        .background(Color("gray5"))
+        .background(Color("gray0"))
         .cornerRadius(15)
         .frame(width: 277, height: 228)
+        .shadow(radius: 1, y: 2)
         
     }
     func getDateOfweek() -> Int {

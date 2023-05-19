@@ -259,10 +259,20 @@ struct BarPageView: View {
                             .padding(.horizontal, 24)
                             .padding(.bottom, 6)
                             
+                            // MARK: - FAZER LÓGICA DAS CORES AQUI
+                            
                             Text("• \(bar?.operatinHours[0] ?? "Loading...")")
-                                .padding(.horizontal, 24)
                                 .font(.system(size: 14))
+                                .padding(.vertical, 6)
+                                .padding(.horizontal, 20)
+                            // Se fechado: usar o background abaixo. Se aberto: trocar o ".red" por ".green"
+                                .background(.red.opacity(0.3))
+                                .cornerRadius(8)
+                                .padding(.horizontal, 24)
                                 .padding(.bottom, 12)
+                                .shadow(radius: 1, y: 2)
+                            
+                            // MARK: -
                                                         
                             Text("\(bar?.description ?? "Loading...")")
                                 .font(.system(size: 16))
@@ -390,6 +400,7 @@ struct BarPageView: View {
                         .padding(.horizontal, 30)                }
 
                 }
+                .padding(.bottom, 130)
                 .onAppear(){
                     cloud.fetchBar(barName: barname) { bar in
                         self.bar = bar

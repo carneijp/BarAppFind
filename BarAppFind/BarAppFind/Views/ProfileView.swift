@@ -37,7 +37,6 @@ struct ProfileView: View {
         
         ZStack {
             VStack {
-                
                 // MARK: - Header
                 Text("Olá, \(cloud.client?.firstName ?? "cliente")!")
                     .bold()
@@ -137,53 +136,55 @@ struct ProfileView: View {
                     // Conteúdo Tab. 1 - Minhas Conquistas
                 case .myConquests:
                     ScrollView {
+                        VStack {
+                            // Primeira conquista do App
+                            HStack (spacing: 20) {
+                                Image("Primeiro Acesso")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(Color("gray1"))
+                                    .shadow(radius: 2, y: 2)
                         
-                        // Primeira conquista do App
-                        HStack (spacing: 20) {
-                            Image("Primeiro Acesso")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 80, height: 80)
-                                .foregroundColor(Color("gray1"))
-                                .shadow(radius: 2, y: 2)
-                    
-                            Text("Primeiro Acesso")
-                                .font(.system(size: 16))
-                                .bold()
-                                .multilineTextAlignment(.center)
-                                .foregroundColor(Color("white"))
-                        }
-                        .padding(.vertical, 30)
-                        .padding(.horizontal, 10)
-                        .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                        .cornerRadius(12)
-                        .shadow(radius: 2, y: 2)
-                        .padding(.top, 20)
-                        .onTapGesture {
-                            showFirstConquest = true
-                        }
+                                Text("Primeiro Acesso")
+                                    .font(.system(size: 16))
+                                    .bold()
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(Color("white"))
+                            }
+                            .padding(.vertical, 30)
+                            .padding(.horizontal, 10)
+                            .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
+                            .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .cornerRadius(12)
+                            .shadow(radius: 2, y: 2)
+                            .padding(.top, 20)
+                            .onTapGesture {
+                                showFirstConquest = true
+                            }
 
-                        LazyVGrid(columns: columns, spacing: 18) {
-                            ForEach(conquestMedals, id: \.self) { medal in
-                                if cloud.client == nil {
-                                    MedalComponent(medalName: medal)
-                                        .foregroundColor(.gray)
-                                        .onTapGesture {
-                                            showMedalConquest = true
-                                            medalName = medal
-                                        }
-                                } else {
-                                    MedalComponent(medalName: medal)
-                                        .onTapGesture {
-                                            showMedalConquest = true
-                                            medalName = medal
-                                        }
+                            LazyVGrid(columns: columns, spacing: 18) {
+                                ForEach(conquestMedals, id: \.self) { medal in
+                                    if cloud.client == nil {
+                                        MedalComponent(medalName: medal)
+                                            .foregroundColor(.gray)
+                                            .onTapGesture {
+                                                showMedalConquest = true
+                                                medalName = medal
+                                            }
+                                    } else {
+                                        MedalComponent(medalName: medal)
+                                            .onTapGesture {
+                                                showMedalConquest = true
+                                                medalName = medal
+                                            }
+                                    }
                                 }
                             }
+                            .padding(.top, 16)
+                            .padding(.horizontal, 24)
                         }
-                        .padding(.top, 16)
-                        .padding(.horizontal, 24)
+                        .padding(.bottom, 100)
                     }
                     
                     // Conteúdo Tab. 2 - Editar Perfil
