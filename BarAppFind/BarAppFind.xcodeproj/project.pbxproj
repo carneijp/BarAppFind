@@ -18,6 +18,7 @@
 		6C8313F72A0C1ED500A6A412 /* MapPopUpComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8313F62A0C1ED500A6A412 /* MapPopUpComponent.swift */; };
 		6CC1121B2A04334B0009C2BC /* BarPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC1121A2A04334B0009C2BC /* BarPageView.swift */; };
 		6CC7A0942A098D80008329B7 /* ReviewComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CC7A0932A098D80008329B7 /* ReviewComponent.swift */; };
+		820A484F2A180A1A002F584A /* SerafiniComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 820A484E2A180A1A002F584A /* SerafiniComponent.swift */; };
 		824014A92A141D9B00E53F21 /* MoodListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824014A82A141D9B00E53F21 /* MoodListView.swift */; };
 		824266942A0BD1C100E5F186 /* BarListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824266932A0BD1C100E5F186 /* BarListView.swift */; };
 		824266962A0D59AD00E5F186 /* MedalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824266952A0D59AD00E5F186 /* MedalComponent.swift */; };
@@ -60,6 +61,7 @@
 		6C8313F62A0C1ED500A6A412 /* MapPopUpComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPopUpComponent.swift; sourceTree = "<group>"; };
 		6CC1121A2A04334B0009C2BC /* BarPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarPageView.swift; sourceTree = "<group>"; };
 		6CC7A0932A098D80008329B7 /* ReviewComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewComponent.swift; sourceTree = "<group>"; };
+		820A484E2A180A1A002F584A /* SerafiniComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerafiniComponent.swift; sourceTree = "<group>"; };
 		824014A82A141D9B00E53F21 /* MoodListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodListView.swift; sourceTree = "<group>"; };
 		824266932A0BD1C100E5F186 /* BarListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarListView.swift; sourceTree = "<group>"; };
 		824266952A0D59AD00E5F186 /* MedalComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedalComponent.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				82B9350F2A0E703600BC51F0 /* ConquestModalComponent.swift */,
 				82B935152A0EA8FA00BC51F0 /* BarMoodComponent.swift */,
 				82B0F82F2A1697040055A953 /* FirstConquestComponent.swift */,
+				820A484E2A180A1A002F584A /* SerafiniComponent.swift */,
 				6CC7A0932A098D80008329B7 /* ReviewComponent.swift */,
 				6C8313F62A0C1ED500A6A412 /* MapPopUpComponent.swift */,
 				6C79A44F2A0D5DD6002DC68D /* TextFieldComponent.swift */,
@@ -300,6 +303,7 @@
 				82B935162A0EA8FA00BC51F0 /* BarMoodComponent.swift in Sources */,
 				85285E262A02EABD00139191 /* CloudKitCRUD.swift in Sources */,
 				851D895029FDE7B900282473 /* MapView.swift in Sources */,
+				820A484F2A180A1A002F584A /* SerafiniComponent.swift in Sources */,
 				6C69C98F2A12AC51003E35D0 /* BarViewMoodComponent.swift in Sources */,
 				851D894C29FDE75700282473 /* GeneralTab.swift in Sources */,
 				6CC1121B2A04334B0009C2BC /* BarPageView.swift in Sources */,
