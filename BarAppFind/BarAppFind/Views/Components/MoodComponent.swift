@@ -16,8 +16,8 @@ struct MoodComponent: View {
             Image(moodImage)
                 .resizable()
                 .scaledToFit()
-                .frame(height: 80)
-                .padding(.bottom, 10)
+                .frame(width: 110, height: 120)
+//                .padding(.bottom, 10)
 
             
             Text(moodName)
@@ -26,7 +26,7 @@ struct MoodComponent: View {
         .frame(width: 100, height: 130)
         .padding(.top, 30)
         .padding(.horizontal, 21)
-        .padding(.bottom, 20)
+        .padding(.bottom, 25)
         .background(Color("gray6"))
         .cornerRadius(12)
         .shadow(radius: 3, x: 0, y: 2)
@@ -35,6 +35,6 @@ struct MoodComponent: View {
 
 struct MoodComponent_Previews: PreviewProvider {
     static var previews: some View {
-        MoodComponent(moodImage: "Family friendly", moodName: "Family friendly")
+        MoodComponent(moodImage: "Família", moodName: "Família")
     }
 }

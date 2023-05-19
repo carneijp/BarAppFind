@@ -37,7 +37,7 @@ struct ReviewComponent: View {
                 Spacer()
             }
         }
-        .padding(.horizontal)
+        .padding(.horizontal, 24)
         .background(Color("gray0"))
         .cornerRadius(20)
     }

@@ -15,7 +15,7 @@ struct SignUpComponent: View {
     @State private var lastName: String = ""
     @State private var password: String = ""
     @State private var showLogin: Bool = false
-
+    
     
     var body: some View {
         VStack {
@@ -24,8 +24,8 @@ struct SignUpComponent: View {
             HStack {
                 Text("Cadastre o seu E-mail")
                     .font(.system(size: 16))
-                .bold()
-                .padding(.leading, 85)
+                    .bold()
+                    .padding(.leading, 85)
                 
                 Spacer()
                 
@@ -41,11 +41,15 @@ struct SignUpComponent: View {
             .padding(.bottom, 30)
             
             // Logo do App
-            Image("trending1")
+            Image("logo")
                 .resizable()
                 .scaledToFit()
+                .frame(width: 80, height: 80)
+                .padding(.all)
                 .clipShape(Circle())
-                .frame(width: 200, height: 200)
+                .shadow(radius: 1, x: 0, y: 2)
+                .padding(.top, 30)
+                .padding(.bottom, 10)
             
             // Inputs do Usuário
             Group {
@@ -57,22 +61,37 @@ struct SignUpComponent: View {
                 
                 SecureField("Senha", text: $password)
             }
+            .font(.system(size: 16))
             .textInputAutocapitalization(.never)
             .disableAutocorrection(true)
-            .padding(.all)
-            .border(.secondary)
+            .padding(.vertical, 10)
             .padding(.horizontal)
-
+            .background()
+            .cornerRadius(8)
+            .padding(.horizontal, 24)
+            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
+            
             
             // Botão de Cadastrar Conta
             Button{
                 cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){}
                 presentation.wrappedValue.dismiss()
             }label: {
-                Text("CRIAR")
+                HStack {
+                    Spacer()
+                    Text("Vamos lá!")
+                        .foregroundColor(.white)
+                        .font(.system(size: 16))
+                        .padding(.vertical, 10)
+//                    .padding(.horizontal, 20)
+                    Spacer()
+                }
             }
-            .padding(.top)
-
+            .background(Color("login"))
+            .cornerRadius(10)
+            .padding(.top, 20)
+            .padding(.horizontal, 24)
+            
             Spacer()
         }
         // Faz aparecer a sheet de Cadastrar usuário

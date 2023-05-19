@@ -19,9 +19,10 @@ struct BarComponent: View {
                     .resizable()
                     .scaledToFill()
                     .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.primary, lineWidth: 0.5))
                     .frame(width: 50, height: 50)
                     .padding(.trailing, 5)
+                    .shadow(color: .gray, radius: 2, x: 0, y: 2)
+
             }
             
             HStack {
@@ -37,6 +38,8 @@ struct BarComponent: View {
                     HStack(spacing: 5) {
                         Image(systemName: "star.fill")
                             .foregroundColor(.primary)
+                            .font(.system(size: 13))
+                        
                         
                             Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[getDateOfweek()])")
                                 .font(.system(size: 14))

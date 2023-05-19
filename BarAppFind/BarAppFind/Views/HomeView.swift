@@ -11,8 +11,8 @@ struct HomeView: View {
     @State private var trendingIndex = 0
     @EnvironmentObject var cloud: CloudKitCRUD
     @State private var showSignIn: Bool = false
-//    @State private var teste: Bool = false
-    
+    private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+
     
     var body: some View {
         ZStack {
@@ -39,6 +39,12 @@ struct HomeView: View {
                             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                             .frame(height: 150)
                             .offset(y: -10)
+                            .onReceive(carouselTimer) { _ in
+                                let newIndex = (trendingIndex + 1) % 3
+                                withAnimation {
+                                    trendingIndex = newIndex
+                                }
+                            }
                             
                             // Index Trending Carousel
                             HStack(spacing: 8) {
@@ -102,6 +108,7 @@ struct HomeView: View {
                                     NavigationLink {
                                         BarPageView(barname: bar.name)
                                             .environmentObject(cloud)
+                                            .toolbarRole(.editor)
                                     } label: {
                                         BarComponent(bar: bar, showSignIn: $showSignIn)
                                             .environmentObject(cloud)
@@ -112,41 +119,6 @@ struct HomeView: View {
                             }
                             .padding(.horizontal, 24)
                         }
-                        
-//                        //Bars Section
-//                        VStack {
-//                            HStack {
-//                                Text("Sugestões de bares hoje")
-//                                    .font(.system(size: 14))
-//                                
-//                                Spacer()
-//                                
-//                                NavigationLink {
-//                                    BarListView(showSignIn: $showSignIn)
-//                                        .toolbarRole(.editor)
-//                                } label: {
-//                                    Text("Ver todos")
-//                                        .font(.system(size: 14))
-//                                        .foregroundColor(Color("blue"))
-//                                }
-//                            }
-////                            .padding(.top, 14)
-//                            .padding(.bottom, 10)
-//
-//                            ForEach(cloud.barsList, id: \.self) { bar in
-//                                NavigationLink {
-//                                    BarPageView(barname: bar.name)
-//                                        .environmentObject(cloud)
-//                                        .toolbarRole(.editor)
-//                                } label: {
-//                                    BarComponent(bar: bar, showSignIn: $showSignIn)
-//                                        .environmentObject(cloud)
-//                                        .foregroundColor(.primary)
-//                                        .padding(.bottom, 10)
-//                                }
-//                            }
-//                        }
-//                        .padding(.horizontal, 24)
                     }
                     
                     Spacer()
@@ -170,11 +142,6 @@ struct HomeView: View {
                 } else {
                 }
             }
-            LoginAlertComponent(title: "tes", description: "tes", isShow: $showSignIn)
-            
-//            if cloud.barsList.count != 10 {
-//                cloud.fetchBars()
-//            }
         }
         .padding(.top, 100)
         
@@ -187,6 +154,7 @@ func getDateOfWeek() -> String {
     
     return weekday
 }
+
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
