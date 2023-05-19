@@ -46,7 +46,7 @@ struct LoginAlertComponent: View {
                 .padding(.horizontal, 24)
                 .background(Color("gray4"))
                 .cornerRadius(12)
-                .shadow(radius: 1, y: 2)
+                .shadow(radius: 3, y: 2)
                                 
                 Button {
                     showSignIn = true
@@ -59,9 +59,9 @@ struct LoginAlertComponent: View {
                 }
                 .padding(.vertical, 5)
                 .padding(.horizontal, 24)
-                .background(Color("gray1"))
+                .background(Color("gray7"))
                 .cornerRadius(12)
-                .shadow(radius: 1, y: 2)
+                .shadow(radius: 3, y: 2)
             }
         }
         .padding(.horizontal, 32)
