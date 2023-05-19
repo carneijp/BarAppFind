@@ -10,9 +10,10 @@ import SwiftUI
 struct FavoritesView: View {
     @EnvironmentObject private var cloud: CloudKitCRUD
     @State private var isPresenting: Bool = true
-    
-    
-    
+    @State private var showSignIn: Bool = false
+    @State private var showSignInList: Bool = false
+    @State private var viewIndex: Int = 0
+
     var body: some View {
         VStack {
             
@@ -25,8 +26,7 @@ struct FavoritesView: View {
                                 BarPageView(barname: bar.name)
                                     .toolbarRole(.editor)
                             } label: {
-                                BarComponent(bar: bar, showSignIn: $isPresenting)
-                                    .foregroundColor(.primary)
+                                BarComponent(bar: bar, showSignIn: $showSignIn, showSignInList: $showSignInList, viewIndex: $viewIndex)                                    .foregroundColor(.primary)
                                     .padding(.bottom, 10)
                             }
                         }

@@ -11,6 +11,8 @@ struct BarComponent: View {
     @State var bar: Bar
     @EnvironmentObject var cloud: CloudKitCRUD
     @Binding var showSignIn: Bool
+    @Binding var showSignInList: Bool
+    @Binding var viewIndex: Int
     
     var body: some View {
         HStack {
@@ -70,7 +72,12 @@ struct BarComponent: View {
                     Image(systemName: "heart")
                         .onTapGesture {
                             print("Voce deve estar logado para favoritar.")
-                            showSignIn = true
+                            if viewIndex == 0 {
+                                showSignIn = true
+                            } else {
+                                showSignIn = false
+                                showSignInList = true
+                            }
                         }
                     
                     
@@ -86,8 +93,8 @@ struct BarComponent: View {
     }
 }
 
-struct BarComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        BarComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []), showSignIn: .constant(true))
-    }
-}
+//struct BarComponent_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BarComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []), showSignIn: .constant(true))
+//    }
+//}

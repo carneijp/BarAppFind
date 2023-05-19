@@ -215,7 +215,7 @@ struct BarPageView: View {
                                     let countBars = review.count
                                     
                                     if countBars == 0 {
-                                        Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[0])")
+                                        Text(String(format: "%.1f", bar.grade))
                                             .font(.system(size: 14))
                                     }
                                     else {
@@ -257,16 +257,27 @@ struct BarPageView: View {
                             }
                             .padding(.top, 18)
                             .padding(.horizontal, 24)
-                            .padding(.bottom, 12)
+                            .padding(.bottom, 6)
                             
-                            
+                            Text("• \(bar?.operatinHours[0] ?? "Loading...")")
+                                .padding(.horizontal, 24)
+                                .font(.system(size: 14))
+                                .padding(.bottom, 12)
+                                                        
                             Text("\(bar?.description ?? "Loading...")")
                                 .font(.system(size: 16))
                                 .lineLimit(nil)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.bottom)
                                 .padding(.horizontal, 24)
-                            
+
+                            Text("Moods para este bar:")
+                                .padding(.horizontal, 24)
+                                .font(.system(size: 16))
+                                .bold()
+                                .padding(.bottom, -8)
+                                .padding(.top, 10)
+
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack{
                                     if let moods = bar?.mood{
@@ -302,7 +313,7 @@ struct BarPageView: View {
                         }
                         .padding(.bottom)
                         
-                        //MARK: Informações
+                        //MARK: - Informações
                     case .info:
                         VStack(alignment: .leading){
                             
@@ -353,7 +364,7 @@ struct BarPageView: View {
                         }
                         .padding(.horizontal, 24)
                         
-                        //MARK: Avaliações
+                        //MARK: - Avaliações
                     case .review:
                         VStack{
                             

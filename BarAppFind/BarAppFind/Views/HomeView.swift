@@ -11,6 +11,8 @@ struct HomeView: View {
     @State private var trendingIndex = 0
     @EnvironmentObject var cloud: CloudKitCRUD
     @State private var showSignIn: Bool = false
+    @State private var showSignInList: Bool = false
+    @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
 
     
@@ -88,19 +90,20 @@ struct HomeView: View {
                             //Bars Section
                             VStack {
                                 HStack {
-                                        Text("Sugestões de bares hoje")
+                                        Text("Sugestões de Onde ir hoje...")
                                             .font(.system(size: 16))
                             
                                     Spacer()
                                     
                                     NavigationLink {
-                                        BarListView(showSignIn: $showSignIn)
+                                        BarListView(showSignIn: $showSignIn, showSignInList: $showSignInList)
                                             .toolbarRole(.editor)
                                     } label: {
                                         Text("Ver todos")
                                             .font(.system(size: 16))
                                             .foregroundColor(Color("blue"))
                                     }
+
                                 }
                                 .padding(.bottom, 10)
                                 
@@ -110,7 +113,7 @@ struct HomeView: View {
                                             .environmentObject(cloud)
                                             .toolbarRole(.editor)
                                     } label: {
-                                        BarComponent(bar: bar, showSignIn: $showSignIn)
+                                        BarComponent(bar: bar, showSignIn: $showSignIn, showSignInList: $showSignInList, viewIndex: $viewIndex)
                                             .environmentObject(cloud)
                                             .foregroundColor(.primary)
                                             .padding(.bottom, 10)
