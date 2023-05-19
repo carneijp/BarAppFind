@@ -436,24 +436,24 @@ struct BarPageView: View {
         }
     }
     
-    func call99() {
-        if let url99 = URL(string: "99app://"){
-            UIApplication.shared.canOpenURL(url99)
-            UIApplication.shared.open(url99)
-        }else{
-            if let itunesUrl = NSURL(string: "https://apps.apple.com/br/app/99-private-drivers-and-taxi/id553663691?l=en"), UIApplication.shared.canOpenURL(itunesUrl as URL) {
-                 UIApplication.shared.open(itunesUrl as URL)
-               }
-        }
-       
-//        if let uberURL = URL(string: "99pop://"){
-//            UIApplication.shared.canOpenURL(uberURL)
-//            UIApplication.shared.open(uberURL)
-//        } else {
-//            if let fallbackURL = URL(string: "https://apps.apple.com/br/app/99-vá-de-carro-moto-ou-taxi/id553663691"){
-//                UIApplication.shared.open(fallbackURL)}
+//    func call99() {
+//        if let url99 = URL(string: "99app://"){
+//            UIApplication.shared.canOpenURL(url99)
+//            UIApplication.shared.open(url99)
+//        }else{
+//            if let itunesUrl = NSURL(string: "https://apps.apple.com/br/app/99-private-drivers-and-taxi/id553663691?l=en"), UIApplication.shared.canOpenURL(itunesUrl as URL) {
+//                 UIApplication.shared.open(itunesUrl as URL)
+//               }
 //        }
-    }
+//       
+////        if let uberURL = URL(string: "99pop://"){
+////            UIApplication.shared.canOpenURL(uberURL)
+////            UIApplication.shared.open(uberURL)
+////        } else {
+////            if let fallbackURL = URL(string: "https://apps.apple.com/br/app/99-vá-de-carro-moto-ou-taxi/id553663691"){
+////                UIApplication.shared.open(fallbackURL)}
+////        }
+//    }
 
     
     
