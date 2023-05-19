@@ -330,7 +330,7 @@ struct BarPageView: View {
 
                         HStack{
                             Button(action: {
-                                callUber()
+                                goToUber()
                             }, label: {
                                 Image("Uber")
                                     .resizable()
@@ -424,17 +424,32 @@ struct BarPageView: View {
         }
     }
     
-    func callUber(){
-        
+    
+    func goToUber(){
         if let uberURL = URL(string: "uber://"){
             UIApplication.shared.canOpenURL(uberURL)
             UIApplication.shared.open(uberURL)
-        } else {
-            if let itunesUrl = NSURL(string: "https://apps.apple.com/us/app/uber/id368677368"), UIApplication.shared.canOpenURL(itunesUrl as URL) {
-                UIApplication.shared.open(itunesUrl as URL)
-            }
+//            else {
+                // Instagram app is not installed, open in Safari as a fallback
+                let safariURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
+                UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
+//            }
         }
+        
+        
     }
+    
+//    func callUber(){
+//
+//        if let uberURL = URL(string: "uber://"){
+//            UIApplication.shared.canOpenURL(uberURL)
+//            UIApplication.shared.open(uberURL)
+//        } else {
+//            if let itunesUrl = NSURL(string: "https://apps.apple.com/us/app/uber/id368677368"), UIApplication.shared.canOpenURL(itunesUrl as URL) {
+//                UIApplication.shared.open(itunesUrl as URL)
+//            }
+//        }
+//    }
     
 //    func call99() {
 //        if let url99 = URL(string: "99app://"){
@@ -519,16 +534,9 @@ struct Flemis: View {
                 .scrollContentBackground(.hidden)
                 
 //                ForEach(self.workingHours, id: \.self) { workingHour in
-//                    if controle == indexEntrada{
 //                        Text("\(workingHour)")
 //                            .font(.system(size: 14))
 //                            .padding(.bottom, 5)
-//                    }else{
-//                        Text("\(workingHour)")
-//                            .font(.system(size: 14))
-//                            .padding(.bottom, 5)
-//                    }
-//
 //                }
 //                .scrollContentBackground(.hidden)
             }
