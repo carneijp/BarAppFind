@@ -261,7 +261,7 @@ struct BarPageView: View {
                             
                             // MARK: - FAZER LÓGICA DAS CORES AQUI
                             
-                            Text("• \(bar?.operatinHours[0] ?? "Loading...")")
+                            Text(bar?.operatinHours[0] ?? "Loading...")
                                 .font(.system(size: 14))
                                 .padding(.vertical, 6)
                                 .padding(.horizontal, 20)
@@ -274,7 +274,7 @@ struct BarPageView: View {
                             
                             // MARK: -
                                                         
-                            Text("\(bar?.description ?? "Loading...")")
+                            Text(bar?.description ?? "Loading...")
                                 .font(.system(size: 16))
                                 .lineLimit(nil)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -323,7 +323,7 @@ struct BarPageView: View {
                         }
                         .padding(.bottom)
                         
-                        //MARK: - Informações
+                    //MARK: - Informações
                     case .info:
                         VStack(alignment: .leading){
                             
@@ -374,10 +374,9 @@ struct BarPageView: View {
                         }
                         .padding(.horizontal, 24)
                         
-                        //MARK: - Avaliações
+                    //MARK: - Avaliações
                     case .review:
                         VStack{
-                            
                             if let client = cloud.client {
                                 if cloud.reviewListByBar.filter( { client.firstName == $0.writerName } ).count == 0 {
                                     TextFieldComponent(barName: self.barname)
@@ -396,9 +395,9 @@ struct BarPageView: View {
                                 EmptyViewReviews()
                             }
                         }
+                        .padding(.horizontal, 48)
                         .padding(.top)
-                        .padding(.horizontal, 30)                }
-
+                    }
                 }
                 .padding(.bottom, 130)
                 .onAppear(){
