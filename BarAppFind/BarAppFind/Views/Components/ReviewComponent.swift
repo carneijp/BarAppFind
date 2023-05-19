@@ -15,14 +15,18 @@ struct ReviewComponent: View {
         VStack{
             HStack{
                 Text(review.writerName)
-                    .font(.system(size: 14))
+                    .font(.system(size: 16))
                     .padding(.top, 5)
+                
                 ForEach(1..<6){ i in
                     if(i<=Int(review.grade)){
                         Image(systemName: "star.fill")
+                            .font(.system(size: 14))
                     }
                     else{
                         Image(systemName: "star")
+                            .font(.system(size: 14))
+
                     }
                 }
                 
@@ -32,14 +36,16 @@ struct ReviewComponent: View {
             .padding(.vertical, 5)
             HStack {
                 Text(review.description)
-                    .font(.system(size: 12))
+                    .font(.system(size: 14))
                     .padding(.bottom, 10)
+                
                 Spacer()
             }
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 8)
         .background(Color("gray0"))
-        .cornerRadius(20)
+        .cornerRadius(12)
     }
 }
 

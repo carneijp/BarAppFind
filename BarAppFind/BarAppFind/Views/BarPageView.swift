@@ -406,12 +406,12 @@ struct BarPageView: View {
                             if cloud.reviewListByBar.count != 0{
                                 ForEach(cloud.reviewListByBar, id: \.self){ review in
                                     ReviewComponent(review: review)
+                                        .padding(.horizontal, 24)
                                 }
                             }else{
                                 EmptyViewReviews()
                             }
                         }
-                        .padding(.horizontal, 48)
                         .padding(.top)
                     }
                 }

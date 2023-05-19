@@ -19,9 +19,10 @@ struct TextFieldComponent: View {
     var body: some View {
         VStack(alignment: .leading) {
             //            Spacer()
-            Text("Queremos sua avaliação")
+            Text("Queremos a sua avaliação")
                 .font(.system(size: 20))
                 .bold()
+                .padding(.horizontal, 24)
             
             // estrelas
             HStack {
@@ -42,6 +43,8 @@ struct TextFieldComponent: View {
                     }
                 }
             }
+            .padding(.horizontal, 24)
+            .padding(.bottom, 8)
             
             // input do usuário
             TextField("Escreva aqui", text: $review, axis: .vertical)
@@ -49,10 +52,9 @@ struct TextFieldComponent: View {
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
                 .foregroundColor(.primary)
-            //                .padding()
-            //                .frame(width: 342, height: 104)
+                .padding(.horizontal, 24)
             
-            HStack(spacing: 20) {
+            HStack(spacing: 10) {
                 Button(){
                     review = ""
                     grade = 0.0
@@ -60,11 +62,14 @@ struct TextFieldComponent: View {
                     Text("Cancelar")
                         .foregroundColor(Color("white"))
                         .frame(width: 161, height: 27)
+                        .padding(.vertical, 5)
                         .background(Color("gray4"))
-                        .cornerRadius(10)
+                        .cornerRadius(12)
+                        .shadow(radius: 3, y: 2)
                 }
                 
                 Spacer()
+                
                 Button(){
                     if self.grade > 0.0{
                         if let client = cloud.client {
@@ -76,12 +81,16 @@ struct TextFieldComponent: View {
                     Text("Enviar")
                         .foregroundColor(Color("white"))
                         .frame(width: 161, height: 27)
-                        .background(Color("gray1"))
-                        .cornerRadius(10)
+                        .padding(.vertical, 5)
+                        .background(Color("gray7"))
+                        .cornerRadius(12)
+                        .shadow(radius: 3, y: 2)
                 }
+
             }
             .padding(.top, 3)
-            //            Spacer()
+            .padding(.horizontal, 24)
+
         }
         .onReceive(pub) { output in
             if let review = output.object as? Review {
