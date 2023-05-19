@@ -70,7 +70,7 @@ struct BarPageView: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     
     @State private var showSignInAlert: Bool = false
-
+    
     
     var body: some View {
         
@@ -104,21 +104,21 @@ struct BarPageView: View {
                                 }
                             }else{
                                 VStack(spacing: 4){
-                                Text("Sobre o lugar")
-                                    .font(.system(size: 16))
-                                
-                                    .foregroundColor(.secondary)
-                                    .onTapGesture {
-                                        self.topBarChoice = .barName
-                                        isBarName = true
-                                        isInfo = false
-                                        isReview = false
-                                    }
-                                Rectangle()
-                                    .frame(height: 1)
-                                    .foregroundColor(.clear)
-                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                            }
+                                    Text("Sobre o lugar")
+                                        .font(.system(size: 16))
+                                    
+                                        .foregroundColor(.secondary)
+                                        .onTapGesture {
+                                            self.topBarChoice = .barName
+                                            isBarName = true
+                                            isInfo = false
+                                            isReview = false
+                                        }
+                                    Rectangle()
+                                        .frame(height: 1)
+                                        .foregroundColor(.clear)
+                                        .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                }
                             }
                         }
                         
@@ -225,7 +225,7 @@ struct BarPageView: View {
                                 }
                                 Spacer()
                                 
-
+                                
                                 if let cliente = cloud.client {
                                     if cliente.favorites.contains(barname){
                                         Image(systemName:"heart.fill")
@@ -261,33 +261,62 @@ struct BarPageView: View {
                             
                             // MARK: - FAZER LÓGICA DAS CORES AQUI
                             
-                            Text(bar?.operatinHours[0] ?? "Loading...")
-                                .font(.system(size: 14))
-                                .padding(.vertical, 6)
-                                .padding(.horizontal, 20)
-                            // Se fechado: usar o background abaixo. Se aberto: trocar o ".red" por ".green"
-                                .background(.red.opacity(0.3))
-                                .cornerRadius(8)
-                                .padding(.horizontal, 24)
-                                .padding(.bottom, 12)
-                                .shadow(radius: 1, y: 2)
+                            if let horario = bar?.operatinHours[0] {
+                                if horario.localizedCaseInsensitiveContains("fechado"){
+                                    Text(bar?.operatinHours[0] ?? "Loading...")
+                                        .font(.system(size: 14))
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 20)
+                                        .background(.red.opacity(0.3))
+                                        .cornerRadius(8)
+                                        .padding(.horizontal, 24)
+                                        .padding(.bottom, 12)
+                                        .shadow(radius: 1, y: 2)
+                                }else{
+                                    Text(bar?.operatinHours[0] ?? "Loading...")
+                                        .font(.system(size: 14))
+                                        .padding(.vertical, 6)
+                                        .padding(.horizontal, 20)
+                                        .background(.green.opacity(0.3))
+                                        .cornerRadius(8)
+                                        .padding(.horizontal, 24)
+                                        .padding(.bottom, 12)
+                                        .shadow(radius: 1, y: 2)
+                                }
+                            }else{
+                                Text("Loading...")
+                                    .font(.system(size: 14))
+                                    .padding(.vertical, 6)
+                                    .padding(.horizontal, 20)
+                            }
+                            
+                            //                            Text(bar?.operatinHours[0] ?? "Loading...")
+                            //                                .font(.system(size: 14))
+                            //                                .padding(.vertical, 6)
+                            //                                .padding(.horizontal, 20)
+                            //                            // Se fechado: usar o background abaixo. Se aberto: trocar o ".red" por ".green"
+                            //                                .background(.red.opacity(0.3))
+                            //                                .cornerRadius(8)
+                            //                                .padding(.horizontal, 24)
+                            //                                .padding(.bottom, 12)
+                            //                                .shadow(radius: 1, y: 2)
                             
                             // MARK: -
-                                                        
+                            
                             Text(bar?.description ?? "Loading...")
                                 .font(.system(size: 16))
                                 .lineLimit(nil)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .padding(.bottom)
                                 .padding(.horizontal, 24)
-
+                            
                             Text("Moods para este bar:")
                                 .padding(.horizontal, 24)
                                 .font(.system(size: 16))
                                 .bold()
                                 .padding(.bottom, -8)
                                 .padding(.top, 10)
-
+                            
                             ScrollView(.horizontal, showsIndicators: false){
                                 HStack{
                                     if let moods = bar?.mood{
@@ -310,20 +339,20 @@ struct BarPageView: View {
                             .padding(.vertical)
                             .padding(.horizontal, 24)
                             
-                                if let caracteristicas = bar?.caracteristicas{
-                                    VStack(alignment: .leading){
-                                        ForEach(caracteristicas, id:\.self){ caracteristica in
-                                            Text("• \(caracteristica)")
-                                                .font(.system(size: 16))
-                                                .padding(.bottom, 3)
-                                        }
+                            if let caracteristicas = bar?.caracteristicas{
+                                VStack(alignment: .leading){
+                                    ForEach(caracteristicas, id:\.self){ caracteristica in
+                                        Text("• \(caracteristica)")
+                                            .font(.system(size: 16))
+                                            .padding(.bottom, 3)
                                     }
-                                    .padding(.horizontal, 24)
                                 }
+                                .padding(.horizontal, 24)
+                            }
                         }
                         .padding(.bottom)
                         
-                    //MARK: - Informações
+                        //MARK: - Informações
                     case .info:
                         VStack(alignment: .leading){
                             
@@ -340,9 +369,9 @@ struct BarPageView: View {
                                     .multilineTextAlignment(.leading)
                                 
                             }
-                                
-                                MapView(bar: self.bar, mapStyle: .compact)
-                                    .frame(height: 129)
+                            
+                            MapView(bar: self.bar, mapStyle: .compact)
+                                .frame(height: 129)
                             
                             HStack{
                                 Button(action: {
@@ -370,11 +399,11 @@ struct BarPageView: View {
                                 .cornerRadius(10)
                             }
                             .padding(.bottom)
-
+                            
                         }
                         .padding(.horizontal, 24)
                         
-                    //MARK: - Avaliações
+                        //MARK: - Avaliações
                     case .review:
                         VStack{
                             if let client = cloud.client {
