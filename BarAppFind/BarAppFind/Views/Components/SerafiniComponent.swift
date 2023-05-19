@@ -23,9 +23,10 @@ struct SerafiniComponent: View {
             if let photoLogo = bar?.photosLogo, let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
-                    .scaledToFit()
-                    .frame(width: 150, height: 150)
-                
+                    .scaledToFill()
+                    .clipShape(Circle())
+                    .frame(width: 100, height: 100)
+                    .padding(.vertical)
             }
             
             Text("Você está sendo convocado(a) a comparecer no maior evento do Academy 2023!")
@@ -56,7 +57,7 @@ struct SerafiniComponent: View {
         }
         .frame(width: UIScreen.main.bounds.width - 140)
         .padding([.vertical, .horizontal], 30)
-        .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+        .background(LinearGradient(gradient: Gradient(colors: [.red, .black]), startPoint: .topLeading, endPoint: .bottomTrailing))
         .cornerRadius(40)
         .animation(.spring())
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 40)
