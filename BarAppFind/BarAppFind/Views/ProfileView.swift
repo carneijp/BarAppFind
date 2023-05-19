@@ -56,7 +56,7 @@ struct ProfileView: View {
                             Image(systemName: "chevron.up")
                         }
                         .padding(.all)
-                        .background(Color("Fofoca3"))
+                        .background(Color("gray0"))
                         .cornerRadius(8)
                         .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
                     }
@@ -156,18 +156,13 @@ struct ProfileView: View {
                         .padding(.vertical, 30)
                         .padding(.horizontal, 10)
                         .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
-                        .background(Color("roxo"))
+                        .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
                         .cornerRadius(12)
                         .shadow(radius: 2, y: 2)
                         .padding(.top, 20)
                         .onTapGesture {
                             showFirstConquest = true
                         }
-//                        .scaleEffect(scale)
-//                        .animation(Animation.easeInOut(duration: 0.5).repeatForever(autoreverses: true))
-//                        .onAppear {
-//                            self.scale = 1.08
-//                        }
 
                         LazyVGrid(columns: columns, spacing: 18) {
                             ForEach(conquestMedals, id: \.self) { medal in
@@ -182,6 +177,7 @@ struct ProfileView: View {
                                     MedalComponent(medalName: medal)
                                         .onTapGesture {
                                             showMedalConquest = true
+                                            medalName = medal
                                         }
                                 }
                             }

@@ -13,7 +13,7 @@ struct SignInComponent: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showSignUp: Bool = false
-
+    
     
     var body: some View {
         VStack {
@@ -55,45 +55,72 @@ struct SignInComponent: View {
             // Inputs do Usuário
             Group {
                 TextField("Digite o seu e-mail", text: $email)
-
+                
                 
                 SecureField("Senha", text: $password)
             }
+            .font(.system(size: 16))
             .textInputAutocapitalization(.never)
             .disableAutocorrection(true)
-            .padding(.all)
-            .border(.secondary)
+            .padding(.vertical, 10)
             .padding(.horizontal)
+            .background()
+            .cornerRadius(8)
+            .padding(.horizontal, 24)
+            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
             
-            // Botão de Logar
-            Button {
-                cloud.validateClientLogin(email: email, password: password) { result in
-                    if result{
-                        let login: String = $email.wrappedValue
-                        let senha: String = $password.wrappedValue
+            
+            VStack  {
+                // Botão de Logar
+                Button {
+                    cloud.validateClientLogin(email: email, password: password) { result in
+                        if result{
+                            let login: String = $email.wrappedValue
+                            let senha: String = $password.wrappedValue
                             UserDefaults.standard.set(login, forKey: "Email")
                             UserDefaults.standard.set(senha, forKey: "Password")
                             print("salvei")
+                        }
+                        else{
+                            print("login ou senha invalidos")
+                        }
                     }
-                    else{
-                        print("login ou senha invalidos")
+                    presentation.wrappedValue.dismiss()
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("Entrar")
+//                            .underline()
+                            .foregroundColor(.white)
+                            .font(.system(size: 16))
+                            .padding(.vertical, 10)
+                        Spacer()
                     }
                 }
-                presentation.wrappedValue.dismiss()
-            } label: {
-                Text("Entrar")
+                .background(Color("darkBlueGradient"))
+                .cornerRadius(10)
+                           
+                Spacer()
+                
+                // Botão de Cadastrar
+                
+                Button {
+                    showSignUp = true
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("Criar Conta")
+                            .underline()
+                            .foregroundColor(.primary)
+                            .font(.system(size: 16))
+                            .padding(.vertical, 10)
+                        Spacer()
+                    }
+                }
             }
-            .padding(.vertical)
-            
-            // Botão de Cadastrar
-            
-            Button {
-                showSignUp = true
-            } label: {
-                Text("Quero me cadastrar")
-            }
-            
-            
+            .padding(.horizontal, 24)
+            .padding(.top, 20)
+
             Spacer()
         }
         .sheet(isPresented: $showSignUp) {
