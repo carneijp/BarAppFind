@@ -334,6 +334,7 @@ struct BarPageView: View {
                             
                             MapView(bar: self.bar, mapStyle: .compact)
                                 .frame(height: 129)
+                                .cornerRadius(10)
 
 //
 //                        HStack{
@@ -370,11 +371,12 @@ struct BarPageView: View {
                             Spacer()
                             
                             Button(action: {
-                                print("abrir 99")
+                                print("abrir Instagram")
                             }, label: {
-                                Image("99")
+                                Image("Instagram2")
                                     .resizable()
                                     .scaledToFit()
+                                    .padding(.all, 5)
                             })
                             .frame(width: 166, height: 47)
                             .background(Color("amarelo"))
