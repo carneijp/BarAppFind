@@ -312,7 +312,7 @@ struct BarPageView: View {
                 case .info:
                     VStack(alignment: .leading){
                         
-                        Flemis(workingHours: bar?.operatinHours ?? [] )
+                        Flemis(indexEntrada: getDateOfweek(), workingHours: bar?.operatinHours ?? [])
                         
                         
                         Text("Endereço")
@@ -473,7 +473,7 @@ struct BarPageView_Previews: PreviewProvider {
 
 struct Flemis: View {
     @State var isShowingWorkingHours: Bool = true
-    
+    var indexEntrada: Int
     var workingHours: [String]
     
     var body: some View {
@@ -502,15 +502,38 @@ struct Flemis: View {
 //            .background(Color.red)
             .padding(.bottom, 5)
             
-            
             if self.isShowingWorkingHours {
-                ForEach(self.workingHours, id: \.self) { workingHour in
-                    Text("\(workingHour)")
-                        .font(.system(size: 14))
-                        .padding(.bottom, 5)
+                
+                ForEach(0..<self.workingHours.count, id:\.self){ i in
+                    if i == indexEntrada{
+                        Text("\(self.workingHours[i])")
+                            .font(.system(size: 14))
+                            .padding(.bottom, 5)
+                            .bold()
+                    }else{
+                        Text("\(self.workingHours[i])")
+                            .font(.system(size: 14))
+                            .padding(.bottom, 5)
+                    }
                 }
                 .scrollContentBackground(.hidden)
+                
+//                ForEach(self.workingHours, id: \.self) { workingHour in
+//                    if controle == indexEntrada{
+//                        Text("\(workingHour)")
+//                            .font(.system(size: 14))
+//                            .padding(.bottom, 5)
+//                    }else{
+//                        Text("\(workingHour)")
+//                            .font(.system(size: 14))
+//                            .padding(.bottom, 5)
+//                    }
+//
+//                }
+//                .scrollContentBackground(.hidden)
             }
         }
+        
+        
     }
 }
