@@ -74,8 +74,13 @@ struct SignUpComponent: View {
             
             // Botão de Cadastrar Conta
             Button{
-                cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){}
-                presentation.wrappedValue.dismiss()
+                if(email != "" && password != "" && firstName != "" && lastName != ""){
+                    cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){}
+                    presentation.wrappedValue.dismiss()
+                }else{
+                    print("informcacoes devem estar preenchidas")
+                }
+
             }label: {
                 HStack {
                     Spacer()
