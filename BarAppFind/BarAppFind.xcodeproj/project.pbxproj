@@ -233,9 +233,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8562AEED29FC5C4C003E32E7 /* BarAppFind */ = {
+		8562AEED29FC5C4C003E32E7 /* Onde */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8562AEFC29FC5C4D003E32E7 /* Build configuration list for PBXNativeTarget "BarAppFind" */;
+			buildConfigurationList = 8562AEFC29FC5C4D003E32E7 /* Build configuration list for PBXNativeTarget "Onde" */;
 			buildPhases = (
 				8562AEEA29FC5C4C003E32E7 /* Sources */,
 				8562AEEB29FC5C4C003E32E7 /* Frameworks */,
@@ -245,7 +245,7 @@
 			);
 			dependencies = (
 			);
-			name = BarAppFind;
+			name = Onde;
 			productName = BarAppFind;
 			productReference = 8562AEEE29FC5C4C003E32E7 /* Onde.app */;
 			productType = "com.apple.product-type.application";
@@ -278,7 +278,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8562AEED29FC5C4C003E32E7 /* BarAppFind */,
+				8562AEED29FC5C4C003E32E7 /* Onde */,
 			);
 		};
 /* End PBXProject section */
@@ -547,7 +547,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8562AEFC29FC5C4D003E32E7 /* Build configuration list for PBXNativeTarget "BarAppFind" */ = {
+		8562AEFC29FC5C4D003E32E7 /* Build configuration list for PBXNativeTarget "Onde" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8562AEFD29FC5C4D003E32E7 /* Debug */,

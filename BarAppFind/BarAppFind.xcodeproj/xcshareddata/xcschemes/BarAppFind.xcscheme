@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8562AEED29FC5C4C003E32E7"
                BuildableName = "Onde.app"
-               BlueprintName = "BarAppFind"
+               BlueprintName = "Onde"
                ReferencedContainer = "container:BarAppFind.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,7 +45,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8562AEED29FC5C4C003E32E7"
             BuildableName = "Onde.app"
-            BlueprintName = "BarAppFind"
+            BlueprintName = "Onde"
             ReferencedContainer = "container:BarAppFind.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -66,7 +66,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8562AEED29FC5C4C003E32E7"
             BuildableName = "Onde.app"
-            BlueprintName = "BarAppFind"
+            BlueprintName = "Onde"
             ReferencedContainer = "container:BarAppFind.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
