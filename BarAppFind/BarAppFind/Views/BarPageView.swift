@@ -11,64 +11,58 @@ import MapKit
 
 struct BarPageView: View {
     var barname: String
-    
-    private let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
-    
+        
     enum ChoiceBar {
         case barName, info, review
     }
     
-    //Criar icone com fundo cinza a partir de uma imagem do sistema(compartilhar)
-    @ViewBuilder
-    func createSystemIcon(imageName: String, text: String)-> some View {
-        VStack {
-            ZStack {
-                Image(systemName: imageName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 35, height: 31)
-                    .padding(10)
-                    .background(Color.gray)
-                    .cornerRadius(10)
+    func Group() {
+        //Criar icone com fundo cinza a partir de uma imagem do sistema(compartilhar)
+        @ViewBuilder
+        func createSystemIcon(imageName: String, text: String)-> some View {
+            VStack {
+                ZStack {
+                    Image(systemName: imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 35, height: 31)
+                        .padding(10)
+                        .background(Color.gray)
+                        .cornerRadius(10)
+                }
+                Text(text)
+                    .font(.system(size: 10))
             }
-            Text(text)
-                .font(.system(size: 10))
         }
-    }
-    
-    //Criar icone com fundo cinza a partir de uma imagem qualquer(instagram)
-    @ViewBuilder
-    func createCustomIcon(imageName: String, text: String)-> some View {
-        VStack {
-            ZStack {
-                Image(imageName)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 35, height: 31)
-                    .padding(10)
-                    .background(Color("gray5"))
-                    .cornerRadius(10)
+        
+        //Criar icone com fundo cinza a partir de uma imagem qualquer(instagram)
+        @ViewBuilder
+        func createCustomIcon(imageName: String, text: String)-> some View {
+            VStack {
+                ZStack {
+                    Image(imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 35, height: 31)
+                        .padding(10)
+                        .background(Color("gray5"))
+                        .cornerRadius(10)
+                }
+                Text(text)
+                    .font(.system(size: 10))
+                
             }
-            Text(text)
-                .font(.system(size: 10))
-            
         }
     }
     
     @State var topBarChoice: ChoiceBar = .barName
-    
     @State var isBarName: Bool = true
     @State var isInfo: Bool = false
     @State var isReview: Bool = false
-    
     @State var isShowingWorkingHours: Bool = true
-    
     @State var bar: Bar?
-    
     @State var reviewListIsEmpty: Bool = true
-    
     @EnvironmentObject var cloud: CloudKitCRUD
-    
     @State private var showSignInAlert: Bool = false
     
     
@@ -90,7 +84,7 @@ struct BarPageView: View {
                     //MARK: tabBar
                     HStack{
                         //sobre o lugar
-                        Group{
+                        SwiftUI.Group{
                             if isBarName{
                                 VStack(spacing: 4){
                                     Text("Sobre o lugar")
@@ -123,7 +117,7 @@ struct BarPageView: View {
                         }
                         
                         //Informações
-                        Group{
+                        SwiftUI.Group{
                             if isInfo{
                                 VStack(spacing: 4){
                                     Text("Informações")
@@ -156,7 +150,7 @@ struct BarPageView: View {
                         }
                         
                         //Avaliações
-                        Group{
+                        SwiftUI.Group{
                             if isReview{
                                 VStack(spacing: 4){
                                     Text("Avaliações")
@@ -339,70 +333,13 @@ struct BarPageView: View {
                             }
                         }
                         .padding(.bottom)
-                        
-                        //MARK: - Informações
-// =======
-// //                            .padding(.horizontal, 24)
-//                             .padding(.bottom, 12)
-                            
-                        
-                        
-//                         Text("• \(bar?.operatinHours[getDateOfweek()] ?? "Loading...")")
-//                             .font(.system(size: 17))
-//                             .padding(.bottom)
-                        
-//                         Text("\(bar?.description ?? "Loading...")")
-//                             .font(.system(size: 16))
-//                             .lineLimit(nil)
-//                             .fixedSize(horizontal: false, vertical: true)
-//                             .padding(.bottom)
-                    
-//                         Text("Ótimo para ...")
-//                             .font(.system(size: 14))
-// //                            .padding(.bottom)
-                        
-//                         ScrollView(.horizontal, showsIndicators: false){
-//                             HStack{
-//                                 if let moods = bar?.mood{
-//                                     ForEach(moods, id:\.self){ mood in
-//                                         MoodSmallComponent(moodName: mood)
-//                                             .padding(.vertical)
-//                                             .padding(.trailing, 10)
-//                                     }
-//                                 }
-//                             }
-//                             .padding(.leading, 4)
-//                         }
-                        
-//                         HStack {
-//                             Text("Sobre o ambiente")
-//                                 .font(.system(size:20))
-//                                 .bold()
-//                             Spacer()
-//                         }
-//                         .padding(.vertical)
-                        
-// //                        HStack{
-//                             if let caracteristicas = bar?.caracteristicas{
-//                                 VStack(alignment: .leading){
-//                                     ForEach(caracteristicas, id:\.self){ caracteristica in
-//                                         Text(caracteristica)
-//                                             .font(.system(size: 16))
-//                                             .padding(.bottom, 3)
-//                                     }
-//                                 }
-//                             }
-// //                        }
-//                     }
-//                     .padding(.horizontal)
-                    
-//                     //MARK: Informações
 
-// >>>>>>> Dev
+                    // MARK: - Informações
+                        
                     case .info:
                         VStack(alignment: .leading){
                             
-                            Flemis(indexEntrada: getDateOfweek(), workingHours: bar?.operatinHours ?? [] )
+                            FlemisViewModel(indexEntrada: getDateOfweek(), workingHours: bar?.operatinHours ?? [] )
                             
                             
                             Text("Endereço")
@@ -451,7 +388,8 @@ struct BarPageView: View {
                         }
                         .padding(.horizontal, 24)
                         
-                        //MARK: - Avaliações
+                    //MARK: - Avaliações
+                        
                     case .review:
                         VStack{
                             if let client = cloud.client {
@@ -546,58 +484,5 @@ struct BarPageView: View {
 struct BarPageView_Previews: PreviewProvider {
     static var previews: some View {
         BarPageView(barname: "Quentins")
-    }
-}
-
-
-struct Flemis: View {
-    @State var isShowingWorkingHours: Bool = true
-    var indexEntrada: Int
-    var workingHours: [String]
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            HStack(alignment: .center) {
-                Text("Horário de Atendimento")
-                    .font(.system(size: 20))
-                    .bold()
-                    .foregroundColor(.primary)
-                    .padding(.top)
-                
-                Button(action: {
-                    self.isShowingWorkingHours.toggle()
-                }, label: {
-                    Image(systemName: self.isShowingWorkingHours ? "chevron.up" : "chevron.down")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 16, height: 34)
-                        .offset(y: 8)
-                        .foregroundColor(Color("gray4"))
-                })
-                .frame(width: 14, height: 28)
-                
-            }
-            .padding(.bottom, 5)
-            
-            if self.isShowingWorkingHours {
-                
-                ForEach(0..<self.workingHours.count, id:\.self){ i in
-                    if i == indexEntrada{
-                        Text("\(self.workingHours[i])")
-                            .font(.system(size: 14))
-                            .padding(.bottom, 5)
-                            .bold()
-                    }else{
-                        Text("\(self.workingHours[i])")
-                            .font(.system(size: 14))
-                            .padding(.bottom, 5)
-                    }
-                }
-                .scrollContentBackground(.hidden)
-
-            }
-        }
-        
-        
     }
 }
