@@ -12,13 +12,14 @@ struct BarListView: View {
     @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
     @State private var viewIndex: Int = 1
+    @State var searchText = ""
     
     var body: some View {
 
         ZStack {
             ScrollView {
                 VStack {
-                    ForEach(cloud.barsList, id: \.self) { bar in
+                    ForEach(searchBar, id: \.self) { bar in
                         NavigationLink {
                             BarPageView(barname: bar.name)
                                 .toolbarRole(.editor)
@@ -33,6 +34,11 @@ struct BarListView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 130)
             }
+            .searchable(text: $searchText, prompt: "Nome do bar") {
+                    ForEach(searchBar) { result in
+                        Text(result.name).searchCompletion(result.name)
+                    }
+            }
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
@@ -40,13 +46,21 @@ struct BarListView: View {
         .navigationTitle("Todos os Bares")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
-            if cloud.barsList.count != 10 {
                 cloud.fetchBars()
-            }
         }
-
-
+        
     }
+    
+    var searchBar: [Bar] {
+        if searchText.isEmpty {
+            return cloud.barsList
+        } else {
+            return cloud.barsList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
+    
+    
+    
 }
 
 //struct BarListView_Previews: PreviewProvider {
