@@ -247,22 +247,9 @@ struct BarPageView: View {
         return finalGrade
     }
     
-
-    
-    
-
-
-    
-    
     func getDateOfweek() -> Int {
         let index = Calendar.current.component(.weekday, from: Date())
         return (index + 5) % 7
     }
     
-}
-
-struct BarPageView_Previews: PreviewProvider {
-    static var previews: some View {
-        BarPageView(barname: "Quentins")
-    }
 }
