@@ -30,7 +30,11 @@ struct SplashScreen: View {
             }
             .ignoresSafeArea()
             .onAppear{
-                cloud.fetchBars()
+                cloud.fetchBars(completion:  { result in
+                    if result {
+                        isActive = true
+                    }
+                })
                 withAnimation(.easeIn(duration: 2)){
                     size = 1.5
                 }

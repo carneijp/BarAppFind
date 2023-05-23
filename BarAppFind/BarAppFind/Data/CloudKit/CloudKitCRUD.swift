@@ -392,7 +392,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func fetchBars(cursor: CKQueryOperation.Cursor? = nil) {
+    func fetchBars(cursor: CKQueryOperation.Cursor? = nil, completion: @escaping (Bool) -> Void) {
         if(cursor == nil) {
             self.barsList = []
         }
@@ -457,10 +457,19 @@ class CloudKitCRUD: ObservableObject {
                 switch returnedResult {
                 case .success(let cursor):
                     if cursor != nil {
-                        self?.fetchBars(cursor: cursor)
+                        self?.fetchBars(cursor: cursor) { result in
+                            if result {
+                                completion(true)
+                            } else {
+                                completion(false)
+                            }
+                        }
+                    } else {
+                        completion(true)
                     }
                 case .failure(let err):
                     print(err.localizedDescription)
+                    completion(true)
                 }
             }
         }

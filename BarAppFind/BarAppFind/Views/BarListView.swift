@@ -13,6 +13,7 @@ struct BarListView: View {
     @Binding var showSignInList: Bool
     @State private var viewIndex: Int = 1
     @State var searchText = ""
+    @State var isLoading: Bool = true
     
     var body: some View {
 
@@ -40,13 +41,23 @@ struct BarListView: View {
                     }
             }
             
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+            }
+            
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
         .padding(.top, 130)
         .navigationTitle("Todos os Bares")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
-                cloud.fetchBars()
+            self.isLoading = true
+            cloud.fetchBars() { result in
+                if result {
+                    self.isLoading = false
+                }
+            }
         }
         
     }
