@@ -157,62 +157,17 @@ struct BarPageView: View {
                         case .barName:
                                 if let barAtual = bar {
                                     AboutTheBar(bar: barAtual)
+                                        .environmentObject(cloud)
                                         .padding(.bottom)
                                 }
 
                         // MARK: - Informações
                             
                         case .info:
-                            VStack(alignment: .leading){
-                                
-                                FlemisViewModel(indexEntrada: getDateOfweek(), workingHours: bar?.operatinHours ?? [] )
-                                
-                                
-                                Text("Endereço")
-                                    .font(.system(size: 20))
-                                    .bold()
-                                    .padding(.vertical)
-                                HStack {
-                                    Text("\(bar?.endereco ?? "Loading ...")")
-                                        .lineLimit(nil)
-                                        .multilineTextAlignment(.leading)
-                                    
+                                if let barAtual = bar {
+                                    BarInformationView(bar: barAtual)
+                                        .padding(.horizontal, 24)
                                 }
-                                    
-                                    MapView(bar: self.bar, mapStyle: .compact)
-                                        .frame(height: 129)
-                                        .cornerRadius(10)
-                                
-                                HStack{
-                                    Button(action: {
-                                        goToUber()
-                                    }, label: {
-                                        Image("Uber")
-                                            .resizable()
-                                            .scaledToFit()
-                                    })
-                                    .frame(width: 166, height: 47)
-                                    .background(Color.black)
-                                    .cornerRadius(10)
-                                    
-                                    Spacer()
-                                    
-                                    Button(action: {
-                                        goToInstaPage(link: bar!.linktInsta)
-                                    }, label: {
-                                    Image("Instagram2")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .padding(.all, 5)
-                                })
-                                .frame(width: 166, height: 47)
-                                .background(Color("amarelo"))
-                                .cornerRadius(10)
-                                }
-                                .padding(.bottom)
-                                
-                            }
-                            .padding(.horizontal, 24)
                             
                         //MARK: - Avaliações
                             
@@ -292,32 +247,10 @@ struct BarPageView: View {
         return finalGrade
     }
     
-    func goToInstaPage(link: String){
-        let instagramURL = URL(string: link)!
-        
-        if UIApplication.shared.canOpenURL(instagramURL) {
-            UIApplication.shared.open(instagramURL, options: [:], completionHandler: nil)
-        } else {
-            // Instagram app is not installed, open in Safari as a fallback
-            let safariURL = URL(string: link)!
-            UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
-        }
-    }
+
     
     
-    func goToUber(){
-        if let uberURL = URL(string: "uber://"){
-            UIApplication.shared.canOpenURL(uberURL)
-            UIApplication.shared.open(uberURL)
-//            else {
-                // Instagram app is not installed, open in Safari as a fallback
-                let safariURL = URL(string: "https://apps.apple.com/us/app/uber/id368677368")!
-                UIApplication.shared.open(safariURL, options: [:], completionHandler: nil)
-//            }
-        }
-        
-        
-    }
+
 
     
     
