@@ -10,10 +10,10 @@ import AuthenticationServices
 
 struct SignInApple: View {
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("Email") var email: String = ""
-    @AppStorage("FirstName") var firstName: String = ""
-    @AppStorage("LastName") var lastName: String = ""
-    @AppStorage("UserID") var userId: String = ""
+    @AppStorage("email") var email: String = ""
+    @AppStorage("firstName") var firstName: String = ""
+    @AppStorage("lastName") var lastName: String = ""
+    @AppStorage("userId") var userId: String = ""
     var body: some View {
         VStack{
             SignInWithAppleButton { request in
