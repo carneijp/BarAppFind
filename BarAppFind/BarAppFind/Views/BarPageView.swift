@@ -11,7 +11,7 @@ import MapKit
 
 struct BarPageView: View {
     var barname: String
-        
+    
     enum ChoiceBar {
         case barName, info, review
     }
@@ -33,19 +33,17 @@ struct BarPageView: View {
         ZStack {
             ScrollView {
                 VStack{
-                    
-                    if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
-                            .clipped()
-                            .padding(.bottom, 10)
-                    }
-                    
-                    //MARK: tabBar
-                    
                     if self.isLoading == false {
+                        if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+                                .clipped()
+                                .padding(.bottom, 10)
+                        }
+                        
+                        //MARK: tabBar
                         HStack{
                             //sobre o lugar
                             SwiftUI.Group{
@@ -155,21 +153,21 @@ struct BarPageView: View {
                             
                             //MARK: Sobre o lugar
                         case .barName:
-                                if let barAtual = bar {
-                                    AboutTheBar(bar: barAtual)
-                                        .environmentObject(cloud)
-                                        .padding(.bottom)
-                                }
-
-                        // MARK: - Informações
+                            if let barAtual = bar {
+                                AboutTheBar(bar: barAtual)
+                                    .environmentObject(cloud)
+                                    .padding(.bottom)
+                            }
+                            
+                            // MARK: - Informações
                             
                         case .info:
-                                if let barAtual = bar {
-                                    BarInformationView(bar: barAtual)
-                                        .padding(.horizontal, 24)
-                                }
+                            if let barAtual = bar {
+                                BarInformationView(bar: barAtual)
+                                    .padding(.horizontal, 24)
+                            }
                             
-                        //MARK: - Avaliações
+                            //MARK: - Avaliações
                             
                         case .review:
                             VStack{
@@ -194,7 +192,6 @@ struct BarPageView: View {
                             }
                             .padding(.top)
                         }
-
                     }
                 }
                 .padding(.bottom, 130)
@@ -212,12 +209,11 @@ struct BarPageView: View {
                         self.isLoading = false
                     }
                 }
-                
-            }.navigationBarTitle("\(bar?.name ?? "Loading ...")", displayMode: .inline)
+            }.navigationBarTitle("\(bar?.name ?? "Carregando...")", displayMode: .inline)
             
             if isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
+                LoadingViewModel()
+                    .padding(.bottom, 130)
             }
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInAlert)
