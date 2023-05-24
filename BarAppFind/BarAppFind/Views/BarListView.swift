@@ -16,7 +16,7 @@ struct BarListView: View {
     @State var isLoading: Bool = true
     
     var body: some View {
-
+        
         ZStack {
             ScrollView {
                 VStack {
@@ -34,32 +34,31 @@ struct BarListView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
                 .padding(.bottom, 130)
-            }
-            .searchable(text: $searchText, prompt: "Nome do bar") {
+                .searchable(text: $searchText, prompt: "Nome do bar") {
                     ForEach(searchBar) { result in
                         Text(result.name).searchCompletion(result.name)
                     }
+                }
+                
             }
+            .navigationTitle("Todos os Bares")
+            .navigationBarTitleDisplayMode(.inline)
             
             if isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
+                LoadingViewModel()
+                    .padding(.bottom, 130)
             }
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
         .padding(.top, 130)
-        .navigationTitle("Todos os Bares")
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
-            self.isLoading = true
             cloud.fetchBars() { result in
                 if result {
                     self.isLoading = false
                 }
             }
         }
-        
     }
     
     var searchBar: [Bar] {
