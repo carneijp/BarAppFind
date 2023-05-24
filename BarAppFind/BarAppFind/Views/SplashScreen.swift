@@ -40,14 +40,15 @@ struct SplashScreen: View {
                                 for i in 0..<cloud.barsList.count{
                                     cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
                                 }
+                                cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
                             }
                         }
                     }
                 }
-                withAnimation(.easeIn(duration: 2)){
+                withAnimation(.easeIn(duration: 4)){
                     size = 1.5
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4){
                     isActive = true
                 }
             }

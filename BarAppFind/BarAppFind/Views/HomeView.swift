@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var trendingIndex = 0
+    @EnvironmentObject var map: MapViewModel
     @EnvironmentObject var cloud: CloudKitCRUD
     @State private var showSignIn: Bool = false
     @State private var showSignInList: Bool = false
@@ -143,10 +144,15 @@ struct HomeView: View {
                         if resultado{
                             print("loguei automatico")
                         }
-                        else{
-                        }
                     }
-                } else {
+                }
+            }
+            map.chekIfLocationService{ permission in
+                if permission{
+                    for i in 0..<cloud.barsList.count{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
+                    }
+                    cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
                 }
             }
         }
