@@ -46,6 +46,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     //    @Published var heading: CLHeading? = nil
     @Published var userLocation: MKCoordinateRegion?
     @Published var region = MKCoordinateRegion(center: MapDetails.initialCoordinate , span: MapDetails.defaultSpan)
+    @Published var userCLlocation2d: CLLocationCoordinate2D?
     
     var locationManager: CLLocationManager?
     
@@ -70,16 +71,16 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func chekIfLocationService(completion: @escaping(Bool) -> Void) {
-        //        DispatchQueue.main.async {
-        if CLLocationManager.locationServicesEnabled() {
-            self.locationManager = CLLocationManager()
-            self.locationManager!.delegate = self
-            completion(true)
-        }else{
-            print("location servise desable, please enable for a better experience.")
-            completion(false)
+        DispatchQueue.main.async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.locationManager = CLLocationManager()
+                self.locationManager!.delegate = self
+                completion(true)
+            }else{
+                print("location servise desable, please enable for a better experience.")
+                completion(false)
+            }
         }
-        //        }
     }
     
     //    func checkForLocation() {
@@ -109,6 +110,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 //                locationManager.startUpdatingHeading()
                 //                self.heading = locationManager.heading
                 if let a = locationManager.location?.coordinate {
+                    self.userCLlocation2d = a
                     self.userLocation = MKCoordinateRegion(center: a,
                                                            span:  MapDetails.defaultSpan)
                 }
