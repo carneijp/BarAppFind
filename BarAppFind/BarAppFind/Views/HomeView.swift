@@ -79,7 +79,7 @@ struct HomeView: View {
                                                 .toolbarRole(.editor)
                                             
                                         } label: {
-                                            MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
+                                            MoodComponent(moodName: moodsName[index])
                                         }
                                     }
                                 }
@@ -106,7 +106,7 @@ struct HomeView: View {
                                     }
 
                                 }
-                                .padding(.bottom, 10)
+                                .padding(.bottom, 16)
                                 
                                 ForEach(cloud.barsList, id: \.self) { bar in
                                     NavigationLink {
