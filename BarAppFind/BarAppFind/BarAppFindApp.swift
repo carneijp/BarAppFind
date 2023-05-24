@@ -12,6 +12,7 @@ struct BarAppFindApp: App {
     var body: some Scene {
         WindowGroup {
             SplashScreen()
+                .environmentObject(MapViewModel())
                 .environmentObject(CloudKitCRUD())
         }
     }

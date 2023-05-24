@@ -50,6 +50,7 @@ class Bar: ObservableObject, Hashable, Identifiable {
     var regiao: String
     var coordinate: CLLocationCoordinate2D
     var linktInsta: String = ""
+    var distanceFromUser: Double = 0.0
     
     
     init(name: String, description: String, mood: [String], grade: Double, latitude: Double, longitude: Double, operatinhours: [String], endereco: String, regiao: String, caracteristicas: [String]) {
@@ -75,18 +76,12 @@ class Bar: ObservableObject, Hashable, Identifiable {
         self.photosToUse = photosToUSE
     }
     
-//    private func mediaGrade(){
-//        
-//        
-//        
-//        
-//    }
-//    func recieveAllReviews(){
-//        cloud.fetchItemsReview(barName: self.name){
-//            self.reviews = self.cloud.reviewListByBar
-//        }
-//        
-//    }
+    func calculateDistance(userLocation: CLLocationCoordinate2D){
+        let userlatitude: Double = userLocation.latitude
+        let userLongitude: Double = userLocation.longitude
+        let distance: Double = sqrt(pow((self.latitude - userlatitude), 2) + pow((self.longitude - userLongitude), 2)) * 112.35
+        self.distanceFromUser = distance
+    }
     
 }
 

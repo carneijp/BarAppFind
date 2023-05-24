@@ -18,7 +18,7 @@ enum MapStyle {
 struct MapView: View {
     @State var barsList: [Bar] = []
     var bar: Bar?
-    @ObservedObject var viewModel = MapViewModel()
+    @EnvironmentObject var viewModel: MapViewModel
     @EnvironmentObject var cloud: CloudKitCRUD
     let mapStyle: MapStyle
     @State var shownBar: Bar?
