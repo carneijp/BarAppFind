@@ -24,11 +24,11 @@ struct BarInformationView: View {
                 .padding(.vertical)
             HStack {
                 Text("\(bar.endereco)")
+                    .textSelection(.enabled)
                     .lineLimit(nil)
                     .multilineTextAlignment(.leading)
                 
             }
-            
             MapView(bar: self.bar, mapStyle: .compact)
                 .frame(height: 129)
                 .cornerRadius(10)
