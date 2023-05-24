@@ -14,9 +14,15 @@ struct BarListView: View {
     @State private var viewIndex: Int = 1
     @State var searchText = ""
     @State var isLoading: Bool = true
+    private var searchBar: [Bar] {
+        if searchText.isEmpty {
+            return cloud.barsList
+        } else {
+            return cloud.barsList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
     
     var body: some View {
-        
         ZStack {
             ScrollView {
                 VStack {
@@ -34,15 +40,8 @@ struct BarListView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 20)
                 .padding(.bottom, 130)
-                .searchable(text: $searchText, prompt: "Nome do bar") {
-                    ForEach(searchBar) { result in
-                        Text(result.name).searchCompletion(result.name)
-                    }
-                }
-                
             }
-            .navigationTitle("Todos os Bares")
-            .navigationBarTitleDisplayMode(.inline)
+//            .padding(.top, 20)
             
             if isLoading {
                 LoadingViewModel()
@@ -53,24 +52,18 @@ struct BarListView: View {
         }
         .padding(.top, 130)
         .onAppear() {
-            cloud.fetchBars() { result in
-                if result {
-                    self.isLoading = false
-                }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                self.isLoading = false
+            }
+        }
+        .navigationTitle("Todos os Bares")
+        .navigationBarTitleDisplayMode(.inline)
+        .searchable(text: $searchText, prompt: "Nome do bar") {
+            ForEach(searchBar) { result in
+                Text(result.name).searchCompletion(result.name)
             }
         }
     }
-    
-    var searchBar: [Bar] {
-        if searchText.isEmpty {
-            return cloud.barsList
-        } else {
-            return cloud.barsList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-        }
-    }
-    
-    
-    
 }
 
 //struct BarListView_Previews: PreviewProvider {

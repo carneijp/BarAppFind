@@ -195,12 +195,12 @@ struct BarPageView: View {
                     }
                 }
                 .padding(.bottom, 130)
-                .onAppear(){
-                    self.isLoading = true
-                    
-                    cloud.fetchBar(barName: barname) { bar in
-                        self.bar = bar
-                        self.isLoading = false
+                .onAppear() {
+                    if bar?.name != barname {
+                        cloud.fetchBar(barName: barname) { bar in
+                            self.bar = bar
+                            self.isLoading = false
+                        }
                     }
                     
                     self.cloud.reviewListByBar = []

@@ -29,8 +29,6 @@ struct LoadingViewModel: View {
         }
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         .background()
-        .navigationTitle("Loading...")
-        .navigationBarTitleDisplayMode(.inline)
 //        .onAppear() {
 //            withAnimation(Animation.linear(duration: 2.5).repeatForever()) {
 //                progress = 0.92

@@ -14,7 +14,6 @@ struct HomeView: View {
     @State private var showSignInList: Bool = false
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-//    @State private var showSerafini: Bool = false
 
     
     var body: some View {
