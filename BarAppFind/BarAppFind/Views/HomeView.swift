@@ -15,8 +15,8 @@ struct HomeView: View {
     @State private var showSignInList: Bool = false
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-//    @State private var showSerafini: Bool = false
-
+    //    @State private var showSerafini: Bool = false
+    
     
     var body: some View {
         ZStack {
@@ -92,9 +92,9 @@ struct HomeView: View {
                             //Bars Section
                             VStack {
                                 HStack {
-                                        Text("Sugestões de Onde ir hoje...")
-                                            .font(.system(size: 16))
-                            
+                                    Text("Sugestões de Onde ir hoje...")
+                                        .font(.system(size: 16))
+                                    
                                     Spacer()
                                     
                                     NavigationLink {
@@ -105,7 +105,7 @@ struct HomeView: View {
                                             .font(.system(size: 16))
                                             .foregroundColor(.primary)
                                     }
-
+                                    
                                 }
                                 .padding(.bottom, 10)
                                 
@@ -133,16 +133,26 @@ struct HomeView: View {
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
             
-//            SerafiniComponent(isShow: $showSerafini)
-
+            //            SerafiniComponent(isShow: $showSerafini)
+            
         }
         .onAppear() {
             if cloud.client == nil{
+                if let savedUserID = UserDefaults.standard.string(forKey: "UserID"){
+                    if savedUserID != nil && savedUserID != ""{
+//                        cloud
+                    }
+                }
+                
+                
+                
                 if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
                    let savedPassword = UserDefaults.standard.string(forKey: "Password"){
-                    cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
-                        if resultado{
-                            print("loguei automatico")
+                    if savedLogin != "" && savedPassword != ""{
+                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
+                            if resultado{
+                                print("loguei automatico")
+                            }
                         }
                     }
                 }

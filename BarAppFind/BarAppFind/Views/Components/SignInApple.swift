@@ -9,11 +9,12 @@ import SwiftUI
 import AuthenticationServices
 
 struct SignInApple: View {
+    @EnvironmentObject var cloud: CloudKitCRUD
     @Environment(\.colorScheme) var colorScheme
-    @AppStorage("email") var email: String = ""
-    @AppStorage("firstName") var firstName: String = ""
-    @AppStorage("lastName") var lastName: String = ""
-    @AppStorage("userId") var userId: String = ""
+    @AppStorage("Email") var email: String = ""
+    @AppStorage("FirstName") var firstName: String = ""
+    @AppStorage("LastName") var lastName: String = ""
+    @AppStorage("UserID") var userId: String = ""
     var body: some View {
         VStack{
             SignInWithAppleButton { request in
@@ -33,6 +34,23 @@ struct SignInApple: View {
                         self.userId = userId
                         self.lastName = lastName ?? ""
                         self.firstName = firstName ?? ""
+                        
+                        
+                        cloud.addUserID(clients: Clients(email: self.email, firstName: self.firstName, lastName: self.lastName, userID: self.userId)) { result in
+    
+                            cloud.validadeClientLoginWithApple(userID: self.userId) { result in
+                                if result{
+                                    print("Loguei com apple id")
+                                }
+                                else{
+                                    print("Nao loguei com apple id")
+                                }
+                            }
+                        }
+                        
+                        
+                        
+                        
                     default:
                         break
                     }
