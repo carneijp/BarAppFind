@@ -139,8 +139,12 @@ struct HomeView: View {
         .onAppear() {
             if cloud.client == nil{
                 if let savedUserID = UserDefaults.standard.string(forKey: "UserID"){
-                    if savedUserID != nil && savedUserID != ""{
-//                        cloud
+                    if savedUserID != ""{
+                        cloud.validadeClientLoginWithApple(userID: savedUserID) { saida in
+                            if saida{
+                                print("loguei automaticamente com a apple")
+                            }
+                        }
                     }
                 }
                 
