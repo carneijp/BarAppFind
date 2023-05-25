@@ -628,7 +628,7 @@ class CloudKitCRUD: ObservableObject {
             addDataBaseOperation(operation: queryOperation)
         }
         else{
-            let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(client.email)"])
+            let predicate = NSPredicate(format: "Email = %@ && UserID", argumentArray: ["\(client.email)", ""])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
 //            queryOperation.resultsLimit = 50
