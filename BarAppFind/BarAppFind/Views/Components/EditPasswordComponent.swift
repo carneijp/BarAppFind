@@ -59,7 +59,13 @@ struct EditPasswordComponent: View {
                 .padding(.horizontal, 24)
             
             Button {
-                print("aa")
+                if password == confirmPassword{
+                    if let cliente = cloud.client{
+                        cloud.changeUserPassword(client: cliente, password: password)
+                    }
+                }else{
+                    print("Invalida password")
+                }
                 
             }label : {
                 Text("Salvar")

@@ -786,4 +786,23 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
+    func changeUserPassword(client: Clients, password: String){
+        let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
+        let query = CKQuery(recordType: "Clients", predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
+        
+        if #available(iOS 15.0, *){
+            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                switch returnedResult{
+                case .success(let clientChanges):
+                    clientChanges["Password"] = password
+                    self.saveItemPublic(record: clientChanges)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+            }
+        }
+        addDataBaseOperation(operation: queryOperation)
+    }
+    
 }
