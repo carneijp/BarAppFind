@@ -100,6 +100,7 @@ struct SignInComponent: View {
                 .background(Color("darkBlueGradient"))
                 .cornerRadius(10)
                     
+                SignInApple()
                 
                 Spacer()
                 
