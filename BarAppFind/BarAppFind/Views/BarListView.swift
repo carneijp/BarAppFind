@@ -38,10 +38,9 @@ struct BarListView: View {
                     }
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 20)
+                .padding(.top, 35)
                 .padding(.bottom, 130)
             }
-//            .padding(.top, 20)
             
             if isLoading {
                 LoadingViewModel()
@@ -57,8 +56,7 @@ struct BarListView: View {
             }
         }
         .navigationTitle("Todos os Bares")
-        .navigationBarTitleDisplayMode(.inline)
-        .searchable(text: $searchText, prompt: "Nome do bar") {
+        .searchable(text: $searchText, prompt: "Digite o nome do bar") {
             ForEach(searchBar) { result in
                 Text(result.name).searchCompletion(result.name)
             }
