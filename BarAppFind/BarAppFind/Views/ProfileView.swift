@@ -251,24 +251,28 @@ struct ProfileView: View {
                                 .cornerRadius(10)
                             }
                             
-                            Text("Detalhes da conta")
+                            Text("Segurança")
                                 .font(.system(size: 18))
                                 .foregroundColor(.secondary)
                                 .padding(.top, 30)
                                 .padding(.bottom, 17)
-                            HStack{
-                                Text("Senhas")
-                                    .font(.system(size: 18))
-                                    .foregroundColor(.secondary)
-                                Spacer()
-                            }
-                            .padding(.all)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
-                            .padding(.bottom, 10)
-                            .onTapGesture {
-                                editPasswords = true
+                            if let cliente = cloud.client {
+                                if cliente.userID == ""{
+                                    HStack{
+                                        Text("Senhas")
+                                            .font(.system(size: 18))
+                                            .foregroundColor(.secondary)
+                                        Spacer()
+                                    }
+                                    .padding(.all)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 2)
+                                    .padding(.bottom, 10)
+                                    .onTapGesture {
+                                        editPasswords = true
+                                    }
+                                }
                             }
                         }
                         .padding(.horizontal, 24)

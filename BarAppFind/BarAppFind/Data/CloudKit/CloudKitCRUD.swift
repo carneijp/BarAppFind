@@ -103,7 +103,6 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
         }
     }
-//    tem que arrumar o addreview para funcionar igual funciona o add bar and add user
     
     func addReview(review: Review) {
         var jaExiste: Bool = false
@@ -396,7 +395,7 @@ class CloudKitCRUD: ObservableObject {
     }
     
     func validateClientLogin(email: String, password: String, completion: @escaping (Bool) -> Void) {
-        let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(email)"])
+        let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(email)", ""])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         
         CKContainer.default().publicCloudDatabase.fetch(withQuery: query) { (result: Result<(matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?), Error>) in
@@ -461,7 +460,8 @@ class CloudKitCRUD: ObservableObject {
                             guard let Badges = record["Badges"] as? [String] else { return }
                             guard let Favorites = record["Favorites"] as? [String] else { return }
                             guard let Level = record["Level"] as? Int else { return }
-                            let clients = Clients(email: Email, firstName: FirtName, lastName: LastName)
+                            guard let UserId =  record["UserID"] as? String else { return }
+                            let clients = Clients(email: Email, firstName: FirtName, lastName: LastName, userID: UserId)
                             clients.level = Level
                             clients.badges = Badges
                             clients.favorites = Favorites
@@ -482,8 +482,7 @@ class CloudKitCRUD: ObservableObject {
             }
         }
     }
-    
-    
+
     func fetchBars(cursor: CKQueryOperation.Cursor? = nil, completion: @escaping (Bool) -> Void) {
         if(cursor == nil) {
             self.barsList = []
@@ -604,7 +603,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func addFavoriteBar(client: Clients, barName: String){
+    func addFavoriteBar(client: Clients, barName: String) {
         
         if client.userID != ""{
             let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
@@ -628,7 +627,7 @@ class CloudKitCRUD: ObservableObject {
             addDataBaseOperation(operation: queryOperation)
         }
         else{
-            let predicate = NSPredicate(format: "Email = %@ && UserID", argumentArray: ["\(client.email)", ""])
+            let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
 //            queryOperation.resultsLimit = 50
@@ -652,7 +651,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func removeFavoriteBar(client: Clients, barName: String){
+    func removeFavoriteBar(client: Clients, barName: String) {
         if client.userID != "" {
             let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
@@ -676,7 +675,7 @@ class CloudKitCRUD: ObservableObject {
             addDataBaseOperation(operation: queryOperation)
         }
         else{
-            let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(client.email)"])
+            let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
 
@@ -700,7 +699,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func changeGrade(grade: Double, barName: String){
+    func changeGrade(grade: Double, barName: String) {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
@@ -720,7 +719,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func nextLevel(client: Clients){
+    func nextLevel(client: Clients) {
         let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(client.email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
@@ -742,8 +741,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    
-    func changeUserInfo(client: Clients){
+    func changeUserInfo(client: Clients) {
         if client.userID != "" {
             let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
@@ -766,7 +764,7 @@ class CloudKitCRUD: ObservableObject {
         }
         // caso o usuario tenha se cadastrado com email, verifica esta aba
         else{
-            let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(client.email)"])
+            let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
             

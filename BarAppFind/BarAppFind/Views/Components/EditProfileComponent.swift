@@ -68,10 +68,13 @@ struct EditProfileComponent: View {
                 .padding(.horizontal, 24)
             
             Button {
-                print(firstName)
-                print(lastName)
-                print(email)
-                
+                if let cliente = cloud.client{
+                    cliente.firstName = firstName
+                    cliente.lastName = lastName
+                    cliente.email = email
+                    cloud.changeUserInfo(client: cliente)
+                }
+                presentation.wrappedValue.dismiss()
             }label : {
                 Text("Salvar")
                     .foregroundColor(Color("white"))
