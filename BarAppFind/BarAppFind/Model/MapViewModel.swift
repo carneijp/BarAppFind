@@ -43,44 +43,56 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var chosen: MapDetails? = nil
     @Published var latitude: Double? = nil
     @Published var longitude: Double? = nil
-//    @Published var heading: CLHeading? = nil
+    //    @Published var heading: CLHeading? = nil
     @Published var userLocation: MKCoordinateRegion?
     @Published var region = MKCoordinateRegion(center: MapDetails.initialCoordinate , span: MapDetails.defaultSpan)
+    @Published var userCLlocation2d: CLLocationCoordinate2D?
     
     var locationManager: CLLocationManager?
     
     func wheretoZoom(){
-            self.chekIfLocationService()
-            if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
-                self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
-            }else if let location = self.chosen{
-                self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
-            }else if let user = self.userLocation{
-                self.region = user
+        self.chekIfLocationService(){ result in
+            if result{
+                if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
+                    self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+                }else if let location = self.chosen{
+                    self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
+                }else if let user = self.userLocation{
+                    self.region = user
+                }
+            }else{
+                if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
+                    self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+                }else if let location = self.chosen{
+                    self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
+                }
             }
         }
+    }
     
-    func chekIfLocationService() {
-//        DispatchQueue.main.async {
+    func chekIfLocationService(completion: @escaping(Bool) -> Void) {
+        DispatchQueue.main.async {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager = CLLocationManager()
                 self.locationManager!.delegate = self
+                completion(true)
             }else{
                 print("location servise desable, please enable for a better experience.")
+                completion(false)
             }
-//        }
+        }
     }
     
-//    func checkForLocation() {
-//        DispatchQueue.global().async {
-//            if CLLocationManager.locationServicesEnabled() {
-//                self.locationManager = CLLocationManager()
-//                self.locationManager!.delegate = self
-//            }else{
-//                print("location servise desable, please enable for a better experience.")
-//            }
-//        }
-//    }
+    //    func checkForLocation() {
+    //        DispatchQueue.global().async {
+    //            if CLLocationManager.locationServicesEnabled() {
+    //                self.locationManager = CLLocationManager()
+    //                self.locationManager!.delegate = self
+    //            }else{
+    //                print("location servise desable, please enable for a better experience.")
+    //            }
+    //        }
+    //    }
     
     private func checkLocationPermission() {
         
@@ -95,9 +107,10 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
             print("You have denied location permission, you can change on settings.")
         case .authorizedAlways, .authorizedWhenInUse:
             DispatchQueue.main.async {
-//                locationManager.startUpdatingHeading()
-//                self.heading = locationManager.heading
+                //                locationManager.startUpdatingHeading()
+                //                self.heading = locationManager.heading
                 if let a = locationManager.location?.coordinate {
+                    self.userCLlocation2d = a
                     self.userLocation = MKCoordinateRegion(center: a,
                                                            span:  MapDetails.defaultSpan)
                 }

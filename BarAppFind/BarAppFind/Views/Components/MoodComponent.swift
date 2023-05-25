@@ -8,17 +8,14 @@
 import SwiftUI
 
 struct MoodComponent: View {
-    var moodImage: String
     var moodName: String
     
     var body: some View {
         VStack {
-            Image(moodImage)
+            Image(moodName)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 110, height: 100)
-//                .padding(.bottom, 10)
-
             
             Text(moodName)
                 .font(.system(size: 14))
@@ -35,6 +32,6 @@ struct MoodComponent: View {
 
 struct MoodComponent_Previews: PreviewProvider {
     static var previews: some View {
-        MoodComponent(moodImage: "Família", moodName: "Família")
+        MoodComponent(moodName: "Família")
     }
 }

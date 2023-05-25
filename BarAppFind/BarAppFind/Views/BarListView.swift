@@ -12,13 +12,21 @@ struct BarListView: View {
     @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
     @State private var viewIndex: Int = 1
+    @State var searchText = ""
+    @State var isLoading: Bool = true
+    private var searchBar: [Bar] {
+        if searchText.isEmpty {
+            return cloud.barsList
+        } else {
+            return cloud.barsList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
     
     var body: some View {
-
         ZStack {
             ScrollView {
                 VStack {
-                    ForEach(cloud.barsList, id: \.self) { bar in
+                    ForEach(searchBar, id: \.self) { bar in
                         NavigationLink {
                             BarPageView(barname: bar.name)
                                 .toolbarRole(.editor)
@@ -30,22 +38,29 @@ struct BarListView: View {
                     }
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 20)
+                .padding(.top, 35)
                 .padding(.bottom, 130)
+            }
+            
+            if isLoading {
+                LoadingViewModel()
+                    .padding(.bottom, 130)
             }
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
         .padding(.top, 130)
-        .navigationTitle("Todos os Bares")
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
-            if cloud.barsList.count != 10 {
-                cloud.fetchBars()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                self.isLoading = false
             }
         }
-
-
+        .navigationTitle("Todos os Bares")
+        .searchable(text: $searchText, prompt: "Digite o nome do bar") {
+            ForEach(searchBar) { result in
+                Text(result.name).searchCompletion(result.name)
+            }
+        }
     }
 }
 

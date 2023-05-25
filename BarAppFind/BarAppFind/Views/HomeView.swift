@@ -9,13 +9,12 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var trendingIndex = 0
+    @EnvironmentObject var map: MapViewModel
     @EnvironmentObject var cloud: CloudKitCRUD
     @State private var showSignIn: Bool = false
     @State private var showSignInList: Bool = false
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-//    @State private var showSerafini: Bool = false
-
     
     var body: some View {
         ZStack {
@@ -79,7 +78,7 @@ struct HomeView: View {
                                                 .toolbarRole(.editor)
                                             
                                         } label: {
-                                            MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
+                                            MoodComponent(moodName: moodsName[index])
                                         }
                                     }
                                 }
@@ -91,9 +90,9 @@ struct HomeView: View {
                             //Bars Section
                             VStack {
                                 HStack {
-                                        Text("Sugestões de Onde ir hoje...")
-                                            .font(.system(size: 16))
-                            
+                                    Text("Sugestões de Onde ir hoje...")
+                                        .font(.system(size: 16))
+                                    
                                     Spacer()
                                     
                                     NavigationLink {
@@ -104,9 +103,9 @@ struct HomeView: View {
                                             .font(.system(size: 16))
                                             .foregroundColor(.primary)
                                     }
-
+                                    
                                 }
-                                .padding(.bottom, 10)
+                                .padding(.bottom, 16)
                                 
                                 ForEach(cloud.barsList, id: \.self) { bar in
                                     NavigationLink {
@@ -132,21 +131,40 @@ struct HomeView: View {
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
             
-//            SerafiniComponent(isShow: $showSerafini)
-
+            //            SerafiniComponent(isShow: $showSerafini)
+            
         }
         .onAppear() {
             if cloud.client == nil{
-                if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
-                   let savedPassword = UserDefaults.standard.string(forKey: "Password"){
-                    cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
-                        if resultado{
-                            print("loguei automatico")
-                        }
-                        else{
+                if let savedUserID = UserDefaults.standard.string(forKey: "UserID"){
+                    if savedUserID != ""{
+                        cloud.validadeClientLoginWithApple(userID: savedUserID) { saida in
+                            if saida{
+                                print("loguei automaticamente com a apple")
+                            }
                         }
                     }
-                } else {
+                }
+                
+                
+                
+                if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
+                   let savedPassword = UserDefaults.standard.string(forKey: "Password"){
+                    if savedLogin != "" && savedPassword != ""{
+                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
+                            if resultado{
+                                print("loguei automatico")
+                            }
+                        }
+                    }
+                }
+            }
+            map.chekIfLocationService{ permission in
+                if permission{
+                    for i in 0..<cloud.barsList.count{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
+                    }
+                    cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
                 }
             }
         }

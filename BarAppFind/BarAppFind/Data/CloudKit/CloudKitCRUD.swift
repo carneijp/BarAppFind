@@ -191,6 +191,7 @@ class CloudKitCRUD: ObservableObject {
                     newClient["Badges"] = ["Badge1"]
                     newClient["Favorites"] = ["Favorite1"]
                     newClient["Level"] = clients.level
+                    newClient["UserID"] = clients.userID
                     self.saveItemPublic(record: newClient)
                     completion()
                 }
@@ -200,6 +201,55 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
         
         
+    }
+    
+    func addUserID(clients: Clients, completion: @escaping (Bool) -> Void) {
+        var jaExiste: Bool = false
+        let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(clients.userID)"])
+        let query = CKQuery(recordType: "Clients", predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
+        
+        if #available(iOS 15.0, *){
+            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                switch returnedResult{
+                case .success(let record):
+                    jaExiste = true
+                    print("Result: ", record)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+                
+            }
+            
+            queryOperation.queryResultBlock = { returnedResult in
+                switch returnedResult {
+                case .success(let record):
+                    print("result2", record as Any)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+                
+                if(jaExiste) {
+                    print("Já existe usuário com este NickName.")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
+                    completion(false)
+                }
+                else {
+                    let newClient = CKRecord(recordType: "Clients")
+                    newClient["Email"] = clients.email
+                    newClient["FirstName"] = clients.firstName
+                    newClient["LastName"] = clients.lastName
+                    newClient["Password"] = clients.password
+                    newClient["Badges"] = ["Badge1"]
+                    newClient["Favorites"] = ["Favorite1"]
+                    newClient["Level"] = clients.level
+                    newClient["UserID"] = clients.userID
+                    self.saveItemPublic(record: newClient)
+                    completion(true)
+                }
+            }
+        }
+        addDataBaseOperation(operation: queryOperation)
     }
     
     func addCity(cidade: City) {
@@ -392,7 +442,49 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func fetchBars(cursor: CKQueryOperation.Cursor? = nil) {
+    func validadeClientLoginWithApple(userID: String, completion: @escaping (Bool) -> Void) {
+        let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(userID)"])
+        let query = CKQuery(recordType: "Clients", predicate: predicate)
+        
+        CKContainer.default().publicCloudDatabase.fetch(withQuery: query) { (result: Result<(matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?), Error>) in
+            switch result {
+            case .success(let success):
+                // Se verdadeiro, signfica que existe algum usuário, se não, não existe
+                if success.matchResults.count > 0 {
+                    for element in success.matchResults {
+                        switch element.1 {
+                        case .success(let record):
+                            guard let Email = record["Email"] as? String else { return }
+                            guard let LastName = record["LastName"] as? String else { return }
+                            guard let FirtName = record["FirstName"] as? String else { return }
+//                            guard let Password = record["Password"] as? String else { return }
+                            guard let Badges = record["Badges"] as? [String] else { return }
+                            guard let Favorites = record["Favorites"] as? [String] else { return }
+                            guard let Level = record["Level"] as? Int else { return }
+                            let clients = Clients(email: Email, firstName: FirtName, lastName: LastName)
+                            clients.level = Level
+                            clients.badges = Badges
+                            clients.favorites = Favorites
+                            
+                            DispatchQueue.main.async {
+                                self.client = clients
+                            }
+                            completion(true)
+                        case .failure(let err):
+                            print(err.localizedDescription)
+                            completion(false)
+                        }
+                    }
+                }
+            case .failure(let failure):
+                print(failure.localizedDescription)
+                completion(false)
+            }
+        }
+    }
+    
+    
+    func fetchBars(cursor: CKQueryOperation.Cursor? = nil, completion: @escaping (Bool) -> Void) {
         if(cursor == nil) {
             self.barsList = []
         }
@@ -425,16 +517,6 @@ class CloudKitCRUD: ObservableObject {
                     var returnedPhotos: [URL] = []
                     guard let imageURL = imageAsset[0].fileURL else { return }
                     returnedPhotos.append(imageURL)
-//                    var media: Double = 0.0
-//                    self.fetchItemsReview(barName: barName) {
-//                        let countBars = self.reviewListByBar.count
-//                        if countBars == 0{
-//                            media = 5.0
-//                        }else{
-//                            let grade = self.reviewListByBar.map{$0.grade}.reduce(0, +)
-//                            media = Double(grade) / Double(countBars)
-//                        }
-//                    }
                     
                     let bar: Bar = Bar(name: barName, description: description, mood: mood, grade: grade, latitude: latitude, longitude: longitude, operatinhours: operationHours, endereco: address, regiao: region, caracteristicas: characteristics)
                     bar.recieveLogoPhoto(logo: imageLogoPhoto)
@@ -457,10 +539,19 @@ class CloudKitCRUD: ObservableObject {
                 switch returnedResult {
                 case .success(let cursor):
                     if cursor != nil {
-                        self?.fetchBars(cursor: cursor)
+                        self?.fetchBars(cursor: cursor) { result in
+                            if result {
+                                completion(true)
+                            } else {
+                                completion(false)
+                            }
+                        }
+                    } else {
+                        completion(true)
                     }
                 case .failure(let err):
                     print(err.localizedDescription)
+                    completion(true)
                 }
             }
         }
