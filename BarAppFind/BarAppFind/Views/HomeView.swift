@@ -15,8 +15,6 @@ struct HomeView: View {
     @State private var showSignInList: Bool = false
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-    //    @State private var showSerafini: Bool = false
-    
     
     var body: some View {
         ZStack {
@@ -80,7 +78,7 @@ struct HomeView: View {
                                                 .toolbarRole(.editor)
                                             
                                         } label: {
-                                            MoodComponent(moodImage: moodsImage[index], moodName: moodsName[index])
+                                            MoodComponent(moodName: moodsName[index])
                                         }
                                     }
                                 }
@@ -107,7 +105,7 @@ struct HomeView: View {
                                     }
                                     
                                 }
-                                .padding(.bottom, 10)
+                                .padding(.bottom, 16)
                                 
                                 ForEach(cloud.barsList, id: \.self) { bar in
                                     NavigationLink {

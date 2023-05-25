@@ -14,9 +14,15 @@ struct BarListView: View {
     @State private var viewIndex: Int = 1
     @State var searchText = ""
     @State var isLoading: Bool = true
+    private var searchBar: [Bar] {
+        if searchText.isEmpty {
+            return cloud.barsList
+        } else {
+            return cloud.barsList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        }
+    }
     
     var body: some View {
-
         ZStack {
             ScrollView {
                 VStack {
@@ -32,46 +38,30 @@ struct BarListView: View {
                     }
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 20)
+                .padding(.top, 35)
                 .padding(.bottom, 130)
-            }
-            .searchable(text: $searchText, prompt: "Nome do bar") {
-                    ForEach(searchBar) { result in
-                        Text(result.name).searchCompletion(result.name)
-                    }
             }
             
             if isLoading {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
+                LoadingViewModel()
+                    .padding(.bottom, 130)
             }
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
         .padding(.top, 130)
-        .navigationTitle("Todos os Bares")
-        .navigationBarTitleDisplayMode(.inline)
         .onAppear() {
-            self.isLoading = true
-            cloud.fetchBars() { result in
-                if result {
-                    self.isLoading = false
-                }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                self.isLoading = false
             }
         }
-        
-    }
-    
-    var searchBar: [Bar] {
-        if searchText.isEmpty {
-            return cloud.barsList
-        } else {
-            return cloud.barsList.filter { $0.name.lowercased().contains(searchText.lowercased()) }
+        .navigationTitle("Todos os Bares")
+        .searchable(text: $searchText, prompt: "Digite o nome do bar") {
+            ForEach(searchBar) { result in
+                Text(result.name).searchCompletion(result.name)
+            }
         }
     }
-    
-    
-    
 }
 
 //struct BarListView_Previews: PreviewProvider {
