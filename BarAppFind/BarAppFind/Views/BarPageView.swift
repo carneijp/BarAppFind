@@ -26,7 +26,8 @@ struct BarPageView: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     @State private var showSignInAlert: Bool = false
     @State var isLoading: Bool = true
-    
+    @State private var viewIndex: Int = 1
+    @State private var showReviewError: Bool = false
     
     var body: some View {
         
@@ -173,11 +174,11 @@ struct BarPageView: View {
                             VStack{
                                 if let client = cloud.client {
                                     if cloud.reviewListByBar.filter( { client.firstName == $0.writerName } ).count == 0 {
-                                        TextFieldComponent(barName: self.barname)
+                                        TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
                                             .padding(.bottom)
                                     }
                                 } else {
-                                    TextFieldComponent(barName: self.barname)
+                                    TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
                                         .padding(.bottom)
                                 }
                                 
@@ -190,6 +191,7 @@ struct BarPageView: View {
                                     EmptyViewReviews()
                                 }
                             }
+                            .padding(.bottom, 50)
                             .padding(.top)
                         }
                     }
@@ -216,7 +218,10 @@ struct BarPageView: View {
                     .padding(.bottom, 130)
             }
             
-            LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInAlert)
+            LoginAlertComponent(title: "Login Necessário!", description: "Para avalar este bar, realize o seu login!", isShow: $showSignInAlert)
+            
+            ReviewAlertComponent(title: "Avaliação Necessária!", description: "Para prosseguir, é necessário atribuir pelo menos uma estrela à avaliação deste bar.", isShow: $showReviewError)
+            
         }
         .padding(.top, 130)
     }
