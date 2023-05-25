@@ -21,6 +21,7 @@ struct ProfileView: View {
     @State private var showMedalConquest: Bool = false
     @State private var medalName: String = ""
     @State private var editProfile: Bool = false
+    @State private var editPasswords: Bool = false
     
     //    @State private var showAnimation: Bool = true
     
@@ -233,14 +234,41 @@ struct ProfileView: View {
                             .shadow(radius: 2)
                             .padding(.bottom, 10)
                             
-                            Button(){
-                                if cloud.client != nil{
-                                    editProfile = true
-                                }else {
-                                    isPresented = true
+                            HStack{
+                                Spacer()
+                                Button(){
+                                    if cloud.client != nil{
+                                        editProfile = true
+                                    }else {
+                                        isPresented = true
+                                    }
+                                } label: {
+                                    Text("Alterar dados")
+                                        .foregroundColor(Color("white"))
+                                        .frame(width: 178, height: 53)
+                                        .background(Color("gray1"))
                                 }
-                            } label: {
-                                Text("Aqui")
+                                .cornerRadius(10)
+                            }
+                            
+                            Text("Detalhes da conta")
+                                .font(.system(size: 18))
+                                .foregroundColor(.secondary)
+                                .padding(.top, 30)
+                                .padding(.bottom, 17)
+                            HStack{
+                                Text("Senhas")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
+                            .padding(.all)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 2)
+                            .padding(.bottom, 10)
+                            .onTapGesture {
+                                editPasswords = true
                             }
                         }
                         .padding(.horizontal, 24)
@@ -261,6 +289,9 @@ struct ProfileView: View {
                 if let client = cloud.client {
                     EditProfileComponent(firstName: client.firstName, lastName: client.lastName, email: client.email)
                 }
+            }
+            .sheet(isPresented: $editPasswords){
+                EditPasswordComponent()
             }
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)

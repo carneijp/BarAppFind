@@ -177,8 +177,4 @@ struct AboutTheBar: View {
     }
 }
 
-//struct AboutTheBar_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AboutTheBar()
-//    }
-//}
+

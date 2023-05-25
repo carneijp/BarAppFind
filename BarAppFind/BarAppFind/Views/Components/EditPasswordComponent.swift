@@ -7,22 +7,20 @@
 
 import SwiftUI
 
-struct EditProfileComponent: View {
+struct EditPasswordComponent: View {
     @EnvironmentObject private var cloud: CloudKitCRUD
     @Environment(\.presentationMode) var presentation
 //    var cliente: Clients
-    @State var firstName: String
-    @State var lastName: String
-    @State var email: String
+    @State var password: String = ""
+    @State var confirmPassword: String = ""
     
     var body: some View {
         VStack{
             HStack{
-                Text("Alterar dados da conta")
+                Text("Alterar senha")
                     .font(.system(size: 16))
                     .bold()
                     .padding(.leading, UIScreen.main.bounds.width/3.7)
-                //                .background(.blue)
                 
                 Spacer()
                 
@@ -37,7 +35,7 @@ struct EditProfileComponent: View {
             .background(.secondary.opacity(0.05))
             .padding(.bottom, 30)
             HStack{
-                Text("Alterar dados da conta")
+                Text("Alterar senha")
                     .font(.system(size: 18))
                     .foregroundColor(.secondary)
                     .padding(.top, 30)
@@ -46,21 +44,14 @@ struct EditProfileComponent: View {
                 Spacer()
             }
             
-            TextField("Nome", text: $firstName, axis: .vertical)
+            TextField("Nova senha", text: $password, axis: .vertical)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
                 .foregroundColor(.primary)
                 .padding(.horizontal, 24)
             
-            TextField("Sobrenome", text: $lastName, axis: .vertical)
-                .lineLimit(1, reservesSpace: true)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
-                .foregroundColor(.primary)
-                .padding(.horizontal, 24)
-        
-            TextField("E-mail", text: $email, axis: .vertical)
+            TextField("Confirmar nova senha", text: $confirmPassword, axis: .vertical)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
@@ -68,9 +59,7 @@ struct EditProfileComponent: View {
                 .padding(.horizontal, 24)
             
             Button {
-                print(firstName)
-                print(lastName)
-                print(email)
+                print("aa")
                 
             }label : {
                 Text("Salvar")
@@ -86,9 +75,3 @@ struct EditProfileComponent: View {
         }
     }
 }
-
-//struct EditProfileComponent_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EditProfileComponent()
-//    }
-//}

@@ -40,9 +40,9 @@ struct BarInformationView: View {
                     Image("Uber")
                         .resizable()
                         .scaledToFit()
+                        .frame(width: 166, height: 47)
+                        .background(Color.black)
                 })
-                .frame(width: 166, height: 47)
-                .background(Color.black)
                 .cornerRadius(10)
                 
                 Spacer()
@@ -54,9 +54,9 @@ struct BarInformationView: View {
                         .resizable()
                         .scaledToFit()
                         .padding(.all, 5)
+                        .frame(width: 166, height: 47)
+                        .background(Color("amarelo"))
                 })
-                .frame(width: 166, height: 47)
-                .background(Color("amarelo"))
                 .cornerRadius(10)
             }
             .padding(.bottom)
