@@ -15,7 +15,8 @@ struct HomeView: View {
     @State private var showSignInList: Bool = false
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-//    @State private var showSerafini: Bool = false
+    @State var noInternet: Bool = false
+    @State var tentaNovamente: Bool = false
 
     
     var body: some View {
@@ -130,29 +131,45 @@ struct HomeView: View {
                     Spacer()
                 }
             }
+            ErrorView(noInternet: $noInternet)
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
             
 //            SerafiniComponent(isShow: $showSerafini)
 
         }
-        .onAppear() {
-            if cloud.client == nil{
-                if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
-                   let savedPassword = UserDefaults.standard.string(forKey: "Password"){
-                    cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
-                        if resultado{
-                            print("loguei automatico")
-                        }
+        .onChange(of: noInternet,perform: { newValue in
+            cloud.fetchBars(){ _ in
+                DispatchQueue.global().asyncAfter(deadline: .now() + 2){
+                    if cloud.barsList.count == 0 {
+                        noInternet = true
+                    }else{
+                        noInternet = false
                     }
                 }
             }
-            map.chekIfLocationService{ permission in
-                if permission{
-                    for i in 0..<cloud.barsList.count{
-                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
+        })
+        .onAppear() {
+            if cloud.barsList.count == 0 {
+                noInternet = true
+            }else{
+                if cloud.client == nil{
+                    if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
+                       let savedPassword = UserDefaults.standard.string(forKey: "Password"){
+                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
+                            if resultado{
+                                print("loguei automatico")
+                            }
+                        }
                     }
-                    cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
+                }
+                map.chekIfLocationService{ permission in
+                    if permission{
+                        for i in 0..<cloud.barsList.count{
+                            cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
+                        }
+                        cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
+                    }
                 }
             }
         }
