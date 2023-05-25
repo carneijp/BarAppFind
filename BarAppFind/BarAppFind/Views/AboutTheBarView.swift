@@ -113,17 +113,36 @@ struct AboutTheBar: View {
             .bold()
             .padding(.bottom, -8)
             .padding(.top, 10)
+            .padding(.bottom, 16)
         
         ScrollView(.horizontal, showsIndicators: false){
-            HStack{
-                let moods = bar.mood
-                ForEach(moods, id:\.self){ mood in
-                    MoodSmallComponent(moodName: mood)
-                        .padding(.vertical)
-                        .padding(.trailing, 10)
+            
+//            HStack(spacing: 16) {
+//                ForEach(moodsImage.indices, id: \.self) { index in
+//                    NavigationLink {
+//                        MoodListView(moodName: moodsName[index])
+//                            .toolbarRole(.editor)
+//
+//                    } label: {
+//                        MoodComponent(moodName: moodsName[index])
+//                    }
+//                }
+//            }
+//            .padding(.horizontal, 24)
+//            .padding(.bottom, 8)
+            
+            HStack(spacing: 14){
+//                let moods = bar.mood
+                ForEach(moodsImage.indices, id:\.self) { indexMood in
+                    NavigationLink {
+                        MoodListView(moodName: moodsName[indexMood])
+                            .toolbarRole(.editor)
+                    } label: {
+                        MoodSmallComponent(moodName: moodsName[indexMood])
+                    }
                 }
-                
             }
+            .padding(.bottom, 10)
             .padding(.horizontal, 24)
         }
         
