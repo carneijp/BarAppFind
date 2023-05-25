@@ -24,11 +24,11 @@ struct BarInformationView: View {
                 .padding(.vertical)
             HStack {
                 Text("\(bar.endereco)")
+                    .textSelection(.enabled)
                     .lineLimit(nil)
                     .multilineTextAlignment(.leading)
                 
             }
-            
             MapView(bar: self.bar, mapStyle: .compact)
                 .frame(height: 129)
                 .cornerRadius(10)
@@ -40,9 +40,9 @@ struct BarInformationView: View {
                     Image("Uber")
                         .resizable()
                         .scaledToFit()
+                        .frame(width: 166, height: 47)
+                        .background(Color.black)
                 })
-                .frame(width: 166, height: 47)
-                .background(Color.black)
                 .cornerRadius(10)
                 
                 Spacer()
@@ -54,9 +54,9 @@ struct BarInformationView: View {
                         .resizable()
                         .scaledToFit()
                         .padding(.all, 5)
+                        .frame(width: 166, height: 47)
+                        .background(Color("amarelo"))
                 })
-                .frame(width: 166, height: 47)
-                .background(Color("amarelo"))
                 .cornerRadius(10)
             }
             .padding(.bottom)
