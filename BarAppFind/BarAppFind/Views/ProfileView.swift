@@ -20,8 +20,10 @@ struct ProfileView: View {
     @State private var showFirstConquest: Bool = false
     @State private var showMedalConquest: Bool = false
     @State private var medalName: String = ""
-
-//    @State private var showAnimation: Bool = true
+    @State private var editProfile: Bool = false
+    @State private var editPasswords: Bool = false
+    
+    //    @State private var showAnimation: Bool = true
     
     // Opções da Tab Bar
     enum ChoiceProfile {
@@ -42,6 +44,7 @@ struct ProfileView: View {
                     .bold()
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
+//                    .padding(.leading, 24)
                 
                 
                 // Botão de Fazer Login
@@ -132,78 +135,145 @@ struct ProfileView: View {
                 
                 // MARK: - Conteúdo Tab Bar
                 switch topProfileChoice {
-                    
-                    // Conteúdo Tab. 1 - Minhas Conquistas
-                case .myConquests:
-                    ScrollView {
-                        VStack {
-                            // Primeira conquista do App
-                            HStack (spacing: 20) {
-                                Image("Primeiro Acesso")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(Color("gray1"))
-                                    .shadow(radius: 2, y: 2)
                         
-                                Text("Primeiro Acesso")
-                                    .font(.system(size: 16))
-                                    .bold()
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(Color("white"))
-                            }
-                            .padding(.vertical, 30)
-                            .padding(.horizontal, 10)
-                            .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
-                            .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                            .cornerRadius(12)
-                            .shadow(radius: 2, y: 2)
-                            .padding(.top, 20)
-                            .onTapGesture {
-                                showFirstConquest = true
-                            }
-
-                            LazyVGrid(columns: columns, spacing: 18) {
-                                ForEach(conquestMedals, id: \.self) { medal in
-                                    if cloud.client == nil {
-                                        MedalComponent(medalName: medal)
-                                            .foregroundColor(.gray)
-                                            .onTapGesture {
-                                                showMedalConquest = true
-                                                medalName = medal
-                                            }
-                                    } else {
-                                        MedalComponent(medalName: medal)
-                                            .onTapGesture {
-                                                showMedalConquest = true
-                                                medalName = medal
-                                            }
+                        // Conteúdo Tab. 1 - Minhas Conquistas
+                    case .myConquests:
+                        ScrollView {
+                            VStack {
+                                // Primeira conquista do App
+                                HStack (spacing: 20) {
+                                    Image("Primeiro Acesso")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 80, height: 80)
+                                        .foregroundColor(Color("gray1"))
+                                        .shadow(radius: 2, y: 2)
+                                    
+                                    Text("Primeiro Acesso")
+                                        .font(.system(size: 16))
+                                        .bold()
+                                        .multilineTextAlignment(.center)
+                                        .foregroundColor(Color("white"))
+                                }
+                                .padding(.vertical, 30)
+                                .padding(.horizontal, 10)
+                                .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
+                                .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .cornerRadius(12)
+                                .shadow(radius: 2, y: 2)
+                                .padding(.top, 20)
+                                .onTapGesture {
+                                    showFirstConquest = true
+                                }
+                                
+                                LazyVGrid(columns: columns, spacing: 18) {
+                                    ForEach(conquestMedals, id: \.self) { medal in
+                                        if cloud.client == nil {
+                                            MedalComponent(medalName: medal)
+                                                .foregroundColor(.gray)
+                                                .onTapGesture {
+                                                    showMedalConquest = true
+                                                    medalName = medal
+                                                }
+                                        } else {
+                                            MedalComponent(medalName: medal)
+                                                .onTapGesture {
+                                                    showMedalConquest = true
+                                                    medalName = medal
+                                                }
+                                        }
                                     }
                                 }
+                                .padding(.top, 16)
+                                .padding(.horizontal, 24)
                             }
-                            .padding(.top, 16)
-                            .padding(.horizontal, 24)
+                            .padding(.bottom, 100)
                         }
-                        .padding(.bottom, 100)
-                    }
-                    
-                    // Conteúdo Tab. 2 - Editar Perfil
-                case .profileEdit:
-                    HStack {
-                        Text("Detalhes da conta")
-                            .font(.system(size: 16))
                         
-                        Spacer()
+                        // Conteúdo Tab. 2 - Editar Perfil
+                    case .profileEdit:
+                        VStack(alignment: .leading){
+                            Text("Detalhes da conta")
+                                .font(.system(size: 18))
+                                .foregroundColor(.secondary)
+                                .padding(.top, 30)
+                                .padding(.bottom, 17)
+                            HStack{
+                                Text(cloud.client?.firstName ?? "Nome")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
+                            .padding(.all)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 2)
+                            .padding(.bottom, 10)
+                            
+                            HStack{
+                                Text(cloud.client?.lastName ?? "Sobrenome")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
+                                .padding(.all)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .shadow(radius: 2)
+                                .padding(.bottom, 10)
+                            
+                            HStack{
+                                Text(cloud.client?.email ?? "Email")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
+                            .padding(.all)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 2)
+                            .padding(.bottom, 10)
+                            
+                            HStack{
+                                Spacer()
+                                Button(){
+                                    if cloud.client != nil{
+                                        editProfile = true
+                                    }else {
+                                        isPresented = true
+                                    }
+                                } label: {
+                                    Text("Alterar dados")
+                                        .foregroundColor(Color("white"))
+                                        .frame(width: 178, height: 53)
+                                        .background(Color("gray1"))
+                                }
+                                .cornerRadius(10)
+                            }
+                            
+                            Text("Detalhes da conta")
+                                .font(.system(size: 18))
+                                .foregroundColor(.secondary)
+                                .padding(.top, 30)
+                                .padding(.bottom, 17)
+                            HStack{
+                                Text("Senhas")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
+                            .padding(.all)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 2)
+                            .padding(.bottom, 10)
+                            .onTapGesture {
+                                editPasswords = true
+                            }
+                        }
+                        .padding(.horizontal, 24)
                         
-                        Image(systemName: "chevron.right")
                         
-                    }
-                    .padding(.vertical, 12)
-                    .padding(.horizontal, 30)
-                    .background(.secondary.opacity(0.1))
-                    .cornerRadius(12)
-                    .padding(.top, 24)
-                    .padding(.horizontal, 24)
                 }
                 
                 // MARK: - Final da View
@@ -215,7 +285,14 @@ struct ProfileView: View {
             .sheet(isPresented: $showSignIn) {
                 SignInComponent()
             }
-            
+            .sheet(isPresented: $editProfile){
+                if let client = cloud.client {
+                    EditProfileComponent(firstName: client.firstName, lastName: client.lastName, email: client.email)
+                }
+            }
+            .sheet(isPresented: $editPasswords){
+                EditPasswordComponent()
+            }
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
             
