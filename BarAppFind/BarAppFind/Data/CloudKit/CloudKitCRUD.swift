@@ -745,37 +745,29 @@ class CloudKitCRUD: ObservableObject {
         let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(email)", ""])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
-        
-//        CKContainer.default().publicCloudDatabase.fetch(withQuery: query) { (result: Result<(matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?), Error>) in
-//            switch result {
-//            case .success(let success):
-//                // Se verdadeiro, signfica que existe algum usuário, se não, não existe
-//                if success.matchResults.count > 0 {
-//                    for element in success.matchResults {
-//                        switch element.1 {
-//                        case .success(_):
-//                            completion(true)
-//
-//                        case .failure(let err):
-//                            print(err.localizedDescription)
-//                            completion(false)
-//                        }
-//                    }
-//                }
-//            case .failure(let failure):
-//                print(failure.localizedDescription)
-//                completion(false)
-//            }
-//        }
-        if #available(iOS 15.0, *){
-            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-                switch returnedResult{
-                case .success(_):
-                    completion(false)
-                case .failure(let error):
-                    print("Error matched block error\(error)")
+        print("JORGE antes do container")
+        CKContainer.default().publicCloudDatabase.fetch(withQuery: query) { (result: Result<(matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?), Error>) in
+            print("JORGE dentro co container 1")
+            switch result {
+            case .success(let success):
+                // Se verdadeiro, signfica que existe algum usuário, se não, não existe
+                if success.matchResults.count > 0 {
+                    for element in success.matchResults {
+                        switch element.1 {
+                        case .success(_):
+                            completion(false)
+
+                        case .failure(let err):
+                            print(err.localizedDescription)
+                            completion(false)
+                        }
+                    }
+                }else{
                     completion(true)
                 }
+            case .failure(let failure):
+                print(failure.localizedDescription)
+                completion(false)
             }
         }
         
@@ -794,7 +786,6 @@ class CloudKitCRUD: ObservableObject {
                     case .success(let clientChanges):
                         clientChanges["FirstName"] = client.firstName
                         clientChanges["LastName"] = client.lastName
-                        
                         clientChanges["Email"] = client.email
                         self.saveItemPublic(record: clientChanges)
                     case .failure(let error):
@@ -814,15 +805,19 @@ class CloudKitCRUD: ObservableObject {
                 queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                     switch returnedResult{
                     case .success(let clientChanges):
+                        print("JORGE antes de verificar email")
                         self.checkAvaiableEmail(email: client.email) { result in
+                            print("depois de verificar a possibilidade")
                             if result{
                                 clientChanges["FirstName"] = client.firstName
                                 clientChanges["LastName"] = client.lastName
                                 clientChanges["Email"] = client.email
+                                print("JORGE operei pelo resultado true")
                                 self.saveItemPublic(record: clientChanges)
                             }else{
                                 clientChanges["FirstName"] = client.firstName
                                 clientChanges["LastName"] = client.lastName
+                                print("JORGE operei pelo resultado false")
                                 self.saveItemPublic(record: clientChanges)
                             }
                         }
