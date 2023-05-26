@@ -62,6 +62,7 @@ struct EditPasswordComponent: View {
                 if password == confirmPassword{
                     if let cliente = cloud.client{
                         cloud.changeUserPassword(client: cliente, password: password)
+                        presentation.wrappedValue.dismiss()
                     }
                 }else{
                     print("Invalida password")

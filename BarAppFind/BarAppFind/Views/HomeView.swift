@@ -16,7 +16,7 @@ struct HomeView: View {
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State var noInternet: Bool = false
-    @State var tentaNovamente: Bool = false
+//    @State var tentaNovamente: Bool = false
 
     
     var body: some View {
@@ -131,53 +131,33 @@ struct HomeView: View {
                     Spacer()
                 }
             }
-            ErrorView(noInternet: $noInternet)
+//
+//            if noInternet{
+//                ErrorView(noInternet: $noInternet)
+//            }
+            
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
             
             //            SerafiniComponent(isShow: $showSerafini)
             
         }
-<<<<<<< HEAD
+//        .onChange(of: noInternet,perform: { newValue in
+//            cloud.fetchBars(){ _ in
+//                DispatchQueue.global().asyncAfter(deadline: .now() + 2){
+//                    if cloud.barsList.count == 0 {
+//                        noInternet = true
+//                    }else{
+//                        noInternet = false
+//                    }
+//                }
+//            }
+//        })
         .onAppear() {
-            if cloud.client == nil{
-                if let savedUserID = UserDefaults.standard.string(forKey: "UserID"){
-                    if savedUserID != ""{
-                        cloud.validadeClientLoginWithApple(userID: savedUserID) { saida in
-                            if saida{
-                                print("loguei automaticamente com a apple")
-                            }
-                        }
-                    }
-                }
-                
-                
-                
-                if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
-                   let savedPassword = UserDefaults.standard.string(forKey: "Password"){
-                    if savedLogin != "" && savedPassword != ""{
-                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
-                            if resultado{
-                                print("loguei automatico")
-                            }
-                        }
-=======
-        .onChange(of: noInternet,perform: { newValue in
-            cloud.fetchBars(){ _ in
-                DispatchQueue.global().asyncAfter(deadline: .now() + 2){
-                    if cloud.barsList.count == 0 {
-                        noInternet = true
-                    }else{
-                        noInternet = false
->>>>>>> IsaViews
-                    }
-                }
-            }
-        })
-        .onAppear() {
-            if cloud.barsList.count == 0 {
-                noInternet = true
-            }else{
+//            if cloud.barsList.count == 0 {
+//                noInternet = true
+//            }else{
+//                noInternet = false
                 if cloud.client == nil{
                     if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
                        let savedPassword = UserDefaults.standard.string(forKey: "Password"){
@@ -196,7 +176,7 @@ struct HomeView: View {
                         cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
                     }
                 }
-            }
+//            }
         }
         .padding(.top, 100)
         
