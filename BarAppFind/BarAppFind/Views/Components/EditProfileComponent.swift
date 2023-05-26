@@ -69,10 +69,11 @@ struct EditProfileComponent: View {
             
             Button {
                 if let cliente = cloud.client{
+                    let emailAntigo: String = cliente.email
                     cliente.firstName = firstName
                     cliente.lastName = lastName
                     cliente.email = email
-                    cloud.changeUserInfo(client: cliente)
+                    cloud.changeUserInfo(client: cliente, emailAntigo: emailAntigo)
                 }
                 presentation.wrappedValue.dismiss()
             }label : {

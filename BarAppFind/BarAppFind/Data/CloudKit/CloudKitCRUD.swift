@@ -10,8 +10,8 @@ class CloudKitCRUD: ObservableObject {
     
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
-//            print("\(returnedRecors)")
-//            print("\(returnedError)")
+            //            print("\(returnedRecors)")
+            //            print("\(returnedError)")
         }
     }
     
@@ -98,9 +98,9 @@ class CloudKitCRUD: ObservableObject {
                     
                     self.saveItemPublic(record: newBar)
                     completion()
+                }
             }
-        }
-        addDataBaseOperation(operation: queryOperation)
+            addDataBaseOperation(operation: queryOperation)
         }
     }
     
@@ -294,7 +294,7 @@ class CloudKitCRUD: ObservableObject {
     }
     
     func fetchItemsReview(barName: String, cursor: CKQueryOperation.Cursor? = nil, completion: @escaping() -> Void) {
-//        reviews de todos os reviews do bar
+        //        reviews de todos os reviews do bar
         if(cursor == nil) {
             self.reviewListByBar = []
         }
@@ -350,7 +350,7 @@ class CloudKitCRUD: ObservableObject {
         
         let predicate = NSPredicate(format: "WriterNickName = %@", argumentArray: ["\(nickName)"])
         let query = CKQuery(recordType: "Reviews", predicate: predicate)
-//        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
+        //        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         let queryOperation = CKQueryOperation(query: query)
         queryOperation.cursor = cursor
         
@@ -424,7 +424,7 @@ class CloudKitCRUD: ObservableObject {
                                 }
                                 completion(true)
                             } else {
-                                #warning("Informar que senha e usuários estão incorretos")
+#warning("Informar que senha e usuários estão incorretos")
                                 self.client = nil
                                 completion(false)
                             }
@@ -456,7 +456,7 @@ class CloudKitCRUD: ObservableObject {
                             guard let Email = record["Email"] as? String else { return }
                             guard let LastName = record["LastName"] as? String else { return }
                             guard let FirtName = record["FirstName"] as? String else { return }
-//                            guard let Password = record["Password"] as? String else { return }
+                            //                            guard let Password = record["Password"] as? String else { return }
                             guard let Badges = record["Badges"] as? [String] else { return }
                             guard let Favorites = record["Favorites"] as? [String] else { return }
                             guard let Level = record["Level"] as? Int else { return }
@@ -482,7 +482,7 @@ class CloudKitCRUD: ObservableObject {
             }
         }
     }
-
+    
     func fetchBars(cursor: CKQueryOperation.Cursor? = nil, completion: @escaping (Bool) -> Void) {
         if(cursor == nil) {
             self.barsList = []
@@ -630,7 +630,7 @@ class CloudKitCRUD: ObservableObject {
             let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
-//            queryOperation.resultsLimit = 50
+            //            queryOperation.resultsLimit = 50
             var listFavorites = client.favorites
             listFavorites.append(barName)
             
@@ -678,7 +678,7 @@ class CloudKitCRUD: ObservableObject {
             let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
-
+            
             var listFavorites = client.favorites
             let count: Int = listFavorites.firstIndex(of: barName) ?? -1
             listFavorites.remove(at: count)
@@ -703,7 +703,7 @@ class CloudKitCRUD: ObservableObject {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(barName)"])
         let query = CKQuery(recordType: "Bars", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
-
+        
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
@@ -715,7 +715,7 @@ class CloudKitCRUD: ObservableObject {
                 }
             }
         }
-
+        
         addDataBaseOperation(operation: queryOperation)
     }
     
@@ -741,30 +741,50 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func changeUserInfo(client: Clients) {
-        if client.userID != "" {
-            let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
-            let query = CKQuery(recordType: "Clients", predicate: predicate)
-            let queryOperation = CKQueryOperation(query: query)
-            
-            if #available(iOS 15.0, *){
-                queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
-                    switch returnedResult{
-                    case .success(let clientChanges):
-                        clientChanges["FirstName"] = client.firstName
-                        clientChanges["LastName"] = client.lastName
-                        clientChanges["Email"] = client.email
-                        self.saveItemPublic(record: clientChanges)
-                    case .failure(let error):
-                        print("Error matched block error\(error)")
-                    }
+    private func checkAvaiableEmail(email: String, completion: @escaping(Bool) -> Void){
+        let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(email)", ""])
+        let query = CKQuery(recordType: "Clients", predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
+        
+//        CKContainer.default().publicCloudDatabase.fetch(withQuery: query) { (result: Result<(matchResults: [(CKRecord.ID, Result<CKRecord, Error>)], queryCursor: CKQueryOperation.Cursor?), Error>) in
+//            switch result {
+//            case .success(let success):
+//                // Se verdadeiro, signfica que existe algum usuário, se não, não existe
+//                if success.matchResults.count > 0 {
+//                    for element in success.matchResults {
+//                        switch element.1 {
+//                        case .success(_):
+//                            completion(true)
+//
+//                        case .failure(let err):
+//                            print(err.localizedDescription)
+//                            completion(false)
+//                        }
+//                    }
+//                }
+//            case .failure(let failure):
+//                print(failure.localizedDescription)
+//                completion(false)
+//            }
+//        }
+        if #available(iOS 15.0, *){
+            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                switch returnedResult{
+                case .success(_):
+                    completion(false)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                    completion(true)
                 }
             }
-            addDataBaseOperation(operation: queryOperation)
         }
-        // caso o usuario tenha se cadastrado com email, verifica esta aba
-        else{
-            let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
+        
+        addDataBaseOperation(operation: queryOperation)
+    }
+    
+    func changeUserInfo(client: Clients, emailAntigo: String) {
+        if client.userID != "" {
+            let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
             
@@ -777,6 +797,35 @@ class CloudKitCRUD: ObservableObject {
                         
                         clientChanges["Email"] = client.email
                         self.saveItemPublic(record: clientChanges)
+                    case .failure(let error):
+                        print("Error matched block error\(error)")
+                    }
+                }
+            }
+            addDataBaseOperation(operation: queryOperation)
+        }
+        // caso o usuario tenha se cadastrado com email, verifica esta aba
+        else{
+            let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(emailAntigo)", ""])
+            let query = CKQuery(recordType: "Clients", predicate: predicate)
+            let queryOperation = CKQueryOperation(query: query)
+            
+            if #available(iOS 15.0, *){
+                queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                    switch returnedResult{
+                    case .success(let clientChanges):
+                        self.checkAvaiableEmail(email: client.email) { result in
+                            if result{
+                                clientChanges["FirstName"] = client.firstName
+                                clientChanges["LastName"] = client.lastName
+                                clientChanges["Email"] = client.email
+                                self.saveItemPublic(record: clientChanges)
+                            }else{
+                                clientChanges["FirstName"] = client.firstName
+                                clientChanges["LastName"] = client.lastName
+                                self.saveItemPublic(record: clientChanges)
+                            }
+                        }
                     case .failure(let error):
                         print("Error matched block error\(error)")
                     }
