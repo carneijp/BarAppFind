@@ -783,7 +783,7 @@ class CloudKitCRUD: ObservableObject {
     }
     
     func changeUserInfo(client: Clients, emailAntigo: String) {
-        if client.userID != "" {
+        if client.userID != ""{
             let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
             let queryOperation = CKQueryOperation(query: query)
