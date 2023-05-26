@@ -15,6 +15,8 @@ struct SignUpComponent: View {
     @State private var lastName: String = ""
     @State private var password: String = ""
     @State private var showLogin: Bool = false
+    @State private var emailAlreadyInUse: Bool = false
+    @State private var emptyText: Bool = false
     
     
     var body: some View {
@@ -71,13 +73,35 @@ struct SignUpComponent: View {
             .padding(.horizontal, 24)
             .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
             
+            if emailAlreadyInUse{
+                Text("Email informado ja está cadastrado")
+                    .foregroundColor(.red)
+                    .font(.system(size: 12))
+                    .padding(.top, 8)
+            }
+            if emptyText {
+                Text("Todos os campos devem ser preenchidos com dados validos.")
+                    .foregroundColor(.red)
+                    .font(.system(size: 12))
+                    .padding(.top, 8)
+            }
             
             // Botão de Cadastrar Conta
             Button{
+                emailAlreadyInUse = false
+                emptyText = false
                 if(email != "" && password != "" && firstName != "" && lastName != ""){
-                    cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){}
-                    presentation.wrappedValue.dismiss()
+                    cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){ result in
+                        if result{
+                            presentation.wrappedValue.dismiss()
+                        }else{
+                            print("usuario ja existente")
+                            emailAlreadyInUse = true
+                        }
+                    }
+                    
                 }else{
+                    emptyText = true
                     print("informcacoes devem estar preenchidas")
                 }
 

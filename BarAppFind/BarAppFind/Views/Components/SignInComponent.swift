@@ -13,6 +13,7 @@ struct SignInComponent: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var showSignUp: Bool = false
+    @State private var invalidPassword: Bool = false
     
     
     var body: some View {
@@ -70,6 +71,15 @@ struct SignInComponent: View {
             .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
             
             
+//            aqui
+            if invalidPassword{
+                Text("Senha ou email incorretos, digite novamente")
+                    .foregroundColor(.red)
+                    .font(.system(size: 12))
+                    .padding(.top, 8)
+            }
+            
+            
             VStack  {
                 // Botão de Logar
                 Button {
@@ -80,12 +90,13 @@ struct SignInComponent: View {
                             UserDefaults.standard.set(login, forKey: "Email")
                             UserDefaults.standard.set(senha, forKey: "Password")
                             print("salvei")
+                            presentation.wrappedValue.dismiss()
                         }
                         else{
                             print("login ou senha invalidos")
+                            invalidPassword = true
                         }
                     }
-                    presentation.wrappedValue.dismiss()
                 } label: {
                     HStack {
                         Spacer()

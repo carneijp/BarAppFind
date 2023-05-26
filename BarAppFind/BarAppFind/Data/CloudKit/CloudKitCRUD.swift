@@ -150,7 +150,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func addUser(clients: Clients, completion: @escaping () -> Void) {
+    func addUser(clients: Clients, completion: @escaping (Bool) -> Void) {
         var jaExiste: Bool = false
         let predicate = NSPredicate(format: "Email = %@", argumentArray: ["\(clients.email)"])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
@@ -179,7 +179,7 @@ class CloudKitCRUD: ObservableObject {
                 if(jaExiste) {
                     print("Já existe usuário com este NickName.")
                     NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-                    completion()
+                    completion(false)
                 }
                 else {
                     let newClient = CKRecord(recordType: "Clients")
@@ -192,7 +192,7 @@ class CloudKitCRUD: ObservableObject {
                     newClient["Level"] = clients.level
                     newClient["UserID"] = clients.userID
                     self.saveItemPublic(record: newClient)
-                    completion()
+                    completion(true)
                 }
             }
         }

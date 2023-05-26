@@ -13,6 +13,7 @@ struct EditPasswordComponent: View {
 //    var cliente: Clients
     @State var password: String = ""
     @State var confirmPassword: String = ""
+    @State private var diferentPassword: Bool = false
     
     var body: some View {
         VStack{
@@ -58,13 +59,23 @@ struct EditPasswordComponent: View {
                 .foregroundColor(.primary)
                 .padding(.horizontal, 24)
             
+            if diferentPassword {
+                Text("As senha informadas não são compativeis")
+                    .foregroundColor(.red)
+                    .font(.system(size: 12))
+                    .padding(.top, 8)
+            }
+            
             Button {
+                diferentPassword = false
                 if password == confirmPassword{
                     if let cliente = cloud.client{
                         cloud.changeUserPassword(client: cliente, password: password)
+                        UserDefaults.standard.set(confirmPassword, forKey: "Password")
                         presentation.wrappedValue.dismiss()
                     }
                 }else{
+                    diferentPassword = true
                     print("Invalida password")
                 }
                 

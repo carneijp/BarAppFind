@@ -256,8 +256,8 @@ struct ProfileView: View {
                                 .foregroundColor(.secondary)
                                 .padding(.top, 30)
                                 .padding(.bottom, 17)
-                            if let cliente = cloud.client {
-                                if cliente.userID == ""{
+                            if let client = cloud.client {
+                                if client.userID == ""{
                                     HStack{
                                         Text("Senhas")
                                             .font(.system(size: 18))
@@ -274,6 +274,27 @@ struct ProfileView: View {
                                     }
                                 }
                             }
+                            
+                            if cloud.client != nil {
+                                Button {
+                                    cloud.client = nil
+                                    UserDefaults.standard.set("", forKey: "UserID")
+                                    UserDefaults.standard.set("", forKey: "Password")
+                                    UserDefaults.standard.set("", forKey: "Email")
+                                    
+                                } label: {
+                                    Text("Sair da conta")
+                                        .padding(.all)
+                                        .background(Color.white)
+                                        .cornerRadius(10)
+                                        .shadow(radius: 2)
+                                        .padding(.bottom, 10)
+                                }
+                            }
+                            
+                            
+                            
+                            
                         }
                         .padding(.horizontal, 24)
                         
