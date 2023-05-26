@@ -7,25 +7,54 @@
 
 import SwiftUI
 
+enum TabIndex: Int {
+    case menu = 0
+    case mapa = 1
+    case favoritos = 2
+    case perfil = 3
+}
+
 struct CustomTabBar: View {
+    @Binding var selectedTab: TabIndex
+    
     var body: some View {
-        HStack {
-            Button {
-                // Tab 1
-            } label: {
-                VStack {
-                    Image(systemName: "home")
-                    Text("fanfjsan")
+        GeometryReader { proxy in
+            VStack {
+                Spacer()
+                HStack(spacing: 42) {
+                    Button {
+                        // Tab 1
+                    } label: {
+                        TabBarComponent(tabIcon: "house.fill", tabName: "Menu")
+                    }
+                    
+                    Button {
+                        // Tab 2
+                    } label: {
+                        TabBarComponent(tabIcon: "map.fill", tabName: "Mapa")
+                    }
+                    
+                    Button {
+                        // Tab 3
+                    } label: {
+                        TabBarComponent(tabIcon: "heart.fill", tabName: "Favoritos")
+
+                    }
+                    
+                    Button {
+                        // Tab 4
+                    } label: {
+                        TabBarComponent(tabIcon: "person.fill", tabName: "Perfil")
+                    }
                 }
+                .frame(width: proxy.frame(in: .global).width, height: proxy.frame(in: .global).height*0.075)
             }
         }
-        .frame(width: UIScreen.main.bounds.width, height: 80)
-        .background(.red)
     }
 }
 
 struct CustomTabBar_Previews: PreviewProvider {
     static var previews: some View {
-        CustomTabBar()
+        CustomTabBar(selectedTab: .constant(.menu))
     }
 }

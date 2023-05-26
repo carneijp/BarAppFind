@@ -38,10 +38,10 @@ struct BarListView: View {
                     }
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 35)
                 .padding(.bottom, 130)
+                .padding(.top, 30)
             }
-            
+
             if isLoading {
                 LoadingViewModel()
                     .padding(.bottom, 130)
@@ -49,16 +49,18 @@ struct BarListView: View {
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
-        .padding(.top, 130)
-        .onAppear() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                self.isLoading = false
-            }
-        }
         .navigationTitle("Todos os Bares")
         .searchable(text: $searchText, prompt: "Digite o nome do bar") {
             ForEach(searchBar) { result in
                 Text(result.name).searchCompletion(result.name)
+            }
+        }
+        .padding(.top, 130)
+
+
+        .onAppear() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                self.isLoading = false
             }
         }
     }
