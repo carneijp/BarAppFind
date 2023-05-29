@@ -154,10 +154,9 @@ struct HomeView: View {
 //            }
 //        })
         .onAppear() {
-//            if cloud.barsList.count == 0 {
-//                noInternet = true
-//            }else{
-//                noInternet = false
+            if let user = UserDefaults.standard.string(forKey: "UserID"), user != ""{
+                cloud.validadeClientLoginWithApple(userID: user) { _ in }
+            }else{
                 if cloud.client == nil{
                     if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
                        let savedPassword = UserDefaults.standard.string(forKey: "Password"){
@@ -176,7 +175,7 @@ struct HomeView: View {
                         cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
                     }
                 }
-//            }
+            }
         }
         .padding(.top, 100)
         

@@ -10,6 +10,7 @@ import AuthenticationServices
 
 struct SignInApple: View {
     @EnvironmentObject var cloud: CloudKitCRUD
+    @Environment(\.dismiss) var dismiss
     @Environment(\.colorScheme) var colorScheme
     @AppStorage("Email") var email: String = ""
     @AppStorage("FirstName") var firstName: String = ""
@@ -41,6 +42,7 @@ struct SignInApple: View {
                             cloud.validadeClientLoginWithApple(userID: self.userId) { result in
                                 if result{
                                     print("Loguei com apple id")
+                                    dismiss()
                                 }
                                 else{
                                     print("Nao loguei com apple id")
