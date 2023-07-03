@@ -51,6 +51,7 @@
 		85285E262A02EABD00139191 /* CloudKitCRUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85285E252A02EABD00139191 /* CloudKitCRUD.swift */; };
 		85285E282A02EB0C00139191 /* CloudKitUserIcloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */; };
 		855816E12A15AB0A00679080 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855816E02A15AB0A00679080 /* SplashScreen.swift */; };
+		855CE3BA2A5354DA00AE6DC8 /* NetworkConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855CE3B92A5354DA00AE6DC8 /* NetworkConnection.swift */; };
 		8562AEF229FC5C4C003E32E7 /* BarAppFindApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */; };
 		8562AEF629FC5C4D003E32E7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8562AEF529FC5C4D003E32E7 /* Assets.xcassets */; };
 		8562AEF929FC5C4D003E32E7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8562AEF829FC5C4D003E32E7 /* Preview Assets.xcassets */; };
@@ -106,6 +107,7 @@
 		85285E252A02EABD00139191 /* CloudKitCRUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitCRUD.swift; sourceTree = "<group>"; };
 		85285E272A02EB0C00139191 /* CloudKitUserIcloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitUserIcloud.swift; sourceTree = "<group>"; };
 		855816E02A15AB0A00679080 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
+		855CE3B92A5354DA00AE6DC8 /* NetworkConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnection.swift; sourceTree = "<group>"; };
 		8562AEEE29FC5C4C003E32E7 /* Onde.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Onde.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarAppFindApp.swift; sourceTree = "<group>"; };
 		8562AEF529FC5C4D003E32E7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			children = (
 				85285E242A02EA9900139191 /* CloudKit */,
 				851D895A29FE950A00282473 /* Objects */,
+				855CE3B92A5354DA00AE6DC8 /* NetworkConnection.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				823CEB1D2A1FD10300B43FD5 /* TabBarComponent.swift in Sources */,
 				6C69C98F2A12AC51003E35D0 /* BarViewMoodComponent.swift in Sources */,
 				851D894C29FDE75700282473 /* GeneralTab.swift in Sources */,
+				855CE3BA2A5354DA00AE6DC8 /* NetworkConnection.swift in Sources */,
 				6CC1121B2A04334B0009C2BC /* BarPageView.swift in Sources */,
 				823A41C62A1D52F700AF96C1 /* LoadingViewModel.swift in Sources */,
 				6CC7A0942A098D80008329B7 /* ReviewComponent.swift in Sources */,

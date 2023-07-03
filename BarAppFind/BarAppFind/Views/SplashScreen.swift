@@ -12,44 +12,57 @@ struct SplashScreen: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     @State var size: Double = 0.8
     @State var isActive: Bool = false
+    @State var hasEthernet: Bool = true
     
     var body: some View{
-        if isActive{
-            GeneralTab()
-//                .environmentObject(CloudKitCRUD())
+        if !hasEthernet {
+            ErrorView(noInternet: $hasEthernet)
         }else{
-            ZStack{
-                Color("AzulSplash")
-                Image("logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 337)
-                    .scaleEffect(size)
-                
-                
-                
-            }
-            .ignoresSafeArea()
-            .onAppear{
-                
-                cloud.fetchBars(){ result in
-                    if result {
-                        isActive = true
-                        map.chekIfLocationService{ permission in
-                            if permission{
-                                for i in 0..<cloud.barsList.count{
-                                    cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
-                                }
-                                cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
+            if isActive{
+                GeneralTab()
+            }else{
+                ZStack{
+                    Color("AzulSplash")
+                    Image("logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 337)
+                        .scaleEffect(size)
+                    
+                    
+                    
+                }
+                .ignoresSafeArea()
+                .onAppear{
+                    NetworkConnection.shared.startMonitoring()
+                    
+                    cloud.fetchBars(){ result in
+                        if result {
+                            DispatchQueue.main.async{
+                                isActive = true
                             }
+                            map.chekIfLocationService{ permission in
+                                if permission{
+                                    for i in 0..<cloud.barsList.count{
+                                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
+                                    }
+                                    cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
+                                }
+                            }
+                            
                         }
                     }
-                }
-                withAnimation(.easeIn(duration: 4)){
-                    size = 1.5
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4){
-                    isActive = true
+                    
+                    withAnimation(.easeIn(duration: 4)){
+                        size = 1.5
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                        hasEthernet = NetworkConnection.shared.isConnected
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                        isActive = true
+                    }
+                    
                 }
             }
         }

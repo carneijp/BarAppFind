@@ -32,7 +32,7 @@ struct ErrorView: View {
                         .foregroundColor(.gray)
                     Spacer ()
                     Button{
-                        self.noInternet.toggle()
+                        self.noInternet = NetworkConnection.shared.isConnected
                     }label: {
                         Text("Tentar novamente")
                             .foregroundColor(.purple)
