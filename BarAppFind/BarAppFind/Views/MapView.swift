@@ -28,7 +28,6 @@ struct MapView: View {
     var body: some View {
         if mapStyle == .large{
             ZStack{
-                
                 Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
                     MapAnnotation(coordinate: bar.coordinate){
                         Group{
@@ -41,7 +40,7 @@ struct MapView: View {
                                 Circle()
                                     .scaledToFit()
                                     .frame(height: 5)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.red)
                                     .fixedSize()
                                     .offset(y:-6)
                             }
@@ -62,18 +61,14 @@ struct MapView: View {
                         }
                     }
                 }
+                .tint(Color("blue"))
                 .animation(.linear( duration: 2))
                 .onTapGesture {
-//                    withAnimation {
                         if !didTap {
                             showBarSmallDescription = false
                         }
                         didTap = false
-//                    }
-                    
                 }
-                
-                
                 VStack{
                     ComponenteLargeMap(chosen: $viewModel.chosen, shownBar: $shownBar, showBarSmallDescription: $showBarSmallDescription)
                         .environmentObject(viewModel)
@@ -105,7 +100,7 @@ struct MapView: View {
                                         Circle()
                                             .scaledToFit()
                                             .frame(height: 5)
-                                            .foregroundColor(.black)
+                                            .foregroundColor(.red)
                                             .fixedSize()
                                             .offset(y:-6)
                                     }
@@ -253,7 +248,8 @@ struct listViewModel: View{
             .listRowSeparator(.hidden)
         }
         .listStyle(PlainListStyle())
-        .frame(maxHeight: 140)
+        .frame(maxHeight: 132)
+        .cornerRadius(10)
     }
 }
 

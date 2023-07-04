@@ -54,7 +54,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         self.chekIfLocationService(){ result in
             if result{
                 if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
-                    self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+                    self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
                 }else if let location = self.chosen{
                     self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
                 }else if let user = self.userLocation{
@@ -62,7 +62,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                 }
             }else{
                 if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
-                    self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001))
+                    self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
                 }else if let location = self.chosen{
                     self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
                 }
