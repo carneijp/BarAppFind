@@ -36,7 +36,7 @@ struct ErrorView: View {
                     }label: {
                         Text("Tentar novamente")
                             .foregroundColor(.purple)
-                            .underline()
+//                            .underline()
                     }
                     
 //                    NavigationLink (destination: EmptyView(), label: { Text ("Tentar novamente") })
