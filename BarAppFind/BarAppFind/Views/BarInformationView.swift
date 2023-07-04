@@ -37,8 +37,11 @@ struct BarInformationView: View {
                 Button(action: {
                     goToUber()
                 }, label: {
-                    Image("Uber")
-                        .resizable()
+//                    Image("Uber")
+                    Text("Uber")
+                        .foregroundColor(.white)
+                        .bold()
+//                        .resizable()
                         .scaledToFit()
                         .frame(width: 166, height: 47)
                         .background(Color.black)

@@ -53,13 +53,13 @@ struct SplashScreen: View {
                         }
                     }
                     
-                    withAnimation(.easeIn(duration: 4)){
+                    withAnimation(.easeIn(duration: 3)){
                         size = 1.5
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                         hasEthernet = NetworkConnection.shared.isConnected
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3){
                         isActive = true
                     }
                     

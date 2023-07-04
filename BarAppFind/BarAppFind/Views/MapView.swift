@@ -24,6 +24,7 @@ struct MapView: View {
     @State var shownBar: Bar?
     @State var showBarSmallDescription: Bool = false
     @State var didTap: Bool = false
+    @State var firstAppear: Bool = true
     
     var body: some View {
         if mapStyle == .large{
@@ -62,7 +63,7 @@ struct MapView: View {
                     }
                 }
                 .tint(Color("blue"))
-                .animation(.linear( duration: 2))
+                .animation(!firstAppear ? .linear(duration: 2) : .none)
                 .onTapGesture {
                         if !didTap {
                             showBarSmallDescription = false
@@ -77,6 +78,9 @@ struct MapView: View {
                 
             }
             .onAppear {
+                DispatchQueue.main.async{
+                    firstAppear = false
+                }
                 viewModel.wheretoZoom()
             }
             .onChange(of: viewModel.chosen) { newValue in
@@ -144,6 +148,7 @@ struct ComponenteLargeMap: View {
             if showListMenu{
                 listViewModel(showListMenu: $showListMenu, chosen: $viewModel.chosen)
                     .padding(.horizontal)
+                    .offset(y: -10)
             }
             Spacer()
             if showBarSmallDescription{
@@ -179,13 +184,7 @@ extension ComponenteLargeMap {
                     .frame(height: 55)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .overlay(alignment: .trailing) {
-                        if showListMenu{
-                            Image(systemName: "chevron.up")
-                                .foregroundColor(.black)
-                        }else{
-                            Image(systemName: "chevron.down")
-                                .foregroundColor(.black)
-                        }
+                        Image(systemName: showListMenu ? "chevron.up" : "chevron.down")
                     }
                     .padding(.horizontal)
             }
