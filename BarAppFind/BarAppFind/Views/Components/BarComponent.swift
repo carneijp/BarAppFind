@@ -23,7 +23,7 @@ struct BarComponent: View {
                     .clipShape(Circle())
                     .frame(width: 50, height: 50)
                     .padding(.trailing, 5)
-                    .shadow(color: .gray, radius: 2, x: 0, y: 2)
+//                    .shadow(color: .gray, radius: 2, x: 0, y: 2)
 
             }
             
