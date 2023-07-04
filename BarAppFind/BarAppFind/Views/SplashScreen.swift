@@ -46,7 +46,7 @@ struct SplashScreen: View {
                                     for i in 0..<cloud.barsList.count{
                                         cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
                                     }
-                                    cloud.barsList.sort{$0.distanceFromUser < $1.distanceFromUser}
+                                    cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
                                 }
                             }
                             

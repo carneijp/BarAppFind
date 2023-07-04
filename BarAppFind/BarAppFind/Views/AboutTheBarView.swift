@@ -14,10 +14,10 @@ struct AboutTheBar: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack{
-                Text("\(bar.name)")
+                Text(bar.name)
                     .font(.title2)
                     .bold()
-                    .padding(.trailing)
+//                    .padding(.trailing)
                 
                 Image(systemName: "star.fill")
                     .resizable()
@@ -132,8 +132,8 @@ struct AboutTheBar: View {
 //            .padding(.bottom, 8)
             
             HStack(spacing: 14){
-//                let moods = bar.mood
-                ForEach(moodsImage.indices, id:\.self) { indexMood in
+                let moods = bar.mood
+                ForEach(moods.indices, id:\.self) { indexMood in
                     NavigationLink {
                         MoodListView(moodName: moodsName[indexMood])
                             .toolbarRole(.editor)

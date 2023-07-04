@@ -32,7 +32,12 @@ struct BarComponent: View {
                     HStack {
                         Text("**\(bar.name)**")
                             .font(.system(size: 14))
+//                            .padding(.trailing, 4)
                         
+                        if let distancia = bar.distanceFromUser{
+                            Text(String(format: " • %.1fKm", distancia))
+                                .font(.system(size: 14))
+                        }
                         Spacer()
                     }
                     .padding(.bottom, 0.5)
@@ -43,7 +48,7 @@ struct BarComponent: View {
                             .font(.system(size: 13))
                         
                         
-                            Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[getDateOfweek()])")
+                            Text(String(format: "%.1f", bar.grade) + "•  \(bar.operatinHours[getDateOfweek()])")
                                 .font(.system(size: 14))
                         
                         Spacer()
