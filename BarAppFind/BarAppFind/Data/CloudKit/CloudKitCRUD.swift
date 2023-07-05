@@ -546,7 +546,7 @@ class CloudKitCRUD: ObservableObject {
                     if cursor != nil {
                         self?.fetchBars(cursor: cursor) { result in
                             if result {
-                                completion(false)
+                                completion(true)
                             } else {
                                 completion(false)
                             }
