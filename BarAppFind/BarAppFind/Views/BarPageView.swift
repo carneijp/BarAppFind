@@ -29,6 +29,8 @@ struct BarPageView: View {
     @State private var viewIndex: Int = 1
     @State private var showReviewError: Bool = false
     
+    @State var CurretDragOffsetX: CGFloat = 0
+    
     var body: some View {
         
         ZStack {
@@ -43,157 +45,198 @@ struct BarPageView: View {
                                 .clipped()
                                 .padding(.bottom, 10)
                         }
-                        
-                        //MARK: tabBar
-                        HStack{
-                            //sobre o lugar
-                            SwiftUI.Group{
-                                if isBarName{
-                                    VStack(spacing: 4){
-                                        Text("Sobre o lugar")
-                                            .font(.system(size: 16))
-                                            .foregroundColor(.primary)
-                                        
-                                        Rectangle()
-                                            .frame(height: 1)
-                                            .foregroundColor(.primary)
-                                            .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                        VStack{
+                            //MARK: tabBar
+                            HStack{
+                                //sobre o lugar
+                                SwiftUI.Group{
+                                    if isBarName{
+                                        VStack(spacing: 4){
+                                            Text("Sobre o lugar")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(.primary)
+                                            
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.primary)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                        }
+                                    }else{
+                                        VStack(spacing: 4){
+                                            Text("Sobre o lugar")
+                                                .font(.system(size: 16))
+                                            
+                                                .foregroundColor(.secondary)
+                                                .onTapGesture {
+                                                    self.topBarChoice = .barName
+                                                    isBarName = true
+                                                    isInfo = false
+                                                    isReview = false
+                                                }
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.clear)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                        }
                                     }
-                                }else{
-                                    VStack(spacing: 4){
-                                        Text("Sobre o lugar")
-                                            .font(.system(size: 16))
-                                        
-                                            .foregroundColor(.secondary)
-                                            .onTapGesture {
-                                                self.topBarChoice = .barName
-                                                isBarName = true
-                                                isInfo = false
-                                                isReview = false
-                                            }
-                                        Rectangle()
-                                            .frame(height: 1)
-                                            .foregroundColor(.clear)
-                                            .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                    }
-                                }
-                            }
-                            
-                            //Informações
-                            SwiftUI.Group{
-                                if isInfo{
-                                    VStack(spacing: 4){
-                                        Text("Informações")
-                                            .font(.system(size: 16))
-                                            .foregroundColor(.primary)
-                                        
-                                        Rectangle()
-                                            .frame(height: 1)
-                                            .foregroundColor(.primary)
-                                            .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                    }
-                                }else{
-                                    VStack(spacing: 4){
-                                        Text("Informações")
-                                            .font(.system(size: 16))
-                                            .foregroundColor(.secondary)
-                                            .onTapGesture {
-                                                self.topBarChoice = .info
-                                                isBarName = false
-                                                isInfo = true
-                                                isReview = false
-                                            }
-                                        
-                                        Rectangle()
-                                            .frame(height: 1)
-                                            .foregroundColor(.clear)
-                                            .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                    }
-                                }
-                            }
-                            
-                            //Avaliações
-                            SwiftUI.Group{
-                                if isReview{
-                                    VStack(spacing: 4){
-                                        Text("Avaliações")
-                                            .font(.system(size: 16))
-                                            .foregroundColor(.primary)
-                                        
-                                        Rectangle()
-                                            .frame(height: 1)
-                                            .foregroundColor(.primary)
-                                            .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                    }
-                                }else{
-                                    VStack(spacing: 4){
-                                        Text("Avaliações")
-                                            .font(.system(size: 16))
-                                            .foregroundColor(.secondary)
-                                            .onTapGesture {
-                                                self.topBarChoice = .review
-                                                isBarName = false
-                                                isInfo = false
-                                                isReview = true
-                                                
-                                            }
-                                        Rectangle()
-                                            .frame(height: 1)
-                                            .foregroundColor(.clear)
-                                            .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                        
-                                        
-                                    }
-                                }
-                            }
-                            
-                        }
-                        
-                        //Escolhas TabBar
-                        switch topBarChoice{
-                            
-                            //MARK: Sobre o lugar
-                        case .barName:
-                            if let barAtual = bar {
-                                AboutTheBar(bar: barAtual)
-                                    .environmentObject(cloud)
-                                    .padding(.bottom)
-                            }
-                            
-                            // MARK: - Informações
-                            
-                        case .info:
-                            if let barAtual = bar {
-                                BarInformationView(bar: barAtual)
-                                    .padding(.horizontal, 24)
-                            }
-                            
-                            //MARK: - Avaliações
-                            
-                        case .review:
-                            VStack{
-                                if let client = cloud.client {
-                                    if cloud.reviewListByBar.filter( { client.firstName == $0.writerName } ).count == 0 {
-                                        TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
-                                            .padding(.bottom)
-                                    }
-                                } else {
-                                    TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
-                                        .padding(.bottom)
                                 }
                                 
-                                if cloud.reviewListByBar.count != 0{
-                                    ForEach(cloud.reviewListByBar, id: \.self){ review in
-                                        ReviewComponent(review: review)
+                                //Informações
+                                SwiftUI.Group{
+                                    if isInfo{
+                                        VStack(spacing: 4){
+                                            Text("Informações")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(.primary)
+                                            
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.primary)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                        }
+                                    }else{
+                                        VStack(spacing: 4){
+                                            Text("Informações")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(.secondary)
+                                                .onTapGesture {
+                                                    self.topBarChoice = .info
+                                                    isBarName = false
+                                                    isInfo = true
+                                                    isReview = false
+                                                }
+                                            
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.clear)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                        }
+                                    }
+                                }
+                                
+                                //Avaliações
+                                SwiftUI.Group{
+                                    if isReview{
+                                        VStack(spacing: 4){
+                                            Text("Avaliações")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(.primary)
+                                            
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.primary)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                        }
+                                    }else{
+                                        VStack(spacing: 4){
+                                            Text("Avaliações")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(.secondary)
+                                                .onTapGesture {
+                                                    self.topBarChoice = .review
+                                                    isBarName = false
+                                                    isInfo = false
+                                                    isReview = true
+                                                    
+                                                }
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.clear)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                            
+                                            
+                                        }
+                                    }
+                                }
+                                
+                            }
+                            
+                            //Escolhas TabBar
+                            switch topBarChoice{
+                                    
+                                    //MARK: Sobre o lugar
+                                case .barName:
+                                    if let barAtual = bar {
+                                        AboutTheBar(bar: barAtual)
+                                            .environmentObject(cloud)
+                                            .padding(.bottom)
+                                    }
+                                    
+                                    // MARK: - Informações
+                                    
+                                case .info:
+                                    if let barAtual = bar {
+                                        BarInformationView(bar: barAtual)
                                             .padding(.horizontal, 24)
                                     }
-                                }else{
-                                    EmptyViewReviews()
-                                }
+                                    
+                                    //MARK: - Avaliações
+                                    
+                                case .review:
+                                    VStack{
+                                        if let client = cloud.client {
+                                            if cloud.reviewListByBar.filter( { client.firstName == $0.writerName } ).count == 0 {
+                                                TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
+                                                    .padding(.bottom)
+                                            }
+                                        } else {
+                                            TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
+                                                .padding(.bottom)
+                                        }
+                                        
+                                        if cloud.reviewListByBar.count != 0{
+                                            ForEach(cloud.reviewListByBar, id: \.self){ review in
+                                                ReviewComponent(review: review)
+                                                    .padding(.horizontal, 24)
+                                            }
+                                        }else{
+                                            EmptyViewReviews()
+                                        }
+                                    }
+                                    .padding(.bottom, 50)
+                                    .padding(.top)
                             }
-                            .padding(.bottom, 50)
-                            .padding(.top)
                         }
+                        .gesture(
+                            DragGesture()
+                                .onChanged{ value in
+                                    CurretDragOffsetX = value.translation.width
+                                    print(CurretDragOffsetX)
+                                }
+                                .onEnded{ value in
+                                    if abs(CurretDragOffsetX) > 150 {
+                                        switch topBarChoice{
+                                            case .barName:
+                                                if CurretDragOffsetX < 0{
+                                                    self.topBarChoice = .info
+                                                    isBarName = false
+                                                    isInfo = true
+                                                    isReview = false
+                                                }
+                                                
+                                            case .info:
+                                                if CurretDragOffsetX < 0{
+                                                    self.topBarChoice = .review
+                                                    isBarName = false
+                                                    isInfo = false
+                                                    isReview = true
+                                                } else {
+                                                    self.topBarChoice = .barName
+                                                    isBarName = true
+                                                    isInfo = false
+                                                    isReview = false
+                                                }
+                                            case .review:
+                                                if CurretDragOffsetX > 0{
+                                                    self.topBarChoice = .info
+                                                    isBarName = false
+                                                    isInfo = true
+                                                    isReview = false
+                                                }
+                                        }
+                                    }
+                                }
+                        )
                     }
                 }
                 .padding(.bottom, 130)
