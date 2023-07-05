@@ -41,7 +41,6 @@ struct SplashScreen: View {
                             DispatchQueue.main.async{
                                 isActive = true
                             }
-                            
                         }
                     }
                     
