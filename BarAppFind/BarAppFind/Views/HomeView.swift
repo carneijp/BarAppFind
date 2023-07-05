@@ -135,6 +135,19 @@ struct HomeView: View {
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
             
         }
+        .onChange(of: cloud.barsList.count, perform: { newValue in
+            print("newValue: \(newValue)")
+            map.chekIfLocationService{ permission in
+                print("permission: \(permission)")
+                if permission{
+                    for i in 0..<cloud.barsList.count{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
+                    }
+                    cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
+                }
+            }
+
+        })
         .onAppear() {
             if let user = UserDefaults.standard.string(forKey: "UserID"), user != ""{
                 cloud.validadeClientLoginWithApple(userID: user) { _ in }
@@ -145,18 +158,18 @@ struct HomeView: View {
                         cloud.validateClientLogin(email: savedLogin, password: savedPassword) { _ in }
                     }
                 }
-                DispatchQueue.main.async {
-                    map.chekIfLocationService{ permission in
-                        if permission{
-                            for i in 0..<cloud.barsList.count{
-                                cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
-                            }
-                            cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
-                        }
-                    }
-                }
+                
                 
             }
+            map.chekIfLocationService{ permission in
+                if permission{
+                    for i in 0..<cloud.barsList.count{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
+                    }
+                    cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
+                }
+            }
+        
         }
         .padding(.top, 100)
         

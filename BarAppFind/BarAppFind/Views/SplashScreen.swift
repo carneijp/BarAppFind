@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct SplashScreen: View {
     @EnvironmentObject var map: MapViewModel
@@ -36,18 +37,8 @@ struct SplashScreen: View {
                 .onAppear{
                     NetworkConnection.shared.startMonitoring()
                     cloud.fetchBars(){ result in
-                        print("result: \(result)")
                         if result {
                             DispatchQueue.main.async{
-                                map.chekIfLocationService { permission in
-                                    if permission {
-                                        for i in 0..<cloud.barsList.count{
-                                            cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
-                                        }
-                                        cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
-                                    }
-                                }
-                                
                                 isActive = true
                             }
                             
@@ -60,9 +51,9 @@ struct SplashScreen: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1){
                         hasEthernet = NetworkConnection.shared.isConnected
                     }
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 3){
-//                        isActive = true
-//                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+                        isActive = true
+                    }
                 }
             }
         }
