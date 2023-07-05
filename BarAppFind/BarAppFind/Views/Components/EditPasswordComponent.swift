@@ -35,6 +35,7 @@ struct EditPasswordComponent: View {
             .padding(.vertical, 12)
             .background(.secondary.opacity(0.05))
             .padding(.bottom, 30)
+            
             HStack{
                 Text("Alterar senha")
                     .font(.system(size: 18))
