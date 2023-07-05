@@ -100,17 +100,20 @@ struct SignInComponent: View {
                 } label: {
                     HStack {
                         Spacer()
-                        Text("Entrar")
-//                            .underline()
-                            .foregroundColor(.white)
+                        Text("Login com E-mail")
+                            .underline()
+                            .foregroundColor(.primary)
                             .font(.system(size: 16))
                             .padding(.vertical, 10)
                         Spacer()
                     }
                 }
-                .background(Color("darkBlueGradient"))
+//                .background(Color("darkBlueGradient"))
                 .cornerRadius(10)
                     
+                Text("ou")
+                    .font(.system(size: 16))
+                
                 SignInApple()
                 
                 Spacer()

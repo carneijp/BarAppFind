@@ -22,58 +22,58 @@ struct SignInApple: View {
                 request.requestedScopes = [.email, .fullName]
             } onCompletion: { result in
                 switch result{
-                case .success(let auth):
-                    
-                    switch auth.credential{
-                    case let credential as ASAuthorizationAppleIDCredential:
-                        let userId = credential.user
-                        let email = credential.email
-                        let firstName = credential.fullName?.givenName
-                        let lastName = credential.fullName?.familyName
+                    case .success(let auth):
                         
-                        self.email = email ?? ""
-                        self.userId = userId
-                        self.lastName = lastName ?? ""
-                        self.firstName = firstName ?? ""
-                        
-                        
-                        cloud.addUserID(clients: Clients(email: self.email, firstName: self.firstName, lastName: self.lastName, userID: self.userId)) { result in
-    
-                            cloud.validadeClientLoginWithApple(userID: self.userId) { result in
-                                if result{
-                                    print("Loguei com apple id")
-                                    dismiss()
+                        switch auth.credential{
+                            case let credential as ASAuthorizationAppleIDCredential:
+                                let userId = credential.user
+                                let email = credential.email
+                                let firstName = credential.fullName?.givenName
+                                let lastName = credential.fullName?.familyName
+                                
+                                self.email = email ?? ""
+                                self.userId = userId
+                                self.lastName = lastName ?? ""
+                                self.firstName = firstName ?? ""
+                                
+                                
+                                cloud.addUserID(clients: Clients(email: self.email, firstName: self.firstName, lastName: self.lastName, userID: self.userId)) { result in
+                                    
+                                    cloud.validadeClientLoginWithApple(userID: self.userId) { result in
+                                        if result{
+                                            print("Loguei com apple id")
+                                            dismiss()
+                                        }
+                                        else{
+                                            print("Nao loguei com apple id")
+                                        }
+                                    }
                                 }
-                                else{
-                                    print("Nao loguei com apple id")
-                                }
-                            }
+                            default:
+                                break
                         }
-                        
-                        
-                        
-                        
-                    default:
                         break
-                    }
-                    break
-                case .failure(let error):
-                    print(error)
-                    break
+                    case .failure(let error):
+                        print(error)
+                        break
                 }
             }
             .signInWithAppleButtonStyle(
-                colorScheme == .dark ? .white : .black
+                //                colorScheme == .dark ? .white : .black
+                //                .whiteOutline
+                .white
             )
             .frame(height: 50)
-            .cornerRadius(15)
+            //            .cornerRadius(15)
+            //            .border(Color.black, width: 1)
+            .overlay(
+                RoundedRectangle(cornerRadius: 24)
+                    .stroke(Color.black, lineWidth: 1)
+            )
             .padding()
             
         }
-        
     }
-    
-    
 }
 
 struct SignInApple_Previews: PreviewProvider {
