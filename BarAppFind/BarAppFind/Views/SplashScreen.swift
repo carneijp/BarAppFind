@@ -35,21 +35,19 @@ struct SplashScreen: View {
                 .ignoresSafeArea()
                 .onAppear{
                     NetworkConnection.shared.startMonitoring()
-                    
                     cloud.fetchBars(){ result in
                         if result {
                             DispatchQueue.main.async{
                                 isActive = true
                             }
-                            map.chekIfLocationService{ permission in
-                                if permission{
+                            map.chekIfLocationService { permission in
+                                if permission {
                                     for i in 0..<cloud.barsList.count{
                                         cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
                                     }
                                     cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
                                 }
                             }
-                            
                         }
                     }
                     
@@ -62,7 +60,6 @@ struct SplashScreen: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3){
                         isActive = true
                     }
-                    
                 }
             }
         }
