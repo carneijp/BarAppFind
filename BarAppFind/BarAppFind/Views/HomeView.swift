@@ -93,7 +93,7 @@ struct HomeView: View {
                             //Bars Section
                             VStack {
                                 HStack {
-                                    Text("Sugestões de Onde ir hoje...")
+                                    Text("Sugestões de Onde ir hoje.")
                                         .font(.system(size: 16))
                                     
                                     Spacer()

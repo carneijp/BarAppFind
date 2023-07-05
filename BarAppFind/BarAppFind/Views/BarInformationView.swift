@@ -29,7 +29,7 @@ struct BarInformationView: View {
                     .multilineTextAlignment(.leading)
                 
             }
-            MapView(bar: self.bar, mapStyle: .compact)
+            MapCompactView(bar: self.bar)
                 .frame(height: 129)
                 .cornerRadius(10)
             
