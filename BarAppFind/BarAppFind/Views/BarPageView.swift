@@ -29,6 +29,7 @@ struct BarPageView: View {
     @State private var viewIndex: Int = 1
     @State private var showReviewError: Bool = false
     @State private var imageIndex: Int = 0
+    @State private var imagesBuildFromURL: [UIImage] = []
     
     var body: some View {
         
@@ -36,32 +37,28 @@ struct BarPageView: View {
             ScrollView {
                 VStack{
                     if self.isLoading == false {
-                        if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
-                                .clipped()
-                                .padding(.bottom, 10)
-                        }
+                        //                        if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+                        //                            Image(uiImage: image)
+                        //                                .resizable()
+                        //                                .aspectRatio(contentMode: .fill)
+                        //                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+                        //                                .clipped()
+                        //                                .padding(.bottom, 10)
+                        //                        }
                         //MARK: carrossel para receber n imagens
-//                        if let todasAsImagens = bar?.photosToUse as? [URL] {
-//                            VStack{
-//                                TabView(selection: $imageIndex) {
-//                                    ForEach(todasAsImagens.indices, id:\.self){ url in
-//                                        if let data = try? Data(contentsOf: todasAsImagens[url]), let image = UIImage(data: data) {
-//                                            Image(uiImage: image)
-//                                                .resizable()
-//                                                .aspectRatio(contentMode: .fill)
-//                                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
-//                                                .clipped()
-//                                                .padding(.bottom, 10)
-//                                        }
-//                                    }
-//                                }
-//
-//                            }
-//                        }
+                        VStack{
+                            TabView(selection: $imageIndex) {
+                                ForEach(imagesBuildFromURL.indices, id:\.self) { index in
+                                    Image(uiImage: imagesBuildFromURL[index])
+                                        .resizable()
+                                        .scaledToFill()
+                                        .clipped()
+                                }
+                            }
+                            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+                        }
+                        .padding(.bottom, 10)
                         
                         //MARK: tabBar
                         HStack{
@@ -220,6 +217,13 @@ struct BarPageView: View {
                     if bar?.name != barname {
                         cloud.fetchBar(barName: barname) { bar in
                             self.bar = bar
+                            DispatchQueue.global().async {
+                                for i in (0 ..< (self.bar?.photosToUse.count ?? 0)){
+                                    if let photoLogo = bar?.photosToUse[i], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data){
+                                        self.imagesBuildFromURL.append(image)
+                                    }
+                                }
+                            }
                             self.isLoading = false
                         }
                     }

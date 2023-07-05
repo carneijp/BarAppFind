@@ -9,117 +9,77 @@ import SwiftUI
 import MapKit
 import CloudKit
 
-enum MapStyle {
-    case compact, large
-}
-
-
-
+//enum MapStyle {
+//    case compact, large
+//}
 struct MapView: View {
     @State var barsList: [Bar] = []
     var bar: Bar?
-    @EnvironmentObject var viewModel: MapViewModel
+    @StateObject var viewModel: MapViewModel = MapViewModel()
     @EnvironmentObject var cloud: CloudKitCRUD
-    let mapStyle: MapStyle
     @State var shownBar: Bar?
     @State var showBarSmallDescription: Bool = false
     @State var didTap: Bool = false
     @State var firstAppear: Bool = true
     
     var body: some View {
-        if mapStyle == .large{
-            ZStack{
-                Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
-                    MapAnnotation(coordinate: bar.coordinate){
-                        Group{
-                            VStack{
-                                Image(systemName: "mappin.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 36)
-                                    .foregroundColor(.red)
-                                Circle()
-                                    .scaledToFit()
-                                    .frame(height: 5)
-                                    .foregroundColor(.red)
-                                    .fixedSize()
-                                    .offset(y:-6)
-                            }
-                            .scaleEffect(shownBar == bar && showBarSmallDescription ? 1.5 : 1)
-                            .frame(width:60 ,height:60)
-                            .animation(.linear(duration: 0.5))
-                            .highPriorityGesture(
-                                TapGesture()
-                                    .onEnded { state in
-                                            shownBar = bar
-                                            showBarSmallDescription = true
-                                        
-                                        didTap = true
-                                        
-                                        viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: shownBar?.latitude ?? 0.0, longitude: shownBar?.longitude ?? 0.0) , span: viewModel.region.span)
-                                    }
-                            )
+        ZStack{
+            Map(coordinateRegion: $viewModel.region, showsUserLocation: true, annotationItems: cloud.barsList) { bar in
+                MapAnnotation(coordinate: bar.coordinate){
+                    Group{
+                        VStack{
+                            Image(systemName: "mappin.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 36)
+                                .foregroundColor(.red)
+                            Circle()
+                                .scaledToFit()
+                                .frame(height: 5)
+                                .foregroundColor(.red)
+                                .fixedSize()
+                                .offset(y:-6)
                         }
+                        .scaleEffect(shownBar == bar && showBarSmallDescription ? 1.5 : 1)
+                        .frame(width:60 ,height:60)
+                        .animation(.linear(duration: 0.5))
+                        .highPriorityGesture(
+                            TapGesture()
+                                .onEnded { state in
+                                    shownBar = bar
+                                    showBarSmallDescription = true
+                                    
+                                    didTap = true
+                                    
+                                    viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: shownBar?.latitude ?? 0.0, longitude: shownBar?.longitude ?? 0.0) , span: viewModel.region.span)
+                                }
+                        )
                     }
                 }
-                .tint(Color("blue"))
-                .animation(!firstAppear ? .linear(duration: 2) : .none)
-                .onTapGesture {
-                        if !didTap {
-                            showBarSmallDescription = false
-                        }
-                        didTap = false
-                }
-                VStack{
-                    ComponenteLargeMap(chosen: $viewModel.chosen, shownBar: $shownBar, showBarSmallDescription: $showBarSmallDescription)
-                        .environmentObject(viewModel)
-                    Spacer()
-                }
-                
             }
-            .onAppear {
-                DispatchQueue.main.async{
-                    firstAppear = false
+            .tint(Color("blue"))
+            .animation(!firstAppear ? .linear(duration: 2) : .none)
+            .onTapGesture {
+                if !didTap {
+                    showBarSmallDescription = false
                 }
-                viewModel.wheretoZoom()
+                didTap = false
             }
-            .onChange(of: viewModel.chosen) { newValue in
-                viewModel.wheretoZoom()
+            VStack{
+                ComponenteLargeMap(chosen: $viewModel.chosen, shownBar: $shownBar, showBarSmallDescription: $showBarSmallDescription)
+                    .environmentObject(viewModel)
+                Spacer()
             }
             
-        }else{
-            if mapStyle == .compact{
-                ZStack{
-                    if let barChosen = bar {
-                        Map(coordinateRegion: $viewModel.region,showsUserLocation: true,  annotationItems: [barChosen]) {bar in
-                            MapAnnotation(coordinate: bar.coordinate) {
-                                Group{
-                                    VStack{
-                                        Image(systemName: "mappin.circle.fill")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(height: 36)
-                                            .foregroundColor(.red)
-                                        //
-                                        Circle()
-                                            .scaledToFit()
-                                            .frame(height: 5)
-                                            .foregroundColor(.red)
-                                            .fixedSize()
-                                            .offset(y:-6)
-                                    }
-                                    .frame(width:60 ,height:60)
-                                }
-                            }
-                        }
-                    }
-                }
-                .onAppear {
-                    viewModel.latitude = bar?.latitude
-                    viewModel.longitude = bar?.longitude
-                    viewModel.wheretoZoom()
-                }
+        }
+        .onAppear {
+            DispatchQueue.main.async{
+                firstAppear = false
             }
+            viewModel.wheretoZoom()
+        }
+        .onChange(of: viewModel.chosen) { newValue in
+            viewModel.wheretoZoom()
         }
     }
 }
@@ -255,7 +215,7 @@ struct listViewModel: View{
 
 struct Map_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(mapStyle: .large)
+        MapView()
     }
 }
 
