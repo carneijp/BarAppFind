@@ -24,9 +24,9 @@ struct MoodComponent: View {
         .padding(.top, 30)
         .padding(.horizontal, 21)
         .padding(.bottom, 25)
-        .background(Color("gray6"))
+        .background(Color(.white))
         .cornerRadius(12)
-        .shadow(radius: 3, x: 0, y: 2)
+        .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
     }
 }
 

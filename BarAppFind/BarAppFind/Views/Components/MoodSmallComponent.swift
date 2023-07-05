@@ -29,7 +29,7 @@ struct MoodSmallComponent: View {
 //        .padding(.horizontal, 21)
         .background(.white)
         .cornerRadius(12)
-        .shadow(radius: 3, x: 0, y: 2)
+        .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
     }
 }
 

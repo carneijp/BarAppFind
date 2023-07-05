@@ -86,9 +86,9 @@ struct HomeView: View {
                                     }
                                 }
                                 .padding(.horizontal, 24)
-                                .padding(.bottom, 8)
+                                .padding(.vertical, 8)
                             }
-                            .padding(.bottom, 18)
+//                            .padding(.bottom, 18)
                             
                             //Bars Section
                             VStack {
