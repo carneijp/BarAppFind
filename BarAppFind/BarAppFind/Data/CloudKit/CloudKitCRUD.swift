@@ -251,6 +251,16 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
+    func addReport(assunto: String, texto: String, completion: @escaping (Bool) -> Void){
+        let report = CKRecord(recordType: "Reports")
+        report["Assunto"] = assunto
+        report["Descrição"] = texto
+        report["UserID"] = client?.userID ?? ""
+        self.saveItemPublic(record: report)
+        completion(true)
+        
+    }
+    
     func addCity(cidade: City) {
         var jaExiste: Bool = false
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(cidade.name)"])
@@ -741,7 +751,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    private func checkAvaiableEmail(email: String, completion: @escaping(Bool) -> Void){
+    private func checkAvaiableEmail(email: String, completion: @escaping(Bool) -> Void) {
         let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(email)", ""])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
@@ -830,7 +840,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func changeUserPassword(client: Clients, password: String){
+    func changeUserPassword(client: Clients, password: String) {
         let predicate = NSPredicate(format: "Email = %@ AND UserID = %@", argumentArray: ["\(client.email)", ""])
         let query = CKQuery(recordType: "Clients", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
