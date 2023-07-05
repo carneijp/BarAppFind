@@ -28,6 +28,7 @@ struct BarPageView: View {
     @State var isLoading: Bool = true
     @State private var viewIndex: Int = 1
     @State private var showReviewError: Bool = false
+    @State private var imageIndex: Int = 0
     
     var body: some View {
         
@@ -43,6 +44,24 @@ struct BarPageView: View {
                                 .clipped()
                                 .padding(.bottom, 10)
                         }
+                        //MARK: carrossel para receber n imagens
+//                        if let todasAsImagens = bar?.photosToUse as? [URL] {
+//                            VStack{
+//                                TabView(selection: $imageIndex) {
+//                                    ForEach(todasAsImagens.indices, id:\.self){ url in
+//                                        if let data = try? Data(contentsOf: todasAsImagens[url]), let image = UIImage(data: data) {
+//                                            Image(uiImage: image)
+//                                                .resizable()
+//                                                .aspectRatio(contentMode: .fill)
+//                                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
+//                                                .clipped()
+//                                                .padding(.bottom, 10)
+//                                        }
+//                                    }
+//                                }
+//
+//                            }
+//                        }
                         
                         //MARK: tabBar
                         HStack{

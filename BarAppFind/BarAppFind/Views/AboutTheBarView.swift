@@ -113,7 +113,7 @@ struct AboutTheBar: View {
             .bold()
             .padding(.bottom, -8)
             .padding(.top, 10)
-            .padding(.bottom, 16)
+            .padding(.bottom, 6)
         
         ScrollView(.horizontal, showsIndicators: false){
             
@@ -142,7 +142,7 @@ struct AboutTheBar: View {
                     }
                 }
             }
-            .padding(.bottom, 10)
+            .padding(.vertical, 10)
             .padding(.horizontal, 24)
         }
         
