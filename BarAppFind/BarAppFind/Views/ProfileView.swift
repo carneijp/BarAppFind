@@ -335,6 +335,7 @@ struct ProfileView: View {
             }
             .sheet(isPresented: $showReportView) {
                 ReportComponent()
+                    .environmentObject(cloud)
             }
             
             // Pop Up De "Login Necessário"
