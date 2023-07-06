@@ -55,11 +55,11 @@ struct SignUpComponent: View {
             
             // Inputs do Usuário
             Group {
-                TextField("Digite o seu e-mail", text: $email)
+                TextField("Nome", text: $email)
                 
-                TextField("Nome", text: $firstName)
+                TextField("Sobrenome", text: $firstName)
                 
-                TextField("Sobrenome", text: $lastName)
+                TextField("Digite o seu e-mail", text: $lastName)
                 
                 SecureField("Senha", text: $password)
             }
@@ -107,16 +107,19 @@ struct SignUpComponent: View {
 
             }label: {
                 HStack {
-                    Spacer()
+//                    Spacer()
                     Text("Vamos lá!")
                         .foregroundColor(.white)
+                        .bold()
                         .font(.system(size: 16))
                         .padding(.vertical, 10)
+                        .padding(.horizontal, 32)
+                    
 //                    .padding(.horizontal, 20)
-                    Spacer()
+//                    Spacer()
                 }
             }
-            .background(Color("login"))
+            .background(Color("gray1"))
             .cornerRadius(10)
             .padding(.top, 20)
             .padding(.horizontal, 24)

@@ -22,6 +22,7 @@ struct ProfileView: View {
     @State private var medalName: String = ""
     @State private var editProfile: Bool = false
     @State private var editPasswords: Bool = false
+    @State private var showReportView: Bool = false
     
     //    @State private var showAnimation: Bool = true
     
@@ -44,7 +45,7 @@ struct ProfileView: View {
                     .bold()
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
-//                    .padding(.leading, 24)
+                //                    .padding(.leading, 24)
                 
                 
                 // Botão de Fazer Login
@@ -135,63 +136,64 @@ struct ProfileView: View {
                 
                 // MARK: - Conteúdo Tab Bar
                 switch topProfileChoice {
-                        
-                        // Conteúdo Tab. 1 - Minhas Conquistas
-                    case .myConquests:
-                        ScrollView {
-                            VStack {
-                                // Primeira conquista do App
-                                HStack (spacing: 20) {
-                                    Image("Primeiro Acesso")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 80, height: 80)
-                                        .foregroundColor(Color("gray1"))
-                                        .shadow(radius: 2, y: 2)
-                                    
-                                    Text("Primeiro Acesso")
-                                        .font(.system(size: 16))
-                                        .bold()
-                                        .multilineTextAlignment(.center)
-                                        .foregroundColor(Color("white"))
-                                }
-                                .padding(.vertical, 30)
-                                .padding(.horizontal, 10)
-                                .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
-                                .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .cornerRadius(12)
-                                .shadow(radius: 2, y: 2)
-                                .padding(.top, 20)
-                                .onTapGesture {
-                                    showFirstConquest = true
-                                }
+                    
+                    // Conteúdo Tab. 1 - Minhas Conquistas
+                case .myConquests:
+                    ScrollView {
+                        VStack {
+                            // Primeira conquista do App
+                            HStack (spacing: 20) {
+                                Image("Primeiro Acesso")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 80, height: 80)
+                                    .foregroundColor(Color("gray1"))
+                                    .shadow(radius: 2, y: 2)
                                 
-                                LazyVGrid(columns: columns, spacing: 18) {
-                                    ForEach(conquestMedals, id: \.self) { medal in
-                                        if cloud.client == nil {
-                                            MedalComponent(medalName: medal)
-                                                .foregroundColor(.gray)
-                                                .onTapGesture {
-                                                    showMedalConquest = true
-                                                    medalName = medal
-                                                }
-                                        } else {
-                                            MedalComponent(medalName: medal)
-                                                .onTapGesture {
-                                                    showMedalConquest = true
-                                                    medalName = medal
-                                                }
-                                        }
+                                Text("Primeiro Acesso")
+                                    .font(.system(size: 16))
+                                    .bold()
+                                    .multilineTextAlignment(.center)
+                                    .foregroundColor(Color("white"))
+                            }
+                            .padding(.vertical, 30)
+                            .padding(.horizontal, 10)
+                            .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
+                            .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .cornerRadius(12)
+                            .shadow(radius: 2, y: 2)
+                            .padding(.top, 20)
+                            .onTapGesture {
+                                showFirstConquest = true
+                            }
+                            
+                            LazyVGrid(columns: columns, spacing: 18) {
+                                ForEach(conquestMedals, id: \.self) { medal in
+                                    if cloud.client == nil {
+                                        MedalComponent(medalName: medal)
+                                            .foregroundColor(.gray)
+                                            .onTapGesture {
+                                                showMedalConquest = true
+                                                medalName = medal
+                                            }
+                                    } else {
+                                        MedalComponent(medalName: medal)
+                                            .onTapGesture {
+                                                showMedalConquest = true
+                                                medalName = medal
+                                            }
                                     }
                                 }
-                                .padding(.top, 16)
-                                .padding(.horizontal, 24)
                             }
-                            .padding(.bottom, 100)
+                            .padding(.top, 16)
+                            .padding(.horizontal, 24)
                         }
-                        
-                        // Conteúdo Tab. 2 - Editar Perfil
-                    case .profileEdit:
+                        .padding(.bottom, 100)
+                    }
+                    
+                    // Conteúdo Tab. 2 - Editar Perfil
+                case .profileEdit:
+                    ScrollView {
                         VStack(alignment: .leading){
                             Text("Detalhes da conta")
                                 .font(.system(size: 18))
@@ -216,11 +218,11 @@ struct ProfileView: View {
                                     .foregroundColor(.secondary)
                                 Spacer()
                             }
-                                .padding(.all)
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                .shadow(radius: 2)
-                                .padding(.bottom, 10)
+                            .padding(.all)
+                            .background(Color.white)
+                            .cornerRadius(10)
+                            .shadow(radius: 2)
+                            .padding(.bottom, 10)
                             
                             HStack{
                                 Text(cloud.client?.email ?? "Email")
@@ -263,6 +265,7 @@ struct ProfileView: View {
                                             .font(.system(size: 18))
                                             .foregroundColor(.secondary)
                                         Spacer()
+                                        Image(systemName: "chevron.right")
                                     }
                                     .padding(.all)
                                     .background(Color.white)
@@ -273,6 +276,23 @@ struct ProfileView: View {
                                         editPasswords = true
                                     }
                                 }
+                            }
+                            
+                            Button {
+                                self.showReportView = true
+                            } label: {
+                                HStack{
+                                    Text("Reportar Problema")
+                                        .font(.system(size: 18))
+                                        .foregroundColor(.primary)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                }
+                                .padding(.all)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .shadow(radius: 2)
+                                .padding(.bottom, 10)
                             }
                             
                             if cloud.client != nil {
@@ -291,14 +311,9 @@ struct ProfileView: View {
                                         .padding(.bottom, 10)
                                 }
                             }
-                            
-                            
-                            
-                            
                         }
                         .padding(.horizontal, 24)
-                        
-                        
+                    }
                 }
                 
                 // MARK: - Final da View
@@ -318,6 +333,10 @@ struct ProfileView: View {
             .sheet(isPresented: $editPasswords){
                 EditPasswordComponent()
             }
+            .sheet(isPresented: $showReportView) {
+                ReportComponent()
+            }
+            
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
             
@@ -336,9 +355,9 @@ struct ProfileView: View {
     }
 }
 
-struct Profile_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-    }
-}
+//struct Profile_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileView()
+//    }
+//}
 
