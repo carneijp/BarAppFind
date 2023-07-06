@@ -344,18 +344,12 @@ struct ProfileView: View {
             ConquestModalComponent(showMedalConquest: $showMedalConquest, medalName: $medalName)
             
         }
-        // Faz aparecer o Pop Up de Login Necessário
-//        .onAppear() {
-//            if cloud.client == nil {
-//                self.isPresented = true
-//            }
-//        }
+        .onAppear() {
+            if let primeiroLogin = UserDefaults.standard.string(forKey: "PrimeiroLogin"), primeiroLogin != ""{
+            }else{
+                self.showFirstConquest = true
+                UserDefaults.standard.set("True", forKey: "PrimeiroLogin")
+            }
+        }
     }
 }
-
-//struct Profile_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProfileView()
-//    }
-//}
-

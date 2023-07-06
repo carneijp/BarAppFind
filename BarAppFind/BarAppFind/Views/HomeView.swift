@@ -150,13 +150,6 @@ struct HomeView: View {
                 }
                 
             }
-            
-//            map.chekIfLocationService{ permission in
-//                print("permission: \(permission)")
-//                if permission{
-//
-//                }
-//            }
 
         })
         .onAppear() {
@@ -183,19 +176,6 @@ struct HomeView: View {
                 }
                 cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
             }
-            
-//            map.chekIfLocationService{ permission in
-//                if permission{
-//                    for i in 0..<cloud.barsList.count{
-//                        if let distancia = cloud.barsList[i].distanceFromUser {
-//                            
-//                        } else{
-//                            cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
-//                        }
-//                    }
-//                    cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
-//                }
-//            }
         
         }
         .padding(.top, 100)
