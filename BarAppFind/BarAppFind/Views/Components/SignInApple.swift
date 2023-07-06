@@ -63,7 +63,7 @@ struct SignInApple: View {
                 //                .whiteOutline
                 .white
             )
-            .frame(height: 50)
+            .frame(width: 200, height: 40)
             //            .cornerRadius(15)
             //            .border(Color.black, width: 1)
             .overlay(

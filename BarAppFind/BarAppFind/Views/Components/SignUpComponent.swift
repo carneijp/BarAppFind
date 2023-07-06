@@ -20,7 +20,7 @@ struct SignUpComponent: View {
     
     
     var body: some View {
-        VStack {
+        VStack() {
             
             // Header da Sheet
             HStack {
@@ -53,13 +53,21 @@ struct SignUpComponent: View {
                 .padding(.top, 30)
                 .padding(.bottom, 10)
             
+            HStack {
+                Text("Cadastrar")
+                    .font(.system(size: 14))
+                    .foregroundColor(Color("gray2"))
+                Spacer()
+            }
+            .padding(.horizontal, 24)
+
             // Inputs do Usuário
             Group {
                 TextField("Nome", text: $email)
                 
                 TextField("Sobrenome", text: $firstName)
                 
-                TextField("Digite o seu e-mail", text: $lastName)
+                TextField("E-mail", text: $lastName)
                 
                 SecureField("Senha", text: $password)
             }
@@ -113,14 +121,14 @@ struct SignUpComponent: View {
                         .bold()
                         .font(.system(size: 16))
                         .padding(.vertical, 10)
-                        .padding(.horizontal, 32)
+                        .padding(.horizontal, 44)
                     
 //                    .padding(.horizontal, 20)
 //                    Spacer()
                 }
             }
             .background(Color("gray1"))
-            .cornerRadius(10)
+            .cornerRadius(16)
             .padding(.top, 20)
             .padding(.horizontal, 24)
             
