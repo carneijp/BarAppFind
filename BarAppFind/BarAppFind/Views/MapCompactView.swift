@@ -20,7 +20,8 @@ struct MapCompactView: View {
     @State var firstAppear: Bool = true
     
     var body: some View {
-        ZStack{
+        
+        ZStack {
             if let barChosen = bar {
                 Map(coordinateRegion: $viewModel.region,showsUserLocation: true,  annotationItems: [barChosen]) {bar in
                     MapAnnotation(coordinate: bar.coordinate) {

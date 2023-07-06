@@ -196,10 +196,7 @@ class CloudKitCRUD: ObservableObject {
                 }
             }
         }
-        
         addDataBaseOperation(operation: queryOperation)
-        
-        
     }
     
     func addUserID(clients: Clients, completion: @escaping (Bool) -> Void) {
@@ -258,7 +255,6 @@ class CloudKitCRUD: ObservableObject {
         report["UserID"] = client?.userID ?? ""
         self.saveItemPublic(record: report)
         completion(true)
-        
     }
     
     func addCity(cidade: City) {
@@ -766,7 +762,7 @@ class CloudKitCRUD: ObservableObject {
                         switch element.1 {
                         case .success(_):
                             completion(false)
-
+                            
                         case .failure(let err):
                             print(err.localizedDescription)
                             completion(false)

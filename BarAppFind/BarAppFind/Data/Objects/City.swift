@@ -76,11 +76,16 @@ class Bar: ObservableObject, Hashable, Identifiable {
         self.photosToUse = photosToUSE
     }
     
-    func calculateDistance(userLocation: CLLocationCoordinate2D){
-        let userlatitude: Double = userLocation.latitude
-        let userLongitude: Double = userLocation.longitude
-        let distance: Double = sqrt(pow((self.latitude - userlatitude), 2) + pow((self.longitude - userLongitude), 2)) * 112.35
-        self.distanceFromUser = distance
+    func calculateDistance(userLocation: CLLocationCoordinate2D?){
+        if let userLocation = userLocation {
+            let userlatitude: Double = userLocation.latitude
+            let userLongitude: Double = userLocation.longitude
+            let distance: Double = sqrt(pow((self.latitude - userlatitude), 2) + pow((self.longitude - userLongitude), 2)) * 112.35
+            self.distanceFromUser = distance
+        }else {
+            self.distanceFromUser = nil
+        }
+        
     }
     
 }
