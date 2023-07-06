@@ -50,9 +50,21 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager?
     
+    @Published var locationServicesEnabled: Bool = false
+    
+    override init() {
+        super.init()
+        self.locationManager = CLLocationManager()
+        self.locationManager?.delegate = self
+        
+      //  if CLLocationManager.locationServicesEnabled() {
+     //       locationServicesEnabled = true
+     //   }
+    }
+    
     func wheretoZoom(){
-        self.chekIfLocationService(){ result in
-            if result{
+       // self.chekIfLocationService(){ result in
+            if locationServicesEnabled /*result*/   {
                 if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
                     self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
                 }else if let location = self.chosen{
@@ -67,32 +79,8 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                     self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
                 }
             }
-        }
+     //   }
     }
-    
-    func chekIfLocationService(completion: @escaping(Bool) -> Void) {
-//        DispatchQueue.main.async {
-            if CLLocationManager.locationServicesEnabled() {
-                self.locationManager = CLLocationManager()
-                self.locationManager!.delegate = self
-                completion(true)
-            }else{
-                print("location servise desable, please enable for a better experience.")
-                completion(false)
-            }
-//        }
-    }
-    
-    //    func checkForLocation() {
-    //        DispatchQueue.global().async {
-    //            if CLLocationManager.locationServicesEnabled() {
-    //                self.locationManager = CLLocationManager()
-    //                self.locationManager!.delegate = self
-    //            }else{
-    //                print("location servise desable, please enable for a better experience.")
-    //            }
-    //        }
-    //    }
     
     private func checkLocationPermission() {
         
@@ -101,6 +89,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
         switch locationManager.authorizationStatus{
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
+            locationServicesEnabled = false
         case .restricted:
             print("your location is restricted")
         case .denied:
@@ -113,6 +102,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                     self.userCLlocation2d = a
                     self.userLocation = MKCoordinateRegion(center: a,
                                                            span:  MapDetails.defaultSpan)
+                    self.locationServicesEnabled = true
                 }
             }
             
@@ -124,4 +114,35 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         checkLocationPermission()
     }
+    
+    
+    
+    
+    //    func chekIfLocationService(completion: @escaping(Bool) -> Void) {
+    //      //  let myThread = DispatchQueue(label: "minha thread", qos: .userInitiated)
+    ////        DispatchQueue.main.async {
+    //    //    myThread.async {
+    //            if CLLocationManager.locationServicesEnabled() {
+    //                self.locationManager = CLLocationManager()
+    //                self.locationManager!.delegate = self
+    //                completion(true)
+    //            }else{
+    //                print("location servise desable, please enable for a better experience.")
+    //                completion(false)
+    //            }
+    //    //    }
+    //
+    ////        }
+    //    }
+        
+        //    func checkForLocation() {
+        //        DispatchQueue.global().async {
+        //            if CLLocationManager.locationServicesEnabled() {
+        //                self.locationManager = CLLocationManager()
+        //                self.locationManager!.delegate = self
+        //            }else{
+        //                print("location servise desable, please enable for a better experience.")
+        //            }
+        //        }
+        //    }
 }
