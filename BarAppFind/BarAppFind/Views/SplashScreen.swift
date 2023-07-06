@@ -9,6 +9,7 @@ import SwiftUI
 import MapKit
 
 struct SplashScreen: View {
+    @EnvironmentObject var sceneDelegate: SceneDelegate
     @EnvironmentObject var map: MapViewModel
     @EnvironmentObject var cloud: CloudKitCRUD
     @State var size: Double = 0.8
@@ -35,6 +36,8 @@ struct SplashScreen: View {
                 }
                 .ignoresSafeArea()
                 .onAppear{
+                    self.sceneDelegate.cloud = self.cloud
+                    self.sceneDelegate.map = self.map
                     NetworkConnection.shared.startMonitoring()
                     cloud.fetchBars(){ result in
                         if result {
