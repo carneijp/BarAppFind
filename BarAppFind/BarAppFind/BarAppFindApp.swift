@@ -37,8 +37,7 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate, ObservableObject {
                     self.cloud.barsList[i].calculateDistance(userLocation: self.map.userCLlocation2d)
                 }
                 self.cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
-//            }
-//        }
+//           t
         
     }
     
