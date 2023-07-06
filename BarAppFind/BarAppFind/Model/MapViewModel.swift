@@ -5,6 +5,7 @@
 //  Created by Joao Paulo Carneiro on 29/04/23.
 //
 import MapKit
+import SwiftUI
 
 enum MapDetails{
     case bomFimCoordinate
@@ -62,9 +63,12 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
      //   }
     }
     
-    func wheretoZoom(){
+    @MainActor func wheretoZoom(){
+        withAnimation {
+            
+        
        // self.chekIfLocationService(){ result in
-            if locationServicesEnabled /*result*/   {
+            if locationServicesEnabled    {
                 if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
                     self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
                 }else if let location = self.chosen{
@@ -79,6 +83,7 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
                     self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
                 }
             }
+        }
      //   }
     }
     

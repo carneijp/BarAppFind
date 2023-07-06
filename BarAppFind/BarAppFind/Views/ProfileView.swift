@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var cloud: CloudKitCRUD
-    // Tab Bar do Perfil -> Padrão: Minhas Conquistas
     @State private var topProfileChoice: ChoiceProfile = .myConquests
     @State private var isMyConquests: Bool = true
     @State private var isProfileEdit: Bool = false
@@ -45,8 +44,6 @@ struct ProfileView: View {
                     .bold()
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
-                //                    .padding(.leading, 24)
-                
                 
                 // Botão de Fazer Login
                 if cloud.client == nil {
@@ -348,11 +345,11 @@ struct ProfileView: View {
             
         }
         // Faz aparecer o Pop Up de Login Necessário
-        .onAppear() {
-            if cloud.client == nil {
-                self.isPresented = true
-            }
-        }
+//        .onAppear() {
+//            if cloud.client == nil {
+//                self.isPresented = true
+//            }
+//        }
     }
 }
 
