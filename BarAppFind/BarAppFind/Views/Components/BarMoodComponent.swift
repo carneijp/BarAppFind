@@ -28,14 +28,14 @@ struct BarMoodComponent: View {
                                 Text(bar.name)
                                     .font(.system(size: 16))
                                     .bold()
-
+                                    .lineLimit(1)
+                                
                                 HStack {
                                     Image(systemName: "star.fill")
                                         .font(.system(size: 13))
-
+                                    
                                     Text(String(format: "%.1f", bar.grade))
                                         .font(.system(size: 14))
-
                                     Spacer()
                                 }
                             }

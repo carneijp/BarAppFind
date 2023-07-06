@@ -8,16 +8,21 @@
 import SwiftUI
 
 struct AboutTheBar: View {
+    
+    // MARK: - Setup View
+    
     @EnvironmentObject var cloud: CloudKitCRUD
     @State var bar: Bar
     
+    // MARK: - Front-End View
     var body: some View {
         VStack(alignment: .leading) {
+            
+            // MARK: BarName + Grade + Favorite
             HStack{
                 Text(bar.name)
                     .font(.title2)
                     .bold()
-//                    .padding(.trailing)
                 
                 Image(systemName: "star.fill")
                     .resizable()
@@ -26,7 +31,6 @@ struct AboutTheBar: View {
                 
                 let bar = bar
                 let review = cloud.reviewListByBar.filter({ $0.barName == bar.name })
-                
                 let countBars = review.count
                 
                 if countBars == 0 {
@@ -40,7 +44,6 @@ struct AboutTheBar: View {
                 
                 Spacer()
                 
-                
                 if let cliente = cloud.client {
                     if cliente.favorites.contains(bar.name){
                         Image(systemName:"heart.fill")
@@ -51,7 +54,7 @@ struct AboutTheBar: View {
                                 cliente.favorites.remove(at: referencia ?? -1)
                                 cloud.client = cliente
                             }
-                    }else{
+                    } else {
                         Image(systemName: "heart")
                             .onTapGesture {
                                 cloud.addFavoriteBar(client: cliente, barName: bar.name)
@@ -61,113 +64,93 @@ struct AboutTheBar: View {
                     }
                     
                 }
-                //                else{
-                //                    Image(systemName: "heart")
-                //                        .onTapGesture {
-                //                            print("Voce deve estar logado para favoritar.")
-                //                            showSignInAlert = true
-                //                        }
-                //
-                //                }
-                
             }
             .padding(.top, 18)
             .padding(.horizontal, 24)
             .padding(.bottom, 6)
             
-            
+            // MARK: Operation Hours
             let horario = bar.operatinHours[getDateOfweek()]
             if horario.localizedCaseInsensitiveContains("fechado"){
-                Text(bar.operatinHours[getDateOfweek()])
+                Text("• \(bar.operatinHours[getDateOfweek()])")
                     .font(.system(size: 14))
                     .padding(.vertical, 6)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 12)
                     .background(.red.opacity(0.3))
                     .cornerRadius(8)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 12)
-                    .shadow(radius: 1, y: 2)
             }else{
-                Text(bar.operatinHours[getDateOfweek()])
+                Text("• \(bar.operatinHours[getDateOfweek()])")
                     .font(.system(size: 14))
                     .padding(.vertical, 6)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 12)
                     .background(.green.opacity(0.3))
                     .cornerRadius(8)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 12)
-                    .shadow(radius: 1, y: 2)
             }
-        
-        
-        Text(bar.description)
-            .font(.system(size: 16))
-            .lineLimit(nil)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(.bottom)
-            .padding(.horizontal, 24)
-        
-        Text("Moods para este bar:")
-            .padding(.horizontal, 24)
-            .font(.system(size: 16))
-            .bold()
-            .padding(.bottom, -8)
-            .padding(.top, 10)
-            .padding(.bottom, 6)
-        
-        ScrollView(.horizontal, showsIndicators: false){
             
-//            HStack(spacing: 16) {
-//                ForEach(moodsImage.indices, id: \.self) { index in
-//                    NavigationLink {
-//                        MoodListView(moodName: moodsName[index])
-//                            .toolbarRole(.editor)
-//
-//                    } label: {
-//                        MoodComponent(moodName: moodsName[index])
-//                    }
-//                }
-//            }
-//            .padding(.horizontal, 24)
-//            .padding(.bottom, 8)
+            // MARK: Description
+            Text(bar.description)
+                .font(.system(size: 16))
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.bottom)
+                .padding(.horizontal, 24)
             
-            HStack(spacing: 14){
-                let moods = bar.mood
-                ForEach(moods.indices, id:\.self) { indexMood in
-                    NavigationLink {
-                        MoodListView(moodName: moodsName[indexMood])
-                            .toolbarRole(.editor)
-                    } label: {
-                        MoodSmallComponent(moodName: moodsName[indexMood])
+            // MARK: Moods
+            Text("Moods para este bar:")
+                .padding(.horizontal, 24)
+                .font(.system(size: 16))
+                .bold()
+                .padding(.bottom, -8)
+                .padding(.top, 10)
+                .padding(.bottom, 6)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 14){
+                    let moods = bar.mood
+                    ForEach(moods.indices, id:\.self) { indexMood in
+                        NavigationLink {
+                            MoodListView(moodName: moodsName[indexMood])
+                                .toolbarRole(.editor)
+                        } label: {
+                            MoodSmallComponent(moodName: moodsName[indexMood])
+                        }
                     }
                 }
+                .padding(.vertical, 10)
+                .padding(.horizontal, 24)
             }
-            .padding(.vertical, 10)
+            
+            // MARK: About Enviroment
+            HStack {
+                Text("Sobre o ambiente")
+                    .font(.system(size:20))
+                    .bold()
+                Spacer()
+            }
+            .padding(.vertical)
+            .padding(.horizontal, 24)
+            
+            let caracteristicas = bar.caracteristicas
+            VStack(alignment: .leading){
+                ForEach(caracteristicas, id:\.self){ caracteristica in
+                    Text("• \(caracteristica)")
+                        .font(.system(size: 16))
+                        .padding(.bottom, 3)
+                }
+            }
             .padding(.horizontal, 24)
         }
         
-        HStack {
-            Text("Sobre o ambiente")
-                .font(.system(size:20))
-                .bold()
-            Spacer()
-        }
-        .padding(.vertical)
-        .padding(.horizontal, 24)
-        
-        let caracteristicas = bar.caracteristicas
-        VStack(alignment: .leading){
-            ForEach(caracteristicas, id:\.self){ caracteristica in
-                Text("• \(caracteristica)")
-                    .font(.system(size: 16))
-                    .padding(.bottom, 3)
-            }
-        }
-        .padding(.horizontal, 24)
     }
-        
-    }
-    
+}
+
+// MARK: - Auxiliar Functions
+
+extension AboutTheBar {
     func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
         let grade = review.map{$0.grade}.reduce(0, +)
         let finalGrade = Double(grade) / Double(review.count)
@@ -181,7 +164,6 @@ struct AboutTheBar: View {
         
         if cloud.barsList.count <= 0 {
             return 0.0
-            
         }
         
         cloud.barsList[index].grade = finalGrade
