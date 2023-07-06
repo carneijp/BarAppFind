@@ -136,7 +136,6 @@ struct HomeView: View {
             
         }
         .onChange(of: cloud.barsList.count, perform: { newValue in
-            print("newValue: \(newValue)")
             if map.locationServicesEnabled {
                 
                 for i in 0..<cloud.barsList.count{

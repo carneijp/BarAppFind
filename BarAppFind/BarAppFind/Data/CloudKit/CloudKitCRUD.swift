@@ -430,7 +430,6 @@ class CloudKitCRUD: ObservableObject {
                                 }
                                 completion(true)
                             } else {
-#warning("Informar que senha e usuários estão incorretos")
                                 self.client = nil
                                 completion(false)
                             }
