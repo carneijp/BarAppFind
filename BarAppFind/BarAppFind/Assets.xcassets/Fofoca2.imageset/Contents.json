@@ -6,10 +6,12 @@
       "scale" : "1x"
     },
     {
+      "filename" : "moodfofoca2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "moodfofoca3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

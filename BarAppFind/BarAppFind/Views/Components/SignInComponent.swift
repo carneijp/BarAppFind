@@ -56,30 +56,30 @@ struct SignInComponent: View {
             
             
             // Inputs do Usuário
-//            Group {
-//                TextField("Digite o seu e-mail", text: $email)
-//
-//
-//                SecureField("Senha", text: $password)
-//            }
-//            .font(.system(size: 16))
-//            .textInputAutocapitalization(.never)
-//            .disableAutocorrection(true)
-//            .padding(.vertical, 10)
-//            .padding(.horizontal)
-//            .background()
-//            .cornerRadius(8)
-//            .padding(.horizontal, 24)
-//            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
-//
-//
-////            aqui
-//            if invalidPassword{
-//                Text("Senha ou email incorretos, digite novamente")
-//                    .foregroundColor(.red)
-//                    .font(.system(size: 12))
-//                    .padding(.top, 8)
-//            }
+            Group {
+                TextField("Digite o seu e-mail", text: $email)
+
+
+                SecureField("Senha", text: $password)
+            }
+            .font(.system(size: 16))
+            .textInputAutocapitalization(.never)
+            .disableAutocorrection(true)
+            .padding(.vertical, 10)
+            .padding(.horizontal)
+            .background()
+            .cornerRadius(8)
+            .padding(.horizontal, 24)
+            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
+
+
+//            aqui
+            if invalidPassword{
+                Text("Senha ou email incorretos, digite novamente")
+                    .foregroundColor(.red)
+                    .font(.system(size: 12))
+                    .padding(.top, 8)
+            }
             
             
             VStack  {
