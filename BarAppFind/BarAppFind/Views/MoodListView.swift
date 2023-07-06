@@ -16,10 +16,8 @@ struct MoodListView: View {
         GridItem(.flexible(), spacing: 14)
     ]
 
-    
     var body: some View {
         ScrollView {
-
             ForEach(moodsBanner.indices, id: \.self) { index in
                 if "\(moodName)2" == moodsBanner[index] {
                     Image(moodsBanner[index])

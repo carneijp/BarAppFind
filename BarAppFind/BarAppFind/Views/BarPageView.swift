@@ -10,6 +10,9 @@ import SwiftUI
 import MapKit
 
 struct BarPageView: View {
+    
+    // MARK: - Setup View
+    
     var barname: String
     
     enum ChoiceBar {
@@ -33,20 +36,14 @@ struct BarPageView: View {
     
     @State var CurretDragOffsetX: CGFloat = 0
     
+    // MARK: - Front-End View
+    
     var body: some View {
-        
         ZStack {
             ScrollView {
                 VStack{
                     if self.isLoading == false {
-                        //                        if let photoLogo = bar?.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
-                        //                            Image(uiImage: image)
-                        //                                .resizable()
-                        //                                .aspectRatio(contentMode: .fill)
-                        //                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 650)
-                        //                                .clipped()
-                        //                                .padding(.bottom, 10)
-                        //                        }
+
                         //MARK: carrossel para receber n imagens
                         VStack{
                             TabView(selection: $imageIndex) {
@@ -278,7 +275,10 @@ struct BarPageView: View {
                         self.isLoading = false
                     }
                 }
-            }.navigationBarTitle("\(bar?.name ?? "Carregando...")", displayMode: .inline)
+            }
+            .navigationBarTitle("\(bar?.name ?? "Carregando...")", displayMode: .inline)
+            
+            // MARK: - Pop Ups View
             
             if isLoading {
                 LoadingViewModel()
@@ -292,7 +292,11 @@ struct BarPageView: View {
         }
         .padding(.top, 130)
     }
-    
+}
+
+// MARK: - Auxiliar Functions
+
+extension BarPageView {
     func getFinalGrade(from bar: Bar, review: [Review]) -> Double {
         let grade = review.map{$0.grade}.reduce(0, +)
         let finalGrade = Double(grade) / Double(review.count)
@@ -319,5 +323,4 @@ struct BarPageView: View {
         let index = Calendar.current.component(.weekday, from: Date())
         return (index + 5) % 7
     }
-    
 }
