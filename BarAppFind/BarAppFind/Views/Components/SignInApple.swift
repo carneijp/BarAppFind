@@ -61,7 +61,7 @@ struct SignInApple: View {
             .signInWithAppleButtonStyle(
                 //                colorScheme == .dark ? .white : .black
                 //                .whiteOutline
-                .white
+                .black
             )
             .frame(width: 200, height: 40)
             //            .cornerRadius(15)
