@@ -37,6 +37,7 @@ struct BarComponent: View {
                         if let distancia = bar.distanceFromUser{
                             Text(String(format: "• %.1fKm", distancia))
                                 .font(.system(size: 14))
+                                .padding(.leading, -5)
                         }
                         Spacer()
                     }

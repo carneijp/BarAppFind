@@ -20,19 +20,21 @@ struct SignInComponent: View {
         VStack {
             
             // Header da Sheet / Modal
-            HStack {
-                Text("Faça o seu Login")
+            HStack() {
+                Text("Login")
                     .font(.system(size: 16))
                     .bold()
-                    .padding(.leading, UIScreen.main.bounds.width/3.7)
+                    .padding(.leading, UIScreen.main.bounds.width/2.6)
                 //                .background(.blue)
                 
                 Spacer()
                 
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "x.circle")
+                HStack() {
+                    Button {
+                        presentation.wrappedValue.dismiss()
+                    } label: {
+                        Image(systemName: "x.circle")
+                }
                 }
             }
             .padding(.horizontal, 24)
@@ -54,62 +56,76 @@ struct SignInComponent: View {
             
             
             // Inputs do Usuário
-            Group {
-                TextField("Digite o seu e-mail", text: $email)
-                
-                
-                SecureField("Senha", text: $password)
-            }
-            .font(.system(size: 16))
-            .textInputAutocapitalization(.never)
-            .disableAutocorrection(true)
-            .padding(.vertical, 10)
-            .padding(.horizontal)
-            .background()
-            .cornerRadius(8)
-            .padding(.horizontal, 24)
-            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
-            
-            
-//            aqui
-            if invalidPassword{
-                Text("Senha ou email incorretos, digite novamente")
-                    .foregroundColor(.red)
-                    .font(.system(size: 12))
-                    .padding(.top, 8)
-            }
+//            Group {
+//                TextField("Digite o seu e-mail", text: $email)
+//
+//
+//                SecureField("Senha", text: $password)
+//            }
+//            .font(.system(size: 16))
+//            .textInputAutocapitalization(.never)
+//            .disableAutocorrection(true)
+//            .padding(.vertical, 10)
+//            .padding(.horizontal)
+//            .background()
+//            .cornerRadius(8)
+//            .padding(.horizontal, 24)
+//            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
+//
+//
+////            aqui
+//            if invalidPassword{
+//                Text("Senha ou email incorretos, digite novamente")
+//                    .foregroundColor(.red)
+//                    .font(.system(size: 12))
+//                    .padding(.top, 8)
+//            }
             
             
             VStack  {
                 // Botão de Logar
-                Button {
-                    cloud.validateClientLogin(email: email, password: password) { result in
-                        if result{
-                            let login: String = $email.wrappedValue
-                            let senha: String = $password.wrappedValue
-                            UserDefaults.standard.set(login, forKey: "Email")
-                            UserDefaults.standard.set(senha, forKey: "Password")
-                            print("salvei")
-                            presentation.wrappedValue.dismiss()
-                        }
-                        else{
-                            print("login ou senha invalidos")
-                            invalidPassword = true
-                        }
-                    }
+//                Button {
+//                    cloud.validateClientLogin(email: email, password: password) { result in
+//                        if result{
+//                            let login: String = $email.wrappedValue
+//                            let senha: String = $password.wrappedValue
+//                            UserDefaults.standard.set(login, forKey: "Email")
+//                            UserDefaults.standard.set(senha, forKey: "Password")
+//                            print("salvei")
+//                            presentation.wrappedValue.dismiss()
+//                        }
+//                        else{
+//                            print("login ou senha invalidos")
+//                            invalidPassword = true
+//                        }
+//                    }
+//                } label: {
+//                    HStack {
+//                        Spacer()
+//                        Text("Login com E-mail")
+//                            .underline()
+//                            .foregroundColor(.primary)
+//                            .font(.system(size: 16))
+//                            .padding(.vertical, 10)
+//                        Spacer()
+//                    }
+//                }
+//                .background(Color("darkBlueGradient"))
+//                .cornerRadius(10)
+                
+                Button{
+                    print("aa")
                 } label: {
                     HStack {
-                        Spacer()
+//                        Spacer()
                         Text("Login com E-mail")
                             .underline()
                             .foregroundColor(.primary)
                             .font(.system(size: 16))
                             .padding(.vertical, 10)
-                        Spacer()
+//                        Spacer()
                     }
                 }
-//                .background(Color("darkBlueGradient"))
-                .cornerRadius(10)
                     
                 Text("ou")
                     .font(.system(size: 16))
