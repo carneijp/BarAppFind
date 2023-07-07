@@ -17,8 +17,7 @@ struct SignUpComponent: View {
     @State private var showLogin: Bool = false
     @State private var emailAlreadyInUse: Bool = false
     @State private var emptyText: Bool = false
-    
-    
+
     var body: some View {
         VStack() {
             
@@ -115,16 +114,12 @@ struct SignUpComponent: View {
 
             }label: {
                 HStack {
-//                    Spacer()
                     Text("Vamos lá!")
                         .foregroundColor(.white)
                         .bold()
                         .font(.system(size: 16))
                         .padding(.vertical, 10)
-                        .padding(.horizontal, 44)
-                    
-//                    .padding(.horizontal, 20)
-//                    Spacer()
+                        .padding(.horizontal, 32)
                 }
             }
             .background(Color("gray1"))
