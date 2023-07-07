@@ -38,7 +38,7 @@ struct BarListView: View {
                     }
                 }
                 .padding(.horizontal, 24)
-                .padding(.bottom, 130)
+//                .padding(.bottom, 130)
                 .padding(.top, 30)
             }
             .searchable(text: $searchText, prompt: "Digite o nome do bar") {
@@ -52,11 +52,11 @@ struct BarListView: View {
                     .padding(.bottom, 130)
             }
 //
-            LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
+//            LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
         .navigationTitle("Todos os Bares")
         
-        .padding(.top, 130)
+//        .padding(.top, 130)
 
 
         .onAppear() {
