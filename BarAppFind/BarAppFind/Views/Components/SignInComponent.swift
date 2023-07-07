@@ -51,7 +51,7 @@ struct SignInComponent: View {
                 .padding(.all)
                 .clipShape(Circle())
                 .shadow(radius: 1, x: 0, y: 2)
-                .padding(.top, 30)
+//                .padding(.top, 10)
                 .padding(.bottom, 20)
             
             
