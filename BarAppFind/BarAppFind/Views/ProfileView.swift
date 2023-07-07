@@ -51,13 +51,13 @@ struct ProfileView: View {
                         showSignIn = true
                     } label: {
                         HStack {
-                            Text("Fazer Login")
                             Spacer()
-                            Image(systemName: "chevron.up")
+                            Text("Faça seu login")
+                            Spacer()
                         }
-                        .padding(.all)
-                        .background(Color("gray0"))
-                        .cornerRadius(8)
+                        .padding(12)
+                        .background(.white)
+                        .cornerRadius(30)
                         .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
                     }
                     .frame(width: UIScreen.main.bounds.width - 28)
