@@ -10,7 +10,7 @@ import SwiftUI
 struct EditProfileComponent: View {
     @EnvironmentObject private var cloud: CloudKitCRUD
     @Environment(\.presentationMode) var presentation
-//    var cliente: Clients
+    //    var cliente: Clients
     @State var firstName: String
     @State var lastName: String
     @State var email: String
@@ -38,9 +38,9 @@ struct EditProfileComponent: View {
             .padding(.bottom, 30)
             HStack{
                 Text("Alterar dados da conta")
-                    .font(.system(size: 18))
+                    .font(.system(size: 14))
                     .foregroundColor(.secondary)
-                    .padding(.top, 30)
+//                    .padding(.top, 30)
                     .padding(.bottom, 17)
                     .padding(.horizontal, 24)
                 Spacer()
@@ -49,22 +49,22 @@ struct EditProfileComponent: View {
             TextField("Nome", text: $firstName, axis: .vertical)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
-                .foregroundColor(.primary)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray8")))
+                .foregroundColor(.secondary)
                 .padding(.horizontal, 24)
             
             TextField("Sobrenome", text: $lastName, axis: .vertical)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
-                .foregroundColor(.primary)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray8")))
+                .foregroundColor(.secondary)
                 .padding(.horizontal, 24)
-        
+            
             TextField("E-mail", text: $email, axis: .vertical)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
-                .foregroundColor(.primary)
+                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray8")))
+                .foregroundColor(.secondary)
                 .padding(.horizontal, 24)
             
             Button {
@@ -76,14 +76,20 @@ struct EditProfileComponent: View {
                     cloud.changeUserInfo(client: cliente, emailAntigo: emailAntigo)
                 }
                 presentation.wrappedValue.dismiss()
-            }label : {
+            }label: {
+                Spacer()
                 Text("Salvar")
-                    .foregroundColor(Color("white"))
-                    .frame(width: 178, height: 53)
-                    .background(Color("gray1"))
+                    .padding(.vertical, 12)
+                    .padding(.horizontal)
+                Spacer()
             }
-            .cornerRadius(10)
-            .padding(.top)
+            .background(.white)
+            .cornerRadius(24)
+            .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
+            .padding()
+            
+
+            
             
             
             Spacer()

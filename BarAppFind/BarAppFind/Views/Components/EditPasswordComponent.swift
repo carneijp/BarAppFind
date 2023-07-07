@@ -80,14 +80,17 @@ struct EditPasswordComponent: View {
                     print("Invalida password")
                 }
                 
-            }label : {
+            }label: {
+                Spacer()
                 Text("Salvar")
-                    .foregroundColor(Color("white"))
-                    .frame(width: 178, height: 53)
-                    .background(Color("gray1"))
+                    .padding(.vertical, 12)
+                    .padding(.horizontal)
+                Spacer()
             }
-            .cornerRadius(10)
-            .padding(.top)
+            .background(.white)
+            .cornerRadius(24)
+            .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
+            .padding()
             
             
             Spacer()
