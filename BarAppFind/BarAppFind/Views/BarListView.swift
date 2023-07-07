@@ -41,20 +41,21 @@ struct BarListView: View {
                 .padding(.bottom, 130)
                 .padding(.top, 30)
             }
+            .searchable(text: $searchText, prompt: "Digite o nome do bar") {
+                ForEach(searchBar) { result in
+                    Text(result.name).searchCompletion(result.name)
+                }
+            }
 
             if isLoading {
                 LoadingViewModel()
                     .padding(.bottom, 130)
             }
-            
+//
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
         .navigationTitle("Todos os Bares")
-        .searchable(text: $searchText, prompt: "Digite o nome do bar") {
-            ForEach(searchBar) { result in
-                Text(result.name).searchCompletion(result.name)
-            }
-        }
+        
         .padding(.top, 130)
 
 
