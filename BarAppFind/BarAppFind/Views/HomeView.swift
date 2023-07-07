@@ -93,7 +93,7 @@ struct HomeView: View {
                             //Bars Section
                             VStack {
                                 HStack {
-                                    Text("Sugestões de Onde ir hoje.")
+                                    Text("Sugestões de onde ir hoje")
                                         .font(.system(size: 16))
                                     
                                     Spacer()
@@ -104,7 +104,8 @@ struct HomeView: View {
                                     } label: {
                                         Text("Ver todos")
                                             .font(.system(size: 16))
-                                            .foregroundColor(.primary)
+                                            .foregroundColor(Color("purple"))
+//                                            .bold()
                                     }
                                     
                                 }
@@ -136,19 +137,19 @@ struct HomeView: View {
             
         }
         .onChange(of: cloud.barsList.count, perform: { newValue in
-            print("newValue: \(newValue)")
-            map.chekIfLocationService{ permission in
-                print("permission: \(permission)")
-                if permission{
-                    for i in 0..<cloud.barsList.count{
-                        if let distancia = cloud.barsList[i].distanceFromUser {
-                            
-                        } else{
-                            cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
-                        }
+            if map.locationServicesEnabled {
+                
+                for i in 0..<cloud.barsList.count{
+                    if let distancia = cloud.barsList[i].distanceFromUser {
+                        
+                    } else{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
                     }
-                    cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
                 }
+                cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000
+                    
+                }
+                
             }
 
         })
@@ -165,17 +166,16 @@ struct HomeView: View {
                 
                 
             }
-            map.chekIfLocationService{ permission in
-                if permission{
-                    for i in 0..<cloud.barsList.count{
-                        if let distancia = cloud.barsList[i].distanceFromUser {
-                            
-                        } else{
-                            cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
-                        }
+            
+            if map.locationServicesEnabled {
+                for i in 0..<cloud.barsList.count{
+                    if let distancia = cloud.barsList[i].distanceFromUser {
+                        
+                    } else{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
                     }
-                    cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
                 }
+                cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
             }
         
         }

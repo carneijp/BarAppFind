@@ -251,7 +251,7 @@ class CloudKitCRUD: ObservableObject {
     func addReport(assunto: String, texto: String, completion: @escaping (Bool) -> Void){
         let report = CKRecord(recordType: "Reports")
         report["Assunto"] = assunto
-        report["Descrição"] = texto
+        report["Descricao"] = texto
         report["UserID"] = client?.userID ?? ""
         self.saveItemPublic(record: report)
         completion(true)
@@ -430,7 +430,6 @@ class CloudKitCRUD: ObservableObject {
                                 }
                                 completion(true)
                             } else {
-#warning("Informar que senha e usuários estão incorretos")
                                 self.client = nil
                                 completion(false)
                             }

@@ -17,8 +17,7 @@ struct SignUpComponent: View {
     @State private var showLogin: Bool = false
     @State private var emailAlreadyInUse: Bool = false
     @State private var emptyText: Bool = false
-    
-    
+
     var body: some View {
         VStack(spacing: 20) {
             

@@ -306,11 +306,12 @@
 			};
 			buildConfigurationList = 8562AEE929FC5C4C003E32E7 /* Build configuration list for PBXProject "BarAppFind" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = "pt-BR";
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				"pt-BR",
 			);
 			mainGroup = 8562AEE529FC5C4C003E32E7;
 			productRefGroup = 8562AEEF29FC5C4C003E32E7 /* Products */;

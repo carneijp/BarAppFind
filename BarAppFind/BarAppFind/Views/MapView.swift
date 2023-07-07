@@ -51,14 +51,13 @@ struct MapView: View {
                                     
                                     didTap = true
                                     
-                                    viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: shownBar?.latitude ?? 0.0, longitude: shownBar?.longitude ?? 0.0) , span: viewModel.region.span)
+//                                    viewModel.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: shownBar?.latitude ?? 0.0, longitude: shownBar?.longitude ?? 0.0) , span: viewModel.region.span)
                                 }
                         )
                     }
                 }
             }
             .tint(Color("blue"))
-            .animation(!firstAppear ? .linear(duration: 2) : .none)
             .onTapGesture {
                 if !didTap {
                     showBarSmallDescription = false

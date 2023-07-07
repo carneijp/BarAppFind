@@ -14,6 +14,10 @@ struct ReportComponent: View {
     
     @State var subject: String = ""
     @State var comment: String = ""
+    @State var showError: Bool = false
+    @State var descriptionError: String = ""
+    @State var showSuccess: Bool = false
+    @State var descriptionSuccess: String = ""
     
     var body: some View {
         VStack {
@@ -59,7 +63,12 @@ struct ReportComponent: View {
             
             HStack(spacing: 12) {
                 Button {
-                    
+                    showError = false
+                    showSuccess = false
+                    descriptionError = ""
+                    descriptionSuccess = ""
+                    self.comment = ""
+                    self.subject = ""
                 } label: {
                     HStack{
                         Spacer()
@@ -76,7 +85,25 @@ struct ReportComponent: View {
                 }
                         
                 Button {
-                    
+                    showError = false
+                    showSuccess = false
+                    if !$comment.wrappedValue.isEmpty && !$subject.wrappedValue.isEmpty {
+                        cloud.addReport(assunto: subject, texto: comment) { saida in
+                            if saida{
+                                showSuccess = true
+                                descriptionSuccess = "Seu report foi cadastrado com sucesso!"
+                                DispatchQueue.main.asyncAfter(deadline: .now()+1.5){
+                                    presentation.wrappedValue.dismiss()
+                                }
+                            }else{
+                                showError = true
+                                descriptionError = "Não foi possivel cadastrar o seu report, tente novamente mais tarde, ou verifique sua conexão."
+                            }
+                        }
+                    }else{
+                        showError = true
+                        descriptionError = "Para enviar um report, o assunto e o comentario devem ser preenchidos."
+                    }
                 } label: {
                     HStack{
                         Spacer()
@@ -93,6 +120,19 @@ struct ReportComponent: View {
                 }
             }
             
+            if showError{
+                Text(descriptionError)
+                    .foregroundColor(.red)
+                    .font(.system(size: 12))
+                    .padding(.top, 8)
+            }
+            
+            if showSuccess {
+                Text(descriptionSuccess)
+                    .foregroundColor(.green)
+                    .font(.system(size: 12))
+                    .padding(.top, 8)
+            }
             Spacer()
         }
         .padding(.horizontal, 24)
