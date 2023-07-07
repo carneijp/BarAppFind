@@ -86,9 +86,9 @@ struct HomeView: View {
                                     }
                                 }
                                 .padding(.horizontal, 24)
-                                .padding(.bottom, 8)
+                                .padding(.vertical, 8)
                             }
-                            .padding(.bottom, 18)
+//                            .padding(.bottom, 18)
                             
                             //Bars Section
                             VStack {
@@ -132,28 +132,27 @@ struct HomeView: View {
                     Spacer()
                 }
             }
-//
-//            if noInternet{
-//                ErrorView(noInternet: $noInternet)
-//            }
-            
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
             
-            //            SerafiniComponent(isShow: $showSerafini)
-            
         }
-//        .onChange(of: noInternet,perform: { newValue in
-//            cloud.fetchBars(){ _ in
-//                DispatchQueue.global().asyncAfter(deadline: .now() + 2){
-//                    if cloud.barsList.count == 0 {
-//                        noInternet = true
-//                    }else{
-//                        noInternet = false
-//                    }
-//                }
-//            }
-//        })
+        .onChange(of: cloud.barsList.count, perform: { newValue in
+            if map.locationServicesEnabled {
+                
+                for i in 0..<cloud.barsList.count{
+                    if let distancia = cloud.barsList[i].distanceFromUser {
+                        
+                    } else{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
+                    }
+                }
+                cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000
+                    
+                }
+                
+            }
+
+        })
         .onAppear() {
             if let user = UserDefaults.standard.string(forKey: "UserID"), user != ""{
                 cloud.validadeClientLoginWithApple(userID: user) { _ in }
@@ -161,22 +160,24 @@ struct HomeView: View {
                 if cloud.client == nil{
                     if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
                        let savedPassword = UserDefaults.standard.string(forKey: "Password"){
-                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { resultado in
-                            if resultado{
-                                print("loguei automatico")
-                            }
-                        }
+                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { _ in }
                     }
                 }
-                map.chekIfLocationService{ permission in
-                    if permission{
-                        for i in 0..<cloud.barsList.count{
-                            cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d ?? MapDetails.initialCoordinate)
-                        }
-                        cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
-                    }
-                }
+                
+                
             }
+            
+            if map.locationServicesEnabled {
+                for i in 0..<cloud.barsList.count{
+                    if let distancia = cloud.barsList[i].distanceFromUser {
+                        
+                    } else{
+                        cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
+                    }
+                }
+                cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
+            }
+        
         }
         .padding(.top, 100)
         
