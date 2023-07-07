@@ -198,7 +198,6 @@ struct ProfileView: View {
                             Text("Detalhes da conta")
                                 .font(.system(size: 18))
                                 .foregroundColor(.secondary)
-                                .padding(.top, 30)
                                 .padding(.bottom, 17)
                             HStack{
                                 Text(cloud.client?.firstName ?? "Nome")
@@ -313,6 +312,8 @@ struct ProfileView: View {
                             }
                         }
                         .padding(.horizontal, 24)
+                        .padding(.bottom, 100)
+                        .padding(.top, 30)
                     }
                 }
                 
