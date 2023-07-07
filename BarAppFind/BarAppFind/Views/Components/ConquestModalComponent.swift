@@ -56,6 +56,27 @@ struct ConquestModalComponent: View {
                     .cornerRadius(12)
                     .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
                     .frame(width: UIScreen.main.bounds.width - 48)
+                } else if medalName == conquestMedals[2] {
+                    HStack(spacing: 14) {
+                        Image(conquestMedals[2])
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 70)
+                        
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(conquestMedals[2])
+                                .font(.system(size: 16))
+                                .bold()
+                            
+                            Text(medalDescriptions[2])
+                                .font(.system(size: 14))
+                        }
+                    }
+                    .padding(.all, 32)
+                    .background()
+                    .cornerRadius(12)
+                    .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
+                    .frame(width: UIScreen.main.bounds.width - 48)
                 } else {
                     HStack(spacing: 14) {
                         Image(conquestMedals[2])

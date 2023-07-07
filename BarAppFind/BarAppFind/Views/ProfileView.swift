@@ -138,32 +138,6 @@ struct ProfileView: View {
                 case .myConquests:
                     ScrollView {
                         VStack {
-                            // Primeira conquista do App
-                            HStack (spacing: 20) {
-                                Image("Primeiro Acesso")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(Color("gray1"))
-                                    .shadow(radius: 2, y: 2)
-                                
-                                Text("Primeiro Acesso")
-                                    .font(.system(size: 16))
-                                    .bold()
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(Color("white"))
-                            }
-                            .padding(.vertical, 30)
-                            .padding(.horizontal, 10)
-                            .frame(width: UIScreen.main.bounds.width - 48 ,height: 90)
-                            .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
-                            .cornerRadius(12)
-                            .shadow(radius: 2, y: 2)
-                            .padding(.top, 20)
-                            .onTapGesture {
-                                showFirstConquest = true
-                            }
-                            
                             LazyVGrid(columns: columns, spacing: 18) {
                                 ForEach(conquestMedals, id: \.self) { medal in
                                     if cloud.client == nil {
