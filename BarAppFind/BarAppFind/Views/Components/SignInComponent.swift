@@ -47,7 +47,7 @@ struct SignInComponent: View {
             Image("logo")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 80, height: 80)
+                .frame(width: 100, height: 100)
                 .padding(.all)
                 .clipShape(Circle())
                 .shadow(radius: 1, x: 0, y: 2)
@@ -67,10 +67,10 @@ struct SignInComponent: View {
             .disableAutocorrection(true)
             .padding(.vertical, 10)
             .padding(.horizontal)
-            .background()
+            .background(Color("gray8"))
             .cornerRadius(8)
             .padding(.horizontal, 24)
-            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
+//            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
 
 
 //            aqui
@@ -84,74 +84,84 @@ struct SignInComponent: View {
             
             VStack  {
                 // Botão de Logar
-//                Button {
-//                    cloud.validateClientLogin(email: email, password: password) { result in
-//                        if result{
-//                            let login: String = $email.wrappedValue
-//                            let senha: String = $password.wrappedValue
-//                            UserDefaults.standard.set(login, forKey: "Email")
-//                            UserDefaults.standard.set(senha, forKey: "Password")
-//                            print("salvei")
-//                            presentation.wrappedValue.dismiss()
-//                        }
-//                        else{
-//                            print("login ou senha invalidos")
-//                            invalidPassword = true
-//                        }
-//                    }
-//                } label: {
-//                    HStack {
-//                        Spacer()
-//                        Text("Login com E-mail")
-//                            .underline()
-//                            .foregroundColor(.primary)
-//                            .font(.system(size: 16))
-//                            .padding(.vertical, 10)
-//                        Spacer()
-//                    }
-//                }
-//                .background(Color("darkBlueGradient"))
-//                .cornerRadius(10)
-                
-                Button{
-                    print("aa")
-                } label: {
-                    HStack {
-//                        Spacer()
-                        Text("Login com E-mail")
-                            .underline()
-                            .foregroundColor(.primary)
-                            .font(.system(size: 16))
-                            .padding(.vertical, 10)
-//                        Spacer()
+                Button(action: {
+                    cloud.validateClientLogin(email: email, password: password) { result in
+                        if result {
+                            let login: String = $email.wrappedValue
+                            let senha: String = $password.wrappedValue
+                            UserDefaults.standard.set(login, forKey: "Email")
+                            UserDefaults.standard.set(senha, forKey: "Password")
+                            print("salvei")
+                            presentation.wrappedValue.dismiss()
+                        } else {
+                            print("login ou senha invalidos")
+                            invalidPassword = true
+                        }
                     }
+                }) {
+                    HStack {
+                        Spacer()
+                        Text("Entrar")
+//                            .underline()
+                            .foregroundColor(.primary)
+                            .font(.system(size: 18))
+                            .padding(.vertical, 10)
+                        Spacer()
+                    }
+                    .background(Color.white)
+                    .cornerRadius(24)
+                    .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
                 }
-                    
-                Text("ou")
-                    .font(.system(size: 16))
                 
                 SignInApple()
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, 20)
                 
-                Spacer()
-                
-                // Botão de Cadastrar
+                Text("ou")
+                    .font(.system(size: 20))
+                    .foregroundColor(Color("gray1"))
+                    .padding(.vertical, 20)
                 
                 Button {
                     showSignUp = true
                 } label: {
                     HStack {
                         Spacer()
-                        Text("Criar Conta")
-                            .underline()
+                        Text("Criar conta")
+//                            .underline()
                             .foregroundColor(.primary)
-                            .font(.system(size: 16))
+                            .font(.system(size: 18))
                             .padding(.vertical, 10)
                         Spacer()
                     }
+                    .background(Color.white)
+                    .cornerRadius(24)
+                    .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
                 }
             }
             .padding(.horizontal, 24)
             .padding(.top, 20)
+            
+//                Button{
+//                    print("aa")
+//                } label: {
+//                    HStack {
+////                        Spacer()
+//                        Text("Login com E-mail")
+//                            .underline()
+//                            .foregroundColor(.primary)
+//                            .font(.system(size: 16))
+//                            .padding(.vertical, 10)
+////                        Spacer()
+//                    }
+//                }
+                    
+                
+                
+                Spacer()
+                
+                // Botão de Cadastrar
+                
 
             Spacer()
         }

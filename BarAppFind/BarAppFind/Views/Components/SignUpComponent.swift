@@ -20,7 +20,7 @@ struct SignUpComponent: View {
     
     
     var body: some View {
-        VStack() {
+        VStack(spacing: 20) {
             
             // Header da Sheet
             HStack {
@@ -42,32 +42,31 @@ struct SignUpComponent: View {
             .background(.secondary.opacity(0.05))
             .padding(.bottom, 30)
             
-            // Logo do App
             Image("logo")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 80, height: 80)
+                .frame(width: 100, height: 100)
                 .padding(.all)
                 .clipShape(Circle())
                 .shadow(radius: 1, x: 0, y: 2)
                 .padding(.top, 30)
-                .padding(.bottom, 10)
+                .padding(.bottom, 20)
             
-            HStack {
-                Text("Cadastrar")
-                    .font(.system(size: 14))
-                    .foregroundColor(Color("gray2"))
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-
+            Text("Que bom ter você aqui!")
+                .font(.system(size: 27))
+                .bold()
+//                .padding(.top, 20)
+            
             // Inputs do Usuário
             Group {
-                TextField("Nome", text: $email)
+                TextField("Digite o seu e-mail", text: $email)
                 
-                TextField("Sobrenome", text: $firstName)
+                TextField("Nome", text: $firstName)
+//                    .padding(.vertical, 20)
                 
-                TextField("E-mail", text: $lastName)
+                TextField("Sobrenome", text: $lastName)
+//                    .padding(.vertical, 20)
+
                 
                 SecureField("Senha", text: $password)
             }
@@ -76,19 +75,19 @@ struct SignUpComponent: View {
             .disableAutocorrection(true)
             .padding(.vertical, 10)
             .padding(.horizontal)
-            .background()
+            .background(Color("gray8"))
             .cornerRadius(8)
             .padding(.horizontal, 24)
-            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
+//            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
             
             if emailAlreadyInUse{
-                Text("Email informado ja está cadastrado")
+                Text("Email informado já está cadastrado")
                     .foregroundColor(.red)
                     .font(.system(size: 12))
                     .padding(.top, 8)
             }
             if emptyText {
-                Text("Todos os campos devem ser preenchidos com dados validos.")
+                Text("Todos os campos devem ser preenchidos com dados válidos.")
                     .foregroundColor(.red)
                     .font(.system(size: 12))
                     .padding(.top, 8)
@@ -115,23 +114,20 @@ struct SignUpComponent: View {
 
             }label: {
                 HStack {
-//                    Spacer()
+                    Spacer()
                     Text("Vamos lá!")
-                        .foregroundColor(.white)
-                        .bold()
-                        .font(.system(size: 16))
+//                            .underline()
+                        .foregroundColor(.primary)
+                        .font(.system(size: 18))
                         .padding(.vertical, 10)
-                        .padding(.horizontal, 44)
-                    
-//                    .padding(.horizontal, 20)
-//                    Spacer()
+                    Spacer()
                 }
+                .background(Color.white)
+                .cornerRadius(24)
+                .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
             }
-            .background(Color("gray1"))
-            .cornerRadius(16)
-            .padding(.top, 20)
             .padding(.horizontal, 24)
-            
+            .padding(.top, 32)
             Spacer()
         }
         // Faz aparecer a sheet de Cadastrar usuário
