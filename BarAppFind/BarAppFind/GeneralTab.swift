@@ -45,7 +45,6 @@ struct GeneralTab: View {
             }
             .tag(3)
         }
-//        .tabViewStyle(.page(indexDisplayMode: .never))
         .tint(.primary)
     }
 }

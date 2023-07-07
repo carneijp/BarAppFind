@@ -44,9 +44,8 @@ struct BarListView: View {
 
             if isLoading {
                 LoadingViewModel()
-                    .padding(.bottom, 130)
             }
-            
+        
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)
         }
         .navigationTitle("Todos os Bares")
@@ -56,8 +55,6 @@ struct BarListView: View {
             }
         }
         .padding(.top, 130)
-
-
         .onAppear() {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                 self.isLoading = false

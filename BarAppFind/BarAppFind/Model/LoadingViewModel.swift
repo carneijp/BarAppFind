@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct LoadingViewModel: View {
-    //    @State private var progress: Float = 0.0
     @State var hasEthernet: Bool = true
     
     var body: some View {
@@ -39,12 +38,6 @@ struct LoadingViewModel: View {
                     hasEthernet = NetworkConnection.shared.isConnected
                 }
             }
-            //        .onAppear() {
-            //            withAnimation(Animation.linear(duration: 2.5).repeatForever()) {
-            //                progress = 0.92
-            //            }
-            //        }
-            
         }
     }
 }
