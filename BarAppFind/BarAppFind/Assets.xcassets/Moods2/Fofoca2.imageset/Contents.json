@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Esquenta2.png",
+      "filename" : "moodfofoca1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "moodesquenta2x.png",
+      "filename" : "moodfofoca2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "moodesquenta3x.png",
+      "filename" : "moodfofoca3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

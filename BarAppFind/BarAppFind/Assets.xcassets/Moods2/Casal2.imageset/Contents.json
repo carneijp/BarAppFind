@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Termático2.png",
+      "filename" : "moodcasal1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "moodtematico2x.png",
+      "filename" : "moodcasal2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "moodtematico3x.png",
+      "filename" : "moodcasal3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

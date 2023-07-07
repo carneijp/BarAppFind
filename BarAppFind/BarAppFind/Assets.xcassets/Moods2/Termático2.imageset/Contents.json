@@ -1,16 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Barzinho2.png",
+      "filename" : "moodtematico1x.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "moodbarzinho2x.png",
+      "filename" : "moodtematico2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "moodtematico3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
