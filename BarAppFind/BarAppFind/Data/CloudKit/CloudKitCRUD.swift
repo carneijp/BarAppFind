@@ -10,8 +10,8 @@ class CloudKitCRUD: ObservableObject {
     
     private func saveItemPublic(record: CKRecord) {
         CKContainer.default().publicCloudDatabase.save(record) { returnedRecors, returnedError in
-            //            print("\(returnedRecors)")
-            //            print("\(returnedError)")
+//                        print("JORGE1 \(returnedRecors)")
+//                        print("JORGE2 \(returnedError)")
         }
     }
     
@@ -255,6 +255,15 @@ class CloudKitCRUD: ObservableObject {
         report["UserID"] = client?.userID ?? ""
         self.saveItemPublic(record: report)
         completion(true)
+    }
+    
+    
+    //Função simples, somente para encher o banco de daods, marcando o numero de gente interessado nessa feature
+    func addInterestToMenu(barName: String) {
+        let interest = CKRecord(recordType: "MenuInterest")
+        interest["NClientes"] = "Mai Um Cliente"
+        interest["BarName"] = barName
+        self.saveItemPublic(record: interest)
     }
     
     func addCity(cidade: City) {

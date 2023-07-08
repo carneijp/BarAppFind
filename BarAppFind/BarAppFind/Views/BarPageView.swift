@@ -16,13 +16,14 @@ struct BarPageView: View {
     var barname: String
     
     enum ChoiceBar {
-        case barName, info, review
+        case barName, info, review, menu
     }
     
     @State var topBarChoice: ChoiceBar = .barName
     @State var isBarName: Bool = true
     @State var isInfo: Bool = false
     @State var isReview: Bool = false
+    @State var isMenu: Bool = false
     @State var isShowingWorkingHours: Bool = true
     @State var bar: Bar?
     @State var reviewListIsEmpty: Bool = true
@@ -66,18 +67,18 @@ struct BarPageView: View {
                                 SwiftUI.Group{
                                     if isBarName{
                                         VStack(spacing: 4){
-                                            Text("Sobre o lugar")
+                                            Text("O bar")
                                                 .font(.system(size: 16))
                                                 .foregroundColor(.primary)
                                             
                                             Rectangle()
                                                 .frame(height: 1)
                                                 .foregroundColor(.primary)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
                                         }
                                     }else{
                                         VStack(spacing: 4){
-                                            Text("Sobre o lugar")
+                                            Text("O bar")
                                                 .font(.system(size: 16))
                                             
                                                 .foregroundColor(.secondary)
@@ -86,11 +87,12 @@ struct BarPageView: View {
                                                     isBarName = true
                                                     isInfo = false
                                                     isReview = false
+                                                    isMenu = false
                                                 }
                                             Rectangle()
                                                 .frame(height: 1)
                                                 .foregroundColor(.clear)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
                                         }
                                     }
                                 }
@@ -106,7 +108,7 @@ struct BarPageView: View {
                                             Rectangle()
                                                 .frame(height: 1)
                                                 .foregroundColor(.primary)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
                                         }
                                     }else{
                                         VStack(spacing: 4){
@@ -118,12 +120,13 @@ struct BarPageView: View {
                                                     isBarName = false
                                                     isInfo = true
                                                     isReview = false
+                                                    isMenu = false
                                                 }
                                             
                                             Rectangle()
                                                 .frame(height: 1)
                                                 .foregroundColor(.clear)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
                                         }
                                     }
                                 }
@@ -139,7 +142,7 @@ struct BarPageView: View {
                                             Rectangle()
                                                 .frame(height: 1)
                                                 .foregroundColor(.primary)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
                                         }
                                     }else{
                                         VStack(spacing: 4){
@@ -151,18 +154,54 @@ struct BarPageView: View {
                                                     isBarName = false
                                                     isInfo = false
                                                     isReview = true
+                                                    isMenu = false
                                                     
                                                 }
                                             Rectangle()
                                                 .frame(height: 1)
                                                 .foregroundColor(.clear)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
                                             
                                             
                                         }
                                     }
                                 }
                                 
+                                //Cardapio
+                                SwiftUI.Group {
+                                    if isMenu {
+                                        VStack(spacing: 4){
+                                            Text("Cardapio")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(.primary)
+                                            
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.primary)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
+                                        }
+                                    }else {
+                                        VStack(spacing: 4){
+                                            Text("Cardapio")
+                                                .font(.system(size: 16))
+                                                .foregroundColor(.secondary)
+                                                .onTapGesture {
+                                                    self.topBarChoice = .menu
+                                                    isBarName = false
+                                                    isInfo = false
+                                                    isReview = false
+                                                    isMenu = true
+                                                    
+                                                }
+                                            Rectangle()
+                                                .frame(height: 1)
+                                                .foregroundColor(.clear)
+                                                .frame(width: (UIScreen.main.bounds.width - 53) / 4)
+                                            
+                                            
+                                        }
+                                    }
+                                }
                             }
                             
                             //Escolhas TabBar
@@ -205,10 +244,17 @@ struct BarPageView: View {
                                             }
                                         }else{
                                             EmptyViewReviews()
+                                                .environmentObject(cloud)
                                         }
                                     }
                                     .padding(.bottom, 50)
                                     .padding(.top)
+                                
+                                case .menu:
+                                    if let bar = bar{
+                                        MenuPage(barName: bar.name)
+                                    }
+                                    
                             }
                         }
                         .gesture(
@@ -221,11 +267,13 @@ struct BarPageView: View {
                                     if abs(CurretDragOffsetX) > 150 {
                                         switch topBarChoice{
                                             case .barName:
+                                            //menor que zero significa ir para a direita
                                                 if CurretDragOffsetX < 0{
                                                     self.topBarChoice = .info
                                                     isBarName = false
                                                     isInfo = true
                                                     isReview = false
+                                                    isMenu = false
                                                 }
                                                 
                                             case .info:
@@ -234,19 +282,36 @@ struct BarPageView: View {
                                                     isBarName = false
                                                     isInfo = false
                                                     isReview = true
+                                                    isMenu = false
                                                 } else {
                                                     self.topBarChoice = .barName
                                                     isBarName = true
                                                     isInfo = false
                                                     isReview = false
+                                                    isMenu = false
                                                 }
                                             case .review:
-                                                if CurretDragOffsetX > 0{
+                                                if CurretDragOffsetX < 0 {
+                                                    self.topBarChoice = .menu
+                                                    isBarName = false
+                                                    isInfo = false
+                                                    isReview = false
+                                                    isMenu = true
+                                                }else{
                                                     self.topBarChoice = .info
                                                     isBarName = false
                                                     isInfo = true
                                                     isReview = false
+                                                    isMenu = false
                                                 }
+                                        case .menu:
+                                            if CurretDragOffsetX > 0 {
+                                                self.topBarChoice = .review
+                                                isBarName = false
+                                                isInfo = false
+                                                isReview = true
+                                                isMenu = false
+                                            }
                                         }
                                     }
                                 }
