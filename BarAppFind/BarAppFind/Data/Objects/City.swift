@@ -92,19 +92,20 @@ class Bar: ObservableObject, Hashable, Identifiable {
 
 class Review: ObservableObject, Hashable, Identifiable {
     
-    
+    var writerId: String
     var writerEmail: String
     var writerName: String
     var grade: Double
     var description: String
     var barName: String
     
-    init(writerEmail: String, writerName: String, grade: Double, description: String, barName: String) {
+    init(writerEmail: String, writerName: String, grade: Double, description: String, barName: String, writerId: String) {
         self.writerEmail = writerEmail
         self.writerName = writerName
         self.grade = grade
         self.description = description
         self.barName = barName
+        self.writerId = writerId
     }
     
     static func == (lhs: Review, rhs: Review) -> Bool {
@@ -112,9 +113,42 @@ class Review: ObservableObject, Hashable, Identifiable {
     }
     
     func hash(into hasher: inout Hasher) {
+        hasher.combine(writerId)
         hasher.combine(writerEmail)
         hasher.combine(barName)
     }
+}
+
+class ReportReview: ObservableObject, Hashable, Identifiable {
+    var clientInformerEmail: String
+    var clientInformerID: String
+    var reportBarName: String
+    var reportGrade: String
+    var reportWirterEmail: String
+    var reportWriterID: String
+    var reportDescription: String
+    
+    init(clientInformerEmail: String, clientInformerID: String, reportBarName: String, reportGrade: String, reportWirterEmail: String, reportDescription: String, reportWriterID: String) {
+        self.clientInformerEmail = clientInformerEmail
+        self.clientInformerID = clientInformerID
+        self.reportBarName = reportBarName
+        self.reportGrade = reportGrade
+        self.reportWirterEmail = reportWirterEmail
+        self.reportDescription = reportDescription
+        self.reportWriterID = reportWriterID
+    }
+    
+    static func == (lhs: ReportReview, rhs: ReportReview) -> Bool{
+        lhs.clientInformerID == rhs.clientInformerID
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(clientInformerID)
+        hasher.combine(clientInformerEmail)
+        hasher.combine(reportDescription)
+        hasher.combine(reportBarName)
+    }
+    
 }
 
 var trendings: [String] = ["trending1","trending2","trending3"]
