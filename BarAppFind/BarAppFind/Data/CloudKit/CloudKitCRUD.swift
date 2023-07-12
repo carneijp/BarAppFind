@@ -390,9 +390,13 @@ class CloudKitCRUD: ObservableObject {
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let writerEmail = record["WriterEmail"] as? String else { return }
-                    guard let writerId = record["WriterID"] as? String else { return }
+                    var writerID = ""
+                    if let writerId = record["WriterID"] as? String {
+                        writerID = writerId
+                    }
+//                    guard let writerId = record["WriterID"] as? String else { "" }
                     DispatchQueue.main.async {
-                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName, writerId: writerId))
+                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName, writerId: writerID))
                     }
                 case .failure(let error):
                     print("Error matched block error\(error)")
@@ -441,9 +445,12 @@ class CloudKitCRUD: ObservableObject {
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let writerEmail = record["WriterEmail"] as? String else { return }
-                    guard let writerId = record["WriterID"] as? String else { return }
+                    var writerID = ""
+                    if let writerId = record["WriterID"] as? String {
+                        writerID = writerId
+                    }
                     DispatchQueue.main.async {
-                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName, writerId: writerId))
+                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName, writerId: writerID))
                     }
                 case .failure(let error):
                     print("Error matched block error\(error)")
