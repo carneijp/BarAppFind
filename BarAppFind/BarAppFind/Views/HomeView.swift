@@ -17,7 +17,6 @@ struct HomeView: View {
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State var noInternet: Bool = false
 //    @State var tentaNovamente: Bool = false
-
     
     var body: some View {
         ZStack {
@@ -184,15 +183,17 @@ struct HomeView: View {
     }
 }
 
-func getDateOfWeek() -> String {
-    let index = Calendar.current.component(.weekday, from: Date()) // this returns an Int
-    let weekday: String = Calendar.current.weekdaySymbols[index - 1]
-    
-    return weekday
-}
-
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
+extension HomeView {
+    func getDateOfWeek() -> String {
+        let index = Calendar.current.component(.weekday, from: Date()) // this returns an Int
+        let weekday: String = Calendar.current.weekdaySymbols[index - 1]
+        
+        return weekday
     }
 }
+
+//struct Home_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//    }
+//}

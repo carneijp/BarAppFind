@@ -33,6 +33,11 @@
 		824266982A0D701A00E5F186 /* LoginAlertComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824266972A0D701A00E5F186 /* LoginAlertComponent.swift */; };
 		8251BCF92A55FB96009E9502 /* ReportComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8251BCF82A55FB96009E9502 /* ReportComponent.swift */; };
 		825C2E362A12AA3B006DE0E8 /* SignInComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 825C2E352A12AA3B006DE0E8 /* SignInComponent.swift */; };
+		826F92002A5888CD0080A771 /* CustomTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826F91FF2A5888CD0080A771 /* CustomTabBarView.swift */; };
+		826F92042A5894040080A771 /* CustomTabBarContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826F92032A5894040080A771 /* CustomTabBarContainerView.swift */; };
+		826F92062A58A2470080A771 /* AppTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826F92052A58A2470080A771 /* AppTabBarView.swift */; };
+		826F92082A58A4880080A771 /* TabBarItemsPreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 826F92072A58A4880080A771 /* TabBarItemsPreferenceKey.swift */; };
+		82838ACB2A5B3FC700907B3D /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82838ACA2A5B3FC700907B3D /* TabBarItem.swift */; };
 		82B0F8302A1697040055A953 /* FirstConquestComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B0F82F2A1697040055A953 /* FirstConquestComponent.swift */; };
 		82B84B862A1B982100B0255B /* FlemisViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B84B852A1B982100B0255B /* FlemisViewModel.swift */; };
 		82B935102A0E703600BC51F0 /* ConquestModalComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B9350F2A0E703600BC51F0 /* ConquestModalComponent.swift */; };
@@ -90,6 +95,11 @@
 		824266972A0D701A00E5F186 /* LoginAlertComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAlertComponent.swift; sourceTree = "<group>"; };
 		8251BCF82A55FB96009E9502 /* ReportComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportComponent.swift; sourceTree = "<group>"; };
 		825C2E352A12AA3B006DE0E8 /* SignInComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInComponent.swift; sourceTree = "<group>"; };
+		826F91FF2A5888CD0080A771 /* CustomTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarView.swift; sourceTree = "<group>"; };
+		826F92032A5894040080A771 /* CustomTabBarContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarContainerView.swift; sourceTree = "<group>"; };
+		826F92052A58A2470080A771 /* AppTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarView.swift; sourceTree = "<group>"; };
+		826F92072A58A4880080A771 /* TabBarItemsPreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItemsPreferenceKey.swift; sourceTree = "<group>"; };
+		82838ACA2A5B3FC700907B3D /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		82B0F82F2A1697040055A953 /* FirstConquestComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstConquestComponent.swift; sourceTree = "<group>"; };
 		82B84B852A1B982100B0255B /* FlemisViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlemisViewModel.swift; sourceTree = "<group>"; };
 		82B9350F2A0E703600BC51F0 /* ConquestModalComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConquestModalComponent.swift; sourceTree = "<group>"; };
@@ -134,6 +144,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		826F91FE2A5888AD0080A771 /* CustomTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				826F92052A58A2470080A771 /* AppTabBarView.swift */,
+				826F91FF2A5888CD0080A771 /* CustomTabBarView.swift */,
+				826F92032A5894040080A771 /* CustomTabBarContainerView.swift */,
+				826F92072A58A4880080A771 /* TabBarItemsPreferenceKey.swift */,
+				82838ACA2A5B3FC700907B3D /* TabBarItem.swift */,
+			);
+			path = CustomTabBar;
+			sourceTree = "<group>";
+		};
 		82FC66952A0423A4008DF9CC /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +274,7 @@
 				85285DF72A019F4600139191 /* BarAppFind.entitlements */,
 				85285DFC2A01A0F400139191 /* Data */,
 				8562AEF129FC5C4C003E32E7 /* BarAppFindApp.swift */,
+				826F91FE2A5888AD0080A771 /* CustomTabBar */,
 				851D894B29FDE75700282473 /* GeneralTab.swift */,
 				85285DFA2A01A00100139191 /* Views */,
 				85285DF82A019FCF00139191 /* Model */,
@@ -358,10 +381,12 @@
 				6CC7A0942A098D80008329B7 /* ReviewComponent.swift in Sources */,
 				824266942A0BD1C100E5F186 /* BarListView.swift in Sources */,
 				82CABE3A2A0D8E1A002DFF54 /* SignUpComponent.swift in Sources */,
+				82838ACB2A5B3FC700907B3D /* TabBarItem.swift in Sources */,
 				6C79A4502A0D5DD6002DC68D /* TextFieldComponent.swift in Sources */,
 				8251BCF92A55FB96009E9502 /* ReportComponent.swift in Sources */,
 				6C33D9712A155C1A00AB07EE /* MoodSmallComponent.swift in Sources */,
 				851D895429FDE7D900282473 /* ProfileView.swift in Sources */,
+				826F92002A5888CD0080A771 /* CustomTabBarView.swift in Sources */,
 				824266982A0D701A00E5F186 /* LoginAlertComponent.swift in Sources */,
 				85CD25372A1F606500D71B14 /* SignInApple.swift in Sources */,
 				6C1A965C2A12B34E00BE028E /* EmptyViewReviews.swift in Sources */,
@@ -384,16 +409,19 @@
 				6C7C67CC2A1D4BEA0002CEED /* AboutTheBarView.swift in Sources */,
 				82FC66992A042571008DF9CC /* LogoComponent.swift in Sources */,
 				82B935102A0E703600BC51F0 /* ConquestModalComponent.swift in Sources */,
+				826F92082A58A4880080A771 /* TabBarItemsPreferenceKey.swift in Sources */,
 				6CC3C2502A1E877D00740999 /* EditProfileComponent.swift in Sources */,
 				82B0F8302A1697040055A953 /* FirstConquestComponent.swift in Sources */,
 				85285E282A02EB0C00139191 /* CloudKitUserIcloud.swift in Sources */,
 				85D53D3529FE9A6D006C4A4F /* Clients.swift in Sources */,
 				824014A92A141D9B00E53F21 /* MoodListView.swift in Sources */,
 				851D895229FDE7C900282473 /* BucketListView.swift in Sources */,
+				826F92062A58A2470080A771 /* AppTabBarView.swift in Sources */,
 				851D895929FE950100282473 /* City.swift in Sources */,
 				82FC66972A0423B7008DF9CC /* TrendingComponent.swift in Sources */,
 				851D895629FE0EA500282473 /* MapViewModel.swift in Sources */,
 				EB6F39C92A1FD1F9001D494F /* ErrorView.swift in Sources */,
+				826F92042A5894040080A771 /* CustomTabBarContainerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import SwiftUI
 struct GeneralTab: View {
     @EnvironmentObject var cloud: CloudKitCRUD
     @State private var selection: Int = 0
-    
+
     var body: some View {
         TabView(selection: $selection) {
             NavigationStack{
@@ -20,7 +20,7 @@ struct GeneralTab: View {
                 Label("Menu", systemImage: "house.fill")
             }
             .tag(0)
-            
+
             NavigationStack{
                 MapView()
             }
@@ -28,7 +28,7 @@ struct GeneralTab: View {
                 Label("Mapa", systemImage: "map.fill")
             }
             .tag(1)
-            
+
             NavigationStack{
                 FavoritesView()
             }
@@ -36,7 +36,7 @@ struct GeneralTab: View {
                 Label("Favoritos", systemImage: "heart")
             }
             .tag(2)
-            
+
             NavigationStack{
                 ProfileView()
             }
@@ -49,8 +49,8 @@ struct GeneralTab: View {
     }
 }
 
-struct GeneralTab_Previews: PreviewProvider {
-    static var previews: some View {
-        GeneralTab()
-    }
-}
+//struct GeneralTab_Previews: PreviewProvider {
+//    static var previews: some View {
+//        GeneralTab()
+//    }
+//}
