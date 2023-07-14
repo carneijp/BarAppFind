@@ -24,6 +24,7 @@ struct MoodListView: View {
                         .resizable()
                         .scaledToFit()
                         .padding(.horizontal)
+                        .padding(.top, 24)
                 }
             }
             

@@ -32,6 +32,7 @@ struct BarComponent: View {
                     HStack {
                         Text("**\(bar.name)**")
                             .font(.system(size: 14))
+                            .lineLimit(1)
 //                            .padding(.trailing, 4)
                         
                         if let distancia = bar.distanceFromUser{

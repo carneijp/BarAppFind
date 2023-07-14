@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ReviewComponent: View {
-    
+    @EnvironmentObject var cloud: CloudKitCRUD
     let review: Review
     
     var body: some View {
@@ -26,12 +26,22 @@ struct ReviewComponent: View {
                     else{
                         Image(systemName: "star")
                             .font(.system(size: 14))
-
                     }
                 }
                 
-                
                 Spacer()
+                Button {
+                    let report = ReportReview(clientInformerEmail: cloud.client?.email ?? "", clientInformerID: cloud.client?.userID ?? "", reportBarName: review.barName, reportGrade: String(review.grade), reportWirterEmail: review.writerEmail, reportDescription: review.description, reportWriterID: review.writerId)
+                    cloud.addReviewReport(reportReview: report) { resultado in
+                        if resultado {
+                            print("Jorge adicionado com sucesso")
+                        }else{
+                            print("Falha ao adicionar o Jorge")
+                        }
+                    }
+                }label: {
+                    Text("Reportar")
+                }
             }
             .padding(.vertical, 5)
             HStack {
@@ -51,6 +61,6 @@ struct ReviewComponent: View {
 
 struct ReviewComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ReviewComponent(review: Review(writerEmail: "aa", writerName: "Eduardo", grade: 3, description: "muiro bom", barName: "aa"))
+        ReviewComponent(review: Review(writerEmail: "aa", writerName: "Eduardo", grade: 3, description: "muiro bom", barName: "aa", writerId: "abc"))
     }
 }

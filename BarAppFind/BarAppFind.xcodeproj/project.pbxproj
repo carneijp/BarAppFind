@@ -12,7 +12,6 @@
 		6C1A965C2A12B34E00BE028E /* EmptyViewReviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C1A965B2A12B34E00BE028E /* EmptyViewReviews.swift */; };
 		6C33D9712A155C1A00AB07EE /* MoodSmallComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C33D9702A155C1A00AB07EE /* MoodSmallComponent.swift */; };
 		6C69C98F2A12AC51003E35D0 /* BarViewMoodComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C69C98E2A12AC51003E35D0 /* BarViewMoodComponent.swift */; };
-		6C6F0F522A16DE890091B42E /* InstagramComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6F0F512A16DE890091B42E /* InstagramComponent.swift */; };
 		6C79A4502A0D5DD6002DC68D /* TextFieldComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C79A44F2A0D5DD6002DC68D /* TextFieldComponent.swift */; };
 		6C7C67CC2A1D4BEA0002CEED /* AboutTheBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7C67CB2A1D4BEA0002CEED /* AboutTheBarView.swift */; };
 		6C7C67CE2A1D64200002CEED /* BarInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C7C67CD2A1D64200002CEED /* BarInformationView.swift */; };
@@ -74,7 +73,6 @@
 		6C1A965B2A12B34E00BE028E /* EmptyViewReviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyViewReviews.swift; sourceTree = "<group>"; };
 		6C33D9702A155C1A00AB07EE /* MoodSmallComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSmallComponent.swift; sourceTree = "<group>"; };
 		6C69C98E2A12AC51003E35D0 /* BarViewMoodComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarViewMoodComponent.swift; sourceTree = "<group>"; };
-		6C6F0F512A16DE890091B42E /* InstagramComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramComponent.swift; sourceTree = "<group>"; };
 		6C79A44F2A0D5DD6002DC68D /* TextFieldComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldComponent.swift; sourceTree = "<group>"; };
 		6C7C67CB2A1D4BEA0002CEED /* AboutTheBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTheBarView.swift; sourceTree = "<group>"; };
 		6C7C67CD2A1D64200002CEED /* BarInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarInformationView.swift; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 				6C69C98E2A12AC51003E35D0 /* BarViewMoodComponent.swift */,
 				6C1A965B2A12B34E00BE028E /* EmptyViewReviews.swift */,
 				6C13546C2A1401BC00C8275E /* EmptyViewFavorites.swift */,
-				6C6F0F512A16DE890091B42E /* InstagramComponent.swift */,
 				6CC3C24F2A1E877D00740999 /* EditProfileComponent.swift */,
 				6CF6E9492A1FD65D00D2C75A /* EditPasswordComponent.swift */,
 				8251BCF82A55FB96009E9502 /* ReportComponent.swift */,
@@ -403,7 +400,6 @@
 				82B84B862A1B982100B0255B /* FlemisViewModel.swift in Sources */,
 				6C1354692A13F19800C8275E /* FavoritesView.swift in Sources */,
 				823CEB192A1EAA0300B43FD5 /* CustomTabBar.swift in Sources */,
-				6C6F0F522A16DE890091B42E /* InstagramComponent.swift in Sources */,
 				825C2E362A12AA3B006DE0E8 /* SignInComponent.swift in Sources */,
 				85B3EFE62A55E721008DA9C8 /* MapCompactView.swift in Sources */,
 				6C7C67CC2A1D4BEA0002CEED /* AboutTheBarView.swift in Sources */,

@@ -23,6 +23,8 @@ struct AboutTheBar: View {
                 Text(bar.name)
                     .font(.title2)
                     .bold()
+//                    .lineLimit(1)
+//                    .padding(.trailing)
                 
                 Image(systemName: "star.fill")
                     .resizable()

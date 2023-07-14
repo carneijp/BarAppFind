@@ -61,18 +61,19 @@ struct SignInApple: View {
             .signInWithAppleButtonStyle(
                 //                colorScheme == .dark ? .white : .black
                 //                .whiteOutline
-                .white
+                .black
             )
-            .frame(width: 200, height: 40)
-            //            .cornerRadius(15)
+            .frame(height: 45)
+            .cornerRadius(24)
             //            .border(Color.black, width: 1)
-            .overlay(
-                RoundedRectangle(cornerRadius: 24)
-                    .stroke(Color.black, lineWidth: 1)
-            )
-            .padding()
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 24)
+//                    .stroke(Color.black, lineWidth: 1)
+//            )
+//            .padding()
             
         }
+        
     }
 }
 

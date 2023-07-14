@@ -17,24 +17,24 @@ struct EditPasswordComponent: View {
     
     var body: some View {
         VStack{
-            HStack{
-                Text("Alterar senha")
-                    .font(.system(size: 16))
-                    .bold()
-                    .padding(.leading, UIScreen.main.bounds.width/3.7)
-                
-                Spacer()
-                
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "x.circle")
-                }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background(.secondary.opacity(0.05))
-            .padding(.bottom, 30)
+//            HStack{
+//                Text("Alterar senha")
+//                    .font(.system(size: 16))
+//                    .bold()
+//                    .padding(.leading, UIScreen.main.bounds.width/3.7)
+//
+//                Spacer()
+//
+//                Button {
+//                    presentation.wrappedValue.dismiss()
+//                } label: {
+//                    Image(systemName: "x.circle")
+//                }
+//            }
+//            .padding(.horizontal, 24)
+//            .padding(.vertical, 12)
+//            .background(.secondary.opacity(0.05))
+//            .padding(.bottom, 30)
             
             HStack{
                 Text("Alterar senha")
@@ -80,17 +80,21 @@ struct EditPasswordComponent: View {
                     print("Invalida password")
                 }
                 
-            }label : {
+            }label: {
+                Spacer()
                 Text("Salvar")
-                    .foregroundColor(Color("white"))
-                    .frame(width: 178, height: 53)
-                    .background(Color("gray1"))
+                    .padding(.vertical, 12)
+                    .padding(.horizontal)
+                Spacer()
             }
-            .cornerRadius(10)
-            .padding(.top)
+            .background(.white)
+            .cornerRadius(24)
+            .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
+            .padding()
             
             
             Spacer()
         }
+        .navigationTitle("Alterar senha")
     }
 }

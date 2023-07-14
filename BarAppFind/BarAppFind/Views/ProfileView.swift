@@ -51,14 +51,14 @@ struct ProfileView: View {
                         showSignIn = true
                     } label: {
                         HStack {
-                            Text("Fazer Login")
                             Spacer()
-                            Image(systemName: "chevron.up")
+                            Text("Faça seu login")
+                            Spacer()
                         }
-                        .padding(.all)
-                        .background(Color("gray0"))
-                        .cornerRadius(8)
-                        .shadow(color: .primary.opacity(0.1), radius: 5, x: 0, y: 4)
+                        .padding(12)
+                        .background(.white)
+                        .cornerRadius(30)
+                        .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
                     }
                     .frame(width: UIScreen.main.bounds.width - 28)
                     .foregroundColor(.primary)
@@ -167,60 +167,61 @@ struct ProfileView: View {
                     ScrollView {
                         VStack(alignment: .leading){
                             Text("Detalhes da conta")
-                                .font(.system(size: 18))
+                                .font(.system(size: 17))
                                 .foregroundColor(.secondary)
                                 .padding(.bottom, 17)
                             HStack{
                                 Text(cloud.client?.firstName ?? "Nome")
-                                    .font(.system(size: 18))
+                                    .font(.system(size: 17))
                                     .foregroundColor(.secondary)
                                 Spacer()
                             }
-                            .padding(.all)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
+                            .frame(height: 42)
+                            .padding(.horizontal)
+                            .background(Color("gray8"))
+                            .cornerRadius(6)
                             .padding(.bottom, 10)
-                            
+
                             HStack{
                                 Text(cloud.client?.lastName ?? "Sobrenome")
-                                    .font(.system(size: 18))
+                                    .font(.system(size: 17))
                                     .foregroundColor(.secondary)
                                 Spacer()
                             }
-                            .padding(.all)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
+                            .frame(height: 42)
+                            .padding(.horizontal)
+                            .background(Color("gray8"))
+                            .cornerRadius(6)
                             .padding(.bottom, 10)
                             
                             HStack{
                                 Text(cloud.client?.email ?? "Email")
-                                    .font(.system(size: 18))
+                                    .font(.system(size: 17))
                                     .foregroundColor(.secondary)
                                 Spacer()
                             }
-                            .padding(.all)
-                            .background(Color.white)
-                            .cornerRadius(10)
-                            .shadow(radius: 2)
+                            .frame(height: 42)
+                            .padding(.horizontal)
+                            .background(Color("gray8"))
+                            .cornerRadius(6)
                             .padding(.bottom, 10)
                             
                             HStack{
                                 Spacer()
-                                Button(){
-                                    if cloud.client != nil{
-                                        editProfile = true
-                                    }else {
-                                        isPresented = true
-                                    }
-                                } label: {
-                                    Text("Alterar dados")
-                                        .foregroundColor(Color("white"))
-                                        .frame(width: 178, height: 53)
-                                        .background(Color("gray1"))
+                                Text("Alterar dados")
+                                    .padding(.vertical, 12)
+                                    .padding(.horizontal)
+                                Spacer()
+                            }
+                            .background(.white)
+                            .cornerRadius(24)
+                            .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
+                            .onTapGesture {
+                                if cloud.client != nil{
+                                    editProfile = true
+                                }else {
+                                    isPresented = true
                                 }
-                                .cornerRadius(10)
                             }
                             
                             Text("Segurança")
@@ -236,8 +237,9 @@ struct ProfileView: View {
                                             .foregroundColor(.secondary)
                                         Spacer()
                                         Image(systemName: "chevron.right")
+                                            .foregroundColor(.secondary)
                                     }
-                                    .padding(.all)
+                                    .padding(.all, 12)
                                     .background(Color.white)
                                     .cornerRadius(10)
                                     .shadow(radius: 2)
@@ -254,11 +256,12 @@ struct ProfileView: View {
                                 HStack{
                                     Text("Reportar Problema")
                                         .font(.system(size: 18))
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(.secondary)
                                     Spacer()
                                     Image(systemName: "chevron.right")
+                                        .foregroundColor(.secondary)
                                 }
-                                .padding(.all)
+                                .padding(.all, 12)
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 .shadow(radius: 2)
@@ -274,12 +277,17 @@ struct ProfileView: View {
                                     
                                 } label: {
                                     Text("Sair da conta")
-                                        .padding(.all)
-                                        .background(Color.white)
-                                        .cornerRadius(10)
-                                        .shadow(radius: 2)
-                                        .padding(.bottom, 10)
+                                        .font(.system(size: 18))
+                                        .foregroundColor(.secondary)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.secondary)
                                 }
+                                .padding(.all, 12)
+                                .background(Color.white)
+                                .cornerRadius(10)
+                                .shadow(radius: 2)
+                                .padding(.bottom, 10)
                             }
                         }
                         .padding(.horizontal, 24)
@@ -294,19 +302,23 @@ struct ProfileView: View {
             .padding(.top, 100)
             
             // Faz aparecer a tela de login de usuário
-            .sheet(isPresented: $showSignIn) {
+            .navigationDestination(isPresented: $showSignIn) {
                 SignInComponent()
+                    .toolbarRole(.editor)
             }
-            .sheet(isPresented: $editProfile){
+            .navigationDestination(isPresented: $editProfile){
                 if let client = cloud.client {
                     EditProfileComponent(firstName: client.firstName, lastName: client.lastName, email: client.email)
+                        .toolbarRole(.editor)
                 }
             }
-            .sheet(isPresented: $editPasswords){
+            .navigationDestination(isPresented: $editPasswords){
                 EditPasswordComponent()
+                    .toolbarRole(.editor)
             }
-            .sheet(isPresented: $showReportView) {
+            .navigationDestination(isPresented: $showReportView) {
                 ReportComponent()
+                    .toolbarRole(.editor)
                     .environmentObject(cloud)
             }
             
@@ -319,6 +331,7 @@ struct ProfileView: View {
             ConquestModalComponent(showMedalConquest: $showMedalConquest, medalName: $medalName)
             
         }
+        .navigationBarBackButtonHidden(true)
         .onAppear() {
             if let primeiroLogin = UserDefaults.standard.string(forKey: "PrimeiroLogin"), primeiroLogin != ""{
             }else{

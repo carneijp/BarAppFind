@@ -17,56 +17,56 @@ struct SignUpComponent: View {
     @State private var showLogin: Bool = false
     @State private var emailAlreadyInUse: Bool = false
     @State private var emptyText: Bool = false
+    @State private var sucess: Bool = false
 
     var body: some View {
-        VStack() {
+        VStack(spacing: 20) {
             
             // Header da Sheet
-            HStack {
-                Text("Cadastre o seu E-mail")
-                    .font(.system(size: 16))
-                    .bold()
-                    .padding(.leading, 85)
-                
-                Spacer()
-                
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "x.circle")
-                }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background(.secondary.opacity(0.05))
-            .padding(.bottom, 30)
+//            HStack {
+//                Text("Cadastre o seu E-mail")
+//                    .font(.system(size: 16))
+//                    .bold()
+//                    .padding(.leading, 85)
+//
+//                Spacer()
+//
+//                Button {
+//                    presentation.wrappedValue.dismiss()
+//                } label: {
+//                    Image(systemName: "x.circle")
+//                }
+//            }
+//            .padding(.horizontal, 24)
+//            .padding(.vertical, 12)
+//            .background(.secondary.opacity(0.05))
+//            .padding(.bottom, 30)
             
-            // Logo do App
             Image("logo")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 80, height: 80)
+                .frame(width: 100, height: 100)
                 .padding(.all)
                 .clipShape(Circle())
                 .shadow(radius: 1, x: 0, y: 2)
-                .padding(.top, 30)
-                .padding(.bottom, 10)
+//                .padding(.top, 30)
+                .padding(.bottom, 20)
             
-            HStack {
-                Text("Cadastrar")
-                    .font(.system(size: 14))
-                    .foregroundColor(Color("gray2"))
-                Spacer()
-            }
-            .padding(.horizontal, 24)
-
+            Text("Que bom ter você aqui!")
+                .font(.system(size: 27))
+                .bold()
+//                .padding(.top, 20)
+            
             // Inputs do Usuário
             Group {
-                TextField("Nome", text: $email)
+                TextField("Digite o seu e-mail", text: $email)
                 
-                TextField("Sobrenome", text: $firstName)
+                TextField("Nome", text: $firstName)
+//                    .padding(.vertical, 20)
                 
-                TextField("E-mail", text: $lastName)
+                TextField("Sobrenome", text: $lastName)
+//                    .padding(.vertical, 20)
+
                 
                 SecureField("Senha", text: $password)
             }
@@ -75,19 +75,19 @@ struct SignUpComponent: View {
             .disableAutocorrection(true)
             .padding(.vertical, 10)
             .padding(.horizontal)
-            .background()
+            .background(Color("gray8"))
             .cornerRadius(8)
             .padding(.horizontal, 24)
-            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
+//            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
             
             if emailAlreadyInUse{
-                Text("Email informado ja está cadastrado")
+                Text("Email informado já está cadastrado")
                     .foregroundColor(.red)
                     .font(.system(size: 12))
                     .padding(.top, 8)
             }
             if emptyText {
-                Text("Todos os campos devem ser preenchidos com dados validos.")
+                Text("Todos os campos devem ser preenchidos com dados válidos.")
                     .foregroundColor(.red)
                     .font(.system(size: 12))
                     .padding(.top, 8)
@@ -98,9 +98,12 @@ struct SignUpComponent: View {
                 emailAlreadyInUse = false
                 emptyText = false
                 if(email != "" && password != "" && firstName != "" && lastName != ""){
-                    cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){ result in
+                    let novoCliente = Clients(email: email, firstName: firstName, password: password, lastName: lastName)
+                    cloud.addUser(clients: novoCliente){ result in
                         if result{
-                            presentation.wrappedValue.dismiss()
+                            cloud.validateClientLogin(email: novoCliente.email, password: novoCliente.password) { _ in
+                                self.sucess = true
+                            }
                         }else{
                             print("usuario ja existente")
                             emailAlreadyInUse = true
@@ -114,22 +117,25 @@ struct SignUpComponent: View {
 
             }label: {
                 HStack {
+                    Spacer()
                     Text("Vamos lá!")
-                        .foregroundColor(.white)
-                        .bold()
-                        .font(.system(size: 16))
+//                            .underline()
+                        .foregroundColor(.primary)
+                        .font(.system(size: 18))
                         .padding(.vertical, 10)
-                        .padding(.horizontal, 44)
-//                    .padding(.horizontal, 20)
-//                    Spacer()
+                    Spacer()
                 }
+                .background(Color.white)
+                .cornerRadius(24)
+                .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
             }
-            .background(Color("gray1"))
-            .cornerRadius(16)
-            .padding(.top, 20)
             .padding(.horizontal, 24)
-            
+            .padding(.top, 32)
             Spacer()
+        }
+        .navigationTitle("Cadastro")
+        .navigationDestination(isPresented: $sucess){
+            ProfileView()
         }
         // Faz aparecer a sheet de Cadastrar usuário
         .sheet(isPresented: $showLogin) {
@@ -137,11 +143,11 @@ struct SignUpComponent: View {
         }
         
         // Verifica se o usuário está logado quando a Sheet aparecer
-        .onAppear() {
-            // verificar se está logado
-            // se estiver logado
-            // presentation.wrappedValue.dismiss()
-        }
+//        .onAppear() {
+//            // verificar se está logado
+//            // se estiver logado
+//            // presentation.wrappedValue.dismiss()
+//        }
         
     }
 }
