@@ -52,7 +52,6 @@ struct SignInComponent: View {
                 .padding(.all)
                 .clipShape(Circle())
                 .shadow(radius: 1, x: 0, y: 2)
-            //                .padding(.top, 10)
                 .padding(.bottom, 20)
             
             
@@ -71,10 +70,8 @@ struct SignInComponent: View {
             .background(Color("gray8"))
             .cornerRadius(8)
             .padding(.horizontal, 24)
-            //            .shadow(color: .primary.opacity(0.2) ,radius: 2, y: 2)
             
             
-            //            aqui
             if invalidPassword{
                 Text("Senha ou email incorretos, digite novamente")
                     .foregroundColor(.red)
@@ -94,7 +91,7 @@ struct SignInComponent: View {
                             UserDefaults.standard.set(senha, forKey: "Password")
                             print("salvei")
                             self.loginSucess = true
-                            //                            presentation.wrappedValue.dismiss()
+//                            presentation.wrappedValue.dismiss()
                         } else {
                             print("login ou senha invalidos")
                             invalidPassword = true
@@ -104,7 +101,6 @@ struct SignInComponent: View {
                     HStack {
                         Spacer()
                         Text("Entrar")
-                        //                            .underline()
                             .foregroundColor(.primary)
                             .font(.system(size: 18))
                             .padding(.vertical, 10)
@@ -130,7 +126,6 @@ struct SignInComponent: View {
                     HStack {
                         Spacer()
                         Text("Criar conta")
-                        //                            .underline()
                             .foregroundColor(.primary)
                             .font(.system(size: 18))
                             .padding(.vertical, 10)
@@ -143,22 +138,6 @@ struct SignInComponent: View {
             }
             .padding(.horizontal, 24)
             .padding(.top, 20)
-            
-            //                Button{
-            //                    print("aa")
-            //                } label: {
-            //                    HStack {
-            ////                        Spacer()
-            //                        Text("Login com E-mail")
-            //                            .underline()
-            //                            .foregroundColor(.primary)
-            //                            .font(.system(size: 16))
-            //                            .padding(.vertical, 10)
-            ////                        Spacer()
-            //                    }
-            //                }
-            
-            
             
             Spacer()
             

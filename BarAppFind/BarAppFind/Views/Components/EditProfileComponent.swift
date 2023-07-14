@@ -17,55 +17,28 @@ struct EditProfileComponent: View {
     
     var body: some View {
         VStack{
-            //            HStack{
-            //                Text("Alterar dados da conta")
-            //                    .font(.system(size: 16))
-            //                    .bold()
-            //                    .padding(.leading, UIScreen.main.bounds.width/3.7)
-            //                //                .background(.blue)
-            //
-            //                Spacer()
-            //
-            //                Button {
-            //                    presentation.wrappedValue.dismiss()
-            //                } label: {
-            //                    Image(systemName: "x.circle")
-            //                }
-            //            }
-            //            .padding(.horizontal, 24)
-            //            .padding(.vertical, 12)
-            //            .background(.secondary.opacity(0.05))
-            //            .padding(.bottom, 30)
             HStack{
-                Text("Alterar dados da conta")
+                Text("Seus dados atuais: (Toque para alterar)")
+                    .padding()
                     .font(.system(size: 14))
                     .foregroundColor(.secondary)
-                //                    .padding(.top, 30)
-                    .padding(.bottom, 17)
+                    .padding(.top, 12)
                     .padding(.horizontal, 24)
                 Spacer()
             }
             
-            TextField("Nome", text: $firstName, axis: .vertical)
-                .lineLimit(1, reservesSpace: true)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray8")))
-                .foregroundColor(.secondary)
-                .padding(.horizontal, 24)
-            
-            TextField("Sobrenome", text: $lastName, axis: .vertical)
-                .lineLimit(1, reservesSpace: true)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray8")))
-                .foregroundColor(.secondary)
-                .padding(.horizontal, 24)
-            
-            TextField("E-mail", text: $email, axis: .vertical)
-                .lineLimit(1, reservesSpace: true)
-                .padding()
-                .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray8")))
-                .foregroundColor(.secondary)
-                .padding(.horizontal, 24)
+            Group {
+                TextField("Nome", text: $firstName, axis: .vertical)
+                
+                TextField("Sobrenome", text: $lastName, axis: .vertical)
+                
+                TextField("E-mail", text: $email, axis: .vertical)
+            }
+            .lineLimit(1, reservesSpace: true)
+            .padding()
+            .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0").opacity(0.6)))
+            .foregroundColor(.secondary)
+            .padding(.horizontal, 24)
             
             Button {
                 if let cliente = cloud.client{

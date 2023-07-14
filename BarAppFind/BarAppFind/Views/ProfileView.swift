@@ -22,9 +22,9 @@ struct ProfileView: View {
     @State private var editProfile: Bool = false
     @State private var editPasswords: Bool = false
     @State private var showReportView: Bool = false
-    
-    //    @State private var showAnimation: Bool = true
-    
+    @State private var showAlertLeaveAccount: Bool = false
+    @Namespace private var nameSpace
+        
     // Opções da Tab Bar
     enum ChoiceProfile {
         case myConquests, profileEdit
@@ -64,6 +64,7 @@ struct ProfileView: View {
                     .foregroundColor(.primary)
                     .padding(.bottom, 40)
                 }
+
                 
                 // MARK: - Tab Bar
                 HStack {
@@ -79,6 +80,7 @@ struct ProfileView: View {
                                 Rectangle()
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
+                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
                             }
                             .padding(.leading, 24)
                             
@@ -88,9 +90,11 @@ struct ProfileView: View {
                                     .foregroundColor(.secondary)
                                     .font(.system(size: 14))
                                     .onTapGesture {
-                                        self.topProfileChoice = .myConquests
-                                        isMyConquests = true
-                                        isProfileEdit = false
+                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                            self.topProfileChoice = .myConquests
+                                            isMyConquests = true
+                                            isProfileEdit = false
+                                        }
                                     }
                             }
                             .padding(.leading, 24)
@@ -111,6 +115,7 @@ struct ProfileView: View {
                                 Rectangle()
                                     .frame(height: 1)
                                     .foregroundColor(.primary)
+                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
                             }
                             .padding(.trailing, 24)
                             
@@ -120,9 +125,11 @@ struct ProfileView: View {
                                     .font(.system(size: 14))
                                     .foregroundColor(.secondary)
                                     .onTapGesture {
-                                        self.topProfileChoice = .profileEdit
-                                        isMyConquests = false
-                                        isProfileEdit = true
+                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                            self.topProfileChoice = .profileEdit
+                                            isMyConquests = false
+                                            isProfileEdit = true
+                                        }
                                     }
                             }
                             .padding(.trailing, 24)
@@ -168,9 +175,10 @@ struct ProfileView: View {
                         VStack(alignment: .leading){
                             Text("Detalhes da conta")
                                 .font(.system(size: 17))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.primary)
                                 .padding(.bottom, 17)
-                            HStack{
+                            
+                            HStack {
                                 Text(cloud.client?.firstName ?? "Nome")
                                     .font(.system(size: 17))
                                     .foregroundColor(.secondary)
@@ -206,29 +214,31 @@ struct ProfileView: View {
                             .cornerRadius(6)
                             .padding(.bottom, 10)
                             
-                            HStack{
-                                Spacer()
-                                Text("Alterar dados")
-                                    .padding(.vertical, 12)
-                                    .padding(.horizontal)
-                                Spacer()
-                            }
-                            .background(.white)
-                            .cornerRadius(24)
-                            .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
-                            .onTapGesture {
+                            Button {
                                 if cloud.client != nil{
                                     editProfile = true
                                 }else {
                                     isPresented = true
                                 }
+                            } label: {
+                                HStack{
+                                    Spacer()
+                                    Text("Alterar dados")
+                                        .padding(.vertical, 12)
+                                        .padding(.horizontal)
+                                    Spacer()
+                                }
+                                .background(.white)
+                                .cornerRadius(24)
+                                .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
                             }
                             
                             Text("Segurança")
                                 .font(.system(size: 18))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.primary)
                                 .padding(.top, 30)
                                 .padding(.bottom, 17)
+                            
                             if let client = cloud.client {
                                 if client.userID == ""{
                                     HStack{
@@ -270,11 +280,8 @@ struct ProfileView: View {
                             
                             if cloud.client != nil {
                                 Button {
-                                    cloud.client = nil
-                                    UserDefaults.standard.set("", forKey: "UserID")
-                                    UserDefaults.standard.set("", forKey: "Password")
-                                    UserDefaults.standard.set("", forKey: "Email")
-                                    
+                                    showAlertLeaveAccount = true
+
                                 } label: {
                                     Text("Sair da conta")
                                         .font(.system(size: 18))
@@ -306,20 +313,32 @@ struct ProfileView: View {
                 SignInComponent()
                     .toolbarRole(.editor)
             }
+            
             .navigationDestination(isPresented: $editProfile){
                 if let client = cloud.client {
                     EditProfileComponent(firstName: client.firstName, lastName: client.lastName, email: client.email)
                         .toolbarRole(.editor)
                 }
             }
+            
             .navigationDestination(isPresented: $editPasswords){
                 EditPasswordComponent()
                     .toolbarRole(.editor)
             }
+            
             .navigationDestination(isPresented: $showReportView) {
                 ReportComponent()
                     .toolbarRole(.editor)
                     .environmentObject(cloud)
+            }
+            
+            .alert(isPresented: $showAlertLeaveAccount) {
+                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
+                    cloud.client = nil
+                    UserDefaults.standard.set("", forKey: "UserID")
+                    UserDefaults.standard.set("", forKey: "Password")
+                    UserDefaults.standard.set("", forKey: "Email")
+                }))
             }
             
             // Pop Up De "Login Necessário"

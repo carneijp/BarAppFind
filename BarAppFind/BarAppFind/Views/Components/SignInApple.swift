@@ -16,6 +16,7 @@ struct SignInApple: View {
     @AppStorage("FirstName") var firstName: String = ""
     @AppStorage("LastName") var lastName: String = ""
     @AppStorage("UserID") var userId: String = ""
+    
     var body: some View {
         VStack{
             SignInWithAppleButton { request in
@@ -42,7 +43,6 @@ struct SignInApple: View {
                                     cloud.validadeClientLoginWithApple(userID: self.userId) { result in
                                         if result{
                                             print("Loguei com apple id")
-                                            dismiss()
                                         }
                                         else{
                                             print("Nao loguei com apple id")
@@ -59,21 +59,11 @@ struct SignInApple: View {
                 }
             }
             .signInWithAppleButtonStyle(
-                //                colorScheme == .dark ? .white : .black
-                //                .whiteOutline
                 .black
             )
             .frame(height: 45)
             .cornerRadius(24)
-            //            .border(Color.black, width: 1)
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 24)
-//                    .stroke(Color.black, lineWidth: 1)
-//            )
-//            .padding()
-            
         }
-        
     }
 }
 
