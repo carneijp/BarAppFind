@@ -17,30 +17,30 @@ struct EditProfileComponent: View {
     
     var body: some View {
         VStack{
-            HStack{
-                Text("Alterar dados da conta")
-                    .font(.system(size: 16))
-                    .bold()
-                    .padding(.leading, UIScreen.main.bounds.width/3.7)
-                //                .background(.blue)
-                
-                Spacer()
-                
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "x.circle")
-                }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background(.secondary.opacity(0.05))
-            .padding(.bottom, 30)
+            //            HStack{
+            //                Text("Alterar dados da conta")
+            //                    .font(.system(size: 16))
+            //                    .bold()
+            //                    .padding(.leading, UIScreen.main.bounds.width/3.7)
+            //                //                .background(.blue)
+            //
+            //                Spacer()
+            //
+            //                Button {
+            //                    presentation.wrappedValue.dismiss()
+            //                } label: {
+            //                    Image(systemName: "x.circle")
+            //                }
+            //            }
+            //            .padding(.horizontal, 24)
+            //            .padding(.vertical, 12)
+            //            .background(.secondary.opacity(0.05))
+            //            .padding(.bottom, 30)
             HStack{
                 Text("Alterar dados da conta")
                     .font(.system(size: 14))
                     .foregroundColor(.secondary)
-//                    .padding(.top, 30)
+                //                    .padding(.top, 30)
                     .padding(.bottom, 17)
                     .padding(.horizontal, 24)
                 Spacer()
@@ -87,13 +87,9 @@ struct EditProfileComponent: View {
             .cornerRadius(24)
             .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
             .padding()
-            
-
-            
-            
-            
             Spacer()
         }
+        .navigationTitle("Alterar dados da conta")
     }
 }
 

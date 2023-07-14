@@ -17,29 +17,30 @@ struct SignUpComponent: View {
     @State private var showLogin: Bool = false
     @State private var emailAlreadyInUse: Bool = false
     @State private var emptyText: Bool = false
+    @State private var sucess: Bool = false
 
     var body: some View {
         VStack(spacing: 20) {
             
             // Header da Sheet
-            HStack {
-                Text("Cadastre o seu E-mail")
-                    .font(.system(size: 16))
-                    .bold()
-                    .padding(.leading, 85)
-                
-                Spacer()
-                
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "x.circle")
-                }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background(.secondary.opacity(0.05))
-            .padding(.bottom, 30)
+//            HStack {
+//                Text("Cadastre o seu E-mail")
+//                    .font(.system(size: 16))
+//                    .bold()
+//                    .padding(.leading, 85)
+//
+//                Spacer()
+//
+//                Button {
+//                    presentation.wrappedValue.dismiss()
+//                } label: {
+//                    Image(systemName: "x.circle")
+//                }
+//            }
+//            .padding(.horizontal, 24)
+//            .padding(.vertical, 12)
+//            .background(.secondary.opacity(0.05))
+//            .padding(.bottom, 30)
             
             Image("logo")
                 .resizable()
@@ -97,9 +98,12 @@ struct SignUpComponent: View {
                 emailAlreadyInUse = false
                 emptyText = false
                 if(email != "" && password != "" && firstName != "" && lastName != ""){
-                    cloud.addUser(clients: Clients(email: email, firstName: firstName, password: password, lastName: lastName)){ result in
+                    let novoCliente = Clients(email: email, firstName: firstName, password: password, lastName: lastName)
+                    cloud.addUser(clients: novoCliente){ result in
                         if result{
-                            presentation.wrappedValue.dismiss()
+                            cloud.validateClientLogin(email: novoCliente.email, password: novoCliente.password) { _ in
+                                self.sucess = true
+                            }
                         }else{
                             print("usuario ja existente")
                             emailAlreadyInUse = true
@@ -129,17 +133,21 @@ struct SignUpComponent: View {
             .padding(.top, 32)
             Spacer()
         }
+        .navigationTitle("Cadastro")
+        .navigationDestination(isPresented: $sucess){
+            ProfileView()
+        }
         // Faz aparecer a sheet de Cadastrar usuário
         .sheet(isPresented: $showLogin) {
             SignInComponent()
         }
         
         // Verifica se o usuário está logado quando a Sheet aparecer
-        .onAppear() {
-            // verificar se está logado
-            // se estiver logado
-            // presentation.wrappedValue.dismiss()
-        }
+//        .onAppear() {
+//            // verificar se está logado
+//            // se estiver logado
+//            // presentation.wrappedValue.dismiss()
+//        }
         
     }
 }

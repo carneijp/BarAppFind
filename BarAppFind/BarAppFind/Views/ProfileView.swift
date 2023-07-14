@@ -302,19 +302,23 @@ struct ProfileView: View {
             .padding(.top, 100)
             
             // Faz aparecer a tela de login de usuário
-            .sheet(isPresented: $showSignIn) {
+            .navigationDestination(isPresented: $showSignIn) {
                 SignInComponent()
+                    .toolbarRole(.editor)
             }
-            .sheet(isPresented: $editProfile){
+            .navigationDestination(isPresented: $editProfile){
                 if let client = cloud.client {
                     EditProfileComponent(firstName: client.firstName, lastName: client.lastName, email: client.email)
+                        .toolbarRole(.editor)
                 }
             }
-            .sheet(isPresented: $editPasswords){
+            .navigationDestination(isPresented: $editPasswords){
                 EditPasswordComponent()
+                    .toolbarRole(.editor)
             }
-            .sheet(isPresented: $showReportView) {
+            .navigationDestination(isPresented: $showReportView) {
                 ReportComponent()
+                    .toolbarRole(.editor)
                     .environmentObject(cloud)
             }
             
@@ -327,6 +331,7 @@ struct ProfileView: View {
             ConquestModalComponent(showMedalConquest: $showMedalConquest, medalName: $medalName)
             
         }
+        .navigationBarBackButtonHidden(true)
         .onAppear() {
             if let primeiroLogin = UserDefaults.standard.string(forKey: "PrimeiroLogin"), primeiroLogin != ""{
             }else{

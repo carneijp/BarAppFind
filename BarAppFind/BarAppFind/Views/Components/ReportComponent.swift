@@ -21,23 +21,23 @@ struct ReportComponent: View {
     
     var body: some View {
         VStack {
-            HStack{
-                Text("Reportar Problema")
-                    .font(.system(size: 16))
-                    .bold()
-                    .padding(.leading, UIScreen.main.bounds.width/4)
-                
-                Spacer()
-                
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "x.circle")
-                }
-            }
-            .padding(.vertical, 12)
-            .background(.secondary.opacity(0.05))
-            .padding(.bottom, 30)
+//            HStack{
+//                Text("Reportar Problema")
+//                    .font(.system(size: 16))
+//                    .bold()
+//                    .padding(.leading, UIScreen.main.bounds.width/4)
+//
+//                Spacer()
+//
+//                Button {
+//                    presentation.wrappedValue.dismiss()
+//                } label: {
+//                    Image(systemName: "x.circle")
+//                }
+//            }
+//            .padding(.vertical, 12)
+//            .background(.secondary.opacity(0.05))
+//            .padding(.bottom, 30)
             
             HStack{
                 Text("Reportar Problema")
@@ -141,6 +141,7 @@ struct ReportComponent: View {
             }
             Spacer()
         }
+        .navigationTitle("Reportar problema")
         .padding(.horizontal, 24)
     }
 }

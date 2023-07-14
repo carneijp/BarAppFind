@@ -73,6 +73,7 @@ struct SignInApple: View {
 //            .padding()
             
         }
+        
     }
 }
 

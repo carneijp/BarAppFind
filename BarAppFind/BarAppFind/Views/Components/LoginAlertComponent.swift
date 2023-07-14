@@ -74,8 +74,9 @@ struct LoginAlertComponent: View {
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 40)
         .background(.secondary.opacity(0.01))
         .offset(y: isShow ? -10 : UIScreen.main.bounds.height)
-        .sheet(isPresented: $showSignIn) {
+        .navigationDestination(isPresented: $showSignIn) {
             SignInComponent()
+                .toolbarRole(.editor)
         }
         .onTapGesture {
             self.isShow = false
