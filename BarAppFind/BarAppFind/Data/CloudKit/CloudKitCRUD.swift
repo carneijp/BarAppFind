@@ -204,6 +204,7 @@ class CloudKitCRUD: ObservableObject {
                     newClient["Level"] = clients.level
                     newClient["UserID"] = clients.userID
                     self.saveItemPublic(record: newClient)
+                    self.client = clients
                     completion(true)
                 }
             }
@@ -519,6 +520,7 @@ class CloudKitCRUD: ObservableObject {
                         }
                     }
                 }
+//                completion(false)
             case .failure(let failure):
                 print(failure.localizedDescription)
                 completion(false)

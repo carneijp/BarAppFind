@@ -15,145 +15,130 @@ struct SignInComponent: View {
     @State private var showSignUp: Bool = false
     @State private var invalidPassword: Bool = false
     @State private var loginSucess: Bool = false
+    @State private var isLoading: Bool = false
     
     
     var body: some View {
-        VStack {
-            
-            // Header da Sheet / Modal
-            //            HStack() {
-            //                Text("Login")
-            //                    .font(.system(size: 16))
-            //                    .bold()
-            //                    .padding(.leading, UIScreen.main.bounds.width/2.6)
-            //                //                .background(.blue)
-            //
-            //                Spacer()
-            //
-            //                HStack() {
-            //                    Button {
-            //                        presentation.wrappedValue.dismiss()
-            //                    } label: {
-            //                        Image(systemName: "x.circle")
-            //                }
-            //                }
-            //            }
-            //            .padding(.horizontal, 24)
-            //            .padding(.vertical, 12)
-            //            .background(.secondary.opacity(0.05))
-            //            .padding(.bottom, 30)
-            
-            
-            // Logo do App
-            Image("logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 100, height: 100)
-                .padding(.all)
-                .clipShape(Circle())
-                .shadow(radius: 1, x: 0, y: 2)
-                .padding(.bottom, 20)
-            
-            
-            // Inputs do Usuário
-            Group {
-                TextField("Digite o seu e-mail", text: $email)
+        ZStack{
+            VStack {
+                
+                // Logo do App
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .padding(.all)
+                    .clipShape(Circle())
+                    .shadow(radius: 1, x: 0, y: 2)
+                    .padding(.bottom, 20)
                 
                 
-                SecureField("Senha", text: $password)
-            }
-            .font(.system(size: 16))
-            .textInputAutocapitalization(.never)
-            .disableAutocorrection(true)
-            .padding(.vertical, 10)
-            .padding(.horizontal)
-            .background(Color("gray8"))
-            .cornerRadius(8)
-            .padding(.horizontal, 24)
-            
-            
-            if invalidPassword{
-                Text("Senha ou email incorretos, digite novamente")
-                    .foregroundColor(.red)
-                    .font(.system(size: 12))
-                    .padding(.top, 8)
-            }
-            
-            
-            VStack  {
-                // Botão de Logar
-                Button(action: {
-                    cloud.validateClientLogin(email: email, password: password) { result in
-                        if result {
-                            let login: String = $email.wrappedValue
-                            let senha: String = $password.wrappedValue
-                            UserDefaults.standard.set(login, forKey: "Email")
-                            UserDefaults.standard.set(senha, forKey: "Password")
-                            print("salvei")
-                            self.loginSucess = true
-//                            presentation.wrappedValue.dismiss()
-                        } else {
-                            print("login ou senha invalidos")
-                            invalidPassword = true
+                // Inputs do Usuário
+                Group {
+                    TextField("Digite o seu e-mail", text: $email)
+                    
+                    SecureField("Senha", text: $password)
+                }
+                .font(.system(size: 16))
+                .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
+                .padding(.vertical, 10)
+                .padding(.horizontal)
+                .background(Color("gray8"))
+                .cornerRadius(8)
+                .padding(.horizontal, 24)
+                
+                
+                if invalidPassword{
+                    Text("Senha ou email incorretos, digite novamente")
+                        .foregroundColor(.red)
+                        .font(.system(size: 12))
+                        .padding(.top, 8)
+                }
+                
+                
+                VStack  {
+                    // Botão de Logar
+                    Button(action: {
+                        isLoading = true
+                        cloud.validateClientLogin(email: email, password: password) { result in
+                            if result {
+                                isLoading = false
+                                let login: String = $email.wrappedValue
+                                let senha: String = $password.wrappedValue
+                                UserDefaults.standard.set(login, forKey: "Email")
+                                UserDefaults.standard.set(senha, forKey: "Password")
+                                print("salvei")
+                                self.loginSucess = true
+                                //                            presentation.wrappedValue.dismiss()
+                            } else {
+                                isLoading = false
+                                print("login ou senha invalidos")
+                                invalidPassword = true
+                            }
                         }
+                    }) {
+                        HStack {
+                            Spacer()
+                            Text("Entrar")
+                                .foregroundColor(.primary)
+                                .font(.system(size: 18))
+                                .padding(.vertical, 10)
+                            Spacer()
+                        }
+                        .background(Color.white)
+                        .cornerRadius(24)
+                        .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
                     }
-                }) {
-                    HStack {
-                        Spacer()
-                        Text("Entrar")
-                            .foregroundColor(.primary)
-                            .font(.system(size: 18))
-                            .padding(.vertical, 10)
-                        Spacer()
+                    
+                    SignInApple()
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 20)
+                    
+                    Text("ou")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color("gray1"))
+                        .padding(.vertical, 20)
+                    
+                    Button {
+                        showSignUp = true
+                    } label: {
+                        HStack {
+                            Spacer()
+                            Text("Criar conta")
+                                .foregroundColor(.primary)
+                                .font(.system(size: 18))
+                                .padding(.vertical, 10)
+                            Spacer()
+                        }
+                        .background(Color.white)
+                        .cornerRadius(24)
+                        .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
                     }
-                    .background(Color.white)
-                    .cornerRadius(24)
-                    .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
                 }
+                .padding(.horizontal, 24)
+                .padding(.top, 20)
                 
-                SignInApple()
-                    .frame(maxWidth: .infinity)
-                    .padding(.top, 20)
+                Spacer()
                 
-                Text("ou")
-                    .font(.system(size: 20))
-                    .foregroundColor(Color("gray1"))
-                    .padding(.vertical, 20)
+                // Botão de Cadastrar
                 
-                Button {
-                    showSignUp = true
-                } label: {
-                    HStack {
-                        Spacer()
-                        Text("Criar conta")
-                            .foregroundColor(.primary)
-                            .font(.system(size: 18))
-                            .padding(.vertical, 10)
-                        Spacer()
-                    }
-                    .background(Color.white)
-                    .cornerRadius(24)
-                    .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
-                }
+                
+                Spacer()
             }
-            .padding(.horizontal, 24)
-            .padding(.top, 20)
+            .navigationBarTitle("Login", displayMode: .inline)
+            .navigationDestination(isPresented: $loginSucess) {
+                ProfileView()
+            }
+            .navigationDestination(isPresented: $showSignUp) {
+                SignUpComponent()
+            }
             
-            Spacer()
-            
-            // Botão de Cadastrar
-            
-            
-            Spacer()
+            if isLoading {
+                LoadingViewModel()
+                    .padding(.bottom, 130)
+            }
         }
-        .navigationBarTitle("Login", displayMode: .inline)
-        .navigationDestination(isPresented: $loginSucess) {
-            ProfileView()
-        }
-        .navigationDestination(isPresented: $showSignUp) {
-            SignUpComponent()
-        }
-        
     }
 }
 
