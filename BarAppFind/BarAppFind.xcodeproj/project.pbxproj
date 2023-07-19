@@ -192,6 +192,7 @@
 		85285DFA2A01A00100139191 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				82FC66952A0423A4008DF9CC /* Components */,
 				6C7C67CB2A1D4BEA0002CEED /* AboutTheBarView.swift */,
 				EB6F39C82A1FD1F9001D494F /* ErrorView.swift */,
 				6C7C67CD2A1D64200002CEED /* BarInformationView.swift */,
@@ -206,7 +207,6 @@
 				85739ABE2A671A1A005E13D0 /* ReviewReport.swift */,
 				85B3EFE52A55E721008DA9C8 /* MapCompactView.swift */,
 				855816E02A15AB0A00679080 /* SplashScreen.swift */,
-				82FC66952A0423A4008DF9CC /* Components */,
 				85739AC02A672D0D005E13D0 /* ReportReviewConclusion.swift */,
 			);
 			path = Views;
