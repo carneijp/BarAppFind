@@ -21,6 +21,7 @@ struct SignUpComponent: View {
     @State private var sucess: Bool = false
     @State private var isLoading: Bool = false
     @State private var passwordDontMatch: Bool = false
+    @State private var emailNotEmail: Bool = false
     
     var body: some View {
         ZStack {
@@ -44,6 +45,7 @@ struct SignUpComponent: View {
                 // Inputs do Usuário
                 Group {
                     TextField("Digite o seu e-mail", text: $email)
+                        .keyboardType(.emailAddress)
                     
                     TextField("Nome", text: $firstName)
                     
@@ -51,7 +53,7 @@ struct SignUpComponent: View {
                     
                     SecureField("Senha", text: $password)
                     
-                    SecureField("Comfirme a senha", text: $confirmationPassword)
+                    SecureField("Confirme a senha", text: $confirmationPassword)
                 }
                 .font(.system(size: 16))
                 .textInputAutocapitalization(.never)
@@ -81,6 +83,12 @@ struct SignUpComponent: View {
                         .font(.system(size: 12))
                         .padding(.top, 8)
                 }
+                if emailNotEmail {
+                    Text("Deve ser informado um email valido")
+                        .foregroundColor(.red)
+                        .font(.system(size: 12))
+                        .padding(.top, 8)
+                }
                 
                 // Botão de Cadastrar Conta
                 Button {
@@ -93,23 +101,30 @@ struct SignUpComponent: View {
                     emailAlreadyInUse = false
                     emptyText = false
                     passwordDontMatch = false
+                    emailNotEmail = false
                     if(!email.isEmpty && !password.isEmpty && !firstName.isEmpty && !lastName.isEmpty && !confirmationPassword.isEmpty){
-                        if(password == confirmationPassword) {
-                            let novoCliente = Clients(email: email, firstName: firstName, password: password, lastName: lastName)
-                            cloud.addUser(clients: novoCliente){ result in
-                                if result{
+                        if(email.contains("@")){
+                            if(password == confirmationPassword) {
+                                let novoCliente = Clients(email: email, firstName: firstName, password: password, lastName: lastName)
+                                cloud.addUser(clients: novoCliente){ result in
+                                    if result{
+                                            self.isLoading = false
+                                            self.sucess = true
+                                    }else{
                                         self.isLoading = false
-                                        self.sucess = true
-                                }else{
-                                    self.isLoading = false
-                                    print("usuario ja existente")
-                                    emailAlreadyInUse = true
+                                        print("usuario ja existente")
+                                        emailAlreadyInUse = true
+                                    }
                                 }
+                            }else {
+                                self.isLoading = false
+                                self.passwordDontMatch = true
                             }
-                        }else {
+                        }else{
                             self.isLoading = false
-                            self.passwordDontMatch = true
+                            self.emailNotEmail = true
                         }
+                        
                     }else{
                         self.isLoading = false
                         emptyText = true
