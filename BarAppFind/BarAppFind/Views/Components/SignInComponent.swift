@@ -106,7 +106,7 @@ struct SignInComponent: View {
                         .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
                     }
                     
-                    SignInApple()
+                    SignInApple(loginSuccess: $loginSucess)
                         .frame(maxWidth: .infinity)
                         .padding(.top, 20)
                     
