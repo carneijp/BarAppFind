@@ -16,6 +16,7 @@ struct SignInComponent: View {
     @State private var invalidPassword: Bool = false
     @State private var loginSucess: Bool = false
     @State private var isLoading: Bool = false
+    @State private var isEmpty: Bool = false
     
     
     var body: some View {
@@ -55,28 +56,42 @@ struct SignInComponent: View {
                         .font(.system(size: 12))
                         .padding(.top, 8)
                 }
-                
+                if isEmpty{
+                    Text("Todos os campos devem estar preenchidos")
+                        .foregroundColor(.red)
+                        .font(.system(size: 12))
+                        .padding(.top, 8)
+                }
                 
                 VStack  {
                     // Botão de Logar
                     Button(action: {
+                        email = email.trimmingCharacters(in: .whitespaces)
+                        password = password.trimmingCharacters(in: .whitespaces)
                         isLoading = true
-                        cloud.validateClientLogin(email: email, password: password) { result in
-                            if result {
-                                isLoading = false
-                                let login: String = $email.wrappedValue
-                                let senha: String = $password.wrappedValue
-                                UserDefaults.standard.set(login, forKey: "Email")
-                                UserDefaults.standard.set(senha, forKey: "Password")
-                                print("salvei")
-                                self.loginSucess = true
-                                //                            presentation.wrappedValue.dismiss()
-                            } else {
-                                isLoading = false
-                                print("login ou senha invalidos")
-                                invalidPassword = true
+                        isEmpty = false
+                        if(!email.isEmpty && !password.isEmpty){
+                            cloud.validateClientLogin(email: email, password: password) { result in
+                                if result {
+                                    isLoading = false
+                                    let login: String = $email.wrappedValue
+                                    let senha: String = $password.wrappedValue
+                                    UserDefaults.standard.set(login, forKey: "Email")
+                                    UserDefaults.standard.set(senha, forKey: "Password")
+                                    print("salvei")
+                                    self.loginSucess = true
+                                    //                            presentation.wrappedValue.dismiss()
+                                } else {
+                                    isLoading = false
+                                    print("login ou senha invalidos")
+                                    invalidPassword = true
+                                }
                             }
+                        }else{
+                            isLoading = false
+                            isEmpty = true
                         }
+                        
                     }) {
                         HStack {
                             Spacer()
