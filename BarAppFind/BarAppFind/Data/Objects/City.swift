@@ -123,19 +123,19 @@ class ReportReview: ObservableObject, Hashable, Identifiable {
     var clientInformerEmail: String
     var clientInformerID: String
     var reportBarName: String
-    var reportGrade: String
     var reportWirterEmail: String
     var reportWriterID: String
     var reportDescription: String
+    var reportReason: String
     
-    init(clientInformerEmail: String, clientInformerID: String, reportBarName: String, reportGrade: String, reportWirterEmail: String, reportDescription: String, reportWriterID: String) {
+    init(clientInformerEmail: String, clientInformerID: String, reportBarName: String, reportWirterEmail: String, reportDescription: String, reportWriterID: String, reportReason: String) {
         self.clientInformerEmail = clientInformerEmail
         self.clientInformerID = clientInformerID
         self.reportBarName = reportBarName
-        self.reportGrade = reportGrade
         self.reportWirterEmail = reportWirterEmail
         self.reportDescription = reportDescription
         self.reportWriterID = reportWriterID
+        self.reportReason = reportReason
     }
     
     static func == (lhs: ReportReview, rhs: ReportReview) -> Bool{

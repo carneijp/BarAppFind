@@ -285,6 +285,8 @@ struct BarPageView: View {
                     .padding(.bottom, 130)
             }
             
+//            ReviewReportOptions(ispresentedReportOptions: $showReportOptions, selectedReview: selectedReview)
+            
             LoginAlertComponent(title: "Login Necessário!", description: "Para avalar este bar, realize o seu login!", isShow: $showSignInAlert)
             
             ReviewAlertComponent(title: "Avaliação Necessária!", description: "Para prosseguir, é necessário atribuir pelo menos uma estrela à avaliação deste bar.", isShow: $showReviewError)

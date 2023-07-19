@@ -356,11 +356,11 @@ class CloudKitCRUD: ObservableObject {
                     let newReportReview = CKRecord(recordType: "ReportReview")
                     newReportReview["ClientInformerEmail"] = reportReview.clientInformerEmail
                     newReportReview["ClienteInformerID"] = reportReview.clientInformerID
-                    newReportReview["ReportGrade"] = reportReview.reportGrade
                     newReportReview["ReportDescription"] = reportReview.reportDescription
                     newReportReview["ReportBarName"] = reportReview.reportBarName
                     newReportReview["ReportWriterEmail"] = reportReview.reportWirterEmail
                     newReportReview["ReportWriterID"] = reportReview.reportWriterID
+                    newReportReview["ReportReason"] = reportReview.reportReason
                     self.saveItemPublic(record: newReportReview)
                     completion(true)
                 }

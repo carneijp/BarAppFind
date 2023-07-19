@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ReviewComponent: View {
+    @State var showReviewOptions: Bool = false
+    @State var showSheetReviewReport: Bool = false
     @EnvironmentObject var cloud: CloudKitCRUD
     let review: Review
     
@@ -30,18 +32,19 @@ struct ReviewComponent: View {
                 }
                 
                 Spacer()
-                Button {
-                    let report = ReportReview(clientInformerEmail: cloud.client?.email ?? "", clientInformerID: cloud.client?.userID ?? "", reportBarName: review.barName, reportGrade: String(review.grade), reportWirterEmail: review.writerEmail, reportDescription: review.description, reportWriterID: review.writerId)
-                    cloud.addReviewReport(reportReview: report) { resultado in
-                        if resultado {
-                            print("Jorge adicionado com sucesso")
-                        }else{
-                            print("Falha ao adicionar o Jorge")
-                        }
-                    }
+                Button(){
+                    showReviewOptions = true
                 }label: {
-                    Text("Reportar")
+                    Text("•••")
                 }
+                .confirmationDialog("Gostaria de reportar este review?", isPresented: $showReviewOptions) {
+                    Button("Reportar",role: .destructive) {
+                        showSheetReviewReport = true
+                    }
+                }message: {
+                    Text(review.writerName)
+                }
+
             }
             .padding(.vertical, 5)
             HStack {
@@ -56,11 +59,15 @@ struct ReviewComponent: View {
         .padding(.vertical, 8)
         .background(Color("gray0"))
         .cornerRadius(12)
+        
+        .sheet(isPresented: $showSheetReviewReport){
+            ReviewReport(showSheet: $showSheetReviewReport, review: review)
+        }
     }
 }
 
-struct ReviewComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        ReviewComponent(review: Review(writerEmail: "aa", writerName: "Eduardo", grade: 3, description: "muiro bom", barName: "aa", writerId: "abc"))
-    }
-}
+//struct ReviewComponent_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ReviewComponent(showReviewOptions: false, review: Review(writerEmail: "aa", writerName: "Eduardo", grade: 3, description: "muiro bom", barName: "aa", writerId: "abc"))
+//    }
+//}
