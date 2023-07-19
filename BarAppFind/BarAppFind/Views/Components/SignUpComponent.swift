@@ -14,11 +14,13 @@ struct SignUpComponent: View {
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var password: String = ""
+    @State private var confirmationPassword: String = ""
     @State private var showLogin: Bool = false
     @State private var emailAlreadyInUse: Bool = false
     @State private var emptyText: Bool = false
     @State private var sucess: Bool = false
     @State private var isLoading: Bool = false
+    @State private var passwordDontMatch: Bool = false
     
     var body: some View {
         ZStack {
@@ -44,12 +46,12 @@ struct SignUpComponent: View {
                     TextField("Digite o seu e-mail", text: $email)
                     
                     TextField("Nome", text: $firstName)
-                    //                    .padding(.vertical, 20)
                     
                     TextField("Sobrenome", text: $lastName)
-                    //                    .padding(.vertical, 20)
                     
                     SecureField("Senha", text: $password)
+                    
+                    SecureField("Comfirme a senha", text: $confirmationPassword)
                 }
                 .font(.system(size: 16))
                 .textInputAutocapitalization(.never)
@@ -73,24 +75,40 @@ struct SignUpComponent: View {
                         .font(.system(size: 12))
                         .padding(.top, 8)
                 }
+                if passwordDontMatch{
+                    Text("As senhas devem ser iguais.")
+                        .foregroundColor(.red)
+                        .font(.system(size: 12))
+                        .padding(.top, 8)
+                }
                 
                 // Botão de Cadastrar Conta
                 Button {
+                    email = email.trimmingCharacters(in: .whitespaces)
+                    password = password.trimmingCharacters(in: .whitespaces)
+                    firstName = firstName.trimmingCharacters(in: .whitespaces)
+                    lastName = lastName.trimmingCharacters(in: .whitespaces)
+                    confirmationPassword = confirmationPassword.trimmingCharacters(in: .whitespaces)
                     self.isLoading = true
                     emailAlreadyInUse = false
                     emptyText = false
-                    if(email != "" && password != "" && firstName != "" && lastName != ""){
-                        let novoCliente = Clients(email: email, firstName: firstName, password: password, lastName: lastName)
-                        cloud.addUser(clients: novoCliente){ result in
-                            if result{
+                    passwordDontMatch = false
+                    if(!email.isEmpty && !password.isEmpty && !firstName.isEmpty && !lastName.isEmpty && !confirmationPassword.isEmpty){
+                        if(password == confirmationPassword) {
+                            let novoCliente = Clients(email: email, firstName: firstName, password: password, lastName: lastName)
+                            cloud.addUser(clients: novoCliente){ result in
+                                if result{
+                                        self.isLoading = false
+                                        self.sucess = true
+                                }else{
                                     self.isLoading = false
-                                    self.sucess = true
-                            }else{
-                                self.isLoading = false
-                                print("usuario ja existente")
-                                emailAlreadyInUse = true
+                                    print("usuario ja existente")
+                                    emailAlreadyInUse = true
+                                }
                             }
-//                            self.isLoading = false
+                        }else {
+                            self.isLoading = false
+                            self.passwordDontMatch = true
                         }
                     }else{
                         self.isLoading = false
