@@ -318,10 +318,8 @@ struct ProfileView: View {
             }
             
             .navigationDestination(isPresented: $editProfile){
-                if let client = cloud.client {
                     EditProfileComponent(firstName: $clientName, lastName: $clientSurname, email: $clientEmail)
                         .toolbarRole(.editor)
-                }
             }
             
             .navigationDestination(isPresented: $editPasswords){
