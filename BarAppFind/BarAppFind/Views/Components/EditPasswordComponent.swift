@@ -46,14 +46,14 @@ struct EditPasswordComponent: View {
                 Spacer()
             }
             
-            TextField("Nova senha", text: $password, axis: .vertical)
+            SecureField("Nova senha", text: $password)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
                 .foregroundColor(.primary)
                 .padding(.horizontal, 24)
             
-            TextField("Confirmar nova senha", text: $confirmPassword, axis: .vertical)
+            SecureField("Confirmar nova senha", text: $confirmPassword)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))

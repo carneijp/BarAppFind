@@ -204,7 +204,9 @@ class CloudKitCRUD: ObservableObject {
                     newClient["Level"] = clients.level
                     newClient["UserID"] = clients.userID
                     self.saveItemPublic(record: newClient)
-                    self.client = clients
+                    DispatchQueue.main.async {
+                        self.client = clients
+                    }
                     completion(true)
                 }
             }
@@ -861,7 +863,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func changeUserInfo(client: Clients, emailAntigo: String) {
+    func changeUserInfo(client: Clients, emailAntigo: String, completion: @escaping(Bool) -> Void) {
         if client.userID != ""{
             let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
@@ -875,8 +877,10 @@ class CloudKitCRUD: ObservableObject {
                         clientChanges["LastName"] = client.lastName
                         clientChanges["Email"] = client.email
                         self.saveItemPublic(record: clientChanges)
+                        completion(true)
                     case .failure(let error):
                         print("Error matched block error\(error)")
+                        completion(false)
                     }
                 }
             }
@@ -899,17 +903,25 @@ class CloudKitCRUD: ObservableObject {
                                 clientChanges["FirstName"] = client.firstName
                                 clientChanges["LastName"] = client.lastName
                                 clientChanges["Email"] = client.email
+//                                self.client?.firstName = client.firstName
+//                                self.client?.lastName = client.lastName
+//                                self.client?.email = client.email
                                 print("JORGE operei pelo resultado true")
                                 self.saveItemPublic(record: clientChanges)
+                                completion(true)
                             }else{
                                 clientChanges["FirstName"] = client.firstName
                                 clientChanges["LastName"] = client.lastName
+//                                self.client?.firstName = client.firstName
+//                                self.client?.lastName = client.lastName
                                 print("JORGE operei pelo resultado false")
                                 self.saveItemPublic(record: clientChanges)
+                                completion(false)
                             }
                         }
                     case .failure(let error):
                         print("Error matched block error\(error)")
+                        completion(false)
                     }
                 }
             }

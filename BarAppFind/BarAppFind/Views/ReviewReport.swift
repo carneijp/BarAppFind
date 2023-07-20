@@ -15,7 +15,7 @@ struct ReviewReport: View {
     var review: Review
     @State var hasFinished: Bool = false
     
-    var reportTipes: [String] = ["É spam", "Símbolos ou discurso de ódio", "Bullying ou assédio", "Informação falsa", "Linguagem inapropriada", "Não gostei", "Outros assuntos"]
+    var reportTipes: [String] = ["É spam", "Símbolos ou discurso de ódio", "Bullying ou assédio", "Informação falsa", "Linguagem inapropriada", "Outros assuntos"]
     var body: some View {
         VStack{
             ZStack{

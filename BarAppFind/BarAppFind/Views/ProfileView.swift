@@ -24,6 +24,9 @@ struct ProfileView: View {
     @State private var showReportView: Bool = false
     @State private var showAlertLeaveAccount: Bool = false
     @Namespace private var nameSpace
+    @State var clientEmail: String = "Email"
+    @State var clientName: String = "Nome"
+    @State var clientSurname: String = "Sobrenome"
         
     // Opções da Tab Bar
     enum ChoiceProfile {
@@ -179,7 +182,7 @@ struct ProfileView: View {
                                 .padding(.bottom, 17)
                             
                             HStack {
-                                Text(cloud.client?.firstName ?? "Nome")
+                                Text(clientName)
                                     .font(.system(size: 17))
                                     .foregroundColor(.secondary)
                                 Spacer()
@@ -191,7 +194,7 @@ struct ProfileView: View {
                             .padding(.bottom, 10)
 
                             HStack{
-                                Text(cloud.client?.lastName ?? "Sobrenome")
+                                Text(clientSurname)
                                     .font(.system(size: 17))
                                     .foregroundColor(.secondary)
                                 Spacer()
@@ -203,7 +206,7 @@ struct ProfileView: View {
                             .padding(.bottom, 10)
                             
                             HStack{
-                                Text(cloud.client?.email ?? "Email")
+                                Text(clientEmail)
                                     .font(.system(size: 17))
                                     .foregroundColor(.secondary)
                                 Spacer()
@@ -316,7 +319,7 @@ struct ProfileView: View {
             
             .navigationDestination(isPresented: $editProfile){
                 if let client = cloud.client {
-                    EditProfileComponent(firstName: client.firstName, lastName: client.lastName, email: client.email)
+                    EditProfileComponent(firstName: $clientName, lastName: $clientSurname, email: $clientEmail)
                         .toolbarRole(.editor)
                 }
             }
@@ -352,6 +355,10 @@ struct ProfileView: View {
         }
         .navigationBarBackButtonHidden(true)
         .onAppear() {
+            guard let client = cloud.client else { return }
+            self.clientName = client.firstName
+            self.clientSurname = client.lastName
+            self.clientEmail = client.email
             if let primeiroLogin = UserDefaults.standard.string(forKey: "PrimeiroLogin"), primeiroLogin != ""{
             }else{
                 self.showFirstConquest = true

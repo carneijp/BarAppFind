@@ -25,7 +25,7 @@ struct SignUpComponent: View {
     
     var body: some View {
         ZStack {
-            VStack(spacing: 20) {
+            ScrollView() {
                 
                 Image("logo")
                     .resizable()
@@ -84,7 +84,7 @@ struct SignUpComponent: View {
                         .padding(.top, 8)
                 }
                 if emailNotEmail {
-                    Text("Deve ser informado um email valido")
+                    Text("Deve ser informado um email valido.")
                         .foregroundColor(.red)
                         .font(.system(size: 12))
                         .padding(.top, 8)
@@ -103,7 +103,7 @@ struct SignUpComponent: View {
                     passwordDontMatch = false
                     emailNotEmail = false
                     if(!email.isEmpty && !password.isEmpty && !firstName.isEmpty && !lastName.isEmpty && !confirmationPassword.isEmpty){
-                        if(email.contains("@")){
+                        if(email.contains("@") && email.contains(".")){
                             if(password == confirmationPassword) {
                                 let novoCliente = Clients(email: email, firstName: firstName, password: password, lastName: lastName)
                                 cloud.addUser(clients: novoCliente){ result in

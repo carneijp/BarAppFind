@@ -21,7 +21,7 @@ struct SignInComponent: View {
     
     var body: some View {
         ZStack{
-            VStack {
+            ScrollView {
                 
                 // Logo do App
                 Image("logo")
@@ -37,6 +37,7 @@ struct SignInComponent: View {
                 // Inputs do Usuário
                 Group {
                     TextField("Digite o seu e-mail", text: $email)
+                        .keyboardType(.emailAddress)
                     
                     SecureField("Senha", text: $password)
                 }
