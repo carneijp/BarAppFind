@@ -338,6 +338,9 @@ struct ProfileView: View {
             .alert(isPresented: $showAlertLeaveAccount) {
                 Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
                     cloud.client = nil
+                    clientEmail = "Email"
+                    clientName = "Nome"
+                    clientSurname = "Sobrenome"
                     UserDefaults.standard.set("", forKey: "UserID")
                     UserDefaults.standard.set("", forKey: "Password")
                     UserDefaults.standard.set("", forKey: "Email")
