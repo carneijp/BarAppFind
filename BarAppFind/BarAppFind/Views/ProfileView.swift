@@ -27,6 +27,7 @@ struct ProfileView: View {
     @State var clientEmail: String = "Email"
     @State var clientName: String = "Nome"
     @State var clientSurname: String = "Sobrenome"
+    @State var clientWelcome: String?
         
     // Opções da Tab Bar
     enum ChoiceProfile {
@@ -43,7 +44,7 @@ struct ProfileView: View {
         ZStack {
             VStack {
                 // MARK: - Header
-                Text("Olá, \(cloud.client?.firstName ?? "cliente")!")
+                Text("Olá, \(clientWelcome ?? "cliente")!")
                     .bold()
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
@@ -360,6 +361,7 @@ struct ProfileView: View {
             self.clientName = client.firstName
             self.clientSurname = client.lastName
             self.clientEmail = client.email
+            self.clientWelcome = client.firstName
             if let primeiroLogin = UserDefaults.standard.string(forKey: "PrimeiroLogin"), primeiroLogin != ""{
             }else{
                 self.showFirstConquest = true
