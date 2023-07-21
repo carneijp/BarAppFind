@@ -33,6 +33,7 @@ struct BarPageView: View {
     @State private var showReviewError: Bool = false
     @State private var imageIndex: Int = 0
     @State private var imagesBuildFromURL: [UIImage] = []
+    @Namespace private var nameSpace
     
     @State var CurretDragOffsetX: CGFloat = 0
     
@@ -74,6 +75,7 @@ struct BarPageView: View {
                                                 .frame(height: 1)
                                                 .foregroundColor(.primary)
                                                 .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
                                         }
                                     }else{
                                         VStack(spacing: 4){
@@ -82,10 +84,12 @@ struct BarPageView: View {
                                             
                                                 .foregroundColor(.secondary)
                                                 .onTapGesture {
-                                                    self.topBarChoice = .barName
-                                                    isBarName = true
-                                                    isInfo = false
-                                                    isReview = false
+                                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                                        self.topBarChoice = .barName
+                                                        isBarName = true
+                                                        isInfo = false
+                                                        isReview = false
+                                                    }
                                                 }
                                             Rectangle()
                                                 .frame(height: 1)
@@ -107,6 +111,7 @@ struct BarPageView: View {
                                                 .frame(height: 1)
                                                 .foregroundColor(.primary)
                                                 .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
                                         }
                                     }else{
                                         VStack(spacing: 4){
@@ -114,10 +119,12 @@ struct BarPageView: View {
                                                 .font(.system(size: 16))
                                                 .foregroundColor(.secondary)
                                                 .onTapGesture {
-                                                    self.topBarChoice = .info
-                                                    isBarName = false
-                                                    isInfo = true
-                                                    isReview = false
+                                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                                        self.topBarChoice = .info
+                                                        isBarName = false
+                                                        isInfo = true
+                                                        isReview = false
+                                                    }
                                                 }
                                             
                                             Rectangle()
@@ -140,6 +147,7 @@ struct BarPageView: View {
                                                 .frame(height: 1)
                                                 .foregroundColor(.primary)
                                                 .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
                                         }
                                     }else{
                                         VStack(spacing: 4){
@@ -147,18 +155,18 @@ struct BarPageView: View {
                                                 .font(.system(size: 16))
                                                 .foregroundColor(.secondary)
                                                 .onTapGesture {
-                                                    self.topBarChoice = .review
-                                                    isBarName = false
-                                                    isInfo = false
-                                                    isReview = true
+                                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                                        self.topBarChoice = .review
+                                                        isBarName = false
+                                                        isInfo = false
+                                                        isReview = true
+                                                    }
                                                     
                                                 }
                                             Rectangle()
                                                 .frame(height: 1)
                                                 .foregroundColor(.clear)
                                                 .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                            
-                                            
                                         }
                                     }
                                 }
