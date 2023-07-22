@@ -17,24 +17,24 @@ struct EditPasswordComponent: View {
     
     var body: some View {
         VStack{
-            HStack{
-                Text("Alterar senha")
-                    .font(.system(size: 16))
-                    .bold()
-                    .padding(.leading, UIScreen.main.bounds.width/3.7)
-                
-                Spacer()
-                
-                Button {
-                    presentation.wrappedValue.dismiss()
-                } label: {
-                    Image(systemName: "x.circle")
-                }
-            }
-            .padding(.horizontal, 24)
-            .padding(.vertical, 12)
-            .background(.secondary.opacity(0.05))
-            .padding(.bottom, 30)
+//            HStack{
+//                Text("Alterar senha")
+//                    .font(.system(size: 16))
+//                    .bold()
+//                    .padding(.leading, UIScreen.main.bounds.width/3.7)
+//
+//                Spacer()
+//
+//                Button {
+//                    presentation.wrappedValue.dismiss()
+//                } label: {
+//                    Image(systemName: "x.circle")
+//                }
+//            }
+//            .padding(.horizontal, 24)
+//            .padding(.vertical, 12)
+//            .background(.secondary.opacity(0.05))
+//            .padding(.bottom, 30)
             
             HStack{
                 Text("Alterar senha")
@@ -46,14 +46,14 @@ struct EditPasswordComponent: View {
                 Spacer()
             }
             
-            TextField("Nova senha", text: $password, axis: .vertical)
+            SecureField("Nova senha", text: $password)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
                 .foregroundColor(.primary)
                 .padding(.horizontal, 24)
             
-            TextField("Confirmar nova senha", text: $confirmPassword, axis: .vertical)
+            SecureField("Confirmar nova senha", text: $confirmPassword)
                 .lineLimit(1, reservesSpace: true)
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
@@ -95,5 +95,6 @@ struct EditPasswordComponent: View {
             
             Spacer()
         }
+        .navigationTitle("Alterar senha")
     }
 }

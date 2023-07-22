@@ -79,7 +79,7 @@ struct ConquestModalComponent: View {
                     .frame(width: UIScreen.main.bounds.width - 48)
                 } else {
                     HStack(spacing: 14) {
-                        Image(conquestMedals[2])
+                        Image(conquestMedals[3])
                             .resizable()
                             .scaledToFit()
                             .frame(width: 60, height: 70)
@@ -100,7 +100,7 @@ struct ConquestModalComponent: View {
                     .frame(width: UIScreen.main.bounds.width - 48)
                 }
         }
-        .animation(.spring())
+//        .animation(.spring())
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 40)
         .background(.secondary.opacity(0.01))
         .offset(y: showMedalConquest ? -10 : UIScreen.main.bounds.height)

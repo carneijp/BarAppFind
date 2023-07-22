@@ -106,9 +106,20 @@ class CloudKitCRUD: ObservableObject {
     
     func addReview(review: Review) {
         var jaExiste: Bool = false
-        let predicate = NSPredicate(format: "Bar == %@ AND WriterEmail == %@", argumentArray: ["\(review.barName)", "\(review.writerEmail)"])
-        let query = CKQuery(recordType: "Reviews", predicate: predicate)
-        let queryOperation = CKQueryOperation(query: query)
+        var predicate = NSPredicate(format: "Bar == %@ AND WriterEmail == %@", argumentArray: ["\(review.barName)", "\(review.writerEmail)"])
+        var query = CKQuery(recordType: "Reviews", predicate: predicate)
+        var queryOperation = CKQueryOperation(query: query)
+        
+        if client?.email != ""{
+            predicate = NSPredicate(format: "Bar == %@ AND WriterEmail == %@", argumentArray: ["\(review.barName)", "\(review.writerEmail)"])
+            query = CKQuery(recordType: "Reviews", predicate: predicate)
+            queryOperation = CKQueryOperation(query: query)
+        }else{
+            predicate = NSPredicate(format: "Bar == %@ AND WriterID == %@", argumentArray: ["\(review.barName)", "\(review.writerId)"])
+            query = CKQuery(recordType: "Reviews", predicate: predicate)
+            queryOperation = CKQueryOperation(query: query)
+        }
+        
         
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
@@ -138,6 +149,7 @@ class CloudKitCRUD: ObservableObject {
                     newReview["Writer"] = review.writerName
                     newReview["Bar"] = review.barName
                     newReview["WriterEmail"] = review.writerEmail
+                    newReview["WriterID"] = review.writerId
                     self.saveItemPublic(record: newReview)
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: Notification.Name("addReview"), object: review)
@@ -192,6 +204,9 @@ class CloudKitCRUD: ObservableObject {
                     newClient["Level"] = clients.level
                     newClient["UserID"] = clients.userID
                     self.saveItemPublic(record: newClient)
+                    DispatchQueue.main.async {
+                        self.client = clients
+                    }
                     completion(true)
                 }
             }
@@ -253,6 +268,7 @@ class CloudKitCRUD: ObservableObject {
         report["Assunto"] = assunto
         report["Descricao"] = texto
         report["UserID"] = client?.userID ?? ""
+        report["UserEmail"] = client?.email ?? ""
         self.saveItemPublic(record: report)
         completion(true)
     }
@@ -262,7 +278,7 @@ class CloudKitCRUD: ObservableObject {
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(cidade.name)"])
         let query = CKQuery(recordType: "Citys", predicate: predicate)
         let queryOperation = CKQueryOperation(query: query)
-        
+
         if #available(iOS 15.0, *){
             queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
                 switch returnedResult{
@@ -273,7 +289,7 @@ class CloudKitCRUD: ObservableObject {
                     print("Error matched block error\(error)")
                 }
             }
-            
+
             queryOperation.queryResultBlock = { returnedResult in
                 switch returnedResult {
                 case .success(let record):
@@ -283,13 +299,13 @@ class CloudKitCRUD: ObservableObject {
                 }
             }
         }
-        
+
         addDataBaseOperation(operation: queryOperation)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             if(jaExiste) {
                 print("Já existe usuário com este NickName.")
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
-                
+
             }
             else  {
                 let newCity = CKRecord(recordType: "Citys")
@@ -298,6 +314,64 @@ class CloudKitCRUD: ObservableObject {
             }
         }
     }
+    
+    func addReviewReport(reportReview: ReportReview,completion: @escaping(Bool) -> Void){
+        var jaExiste: Bool = false
+        var predicate = NSPredicate(format: "ClientInformerEmail = %@", argumentArray: [""])
+        var query = CKQuery(recordType: "ReportReview", predicate: predicate)
+        var queryOperation = CKQueryOperation(query: query)
+        if reportReview.clientInformerEmail != "" {
+            predicate = NSPredicate(format: "ClientInformerEmail == %@ AND ReportDescription == %@ AND ReportBarName == %@", argumentArray: ["\(reportReview.clientInformerEmail)", "\(reportReview.reportDescription)", "\(reportReview.reportBarName)"])
+            query = CKQuery(recordType: "ReportReview", predicate: predicate)
+            queryOperation = CKQueryOperation(query: query)
+        }else{
+            predicate = NSPredicate(format: "ClientInformerID == %@ AND ReportDescription == %@ AND ReportBarName == %@", argumentArray: ["\(reportReview.clientInformerID)", "\(reportReview.reportDescription)", "\(reportReview.reportBarName)"])
+            query = CKQuery(recordType: "ReportReview", predicate: predicate)
+            queryOperation = CKQueryOperation(query: query)
+        }
+        
+        if #available(iOS 15.0, *){
+            queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+                switch returnedResult{
+                case .success(let record):
+                    jaExiste = true
+                    print("Result: ", record)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+                
+            }
+            
+            queryOperation.queryResultBlock = { returnedResult in
+                switch returnedResult {
+                case .success(let record):
+                    print("result2", record as Any)
+                case .failure(let error):
+                    print("Error matched block error\(error)")
+                }
+                
+                if(jaExiste) {
+                    print("Já existe usuário com este NickName.")
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue:"notificationErrorCadastro"), object: nil)
+                    completion(false)
+                }
+                else {
+                    let newReportReview = CKRecord(recordType: "ReportReview")
+                    newReportReview["ClientInformerEmail"] = reportReview.clientInformerEmail
+                    newReportReview["ClienteInformerID"] = reportReview.clientInformerID
+                    newReportReview["ReportDescription"] = reportReview.reportDescription
+                    newReportReview["ReportBarName"] = reportReview.reportBarName
+                    newReportReview["ReportWriterEmail"] = reportReview.reportWirterEmail
+                    newReportReview["ReportWriterID"] = reportReview.reportWriterID
+                    newReportReview["ReportReason"] = reportReview.reportReason
+                    self.saveItemPublic(record: newReportReview)
+                    completion(true)
+                }
+            }
+        }
+        addDataBaseOperation(operation: queryOperation)
+    }
+    
     
     func fetchItemsReview(barName: String, cursor: CKQueryOperation.Cursor? = nil, completion: @escaping() -> Void) {
         //        reviews de todos os reviews do bar
@@ -319,8 +393,13 @@ class CloudKitCRUD: ObservableObject {
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let writerEmail = record["WriterEmail"] as? String else { return }
+                    var writerID = ""
+                    if let writerId = record["WriterID"] as? String {
+                        writerID = writerId
+                    }
+//                    guard let writerId = record["WriterID"] as? String else { "" }
                     DispatchQueue.main.async {
-                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName))
+                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName, writerId: writerID))
                     }
                 case .failure(let error):
                     print("Error matched block error\(error)")
@@ -369,8 +448,12 @@ class CloudKitCRUD: ObservableObject {
                     guard let description = record["Description"] as? String else { return }
                     guard let grade = record["Grade"] as? Double else { return }
                     guard let writerEmail = record["WriterEmail"] as? String else { return }
+                    var writerID = ""
+                    if let writerId = record["WriterID"] as? String {
+                        writerID = writerId
+                    }
                     DispatchQueue.main.async {
-                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName))
+                        self.reviewListByBar.append(Review(writerEmail: writerEmail, writerName: writerName, grade: grade, description: description, barName: barName, writerId: writerID))
                     }
                 case .failure(let error):
                     print("Error matched block error\(error)")
@@ -439,6 +522,7 @@ class CloudKitCRUD: ObservableObject {
                         }
                     }
                 }
+//                completion(false)
             case .failure(let failure):
                 print(failure.localizedDescription)
                 completion(false)
@@ -779,7 +863,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func changeUserInfo(client: Clients, emailAntigo: String) {
+    func changeUserInfo(client: Clients, emailAntigo: String, completion: @escaping(Bool) -> Void) {
         if client.userID != ""{
             let predicate = NSPredicate(format: "UserID = %@", argumentArray: ["\(client.userID)"])
             let query = CKQuery(recordType: "Clients", predicate: predicate)
@@ -793,8 +877,10 @@ class CloudKitCRUD: ObservableObject {
                         clientChanges["LastName"] = client.lastName
                         clientChanges["Email"] = client.email
                         self.saveItemPublic(record: clientChanges)
+                        completion(true)
                     case .failure(let error):
                         print("Error matched block error\(error)")
+                        completion(false)
                     }
                 }
             }
@@ -817,17 +903,25 @@ class CloudKitCRUD: ObservableObject {
                                 clientChanges["FirstName"] = client.firstName
                                 clientChanges["LastName"] = client.lastName
                                 clientChanges["Email"] = client.email
+//                                self.client?.firstName = client.firstName
+//                                self.client?.lastName = client.lastName
+//                                self.client?.email = client.email
                                 print("JORGE operei pelo resultado true")
                                 self.saveItemPublic(record: clientChanges)
+                                completion(true)
                             }else{
                                 clientChanges["FirstName"] = client.firstName
                                 clientChanges["LastName"] = client.lastName
+//                                self.client?.firstName = client.firstName
+//                                self.client?.lastName = client.lastName
                                 print("JORGE operei pelo resultado false")
                                 self.saveItemPublic(record: clientChanges)
+                                completion(false)
                             }
                         }
                     case .failure(let error):
                         print("Error matched block error\(error)")
+                        completion(false)
                     }
                 }
             }

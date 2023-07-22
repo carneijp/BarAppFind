@@ -92,19 +92,20 @@ class Bar: ObservableObject, Hashable, Identifiable {
 
 class Review: ObservableObject, Hashable, Identifiable {
     
-    
+    var writerId: String
     var writerEmail: String
     var writerName: String
     var grade: Double
     var description: String
     var barName: String
     
-    init(writerEmail: String, writerName: String, grade: Double, description: String, barName: String) {
+    init(writerEmail: String, writerName: String, grade: Double, description: String, barName: String, writerId: String) {
         self.writerEmail = writerEmail
         self.writerName = writerName
         self.grade = grade
         self.description = description
         self.barName = barName
+        self.writerId = writerId
     }
     
     static func == (lhs: Review, rhs: Review) -> Bool {
@@ -112,9 +113,42 @@ class Review: ObservableObject, Hashable, Identifiable {
     }
     
     func hash(into hasher: inout Hasher) {
+        hasher.combine(writerId)
         hasher.combine(writerEmail)
         hasher.combine(barName)
     }
+}
+
+class ReportReview: ObservableObject, Hashable, Identifiable {
+    var clientInformerEmail: String
+    var clientInformerID: String
+    var reportBarName: String
+    var reportWirterEmail: String
+    var reportWriterID: String
+    var reportDescription: String
+    var reportReason: String
+    
+    init(clientInformerEmail: String, clientInformerID: String, reportBarName: String, reportWirterEmail: String, reportDescription: String, reportWriterID: String, reportReason: String) {
+        self.clientInformerEmail = clientInformerEmail
+        self.clientInformerID = clientInformerID
+        self.reportBarName = reportBarName
+        self.reportWirterEmail = reportWirterEmail
+        self.reportDescription = reportDescription
+        self.reportWriterID = reportWriterID
+        self.reportReason = reportReason
+    }
+    
+    static func == (lhs: ReportReview, rhs: ReportReview) -> Bool{
+        lhs.clientInformerID == rhs.clientInformerID
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(clientInformerID)
+        hasher.combine(clientInformerEmail)
+        hasher.combine(reportDescription)
+        hasher.combine(reportBarName)
+    }
+    
 }
 
 var trendings: [String] = ["trending1","trending2","trending3"]
@@ -123,7 +157,7 @@ var moodsName: [String] = ["Família","Fofoca","Barzinho","Esquenta","Casal","Te
 var moodsBanner: [String] = ["Família2","Fofoca2","Barzinho2","Esquenta2","Casal2","Temático2"]
 var moodsColors: [String] = ["Família3","Fofoca3","Barzinho3","Esquenta3","Casal3","Temático3"]
 var conquestMedals: [String] = ["Primeiro Acesso","Bom finer", "Já sabe do que gosta", "Nível 2", "Nível 3", "Nível 4", "Nível 5", "Nível 6"]
-var medalDescriptions: [String] = ["O inicio de sua jornada pelos bares de Porto Alegre começa aqui!","Você conhece todos os bares do bairro Bom Fim! 🤩", "Você já definiu o seu gosto dentro do app 🤩"]
+var medalDescriptions: [String] = ["O início de sua jornada pelos bares de Porto Alegre começa aqui!","Você conhece todos os bares do bairro Bom Fim! 🤩", "Você já definiu o seu gosto dentro do app 🤩"]
 let ambient = ["Ao ar livre":"leaf", "Madrugada":"moon.stars", "Aceita pets":"pawprint.circle", "Estacionamento":"e.circle", "Climatizado":"snowflake", "Wifi":"wifi", "Permitido fumar":"cigarro",]
 
 

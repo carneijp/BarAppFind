@@ -77,7 +77,7 @@ struct TextFieldComponent: View {
                 Button(){
                     if let client = cloud.client {
                         if self.grade > 0.0{
-                            let review: Review = Review(writerEmail: client.email, writerName: client.firstName, grade: grade, description: review, barName: barName)
+                            let review: Review = Review(writerEmail: client.email, writerName: client.firstName, grade: grade, description: review, barName: barName, writerId: client.userID)
                             cloud.addReview(review: review)
                         } else {
                             if viewIndex == 1 {

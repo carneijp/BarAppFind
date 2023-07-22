@@ -16,9 +16,7 @@ struct HomeView: View {
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State var noInternet: Bool = false
-//    @State var tentaNovamente: Bool = false
 
-    
     var body: some View {
         ZStack {
             VStack(alignment: .leading) {
@@ -88,14 +86,13 @@ struct HomeView: View {
                                 .padding(.horizontal, 24)
                                 .padding(.vertical, 8)
                             }
-//                            .padding(.bottom, 18)
                             
                             //Bars Section
                             VStack {
                                 HStack {
                                     Text("Sugestões de onde ir hoje")
                                         .font(.system(size: 16))
-                                    
+                            
                                     Spacer()
                                     
                                     NavigationLink {
@@ -105,11 +102,9 @@ struct HomeView: View {
                                         Text("Ver todos")
                                             .font(.system(size: 16))
                                             .foregroundColor(Color("purple"))
-//                                            .bold()
                                     }
-                                    
                                 }
-                                .padding(.bottom, 16)
+                                .padding(.vertical, 24)
                                 
                                 ForEach(cloud.barsList, id: \.self) { bar in
                                     NavigationLink {
@@ -184,15 +179,17 @@ struct HomeView: View {
     }
 }
 
-func getDateOfWeek() -> String {
-    let index = Calendar.current.component(.weekday, from: Date()) // this returns an Int
-    let weekday: String = Calendar.current.weekdaySymbols[index - 1]
-    
-    return weekday
-}
-
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
+extension HomeView {
+    func getDateOfWeek() -> String {
+        let index = Calendar.current.component(.weekday, from: Date()) // this returns an Int
+        let weekday: String = Calendar.current.weekdaySymbols[index - 1]
+        
+        return weekday
     }
 }
+
+//struct Home_Previews: PreviewProvider {
+//    static var previews: some View {
+//        HomeView()
+//    }
+//}

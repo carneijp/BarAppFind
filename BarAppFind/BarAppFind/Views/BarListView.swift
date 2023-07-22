@@ -49,7 +49,6 @@ struct BarListView: View {
 
             if isLoading {
                 LoadingViewModel()
-                    .padding(.bottom, 130)
             }
 //
 //            LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignInList)

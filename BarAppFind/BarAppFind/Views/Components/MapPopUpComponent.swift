@@ -50,7 +50,7 @@ struct MapPopUpComponent: View {
                     .frame(width: 30, height: 30)
                     .padding(.all, 4)
                     .clipShape(Circle())
-                    .shadow(radius: 2, y: 2)
+//                    .shadow(radius: 2, y: 2)
                     .padding(.trailing, 6)
             }
             .padding(.top, 8)
