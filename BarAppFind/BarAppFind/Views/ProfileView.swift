@@ -299,7 +299,7 @@ struct ProfileView: View {
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 .shadow(radius: 2)
-                                .padding(.bottom, 10)
+//                                .padding(.bottom, 10)
                                 Button {
                                     showAlertDeleteAccount = true
 
@@ -395,7 +395,7 @@ struct ProfileView: View {
             guard let client = cloud.client else { return }
             self.clientName = client.firstName
             self.clientSurname = client.lastName
-            self.clientEmail = "******" + client.email.split(separator: "@")[1]
+            self.clientEmail = "******@" + client.email.split(separator: "@")[1]
             self.clientWelcome = client.firstName
             if let primeiroLogin = UserDefaults.standard.string(forKey: "PrimeiroLogin"), primeiroLogin != ""{
             }else{
