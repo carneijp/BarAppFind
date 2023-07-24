@@ -307,18 +307,6 @@ struct ProfileView: View {
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 .shadow(radius: 2)
-                                .alert(isPresented: $showAlertLeaveAccount) {
-                                    Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
-                                        cloud.client = nil
-                                        clientEmail = "Email"
-                                        clientName = "Nome"
-                                        clientSurname = "Sobrenome"
-                                        clientWelcome = "Cliente"
-                                        UserDefaults.standard.set("", forKey: "UserID")
-                                        UserDefaults.standard.set("", forKey: "Password")
-                                        UserDefaults.standard.set("", forKey: "Email")
-                                    }))
-                                }
                                 
                                 DeleteAccount(clientEmail: $clientEmail, clientName: $clientName, clientSurname: $clientSurname, clientWelcome: $clientWelcome)
                             }
@@ -356,6 +344,18 @@ struct ProfileView: View {
                     .environmentObject(cloud)
             }
             
+            .alert(isPresented: $showAlertLeaveAccount) {
+                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
+                    cloud.client = nil
+                    clientEmail = "Email"
+                    clientName = "Nome"
+                    clientSurname = "Sobrenome"
+                    clientWelcome = "Cliente"
+                    UserDefaults.standard.set("", forKey: "UserID")
+                    UserDefaults.standard.set("", forKey: "Password")
+                    UserDefaults.standard.set("", forKey: "Email")
+                }))
+            }
             
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
