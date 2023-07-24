@@ -19,6 +19,18 @@ class CloudKitCRUD: ObservableObject {
         CKContainer.default().publicCloudDatabase.add(operation)
     }
     
+    private func deleteItemPublic(record: CKRecord) {
+        CKContainer.default().publicCloudDatabase.delete(withRecordID: record.recordID) { returnedRecordID, returnedError in
+            if let error = returnedError{
+                print(error)
+            }else{
+                print("Delete: ")
+                guard let id = returnedRecordID else { return }
+                print(id)
+            }
+        }
+    }
+    
     func addBar(bar: Bar,  completion: @escaping () -> Void) {
         var jaExiste: Bool = false
         let predicate = NSPredicate(format: "Name = %@", argumentArray: ["\(bar.name)"])
@@ -263,7 +275,7 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
-    func addReport(assunto: String, texto: String, completion: @escaping (Bool) -> Void){
+    func addReport(assunto: String, texto: String, completion: @escaping (Bool) -> Void) {
         let report = CKRecord(recordType: "Reports")
         report["Assunto"] = assunto
         report["Descricao"] = texto
@@ -315,7 +327,7 @@ class CloudKitCRUD: ObservableObject {
         }
     }
     
-    func addReviewReport(reportReview: ReportReview,completion: @escaping(Bool) -> Void){
+    func addReviewReport(reportReview: ReportReview,completion: @escaping (Bool) -> Void) {
         var jaExiste: Bool = false
         var predicate = NSPredicate(format: "ClientInformerEmail = %@", argumentArray: [""])
         var query = CKQuery(recordType: "ReportReview", predicate: predicate)
@@ -372,6 +384,23 @@ class CloudKitCRUD: ObservableObject {
         addDataBaseOperation(operation: queryOperation)
     }
     
+    func deleteClient(client: Clients, completion: @escaping (Bool) -> Void) {
+        let predicate = NSPredicate(format: "Email = %@",  argumentArray: ["\(client.email)"])
+        let query = CKQuery(recordType: "Clients", predicate: predicate)
+        let queryOperation = CKQueryOperation(query: query)
+        queryOperation.resultsLimit = 1
+        queryOperation.recordMatchedBlock = { (returnedRecordID, returnedResult) in
+            switch returnedResult {
+            case .success(let record):
+                self.deleteItemPublic(record: record)
+                completion(true)
+            case .failure(let error):
+                print("Error: \(error)")
+                completion(false)
+            }
+        }
+        addDataBaseOperation(operation: queryOperation)
+    }
     
     func fetchItemsReview(barName: String, cursor: CKQueryOperation.Cursor? = nil, completion: @escaping() -> Void) {
         //        reviews de todos os reviews do bar
