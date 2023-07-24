@@ -27,9 +27,8 @@ struct ProfileView: View {
     @State var clientEmail: String = "Email"
     @State var clientName: String = "Nome"
     @State var clientSurname: String = "Sobrenome"
-    @State var clientWelcome: String?
-    @State var showAlertDeleteAccount: Bool = false
-        
+    @State var clientWelcome: String = "Cliente"
+    
     // Opções da Tab Bar
     enum ChoiceProfile {
         case myConquests, profileEdit
@@ -45,7 +44,7 @@ struct ProfileView: View {
         ZStack {
             VStack {
                 // MARK: - Header
-                Text("Olá, \(clientWelcome ?? "cliente")!")
+                Text("Olá, \(clientWelcome)!")
                     .bold()
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
@@ -194,7 +193,7 @@ struct ProfileView: View {
                             .background(Color("gray8"))
                             .cornerRadius(6)
                             .padding(.bottom, 10)
-
+                            
                             HStack{
                                 Text(clientSurname)
                                     .font(.system(size: 17))
@@ -208,9 +207,16 @@ struct ProfileView: View {
                             .padding(.bottom, 10)
                             
                             HStack{
-                                Text(clientEmail)
-                                    .font(.system(size: 17))
-                                    .foregroundColor(.secondary)
+                                if clientName.contains("@"){
+                                    Text("******@" + clientEmail.split(separator: "@")[1])
+                                        .font(.system(size: 17))
+                                        .foregroundColor(.secondary)
+                                }else {
+                                    Text("Email")
+                                        .font(.system(size: 17))
+                                        .foregroundColor(.secondary)
+                                }
+                                
                                 Spacer()
                             }
                             .frame(height: 42)
@@ -285,8 +291,10 @@ struct ProfileView: View {
                             
                             if cloud.client != nil {
                                 Button {
-                                    showAlertLeaveAccount = true
-
+                                    DispatchQueue.main.async {
+                                        showAlertLeaveAccount = true
+                                    }
+                                    
                                 } label: {
                                     Text("Sair da conta")
                                         .font(.system(size: 18))
@@ -299,23 +307,20 @@ struct ProfileView: View {
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 .shadow(radius: 2)
-//                                .padding(.bottom, 10)
-                                Button {
-                                    showAlertDeleteAccount = true
-
-                                } label: {
-                                    Text("Deletar conta")
-                                        .font(.system(size: 18))
-                                        .foregroundColor(.secondary)
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .foregroundColor(.secondary)
+                                .alert(isPresented: $showAlertLeaveAccount) {
+                                    Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
+                                        cloud.client = nil
+                                        clientEmail = "Email"
+                                        clientName = "Nome"
+                                        clientSurname = "Sobrenome"
+                                        clientWelcome = "Cliente"
+                                        UserDefaults.standard.set("", forKey: "UserID")
+                                        UserDefaults.standard.set("", forKey: "Password")
+                                        UserDefaults.standard.set("", forKey: "Email")
+                                    }))
                                 }
-                                .padding(.all, 12)
-                                .background(Color.white)
-                                .cornerRadius(10)
-                                .shadow(radius: 2)
-                                .padding(.vertical, 10)
+                                
+                                DeleteAccount(clientEmail: $clientEmail, clientName: $clientName, clientSurname: $clientSurname, clientWelcome: $clientWelcome)
                             }
                         }
                         .padding(.horizontal, 24)
@@ -336,8 +341,8 @@ struct ProfileView: View {
             }
             
             .navigationDestination(isPresented: $editProfile){
-                    EditProfileComponent(firstName: $clientName, lastName: $clientSurname, email: $clientEmail)
-                        .toolbarRole(.editor)
+                EditProfileComponent(firstName: $clientName, lastName: $clientSurname, email: $clientEmail)
+                    .toolbarRole(.editor)
             }
             
             .navigationDestination(isPresented: $editPasswords){
@@ -351,35 +356,6 @@ struct ProfileView: View {
                     .environmentObject(cloud)
             }
             
-            .alert(isPresented: $showAlertLeaveAccount) {
-                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
-                    cloud.client = nil
-                    clientEmail = "Email"
-                    clientName = "Nome"
-                    clientSurname = "Sobrenome"
-                    UserDefaults.standard.set("", forKey: "UserID")
-                    UserDefaults.standard.set("", forKey: "Password")
-                    UserDefaults.standard.set("", forKey: "Email")
-                }))
-            }
-            
-            .alert(isPresented: $showAlertDeleteAccount) {
-                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente deletar a sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
-                    cloud.deleteClient(client: cloud.client!) { result in
-                        if result {
-                            cloud.client = nil
-                            clientEmail = "Email"
-                            clientName = "Nome"
-                            clientSurname = "Sobrenome"
-                            UserDefaults.standard.set("", forKey: "UserID")
-                            UserDefaults.standard.set("", forKey: "Password")
-                            UserDefaults.standard.set("", forKey: "Email")
-                        }else {
-                            print("failure to delete account")
-                        }
-                    }
-                }))
-            }
             
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
@@ -395,12 +371,86 @@ struct ProfileView: View {
             guard let client = cloud.client else { return }
             self.clientName = client.firstName
             self.clientSurname = client.lastName
-            self.clientEmail = "******@" + client.email.split(separator: "@")[1]
+            self.clientEmail = client.email
             self.clientWelcome = client.firstName
             if let primeiroLogin = UserDefaults.standard.string(forKey: "PrimeiroLogin"), primeiroLogin != ""{
             }else{
                 self.showFirstConquest = true
                 UserDefaults.standard.set("True", forKey: "PrimeiroLogin")
+            }
+        }
+    }
+}
+
+struct DeleteAccount: View {
+    @EnvironmentObject private var cloud: CloudKitCRUD
+    @State var showAlertDeleteAccount: Bool = false
+    @Binding var clientEmail: String
+    @Binding var clientName: String
+    @Binding var clientSurname: String
+    @Binding var clientWelcome: String
+    
+    var body: some View {
+        VStack{
+            Button {
+                showAlertDeleteAccount = true
+                
+            } label: {
+                Text("Deletar conta")
+                    .font(.system(size: 18))
+                    .foregroundColor(.secondary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.secondary)
+            }
+            .padding(.all, 12)
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 2)
+            .padding(.vertical, 10)
+            .alert(isPresented: $showAlertDeleteAccount) {
+                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente deletar a sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
+                    if let id = cloud.client?.userID {
+                        if id != "" {
+                            
+                        }else {
+                            cloud.deleteClient(client: cloud.client!) { result in
+                                DispatchQueue.main.async {
+                                    if result {
+                                        cloud.client = nil
+                                        clientEmail = "Email"
+                                        clientName = "Nome"
+                                        clientSurname = "Sobrenome"
+                                        clientWelcome = "Cliente"
+                                        UserDefaults.standard.set("", forKey: "UserID")
+                                        UserDefaults.standard.set("", forKey: "Password")
+                                        UserDefaults.standard.set("", forKey: "Email")
+                                    }else {
+                                        print("failure to delete account")
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        cloud.deleteClient(client: cloud.client!) { result in
+                            DispatchQueue.main.async {
+                                if result {
+                                    cloud.client = nil
+                                    clientEmail = "Email"
+                                    clientName = "Nome"
+                                    clientSurname = "Sobrenome"
+                                    clientWelcome = "Cliente"
+                                    UserDefaults.standard.set("", forKey: "UserID")
+                                    UserDefaults.standard.set("", forKey: "Password")
+                                    UserDefaults.standard.set("", forKey: "Email")
+                                }else {
+                                    print("failure to delete account")
+                                }
+                            }
+                        }
+                    }
+                    
+                }))
             }
         }
     }
