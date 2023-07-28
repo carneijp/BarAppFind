@@ -384,7 +384,8 @@ struct ProfileView: View {
 
 struct DeleteAccount: View {
     @EnvironmentObject private var cloud: CloudKitCRUD
-    @State var showAlertDeleteAccount: Bool = false
+    @State var showAlertDeleteAccount: Bool = true
+    @State var showAlert: Bool = false
     @Binding var clientEmail: String
     @Binding var clientName: String
     @Binding var clientSurname: String
@@ -393,8 +394,11 @@ struct DeleteAccount: View {
     var body: some View {
         VStack{
             Button {
-                showAlertDeleteAccount = true
-                
+                if UserDefaults.standard.string(forKey: "Deletion") == "Requested" {
+                    SecondDeletion()
+                }else {
+                    showAlertDeleteAccount = true
+                }
             } label: {
                 Text("Deletar conta")
                     .font(.system(size: 18))
@@ -409,48 +413,31 @@ struct DeleteAccount: View {
             .shadow(radius: 2)
             .padding(.vertical, 10)
             .alert(isPresented: $showAlertDeleteAccount) {
-                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente deletar a sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
-                    if let id = cloud.client?.userID {
-                        if id != "" {
-                            
-                        }else {
-                            cloud.deleteClient(client: cloud.client!) { result in
-                                DispatchQueue.main.async {
-                                    if result {
-                                        cloud.client = nil
-                                        clientEmail = "Email"
-                                        clientName = "Nome"
-                                        clientSurname = "Sobrenome"
-                                        clientWelcome = "Cliente"
-                                        UserDefaults.standard.set("", forKey: "UserID")
-                                        UserDefaults.standard.set("", forKey: "Password")
-                                        UserDefaults.standard.set("", forKey: "Email")
-                                    }else {
-                                        print("failure to delete account")
-                                    }
-                                }
-                            }
-                        }
-                    }else{
-                        cloud.deleteClient(client: cloud.client!) { result in
-                            DispatchQueue.main.async {
-                                if result {
-                                    cloud.client = nil
-                                    clientEmail = "Email"
-                                    clientName = "Nome"
-                                    clientSurname = "Sobrenome"
-                                    clientWelcome = "Cliente"
-                                    UserDefaults.standard.set("", forKey: "UserID")
-                                    UserDefaults.standard.set("", forKey: "Password")
-                                    UserDefaults.standard.set("", forKey: "Email")
-                                }else {
-                                    print("failure to delete account")
-                                }
-                            }
-                        }
-                    }
-                    
+                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente deletar a sua conta?\nSua conta será deletada em até 72 horas."), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
+                        cloud.client = nil
+                        clientEmail = "Email"
+                        clientName = "Nome"
+                        clientSurname = "Sobrenome"
+                        clientWelcome = "Cliente"
+                        UserDefaults.standard.set("", forKey: "UserID")
+                        UserDefaults.standard.set("", forKey: "Password")
+                        UserDefaults.standard.set("", forKey: "Email")
+                        UserDefaults.standard.set("Requested", forKey: "Deletion")
                 }))
+            }
+        }
+    }
+}
+
+struct SecondDeletion: View {
+    @EnvironmentObject private var cloud: CloudKitCRUD
+    @State var showAlert: Bool = true
+    
+    var body: some View {
+        VStack{
+            Text("")
+            .alert(isPresented: $showAlert) {
+                Alert(title: Text("Aviso"), message: Text("Sua solicitação Já está sendo processada"))
             }
         }
     }
