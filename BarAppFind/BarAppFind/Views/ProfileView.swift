@@ -23,6 +23,8 @@ struct ProfileView: View {
     @State private var editPasswords: Bool = false
     @State private var showReportView: Bool = false
     @State private var showAlertLeaveAccount: Bool = false
+    @State private var showFirstAlertDeleteAccount: Bool = false
+    @State private var showSecondAlertDeleteAccount: Bool = false
     @Namespace private var nameSpace
     @State var clientEmail: String = "Email"
     @State var clientName: String = "Nome"
@@ -292,9 +294,8 @@ struct ProfileView: View {
                             if cloud.client != nil {
                                 Button {
                                     DispatchQueue.main.async {
-                                        showAlertLeaveAccount = true
+                                        self.showAlertLeaveAccount = true
                                     }
-                                    
                                 } label: {
                                     Text("Sair da conta")
                                         .font(.system(size: 18))
@@ -307,8 +308,68 @@ struct ProfileView: View {
                                 .background(Color.white)
                                 .cornerRadius(10)
                                 .shadow(radius: 2)
-                                
-                                DeleteAccount(clientEmail: $clientEmail, clientName: $clientName, clientSurname: $clientSurname, clientWelcome: $clientWelcome)
+                                .alert(isPresented: $showAlertLeaveAccount) {
+                                    Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
+                                        cloud.client = nil
+                                        clientEmail = "Email"
+                                        clientName = "Nome"
+                                        clientSurname = "Sobrenome"
+                                        clientWelcome = "Cliente"
+                                        UserDefaults.standard.set("", forKey: "UserID")
+                                        UserDefaults.standard.set("", forKey: "Password")
+                                        UserDefaults.standard.set("", forKey: "Email")
+                                    }))
+                                }
+                                if UserDefaults.standard.string(forKey: "Deletion") == "Requested"{
+                                    Button {
+                                        showSecondAlertDeleteAccount = true
+                                    } label: {
+                                        Text("Deletar conta")
+                                            .font(.system(size: 18))
+                                            .foregroundColor(.secondary)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .padding(.all, 12)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 2)
+                                    .padding(.vertical, 10)
+                                    .alert(isPresented: $showSecondAlertDeleteAccount) {
+                                        Alert(title: Text("Aviso"), message: Text("Sua solicitação Já está sendo processada."), dismissButton: .cancel())
+                                    }
+                                    
+                                }else {
+                                    Button {
+                                        showFirstAlertDeleteAccount = true
+                                    } label: {
+                                        Text("Deletar conta")
+                                            .font(.system(size: 18))
+                                            .foregroundColor(.secondary)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .padding(.all, 12)
+                                    .background(Color.white)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 2)
+                                    .padding(.vertical, 10)
+                                    .alert(isPresented: $showFirstAlertDeleteAccount) {
+                                        Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente deletar a sua conta?\nSua conta será deletada em até 72 horas."), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
+                                            cloud.client = nil
+                                            clientEmail = "Email"
+                                            clientName = "Nome"
+                                            clientSurname = "Sobrenome"
+                                            clientWelcome = "Cliente"
+                                            UserDefaults.standard.set("", forKey: "UserID")
+                                            UserDefaults.standard.set("", forKey: "Password")
+                                            UserDefaults.standard.set("", forKey: "Email")
+                                            UserDefaults.standard.set("Requested", forKey: "Deletion")
+                                        }))
+                                    }
+                                }
                             }
                         }
                         .padding(.horizontal, 24)
@@ -344,19 +405,6 @@ struct ProfileView: View {
                     .environmentObject(cloud)
             }
             
-            .alert(isPresented: $showAlertLeaveAccount) {
-                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente sair da sua conta?"), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
-                    cloud.client = nil
-                    clientEmail = "Email"
-                    clientName = "Nome"
-                    clientSurname = "Sobrenome"
-                    clientWelcome = "Cliente"
-                    UserDefaults.standard.set("", forKey: "UserID")
-                    UserDefaults.standard.set("", forKey: "Password")
-                    UserDefaults.standard.set("", forKey: "Email")
-                }))
-            }
-            
             // Pop Up De "Login Necessário"
             LoginAlertComponent(title: "Login Necessário", description: "Para acessar as suas conquistas e os detalhes da sua conta, realize o login.", isShow: $isPresented)
             
@@ -382,63 +430,3 @@ struct ProfileView: View {
     }
 }
 
-struct DeleteAccount: View {
-    @EnvironmentObject private var cloud: CloudKitCRUD
-    @State var showAlertDeleteAccount: Bool = true
-    @State var showAlert: Bool = false
-    @Binding var clientEmail: String
-    @Binding var clientName: String
-    @Binding var clientSurname: String
-    @Binding var clientWelcome: String
-    
-    var body: some View {
-        VStack{
-            Button {
-                if UserDefaults.standard.string(forKey: "Deletion") == "Requested" {
-                    SecondDeletion()
-                }else {
-                    showAlertDeleteAccount = true
-                }
-            } label: {
-                Text("Deletar conta")
-                    .font(.system(size: 18))
-                    .foregroundColor(.secondary)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.secondary)
-            }
-            .padding(.all, 12)
-            .background(Color.white)
-            .cornerRadius(10)
-            .shadow(radius: 2)
-            .padding(.vertical, 10)
-            .alert(isPresented: $showAlertDeleteAccount) {
-                Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente deletar a sua conta?\nSua conta será deletada em até 72 horas."), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
-                        cloud.client = nil
-                        clientEmail = "Email"
-                        clientName = "Nome"
-                        clientSurname = "Sobrenome"
-                        clientWelcome = "Cliente"
-                        UserDefaults.standard.set("", forKey: "UserID")
-                        UserDefaults.standard.set("", forKey: "Password")
-                        UserDefaults.standard.set("", forKey: "Email")
-                        UserDefaults.standard.set("Requested", forKey: "Deletion")
-                }))
-            }
-        }
-    }
-}
-
-struct SecondDeletion: View {
-    @EnvironmentObject private var cloud: CloudKitCRUD
-    @State var showAlert: Bool = true
-    
-    var body: some View {
-        VStack{
-            Text("")
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Aviso"), message: Text("Sua solicitação Já está sendo processada"))
-            }
-        }
-    }
-}
