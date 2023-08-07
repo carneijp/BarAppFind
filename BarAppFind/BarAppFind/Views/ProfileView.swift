@@ -209,7 +209,7 @@ struct ProfileView: View {
                             .padding(.bottom, 10)
                             
                             HStack{
-                                if clientName.contains("@"){
+                                if clientEmail.contains("@"){
                                     Text("******@" + clientEmail.split(separator: "@")[1])
                                         .font(.system(size: 17))
                                         .foregroundColor(.secondary)
@@ -320,6 +320,7 @@ struct ProfileView: View {
                                         UserDefaults.standard.set("", forKey: "Email")
                                     }))
                                 }
+                                
                                 if UserDefaults.standard.string(forKey: "Deletion") == "Requested"{
                                     Button {
                                         showSecondAlertDeleteAccount = true
@@ -358,14 +359,14 @@ struct ProfileView: View {
                                     .padding(.vertical, 10)
                                     .alert(isPresented: $showFirstAlertDeleteAccount) {
                                         Alert(title: Text("Confirmação Necessária"), message: Text("Você deseja realmente deletar a sua conta?\nSua conta será deletada em até 72 horas."), primaryButton: .destructive(Text("Cancelar")), secondaryButton: .default(Text("Confirmar"), action: {
-                                            cloud.client = nil
-                                            clientEmail = "Email"
-                                            clientName = "Nome"
-                                            clientSurname = "Sobrenome"
-                                            clientWelcome = "Cliente"
-                                            UserDefaults.standard.set("", forKey: "UserID")
-                                            UserDefaults.standard.set("", forKey: "Password")
-                                            UserDefaults.standard.set("", forKey: "Email")
+//                                            cloud.client = nil
+//                                            clientEmail = "Email"
+//                                            clientName = "Nome"
+//                                            clientSurname = "Sobrenome"
+//                                            clientWelcome = "Cliente"
+//                                            UserDefaults.standard.set("", forKey: "UserID")
+//                                            UserDefaults.standard.set("", forKey: "Password")
+//                                            UserDefaults.standard.set("", forKey: "Email")
                                             UserDefaults.standard.set("Requested", forKey: "Deletion")
                                         }))
                                     }

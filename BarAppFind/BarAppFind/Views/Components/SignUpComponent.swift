@@ -110,6 +110,8 @@ struct SignUpComponent: View {
                                     if result{
                                             self.isLoading = false
                                             self.sucess = true
+                                        UserDefaults.standard.set(email, forKey: "Email")
+                                        UserDefaults.standard.set(password, forKey: "Password")
                                     }else{
                                         self.isLoading = false
                                         print("usuario ja existente")
