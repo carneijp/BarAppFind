@@ -36,17 +36,17 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate, ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.requestDataPermission()
         }
-        cloud.fetchBars { result in
+//        cloud.fetchBars { result in
             DispatchQueue.main.async {
-                if result {
+//                if result {
                     for i in 0..<self.cloud.barsList.count{
                         self.cloud.barsList[i].calculateDistance(userLocation: self.map.userCLlocation2d)
                     }
                     self.cloud.barsList.sort{$0.distanceFromUser ?? 100000 < $1.distanceFromUser ?? 100000}
-                }
+//                }
             }
             
-        }
+//        }
     }
     
     func requestDataPermission() {

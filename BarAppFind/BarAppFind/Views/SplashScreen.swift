@@ -39,13 +39,13 @@ struct SplashScreen: View {
                     self.sceneDelegate.cloud = self.cloud
                     self.sceneDelegate.map = self.map
                     NetworkConnection.shared.startMonitoring()
-//                    cloud.fetchBars(){ result in
-//                        if result {
-//                            DispatchQueue.main.async{
-//                                isActive = true
-//                            }
-//                        }
-//                    }
+                    cloud.fetchBars(){ result in
+                        if result {
+                            DispatchQueue.main.async{
+                                isActive = true
+                            }
+                        }
+                    }
                     
                     withAnimation(.easeIn(duration: 1.5)){
                         size = 1.5
