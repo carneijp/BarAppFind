@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ReviewReport: View {
     @Environment(\.presentationMode) var presentation
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @Binding var showSheet: Bool
     var review: Review
     @State var hasFinished: Bool = false
@@ -49,8 +49,9 @@ struct ReviewReport: View {
                     Button {
                         hasFinished = true
                         
-                        let reviewReport = ReportReview(clientInformerEmail: cloud.client?.email ?? "Usuario não cadastrado", clientInformerID: cloud.client?.userID ?? "", reportBarName: review.barName, reportWirterEmail: review.writerEmail, reportDescription: review.description, reportWriterID: review.writerId, reportReason: report)
-                        cloud.addReviewReport(reportReview: reviewReport) { _ in }
+                        let reviewReport = ReportReview(clientInformerID: cloud.client?.userID ?? "", reportBarName: review.barName, reportDescription: review.description, reportWriterID: review.writerId, reportReason: report)
+                        
+                        cloud.addReviewReport(reviewReport: reviewReport){ _ in }
                     }label: {
                         HStack{
                             Text(report)

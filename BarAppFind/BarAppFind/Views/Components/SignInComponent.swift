@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignInComponent: View {
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @Environment(\.presentationMode) var presentation
     @State private var email: String = ""
     @State private var password: String = ""
@@ -72,22 +72,22 @@ struct SignInComponent: View {
                         isLoading = true
                         isEmpty = false
                         if(!email.isEmpty && !password.isEmpty){
-                            cloud.validateClientLogin(email: email, password: password) { result in
-                                if result {
-                                    isLoading = false
-                                    let login: String = $email.wrappedValue
-                                    let senha: String = $password.wrappedValue
-                                    UserDefaults.standard.set(login, forKey: "Email")
-                                    UserDefaults.standard.set(senha, forKey: "Password")
-                                    print("salvei")
-                                    self.loginSucess = true
-                                    //                            presentation.wrappedValue.dismiss()
-                                } else {
-                                    isLoading = false
-                                    print("login ou senha invalidos")
-                                    invalidPassword = true
-                                }
-                            }
+//                            cloud.validateClientLogin(email: email, password: password) { result in
+//                                if result {
+//                                    isLoading = false
+//                                    let login: String = $email.wrappedValue
+//                                    let senha: String = $password.wrappedValue
+//                                    UserDefaults.standard.set(login, forKey: "Email")
+//                                    UserDefaults.standard.set(senha, forKey: "Password")
+//                                    print("salvei")
+//                                    self.loginSucess = true
+//                                    //                            presentation.wrappedValue.dismiss()
+//                                } else {
+//                                    isLoading = false
+//                                    print("login ou senha invalidos")
+//                                    invalidPassword = true
+//                                }
+//                            }
                         }else{
                             isLoading = false
                             isEmpty = true
@@ -107,9 +107,9 @@ struct SignInComponent: View {
                         .shadow(color: Color("gray6"), radius: 3, x: 0, y: 2)
                     }
                     
-                    SignInApple(loginSuccess: $loginSucess)
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 20)
+//                    SignInApple(loginSuccess: $loginSucess)
+//                        .frame(maxWidth: .infinity)
+//                        .padding(.top, 20)
                     
                     Text("ou")
                         .font(.system(size: 20))
@@ -146,9 +146,9 @@ struct SignInComponent: View {
             .navigationDestination(isPresented: $loginSucess) {
                 ProfileView()
             }
-            .navigationDestination(isPresented: $showSignUp) {
-                SignUpComponent()
-            }
+//            .navigationDestination(isPresented: $showSignUp) {
+//                SignUpComponent()
+//            }
             
             if isLoading {
                 LoadingViewModel()

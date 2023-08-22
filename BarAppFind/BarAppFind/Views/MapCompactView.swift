@@ -13,7 +13,7 @@ struct MapCompactView: View {
     @State var barsList: [Bar] = []
     var bar: Bar?
     @EnvironmentObject var viewModel: MapViewModel
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State var shownBar: Bar?
     @State var showBarSmallDescription: Bool = false
     @State var didTap: Bool = false

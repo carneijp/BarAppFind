@@ -9,7 +9,7 @@
 //
 //struct SerafiniComponent: View {
 //    @Binding var isShow: Bool
-//    @EnvironmentObject var cloud: CloudKitCRUD
+//    @EnvironmentObject var cloud: Model
 //    @State var bar: Bar?
 //
 //    var body: some View {

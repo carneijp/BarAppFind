@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @EnvironmentObject private var cloud: CloudKitCRUD
+    @EnvironmentObject private var cloud: Model
     @State private var isPresenting: Bool = true
     @State private var showSignIn: Bool = false
     @State private var showSignInList: Bool = false
@@ -25,7 +25,7 @@ struct FavoritesView: View {
                     ScrollView {
                         ForEach(cloud.barsList.filter({ client.favorites.contains($0.name) }), id: \.self) { bar in
                             NavigationLink {
-                                BarPageView(barname: bar.name)
+                                BarPageView(barname: bar.name, bar: bar)
                                     .toolbarRole(.editor)
                             } label: {
                                 BarComponent(bar: bar, showSignIn: $showSignIn, showSignInList: $showSignInList, viewIndex: $viewIndex)                                    .foregroundColor(.primary)

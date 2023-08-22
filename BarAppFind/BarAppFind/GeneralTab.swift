@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GeneralTab: View {
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State private var selection: Int = 0
 
     var body: some View {

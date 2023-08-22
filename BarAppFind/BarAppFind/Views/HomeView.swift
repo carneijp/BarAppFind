@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var trendingIndex = 0
     @EnvironmentObject var map: MapViewModel
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State private var showSignIn: Bool = false
     @State private var showSignInList: Bool = false
     @State private var viewIndex: Int = 0
@@ -108,7 +108,7 @@ struct HomeView: View {
                                 
                                 ForEach(cloud.barsList, id: \.self) { bar in
                                     NavigationLink {
-                                        BarPageView(barname: bar.name)
+                                        BarPageView(barname: bar.name, bar: bar)
                                             .environmentObject(cloud)
                                             .toolbarRole(.editor)
                                     } label: {
@@ -126,6 +126,9 @@ struct HomeView: View {
                     
                     Spacer()
                 }
+            }
+            .refreshable {
+                cloud.fetchBars { }
             }
             
             LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
@@ -149,18 +152,18 @@ struct HomeView: View {
 
         })
         .onAppear() {
-            if let user = UserDefaults.standard.string(forKey: "UserID"), user != ""{
-                cloud.validadeClientLoginWithApple(userID: user) { _ in }
-            }else{
-                if cloud.client == nil{
-                    if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
-                       let savedPassword = UserDefaults.standard.string(forKey: "Password"){
-                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { _ in }
-                    }
-                }
-                
-                
-            }
+//            if let user = UserDefaults.standard.string(forKey: "UserID"), user != ""{
+//                cloud.validadeClientLoginWithApple(userID: user) { _ in }
+//            }else{
+//                if cloud.client == nil{
+//                    if let savedLogin = UserDefaults.standard.string(forKey: "Email"),
+//                       let savedPassword = UserDefaults.standard.string(forKey: "Password"){
+//                        cloud.validateClientLogin(email: savedLogin, password: savedPassword) { _ in }
+//                    }
+//                }
+//
+//
+//            }
             
             if map.locationServicesEnabled {
                 for i in 0..<cloud.barsList.count{

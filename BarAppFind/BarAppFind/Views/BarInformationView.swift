@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BarInformationView: View {
     
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State var bar: Bar
     
     var body: some View {
@@ -23,7 +23,7 @@ struct BarInformationView: View {
                 .bold()
                 .padding(.vertical)
             HStack {
-                Text("\(bar.endereco)")
+                Text("\(bar.address)")
                     .textSelection(.enabled)
                     .lineLimit(nil)
                     .multilineTextAlignment(.leading)

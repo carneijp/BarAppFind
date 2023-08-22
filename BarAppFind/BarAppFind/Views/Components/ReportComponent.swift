@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ReportComponent: View {
     
-    @EnvironmentObject private var cloud: CloudKitCRUD
+    @EnvironmentObject private var cloud: Model
     @Environment(\.presentationMode) var presentation
     
     @State var subject: String = ""
@@ -68,7 +68,8 @@ struct ReportComponent: View {
                 showError = false
                 showSuccess = false
                 if !$comment.wrappedValue.isEmpty && !$subject.wrappedValue.isEmpty {
-                    cloud.addReport(assunto: subject, texto: comment) { saida in
+                    guard let report = Report(assunto: subject, descricao: comment, userID: cloud.client?.userID ?? "") else { return }
+                    cloud.addReport(report: report) { saida in
                         if saida{
                             showSuccess = true
                             descriptionSuccess = "Seu report foi cadastrado com sucesso!"

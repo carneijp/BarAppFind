@@ -11,7 +11,7 @@ struct MapPopUpComponent: View {
     var bar: Bar
     var body: some View {
         VStack(alignment: .leading) {
-            if let photoLogo = bar.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+            if let data = try? Data(contentsOf: bar.photosToUse[0]), let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -66,11 +66,5 @@ struct MapPopUpComponent: View {
     func getDateOfweek() -> Int {
         let index = Calendar.current.component(.weekday, from: Date())
         return (index + 5) % 7
-    }
-}
-
-struct MapPopUpComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        MapPopUpComponent(bar: Bar(name: "", description: "", mood: [""], grade: 0.0, latitude: 51, longitude: 51, operatinhours: [""], endereco: "", regiao: "", caracteristicas: [""]))
     }
 }

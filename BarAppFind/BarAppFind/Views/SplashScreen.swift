@@ -11,7 +11,7 @@ import MapKit
 struct SplashScreen: View {
     @EnvironmentObject var sceneDelegate: SceneDelegate
     @EnvironmentObject var map: MapViewModel
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State var size: Double = 0.8
     @State var isActive: Bool = false
     @State var hasEthernet: Bool = true
@@ -39,12 +39,12 @@ struct SplashScreen: View {
                     self.sceneDelegate.cloud = self.cloud
                     self.sceneDelegate.map = self.map
                     NetworkConnection.shared.startMonitoring()
-                    cloud.fetchBars(){ result in
-                        if result {
+                    cloud.fetchBars(){
+//                        if result {
                             DispatchQueue.main.async{
                                 isActive = true
                             }
-                        }
+//                        }
                     }
                     
                     withAnimation(.easeIn(duration: 1.5)){

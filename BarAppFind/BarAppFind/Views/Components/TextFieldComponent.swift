@@ -10,7 +10,7 @@ import SwiftUI
 struct TextFieldComponent: View {
     @State private var review: String = ""
     @State private var grade: Double = 0.0
-    @EnvironmentObject private var cloud: CloudKitCRUD
+    @EnvironmentObject private var cloud: Model
     let barName: String
     
     @Binding var viewIndex: Int
@@ -77,8 +77,8 @@ struct TextFieldComponent: View {
                 Button(){
                     if let client = cloud.client {
                         if self.grade > 0.0{
-                            let review: Review = Review(writerEmail: client.email, writerName: client.firstName, grade: grade, description: review, barName: barName, writerId: client.userID)
-                            cloud.addReview(review: review)
+                            let review: Review = Review(writerName: client.firstName, grade: grade, description: review, barName: barName, writerId: client.userID)
+                            cloud.addReview(review: review) { }
                         } else {
                             if viewIndex == 1 {
                                 showReviewError = true

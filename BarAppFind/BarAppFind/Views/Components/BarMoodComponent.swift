@@ -9,13 +9,13 @@ import SwiftUI
 
 struct BarMoodComponent: View {
     @State var bar: Bar
-    @EnvironmentObject private var cloud: CloudKitCRUD
+    @EnvironmentObject private var cloud: Model
     var moodColor: String
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             // logo dos bares
-            if let photoLogo = bar.photosToUse[0], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data) {
+            if let data = try? Data(contentsOf: bar.photosToUse[0]), let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()

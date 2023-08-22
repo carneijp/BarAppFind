@@ -11,7 +11,7 @@ struct AboutTheBar: View {
     
     // MARK: - Setup View
     
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State var bar: Bar
     
     // MARK: - Front-End View
@@ -46,22 +46,32 @@ struct AboutTheBar: View {
                 
                 Spacer()
                 
-                if let cliente = cloud.client {
+                if var cliente = cloud.client {
                     if cliente.favorites.contains(bar.name){
                         Image(systemName:"heart.fill")
                             .foregroundColor(.red)
                             .onTapGesture {
-                                cloud.removeFavoriteBar(client: cliente, barName: bar.name)
-                                let referencia = cliente.favorites.firstIndex(of: bar.name)
-                                cliente.favorites.remove(at: referencia ?? -1)
-                                cloud.client = cliente
+                                var favorites = cliente.favorites
+                                if let index = favorites.firstIndex(of: bar.name) {
+                                    favorites.remove(at: index)
+                                }
+                                cliente = cliente.updateClient(newFavorites: favorites)
+                                cloud.updateUser(updatedUser: cliente) { _ in }
+//                                cloud.removeFavoriteBar(client: cliente, barName: bar.name)
+//                                let referencia = cliente.favorites.firstIndex(of: bar.name)
+//                                cliente.favorites.remove(at: referencia ?? -1)
+//                                cloud.client = cliente
                             }
                     } else {
                         Image(systemName: "heart")
                             .onTapGesture {
-                                cloud.addFavoriteBar(client: cliente, barName: bar.name)
-                                cliente.favorites.append(bar.name)
-                                cloud.client = cliente
+                                var favorites = cliente.favorites
+                                favorites.append(bar.name)
+                                cliente = cliente.updateClient(newFavorites: favorites)
+                                cloud.updateUser(updatedUser: cliente) { _ in }
+//                                cloud.addFavoriteBar(client: cliente, barName: bar.name)
+//                                cliente.favorites.append(bar.name)
+//                                cloud.client = cliente
                             }
                     }
                     
@@ -161,6 +171,7 @@ extension AboutTheBar {
         for i in 0..<cloud.barsList.count{
             if cloud.barsList[i].name == bar.name{
                 index = i
+                break
             }
         }
         
@@ -169,7 +180,9 @@ extension AboutTheBar {
         }
         
         cloud.barsList[index].grade = finalGrade
-        cloud.changeGrade(grade: finalGrade, barName: bar.name)
+        let newBar = cloud.barsList[index].updateBar(newGrade: finalGrade)
+        cloud.updateBar(updatedBar: newBar) { }
+//        cloud.changeGrade(grade: finalGrade, barName: bar.name)
         
         return finalGrade
     }

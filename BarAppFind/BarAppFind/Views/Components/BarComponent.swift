@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BarComponent: View {
     @State var bar: Bar
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
     @Binding var viewIndex: Int
@@ -57,21 +57,28 @@ struct BarComponent: View {
                     }
                 }
                 if let cliente = cloud.client {
-                    if cliente.favorites.contains(bar.name){
+                    if cliente.favorites.contains(bar.name) {
                         Image(systemName:"heart.fill")
                             .foregroundColor(.red)
                             .onTapGesture {
-                                cloud.removeFavoriteBar(client: cliente, barName: bar.name)
-                                let referencia = cliente.favorites.firstIndex(of: bar.name)
-                                cliente.favorites.remove(at: referencia ?? -1)
-                                cloud.client = cliente
+                                if var cliente = cloud.client {
+                                    var favorites = cliente.favorites
+                                    if let index = favorites.firstIndex(of: bar.name) {
+                                        favorites.remove(at: index)
+                                    }
+                                    cliente = cliente.updateClient(newFavorites: favorites)
+                                    cloud.updateUser(updatedUser: cliente) { _ in }
+                                }
                             }
                     }else{
                         Image(systemName: "heart")
                             .onTapGesture {
-                                cloud.addFavoriteBar(client: cliente, barName: bar.name)
-                                cliente.favorites.append(bar.name)
-                                cloud.client = cliente
+                                if var cliente = cloud.client {
+                                    var favorites = cliente.favorites
+                                    favorites.append(bar.name)
+                                    cliente = cliente.updateClient(newFavorites: favorites)
+                                    cloud.updateUser(updatedUser: cliente) { _ in }
+                                }
                             }
                     }
                     

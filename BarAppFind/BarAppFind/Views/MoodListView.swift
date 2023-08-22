@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MoodListView: View {
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     var moodName: String
     
     private let columns = [
@@ -31,7 +31,7 @@ struct MoodListView: View {
             LazyVGrid(columns: columns, spacing: 18) {
                 ForEach(cloud.barsList.filter({ $0.mood.contains(moodName) }), id: \.self) { bar in
                     NavigationLink {
-                        BarPageView(barname: bar.name)
+                        BarPageView(barname: bar.name, bar: bar)
                             .toolbarRole(.editor)
                     } label: {
                         ForEach(moodsColors.indices, id: \.self) { index in

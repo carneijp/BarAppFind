@@ -10,7 +10,7 @@ import SwiftUI
 struct ReviewComponent: View {
     @State var showReviewOptions: Bool = false
     @State var showSheetReviewReport: Bool = false
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     let review: Review
     
     var body: some View {

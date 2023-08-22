@@ -16,7 +16,7 @@ struct MapView: View {
     @State var barsList: [Bar] = []
     var bar: Bar?
     @StateObject var viewModel: MapViewModel = MapViewModel()
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State var shownBar: Bar?
     @State var showBarSmallDescription: Bool = false
     @State var didTap: Bool = false
@@ -112,8 +112,8 @@ struct ComponenteLargeMap: View {
             Spacer()
             if showBarSmallDescription{
                 NavigationLink{
-                    if let barName = shownBar?.name{
-                        BarPageView(barname: barName)
+                    if let bar = shownBar{
+                        BarPageView(bar: bar)
                             .toolbarRole(.editor)
                     }
                 }label: {

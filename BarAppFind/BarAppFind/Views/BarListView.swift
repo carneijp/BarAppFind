@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BarListView: View {
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
     @State private var viewIndex: Int = 1
@@ -28,7 +28,7 @@ struct BarListView: View {
                 VStack {
                     ForEach(searchBar, id: \.self) { bar in
                         NavigationLink {
-                            BarPageView(barname: bar.name)
+                            BarPageView(barname: bar.name, bar: bar)
                                 .toolbarRole(.editor)
                         } label: {
                             BarComponent(bar: bar, showSignIn: $showSignIn, showSignInList: $showSignInList, viewIndex: $viewIndex)

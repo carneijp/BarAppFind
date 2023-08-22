@@ -12,21 +12,19 @@ import MapKit
 struct BarPageView: View {
     
     // MARK: - Setup View
-    
-    var barname: String
-    
     enum ChoiceBar {
         case barName, info, review
     }
     
+    @State var barname: String?
     @State var topBarChoice: ChoiceBar = .barName
     @State var isBarName: Bool = true
     @State var isInfo: Bool = false
     @State var isReview: Bool = false
     @State var isShowingWorkingHours: Bool = true
-    @State var bar: Bar?
+    @State var bar: Bar
     @State var reviewListIsEmpty: Bool = true
-    @EnvironmentObject var cloud: CloudKitCRUD
+    @EnvironmentObject var cloud: Model
     @State private var showSignInAlert: Bool = false
     @State var isLoading: Bool = true
     @State private var viewIndex: Int = 1
@@ -178,19 +176,19 @@ struct BarPageView: View {
                                     
                                     //MARK: Sobre o lugar
                                 case .barName:
-                                    if let barAtual = bar {
-                                        AboutTheBar(bar: barAtual)
+//                                    if let barAtual = bar {
+                                        AboutTheBar(bar: bar)
                                             .environmentObject(cloud)
                                             .padding(.bottom)
-                                    }
+//                                    }
                                     
                                     // MARK: - Informações
                                     
                                 case .info:
-                                    if let barAtual = bar {
-                                        BarInformationView(bar: barAtual)
+//                                    if let barAtual = bar {
+                                        BarInformationView(bar: bar)
                                             .padding(.horizontal, 24)
-                                    }
+//                                    }
                                     
                                     //MARK: - Avaliações
                                     
@@ -198,11 +196,11 @@ struct BarPageView: View {
                                     VStack{
                                         if let client = cloud.client {
                                             if cloud.reviewListByBar.filter( { client.firstName == $0.writerName } ).count == 0 {
-                                                TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
+                                                TextFieldComponent(barName: bar.name, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
                                                     .padding(.bottom)
                                             }
                                         } else {
-                                            TextFieldComponent(barName: self.barname, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
+                                            TextFieldComponent(barName: bar.name, viewIndex: $viewIndex, showSignIn: $showSignInAlert, showReviewError: $showReviewError)
                                                 .padding(.bottom)
                                         }
                                         
@@ -263,28 +261,28 @@ struct BarPageView: View {
                 }
                 .padding(.bottom, 130)
                 .onAppear() {
-                    if bar?.name != barname {
-                        cloud.fetchBar(barName: barname) { bar in
-                            self.bar = bar
-                            DispatchQueue.global().async {
-                                for i in (0 ..< (self.bar?.photosToUse.count ?? 0)){
-                                    if let photoLogo = bar?.photosToUse[i], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data){
-                                        self.imagesBuildFromURL.append(image)
-                                    }
-                                }
-                            }
-                            self.isLoading = false
-                        }
-                    }
-                    
+//                    if bar?.name != barname {
+//                        cloud.fetchBar(barName: barname) { bar in
+//                            self.bar = bar
+//                            DispatchQueue.global().async {
+//                                for i in (0 ..< (self.bar?.photosToUse.count ?? 0)){
+//                                    if let photoLogo = bar?.photosToUse[i], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data){
+//                                        self.imagesBuildFromURL.append(image)
+//                                    }
+//                                }
+//                            }
+//                            self.isLoading = false
+//                        }
+//                    }
+                    self.barname = bar.name
                     self.cloud.reviewListByBar = []
                     
-                    cloud.fetchItemsReview(barName: barname) {
+                    cloud.fetchReviews(barName: bar.name) {
                         self.isLoading = false
                     }
                 }
             }
-            .navigationBarTitle("\(bar?.name ?? "Carregando...")", displayMode: .inline)
+            .navigationBarTitle("\(bar.name ?? "Carregando...")", displayMode: .inline)
             
             // MARK: - Pop Ups View
             
@@ -323,8 +321,12 @@ extension BarPageView {
             
         }
         
+//        cloud.barsList[index].grade = finalGrade
+        
         cloud.barsList[index].grade = finalGrade
-        cloud.changeGrade(grade: finalGrade, barName: bar.name)
+        let newBar = cloud.barsList[index].updateBar(newGrade: finalGrade)
+        cloud.updateBar(updatedBar: newBar) { }
+//        cloud.changeGrade(grade: finalGrade, barName: bar.name)
         
         return finalGrade
     }

@@ -20,7 +20,7 @@ class CloudKitUserIcloudViewModel: ObservableObject{
 //        fetchiCloudUserId()
     }
     
-    func requestPermission(){
+    func requestPermission() {
         CKContainer.default().requestApplicationPermission([.userDiscoverability]) { [weak self] returnedStatus, returnedError in
             DispatchQueue.main.async {
                 if returnedStatus == .granted {
@@ -39,7 +39,7 @@ class CloudKitUserIcloudViewModel: ObservableObject{
     }
     
     
-    private func getiCloudStatus(){
+    private func getiCloudStatus() {
         CKContainer.default().accountStatus { [weak self] returnedStatus, returnedError in
             DispatchQueue.main.async {
                 switch returnedStatus {
