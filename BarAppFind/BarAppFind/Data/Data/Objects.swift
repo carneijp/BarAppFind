@@ -90,8 +90,8 @@ class Clients: ObservableObject, CloudKitableProtocol {
         }
         
         if !newFavorites.isEmpty {
-            record["Favorites"] = newBadges
-            self.badges = newFavorites
+            record["Favorites"] = newFavorites
+            self.favorites = newFavorites
         }
         
         if let level = newLevel {

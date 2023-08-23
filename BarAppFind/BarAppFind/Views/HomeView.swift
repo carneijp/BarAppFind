@@ -131,14 +131,14 @@ struct HomeView: View {
                 cloud.fetchBars { }
             }
             
-            LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
+//            LoginAlertComponent(title: "Login Necessário!", description: "Para favoritar bares, realize o seu login!", isShow: $showSignIn)
             
         }
         .onChange(of: cloud.barsList.count, perform: { newValue in
             if map.locationServicesEnabled {
                 
                 for i in 0..<cloud.barsList.count{
-                    if let distancia = cloud.barsList[i].distanceFromUser {
+                    if cloud.barsList[i].distanceFromUser != nil {
                         
                     } else{
                         cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)
@@ -167,7 +167,7 @@ struct HomeView: View {
             
             if map.locationServicesEnabled {
                 for i in 0..<cloud.barsList.count{
-                    if let distancia = cloud.barsList[i].distanceFromUser {
+                    if cloud.barsList[i].distanceFromUser != nil {
                         
                     } else{
                         cloud.barsList[i].calculateDistance(userLocation: map.userCLlocation2d)

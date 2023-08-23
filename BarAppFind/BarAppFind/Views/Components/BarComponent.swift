@@ -56,29 +56,29 @@ struct BarComponent: View {
                         Spacer()
                     }
                 }
-                if let cliente = cloud.client {
+                if var cliente = cloud.client {
                     if cliente.favorites.contains(bar.name) {
                         Image(systemName:"heart.fill")
                             .foregroundColor(.red)
                             .onTapGesture {
-                                if var cliente = cloud.client {
+//                                if var cliente = cloud.client {
                                     var favorites = cliente.favorites
                                     if let index = favorites.firstIndex(of: bar.name) {
                                         favorites.remove(at: index)
                                     }
                                     cliente = cliente.updateClient(newFavorites: favorites)
                                     cloud.updateUser(updatedUser: cliente) { _ in }
-                                }
+//                                }
                             }
                     }else{
                         Image(systemName: "heart")
                             .onTapGesture {
-                                if var cliente = cloud.client {
+//                                if var cliente = cloud.client {
                                     var favorites = cliente.favorites
                                     favorites.append(bar.name)
                                     cliente = cliente.updateClient(newFavorites: favorites)
                                     cloud.updateUser(updatedUser: cliente) { _ in }
-                                }
+//                                }
                             }
                     }
                     

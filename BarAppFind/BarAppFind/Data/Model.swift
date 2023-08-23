@@ -94,7 +94,9 @@ extension Model {
                         }
                     case .failure(let error):
                         print(error)
-                        self.requestFinished = true
+                        DispatchQueue.main.async {
+                            self.requestFinished = true
+                        }
                     }
                 }
             }
@@ -195,8 +197,11 @@ extension Model {
         let predicate = NSPredicate(format: "Bar = %@", argumentArray: [barName])
         CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Reviews.rawValue) {[weak self] (items: [Review], cursor) in
             if items.count > 0 {
-                self?.reviewListByBar = items
+                DispatchQueue.main.async {
+                    self?.reviewListByBar = items
+                }
             }
+            completion()
         }
     }
     

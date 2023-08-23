@@ -70,11 +70,17 @@ class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
        // self.chekIfLocationService(){ result in
             if locationServicesEnabled    {
                 if let fixlatitude = self.latitude, let fixLongitude = self.longitude{
-                    self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
+                    DispatchQueue.main.async {
+                        self.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: fixlatitude, longitude: fixLongitude) , span: MapDetails.zoomArea)
+                    }
                 }else if let location = self.chosen{
-                    self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
+                    DispatchQueue.main.async {
+                        self.region = MKCoordinateRegion(center: location.coordinate, span: MapDetails.zoomArea)
+                    }
                 }else if let user = self.userLocation{
-                    self.region = user
+                    DispatchQueue.main.async {
+                        self.region = user
+                    }
                 }
             }else{
                 if let fixlatitude = self.latitude, let fixLongitude = self.longitude{

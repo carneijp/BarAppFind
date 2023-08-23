@@ -276,13 +276,12 @@ struct BarPageView: View {
 //                    }
                     self.barname = bar.name
                     self.cloud.reviewListByBar = []
-                    
                     cloud.fetchReviews(barName: bar.name) {
                         self.isLoading = false
                     }
                 }
             }
-            .navigationBarTitle("\(bar.name ?? "Carregando...")", displayMode: .inline)
+            .navigationBarTitle("\(bar.name)", displayMode: .inline)
             
             // MARK: - Pop Ups View
             
@@ -293,7 +292,7 @@ struct BarPageView: View {
             
 //            ReviewReportOptions(ispresentedReportOptions: $showReportOptions, selectedReview: selectedReview)
             
-            LoginAlertComponent(title: "Login Necessário!", description: "Para avalar este bar, realize o seu login!", isShow: $showSignInAlert)
+//            LoginAlertComponent(title: "Login Necessário!", description: "Para avalar este bar, realize o seu login!", isShow: $showSignInAlert)
             
             ReviewAlertComponent(title: "Avaliação Necessária!", description: "Para prosseguir, é necessário atribuir pelo menos uma estrela à avaliação deste bar.", isShow: $showReviewError)
             

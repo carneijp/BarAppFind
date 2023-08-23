@@ -39,17 +39,18 @@ struct FavoritesView: View {
                     EmptyViewFavorites()
                         .padding(.top, 51)
                 }
-            }else{
-                ZStack {
-                    EmptyViewFavorites()
-                    LoginAlertComponent(title: "Login necessário", description: "Para ter acesso a lista de favoritos, realize login", isShow: $isPresenting)
-                }
-                .onAppear() {
-                    if cloud.client == nil {
-                        self.isPresenting = true
-                    }
-                }
             }
+//            else{
+//                ZStack {
+//                    EmptyViewFavorites()
+//                    LoginAlertComponent(title: "Login necessário", description: "Para ter acesso a lista de favoritos, realize login", isShow: $isPresenting)
+//                }
+//                .onAppear() {
+//                    if cloud.client == nil {
+//                        self.isPresenting = true
+//                    }
+//                }
+//            }
             
             
             
