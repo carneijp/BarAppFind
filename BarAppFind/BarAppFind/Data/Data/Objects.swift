@@ -72,7 +72,7 @@ class Clients: ObservableObject, CloudKitableProtocol {
         self.record = record
     }
     
-    func updateClient(newFirstName: String? = nil, newLastName: String? = nil, newBadges: [String] = [], newLevel: Int? = nil, newFavorites: [String] = []) -> Clients {
+    func updateClient(newFirstName: String? = nil, newLastName: String? = nil, newBadges: [String]? = nil, newLevel: Int? = nil, newFavorites: [String]? = nil) -> Clients {
         let record = self.record
         if let firstName = newFirstName {
             record["FirstName"] = firstName
@@ -84,14 +84,14 @@ class Clients: ObservableObject, CloudKitableProtocol {
             self.lastName = lastName
         }
         
-        if !newBadges.isEmpty {
-            record["Badges"] = newBadges
-            self.badges = newBadges
+        if let badges = newBadges {
+            record["Badges"] = badges
+            self.badges = badges
         }
         
-        if !newFavorites.isEmpty {
-            record["Favorites"] = newFavorites
-            self.favorites = newFavorites
+        if let favorites = newFavorites {
+            record["Favorites"] = favorites
+            self.favorites = favorites
         }
         
         if let level = newLevel {
