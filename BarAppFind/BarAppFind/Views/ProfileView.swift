@@ -13,7 +13,7 @@ struct ProfileView: View {
     @State private var isMyConquests: Bool = true
     @State private var isProfileEdit: Bool = false
     @State private var isPresented: Bool = false
-    @State private var showSignIn: Bool = false
+//    @State private var showSignIn: Bool = false
     @State private var showModalConquest: Bool = false
     @State private var scale: CGFloat = 1.0
     @State private var showFirstConquest: Bool = false
@@ -52,24 +52,24 @@ struct ProfileView: View {
                     .padding(.bottom, 30)
                 
                 // Botão de Fazer Login
-                if cloud.client == nil {
-                    Button {
-                        showSignIn = true
-                    } label: {
-                        HStack {
-                            Spacer()
-                            Text("Faça seu login")
-                            Spacer()
-                        }
-                        .padding(12)
-                        .background(.white)
-                        .cornerRadius(30)
-                        .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
-                    }
-                    .frame(width: UIScreen.main.bounds.width - 28)
-                    .foregroundColor(.primary)
-                    .padding(.bottom, 40)
-                }
+//                if cloud.client == nil {
+//                    Button {
+//                        showSignIn = true
+//                    } label: {
+//                        HStack {
+//                            Spacer()
+//                            Text("Faça seu login")
+//                            Spacer()
+//                        }
+//                        .padding(12)
+//                        .background(.white)
+//                        .cornerRadius(30)
+//                        .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
+//                    }
+//                    .frame(width: UIScreen.main.bounds.width - 28)
+//                    .foregroundColor(.primary)
+//                    .padding(.bottom, 40)
+//                }
 
                 
                 // MARK: - Tab Bar
@@ -324,10 +324,10 @@ struct ProfileView: View {
             }
             .padding(.top, 100)
             
-            .navigationDestination(isPresented: $showSignIn) {
-                SignInComponent()
-                    .toolbarRole(.editor)
-            }
+//            .navigationDestination(isPresented: $showSignIn) {
+//                SignInComponent()
+//                    .toolbarRole(.editor)
+//            }
             
             .navigationDestination(isPresented: $editProfile){
                 EditProfileComponent(firstName: $clientName, lastName: $clientSurname)

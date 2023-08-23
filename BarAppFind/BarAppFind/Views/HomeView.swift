@@ -112,7 +112,7 @@ struct HomeView: View {
                                             .environmentObject(cloud)
                                             .toolbarRole(.editor)
                                     } label: {
-                                        BarComponent(bar: bar, showSignIn: $showSignIn, showSignInList: $showSignInList, viewIndex: $viewIndex)
+                                        BarComponent(bar: bar, showSignInList: $showSignInList, viewIndex: $viewIndex)
                                             .environmentObject(cloud)
                                             .foregroundColor(.primary)
                                             .padding(.bottom, 10)

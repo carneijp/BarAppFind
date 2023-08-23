@@ -13,7 +13,7 @@ struct FavoritesView: View {
     @State private var showSignIn: Bool = false
     @State private var showSignInList: Bool = false
     @State private var viewIndex: Int = 0
-
+    
     var body: some View {
         VStack {
             
@@ -28,7 +28,7 @@ struct FavoritesView: View {
                                 BarPageView(barname: bar.name, bar: bar)
                                     .toolbarRole(.editor)
                             } label: {
-                                BarComponent(bar: bar, showSignIn: $showSignIn, showSignInList: $showSignInList, viewIndex: $viewIndex)                                    .foregroundColor(.primary)
+                                BarComponent(bar: bar, showSignInList: $showSignInList, viewIndex: $viewIndex)                                    .foregroundColor(.primary)
                                     .padding(.bottom, 10)
                             }
                         }
@@ -40,17 +40,17 @@ struct FavoritesView: View {
                         .padding(.top, 51)
                 }
             }
-//            else{
-//                ZStack {
-//                    EmptyViewFavorites()
-//                    LoginAlertComponent(title: "Login necessário", description: "Para ter acesso a lista de favoritos, realize login", isShow: $isPresenting)
-//                }
-//                .onAppear() {
-//                    if cloud.client == nil {
-//                        self.isPresenting = true
-//                    }
-//                }
-//            }
+            //            else{
+            //                ZStack {
+            //                    EmptyViewFavorites()
+            //                    LoginAlertComponent(title: "Login necessário", description: "Para ter acesso a lista de favoritos, realize login", isShow: $isPresenting)
+            //                }
+            //                .onAppear() {
+            //                    if cloud.client == nil {
+            //                        self.isPresenting = true
+            //                    }
+            //                }
+            //            }
             
             
             

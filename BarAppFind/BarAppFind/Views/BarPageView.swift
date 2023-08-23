@@ -264,13 +264,13 @@ struct BarPageView: View {
 //                    if bar?.name != barname {
 //                        cloud.fetchBar(barName: barname) { bar in
 //                            self.bar = bar
-//                            DispatchQueue.global().async {
-//                                for i in (0 ..< (self.bar?.photosToUse.count ?? 0)){
-//                                    if let photoLogo = bar?.photosToUse[i], let data = try? Data(contentsOf: photoLogo), let image = UIImage(data: data){
-//                                        self.imagesBuildFromURL.append(image)
-//                                    }
-//                                }
-//                            }
+                    DispatchQueue.global().async {
+                        for i in (0 ..< (self.bar.photosToUse.count)){
+                            if let data = try? Data(contentsOf: bar.photosToUse[i]), let image = UIImage(data: data){
+                                self.imagesBuildFromURL.append(image)
+                            }
+                        }
+                    }
 //                            self.isLoading = false
 //                        }
 //                    }

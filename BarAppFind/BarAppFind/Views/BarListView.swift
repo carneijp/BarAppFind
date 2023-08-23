@@ -31,7 +31,7 @@ struct BarListView: View {
                             BarPageView(barname: bar.name, bar: bar)
                                 .toolbarRole(.editor)
                         } label: {
-                            BarComponent(bar: bar, showSignIn: $showSignIn, showSignInList: $showSignInList, viewIndex: $viewIndex)
+                            BarComponent(bar: bar, showSignInList: $showSignInList, viewIndex: $viewIndex)
                                 .foregroundColor(.primary)
                                 .padding(.bottom, 10)
                         }

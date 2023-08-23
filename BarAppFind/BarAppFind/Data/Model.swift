@@ -18,6 +18,7 @@ class Model: ObservableObject {
     
     
     init() {
+        self.fetchBars{ }
         CloudKitService.fetchUserRecordID { result in
             switch result {
             case .success(let id):

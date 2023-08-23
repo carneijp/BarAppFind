@@ -11,7 +11,7 @@ struct ReviewAlertComponent: View {
     var title: String
     var description: String
     @Binding var isShow: Bool
-    @State private var showReviewError: Bool = false
+//    @State private var showReviewError: Bool = false
     
     var body: some View {
         VStack(spacing: 24) {
@@ -59,9 +59,9 @@ struct ReviewAlertComponent: View {
         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - 40)
         .background(.secondary.opacity(0.01))
         .offset(y: isShow ? -10 : UIScreen.main.bounds.height)
-        .sheet(isPresented: $showReviewError) {
-            SignInComponent()
-        }
+//        .sheet(isPresented: $showReviewError) {
+//            SignInComponent()
+//        }
         .onTapGesture {
             self.isShow = false
         }

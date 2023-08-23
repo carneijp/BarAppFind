@@ -30,22 +30,17 @@ struct SplashScreen: View {
                         .scaledToFit()
                         .frame(height: 337)
                         .scaleEffect(size)
-                    
-                    
-                    
                 }
                 .ignoresSafeArea()
                 .onAppear{
                     self.sceneDelegate.cloud = self.cloud
                     self.sceneDelegate.map = self.map
                     NetworkConnection.shared.startMonitoring()
-                    cloud.fetchBars(limit: 10){
-//                        if result {
-                            DispatchQueue.main.async{
-                                isActive = true
-                            }
+//                    cloud.fetchBars(){
+//                        DispatchQueue.main.async{
+//                            isActive = true
 //                        }
-                    }
+//                    }
                     
                     withAnimation(.easeIn(duration: 1.5)){
                         size = 1.5
@@ -62,8 +57,8 @@ struct SplashScreen: View {
     }
 }
 
-struct SplashScreen_Previews: PreviewProvider {
-    static var previews: some View {
-        SplashScreen()
-    }
-}
+//struct SplashScreen_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SplashScreen()
+//    }
+//}

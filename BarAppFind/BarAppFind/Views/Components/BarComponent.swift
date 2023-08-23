@@ -10,7 +10,7 @@ import SwiftUI
 struct BarComponent: View {
     @State var bar: Bar
     @EnvironmentObject var cloud: Model
-    @Binding var showSignIn: Bool
+//    @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
     @Binding var viewIndex: Int
     
@@ -82,20 +82,21 @@ struct BarComponent: View {
                             }
                     }
                     
-                } else{
-                    Image(systemName: "heart")
-                        .onTapGesture {
-                            print("Voce deve estar logado para favoritar.")
-                            if viewIndex == 0 {
-                                showSignIn = true
-                            } else {
-                                showSignIn = false
-                                showSignInList = true
-                            }
-                        }
-                    
-                    
                 }
+//                else{
+//                    Image(systemName: "heart")
+//                        .onTapGesture {
+//                            print("Voce deve estar logado para favoritar.")
+//                            if viewIndex == 0 {
+//                                showSignIn = true
+//                            } else {
+//                                showSignIn = false
+//                                showSignInList = true
+//                            }
+//                        }
+//                    
+//                    
+//                }
             }
         }
     }
