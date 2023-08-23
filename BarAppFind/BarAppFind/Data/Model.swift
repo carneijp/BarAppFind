@@ -105,14 +105,12 @@ extension Model {
     }
     
     func updateUser(updatedUser: Clients, completion: @escaping (Result<Bool, Error>) -> Void) {
+        self.client = updatedUser
         CloudKitService.updateItem(isPrivate: false, item: updatedUser){ [weak self] result in
             switch result {
             case .success(let bool):
                 if bool {
-                    DispatchQueue.main.async {
-                        self?.client = updatedUser
-                        completion(.success(bool))
-                    }
+                    completion(.success(bool))
                 }else{
                     completion(.success(false))
                 }

@@ -24,7 +24,6 @@ struct HomeView: View {
                 HStack {
                     Spacer()
                     LogoComponent()
-                        .padding(.top, 20)
                     Spacer()
                 }
                 
@@ -122,7 +121,7 @@ struct HomeView: View {
                             .padding(.horizontal, 24)
                         }
                     }
-                    .padding(.bottom, 100)
+                    .padding(.bottom, 20)
                     
                     Spacer()
                 }
@@ -177,7 +176,7 @@ struct HomeView: View {
             }
         
         }
-        .padding(.top, 100)
+        .padding(.top, 20)
         
     }
 }
