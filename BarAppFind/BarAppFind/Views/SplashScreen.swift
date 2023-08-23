@@ -39,7 +39,7 @@ struct SplashScreen: View {
                     self.sceneDelegate.cloud = self.cloud
                     self.sceneDelegate.map = self.map
                     NetworkConnection.shared.startMonitoring()
-                    cloud.fetchBars(){
+                    cloud.fetchBars(limit: 10){
 //                        if result {
                             DispatchQueue.main.async{
                                 isActive = true

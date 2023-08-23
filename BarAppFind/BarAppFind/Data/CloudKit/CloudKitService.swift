@@ -147,7 +147,7 @@ extension CloudKitService {
         predicate: NSPredicate,
         recordType: CKRecord.RecordType,
         sortDescriptor:  [NSSortDescriptor]? = nil,
-        resultLimiter: Int? = nil) -> CKQueryOperation {
+        resultLimiter: Int? = nil, cursor: CKQueryOperation.Cursor? = nil) -> CKQueryOperation {
             
             let query = CKQuery(recordType: recordType, predicate: predicate)
             if let sorter = sortDescriptor {
@@ -157,6 +157,7 @@ extension CloudKitService {
             if let limit = resultLimiter {
                 queryOperation.resultsLimit = limit
             }
+            queryOperation.cursor = cursor
             return queryOperation
         }
     
@@ -173,27 +174,33 @@ extension CloudKitService {
         }
     }
     
-    static private func addQueryResultBlock(queryOperation: CKQueryOperation, completion: @escaping (_ finished: Bool) -> Void) {
+    static private func addQueryResultBlock(queryOperation: CKQueryOperation, completion: @escaping (_ finished: Bool, _ cursor: CKQueryOperation.Cursor?) -> Void) {
         queryOperation.queryResultBlock = { returnedResult in
-            completion(true)
+            switch returnedResult{
+            case .success(let cursor):
+                completion(true, cursor)
+            case .failure(let error):
+                print(error)
+                completion(true, nil)
+            }
         }
     }
     
-    static func fetch<T:CloudKitableProtocol>(isPrivate: Bool, predicate: NSPredicate, recordType: CKRecord.RecordType, sortDescriptor:  [NSSortDescriptor]? = nil, resultLimiter: Int? = nil,
-                                              completion: @escaping (_ items:[T]) -> Void) {
+    static func fetch<T:CloudKitableProtocol>(isPrivate: Bool, predicate: NSPredicate, recordType: CKRecord.RecordType, sortDescriptor:  [NSSortDescriptor]? = nil, resultLimiter: Int? = nil, cursor: CKQueryOperation.Cursor? = nil, completion: @escaping (_ items:[T], _ cursor: CKQueryOperation.Cursor?) -> Void) {
         
-        let operation = createOperation(predicate: predicate, recordType: recordType, sortDescriptor: sortDescriptor, resultLimiter: resultLimiter)
+        let operation = createOperation(predicate: predicate, recordType: recordType, sortDescriptor: sortDescriptor, resultLimiter: resultLimiter, cursor: cursor)
         
         var returnedItems: [T] = []
         addRecordMatchedBlock(queryOperation: operation) { item in
             returnedItems.append(item)
         }
-        addQueryResultBlock(queryOperation: operation) { finished in
-            completion(returnedItems)
+        addQueryResultBlock(queryOperation: operation) { (finished, cursor) in
+            completion(returnedItems, cursor)
         }
         
         addOperation(isPrivate: isPrivate, operation: operation)
     }
+    
     //
     //    static private func fetch<T:CloudKitableProtocol>(
     //        predicate: NSPredicate,

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CloudKit
 
 
 class Model: ObservableObject {
@@ -39,7 +40,7 @@ extension Model {
     private func fetchUserInit(completion: @escaping () -> Void) {
         self.requestFinished = false
         let predicado: NSPredicate = NSPredicate(format: "UserID = %@", argumentArray: [self.userRecordID])
-        CloudKitService.fetch(isPrivate: false, predicate: predicado, recordType: CloudKitTables.Clients.rawValue, resultLimiter:  1) { [weak self] (items: [Clients]) in
+        CloudKitService.fetch(isPrivate: false, predicate: predicado, recordType: CloudKitTables.Clients.rawValue, resultLimiter:  1) { [weak self] (items: [Clients], cursor) in
             print(items.count)
             if items.count > 0 {
                 DispatchQueue.main.async {
@@ -49,7 +50,7 @@ extension Model {
                 }
             }else {
                 let predicate = NSPredicate(format: "UserID = %@", argumentArray: [self?.userRecordID ?? ""])
-                CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Clients.rawValue) { (items: [Clients]) in
+                CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Clients.rawValue) { (items: [Clients], cursor) in
                     if items.count == 0 {
                         DispatchQueue.main.async {
                             if self?.client == nil {
@@ -122,14 +123,43 @@ extension Model {
 
 // MARK: Funcoes para bar
 extension Model {
+    func fetchNextBarPage(limit: Int? = nil, cursor: CKQueryOperation.Cursor, completion: @escaping () -> Void) {
+        let predicate = NSPredicate(value: true)
+        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Bars.rawValue, resultLimiter: limit, cursor: cursor) {[weak self] (items: [Bar], cursor) in
+            if items.count > 0 {
+                DispatchQueue.main.async {
+                    self?.barsList.append(contentsOf: items)
+                }
+            }
+            if let cursor = cursor {
+                self?.fetchNextBarPage(cursor: cursor) {
+                    
+                }
+            }else {
+                completion()
+            }
+        }
+    }
+    
     func fetchBars(limit: Int? = nil,completion: @escaping () -> Void) {
         let predicate = NSPredicate(value: true)
-        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Bars.rawValue, resultLimiter: limit) {[weak self] (items: [Bar]) in
+        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Bars.rawValue, resultLimiter: limit) {[weak self] (items: [Bar], cursor) in
             if items.count > 0 {
                 DispatchQueue.main.async {
                     self?.barsList = items
-                    completion()
                 }
+            }
+            if let cursor = cursor {
+                //                if let limit = limit {
+                //                    let faltando: Int = limit - items.count
+                //                    self?.fetchNextBarPage(limit:faltando, cursor: cursor) { }
+                //                }else {
+                self?.fetchNextBarPage(cursor: cursor) {
+                    
+                }
+                //                }
+            }else {
+                completion()
             }
         }
     }
@@ -163,7 +193,7 @@ extension Model {
 extension Model {
     func fetchReviews(barName: String, completion: @escaping () -> Void) {
         let predicate = NSPredicate(format: "Bar = %@", argumentArray: [barName])
-        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Reviews.rawValue) {[weak self] (items: [Review]) in
+        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Reviews.rawValue) {[weak self] (items: [Review], cursor) in
             if items.count > 0 {
                 self?.reviewListByBar = items
             }
@@ -172,7 +202,7 @@ extension Model {
     
     func addReview(review: Review, completion: @escaping () -> Void) {
         let predicate = NSPredicate(format: "WriterID = %@", argumentArray: [client?.userID ?? ""])
-        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Reviews.rawValue) { (items: [Review]) in
+        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.Reviews.rawValue) { (items: [Review], cursor) in
             if items.count == 0{
                 CloudKitService.addItem(isPrivate: false, item: review) {[weak self] result in
                     switch result {
@@ -235,7 +265,7 @@ extension Model {
 extension Model {
     func addReviewReport(reviewReport: ReportReview, completion: @escaping (Bool) -> Void) {
         let predicate = NSPredicate(format: "WriterID = %@ AND ReporterID = %@", argumentArray: [reviewReport.clientInformerID, reviewReport.reportWriterID])
-        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.ReportReview.rawValue) { (items:[ReportReview]) in
+        CloudKitService.fetch(isPrivate: false, predicate: predicate, recordType: CloudKitTables.ReportReview.rawValue) { (items:[ReportReview], cursor) in
             if items.count == 0 {
                 CloudKitService.addItem(isPrivate: false, item: reviewReport) { _ in
                     completion(true)
