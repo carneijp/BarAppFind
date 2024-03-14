@@ -288,7 +288,6 @@ struct ProfileView: View {
                                     .alert(isPresented: $showSecondAlertDeleteAccount) {
                                         Alert(title: Text("Aviso"), message: Text("Sua solicitação Já está sendo processada."), dismissButton: .cancel())
                                     }
-                                    
                                 }else {
                                     Button {
                                         showFirstAlertDeleteAccount = true

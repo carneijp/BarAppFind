@@ -40,6 +40,7 @@ enum MapDetails{
     }
 }
 
+@MainActor
 class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var chosen: MapDetails? = nil
     @Published var latitude: Double? = nil

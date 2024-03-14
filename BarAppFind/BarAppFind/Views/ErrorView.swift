@@ -31,6 +31,7 @@ struct ErrorView: View {
                     Text ("Verifique sua conexão com a Internet")
                         .foregroundColor(.gray)
                     Spacer ()
+                    
                     Button{
                         self.noInternet = NetworkConnection.shared.isConnected
                     }label: {
