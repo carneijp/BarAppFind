@@ -16,6 +16,7 @@ struct TrendingComponent: View {
             .scaledToFit()
             .frame(width: UIScreen.main.bounds.width - 48)
             .cornerRadius(14)
+            .accessibilityLabel(Text("Uma experiência única e personalizada para ti."))
     }
 }
 

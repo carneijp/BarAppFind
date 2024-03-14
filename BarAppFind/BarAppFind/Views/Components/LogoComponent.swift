@@ -13,6 +13,7 @@ struct LogoComponent: View {
             .resizable()
             .scaledToFit()
             .frame(width: 60, height: 60)
+            .accessibilityLabel(Text("logo Onde"))
     }
 }
 

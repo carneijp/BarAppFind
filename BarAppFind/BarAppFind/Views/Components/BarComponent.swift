@@ -31,12 +31,14 @@ struct BarComponent: View {
                 VStack {
                     HStack {
                         Text("**\(bar.name)**")
+                            .accessibilityLabel(Text(bar.name))
                             .font(.subheadline)
                             .lineLimit(1)
 //                            .padding(.trailing, 4)
                         
                         if let distancia = bar.distanceFromUser{
                             Text(String(format: "• %.1fKm", distancia))
+                                .accessibilityLabel(Text(String(format: "• %.1fKm", distancia)))
                                 .font(.subheadline)
                                 .padding(.leading, -5)
                         }
@@ -51,6 +53,7 @@ struct BarComponent: View {
                         
                         
                             Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[getDateOfweek()])")
+                            .accessibilityLabel(String(format: "%.1f", bar.grade) + ", \(bar.operatinHours[getDateOfweek()])")
                             .font(.subheadline)
                         
                         Spacer()
@@ -70,6 +73,7 @@ struct BarComponent: View {
                                     cloud.updateUser(updatedUser: cliente) { _ in }
 //                                }
                             }
+                            .accessibilityLabel("Favoritar")
                     }else{
                         Image(systemName: "heart")
                             .onTapGesture {
