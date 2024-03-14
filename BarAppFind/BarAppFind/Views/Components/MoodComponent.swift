@@ -18,7 +18,7 @@ struct MoodComponent: View {
                 .frame(width: 110, height: 100)
             
             Text(moodName)
-                .font(.system(size: 14))
+                .font(.callout)
         }
         .frame(width: 100, height: 100)
         .padding(.top, 30)

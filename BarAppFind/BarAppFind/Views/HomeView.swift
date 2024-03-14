@@ -66,7 +66,7 @@ struct HomeView: View {
                             
                             //Mood Section
                             Text("Qual o seu mood hoje?")
-                                .font(.system(size: 16))
+                                .font(.body)
                                 .padding(.leading, 24)
                             
                             //Mood Section
@@ -90,8 +90,7 @@ struct HomeView: View {
                             VStack {
                                 HStack {
                                     Text("Sugestões de onde ir hoje")
-                                        .font(.system(size: 16))
-                            
+                                        .font(.body)
                                     Spacer()
                                     
                                     NavigationLink {
@@ -99,7 +98,7 @@ struct HomeView: View {
                                             .toolbarRole(.editor)
                                     } label: {
                                         Text("Ver todos")
-                                            .font(.system(size: 16))
+                                            .font(.body)
                                             .foregroundColor(Color("purple"))
                                     }
                                 }
