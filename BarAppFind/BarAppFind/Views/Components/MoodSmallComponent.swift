@@ -20,7 +20,7 @@ struct MoodSmallComponent: View {
 //                .padding(.bottom, 13)
             
             Text(moodName)
-                .font(.system(size: 11))
+                .font(.caption)
                 .padding(.bottom)
         }
         .frame(width: 125, height: 125)

@@ -66,7 +66,7 @@ struct BarPageView: View {
                                     if isBarName{
                                         VStack(spacing: 4){
                                             Text("Sobre o lugar")
-                                                .font(.system(size: 16))
+                                                .font(.body)
                                                 .foregroundColor(.primary)
                                             
                                             Rectangle()
@@ -78,7 +78,7 @@ struct BarPageView: View {
                                     }else{
                                         VStack(spacing: 4){
                                             Text("Sobre o lugar")
-                                                .font(.system(size: 16))
+                                                .font(.body)
                                             
                                                 .foregroundColor(.secondary)
                                                 .onTapGesture {
@@ -102,7 +102,7 @@ struct BarPageView: View {
                                     if isInfo{
                                         VStack(spacing: 4){
                                             Text("Informações")
-                                                .font(.system(size: 16))
+                                                .font(.body)
                                                 .foregroundColor(.primary)
                                             
                                             Rectangle()
@@ -114,7 +114,7 @@ struct BarPageView: View {
                                     }else{
                                         VStack(spacing: 4){
                                             Text("Informações")
-                                                .font(.system(size: 16))
+                                                .font(.body)
                                                 .foregroundColor(.secondary)
                                                 .onTapGesture {
                                                     withAnimation(.easeInOut(duration: 0.2)) {
@@ -138,7 +138,7 @@ struct BarPageView: View {
                                     if isReview{
                                         VStack(spacing: 4){
                                             Text("Avaliações")
-                                                .font(.system(size: 16))
+                                                .font(.body)
                                                 .foregroundColor(.primary)
                                             
                                             Rectangle()
@@ -150,7 +150,7 @@ struct BarPageView: View {
                                     }else{
                                         VStack(spacing: 4){
                                             Text("Avaliações")
-                                                .font(.system(size: 16))
+                                                .font(.body)
                                                 .foregroundColor(.secondary)
                                                 .onTapGesture {
                                                     withAnimation(.easeInOut(duration: 0.2)) {

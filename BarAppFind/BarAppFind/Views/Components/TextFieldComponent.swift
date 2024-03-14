@@ -24,7 +24,7 @@ struct TextFieldComponent: View {
         VStack(alignment: .leading) {
             //            Spacer()
             Text("Queremos a sua avaliação")
-                .font(.system(size: 20))
+                .font(.title2)
                 .bold()
                 .padding(.horizontal, 24)
             

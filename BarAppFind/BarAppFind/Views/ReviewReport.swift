@@ -36,12 +36,12 @@ struct ReviewReport: View {
             }
             Divider()
             Text("Por que você quer denunciar esse comentário?")
-                .font(.system(size: 16))
+                .font(.title3)
                 .bold()
                 .padding(.top)
             Text("Sua denúncia estará visivel somente para nossa equipe")
                 .foregroundColor(Color(.gray))
-                .font(.system(size: 14))
+                .font(.body)
                 .padding(.bottom)
             Divider()
             List{
@@ -56,7 +56,7 @@ struct ReviewReport: View {
                         HStack{
                             Text(report)
                                 .foregroundColor(Color(.gray))
-                                .font(.system(size: 16))
+                                .font(.title3)
                             Spacer()
                             Image(systemName: "chevron.forward")
                         }

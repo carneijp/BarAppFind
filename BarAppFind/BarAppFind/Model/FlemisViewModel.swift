@@ -61,12 +61,12 @@ struct FlemisViewModel: View {
                                             HStack{
                                                 if i == indexEntrada{
                                                     Text("\(self.workingHours[i])")
-                                                        .font(.system(size: 14))
+                                                        .font(.body)
                                                         .padding(.bottom, 5)
                                                         .bold()
                                                 }else{
                                                     Text("\(self.workingHours[i])")
-                                                        .font(.system(size: 14))
+                                                        .font(.body)
                                                         .padding(.bottom, 5)
                                                 }
                                                 Spacer()
@@ -76,7 +76,7 @@ struct FlemisViewModel: View {
                                         .scrollContentBackground(.hidden)
                 } label: {
                     Text("Horário de Atendimento")
-                        .font(.system(size: 20))
+                        .font(.title2)
                         .bold()
                         .foregroundColor(.primary)
                         .padding(.vertical)
