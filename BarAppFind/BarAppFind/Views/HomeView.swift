@@ -16,6 +16,8 @@ struct HomeView: View {
     @State private var viewIndex: Int = 0
     private let carouselTimer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     @State var noInternet: Bool = false
+    
+    @Environment(\.dynamicTypeSize) var size
 
     var body: some View {
         ZStack {
@@ -90,23 +92,45 @@ struct HomeView: View {
                             
                             //Bars Section
                             VStack {
-                                HStack {
-                                    Text("Sugestões de onde ir hoje")
-                                        .accessibilityLabel(Text("Sugestões de onde ir hoje"))
-                                        .font(.body)
-                                    Spacer()
-                                    
-                                    NavigationLink {
-                                        BarListView(showSignIn: $showSignIn, showSignInList: $showSignInList)
-                                            .toolbarRole(.editor)
-                                    } label: {
-                                        Text("Ver todos")
-                                            .accessibilityLabel(Text("Ver todos"))
+                                if size <= .accessibility2{
+                                    HStack {
+                                        Text("Sugestões de onde ir hoje")
+                                            .accessibilityLabel(Text("Sugestões de onde ir hoje"))
                                             .font(.body)
-                                            .foregroundColor(Color("purple"))
+                                        Spacer()
+                                        
+                                        NavigationLink {
+                                            BarListView(showSignIn: $showSignIn, showSignInList: $showSignInList)
+                                                .toolbarRole(.editor)
+                                        } label: {
+                                            Text("Ver todos")
+                                                .accessibilityLabel(Text("Ver todos"))
+                                                .font(.body)
+                                                .foregroundColor(Color("purple"))
+                                        }
                                     }
+                                    .padding(.vertical, 24)
+                                } else {
+
+                                        Text("Sugestões de onde ir hoje")
+                                            .accessibilityLabel(Text("Sugestões de onde ir hoje"))
+                                            .font(.body)
+                                            .padding(.top, 24)
+                                        //                                        .padding(.bottom, 16)
+
+
+                                        NavigationLink {
+                                            BarListView(showSignIn: $showSignIn, showSignInList: $showSignInList)
+                                                .toolbarRole(.editor)
+                                        } label: {
+                                            Text("Ver todos")
+                                                .accessibilityLabel(Text("Ver todos"))
+                                                .font(.body)
+                                                .foregroundColor(Color("purple"))
+                                        }
+                                        .padding(.bottom, 24)
+                                    
                                 }
-                                .padding(.vertical, 24)
                                 
                                 ForEach(cloud.barsList, id: \.self) { bar in
                                     NavigationLink {
