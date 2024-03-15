@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MoodComponent: View {
     var moodName: String
+    @Environment(\.dynamicTypeSize) var size
     
     var body: some View {
         VStack {
@@ -20,13 +21,17 @@ struct MoodComponent: View {
             Text(moodName)
                 .font(.callout)
         }
-        .frame(width: 100, height: 100)
-        .padding(.top, 30)
+        .frame(width: 100)
+        .frame(maxHeight: 300)
+        .padding(.top, 24)
         .padding(.horizontal, 21)
         .padding(.bottom, 25)
         .background(Color(.white))
         .cornerRadius(12)
         .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
+        .onAppear{
+            print(size)
+        }
     }
 }
 
