@@ -12,6 +12,7 @@ struct AboutTheBar: View {
     // MARK: - Setup View
     
     @EnvironmentObject var cloud: Model
+    @Environment(\.dynamicTypeSize) private var size
     @State var bar: Bar
     
     // MARK: - Front-End View
@@ -40,8 +41,10 @@ struct AboutTheBar: View {
                         .font(.body)
                 }
                 else {
-                    Text(String(format: "%.1f", getFinalGrade(from: bar, review: review)))
+                    var numeroDeEstrelas: String = String(format: "%.1f", getFinalGrade(from: bar, review: review))
+                    Text(numeroDeEstrelas)
                         .font(.body)
+                        .accessibilityLabel(numeroDeEstrelas + " estrelas")
                 }
                 
                 Spacer()
@@ -62,6 +65,7 @@ struct AboutTheBar: View {
 //                                cliente.favorites.remove(at: referencia ?? -1)
 //                                cloud.client = cliente
                             }
+                            .accessibilityLabel("Botão de favoritar já selecionado")
                     } else {
                         Image(systemName: "heart")
                             .onTapGesture {
@@ -73,6 +77,7 @@ struct AboutTheBar: View {
 //                                cliente.favorites.append(bar.name)
 //                                cloud.client = cliente
                             }
+                            .accessibilityLabel("Botão de favoritar")
                     }
                     
                 }
@@ -84,7 +89,7 @@ struct AboutTheBar: View {
             // MARK: Operation Hours
             let horario = bar.operatinHours[getDateOfweek()]
             if horario.localizedCaseInsensitiveContains("fechado"){
-                Text("• \(bar.operatinHours[getDateOfweek()])")
+                Text(size == .accessibility5 ? "\(horario)" : "• \(horario)")
                     .font(.body)
                     .padding(.vertical, 6)
                     .padding(.horizontal, 12)
@@ -92,8 +97,9 @@ struct AboutTheBar: View {
                     .cornerRadius(8)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 12)
+                    .accessibilityLabel("horário de funcionamento: \(horario)")
             }else{
-                Text("• \(bar.operatinHours[getDateOfweek()])")
+                Text(size == .accessibility5 ? "\(horario)" : "• \(horario)")
                     .font(.body)
                     .padding(.vertical, 6)
                     .padding(.horizontal, 12)
@@ -101,6 +107,7 @@ struct AboutTheBar: View {
                     .cornerRadius(8)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 12)
+                    .accessibilityLabel("horário de funcionamento: \(horario)")
             }
             
             // MARK: Description

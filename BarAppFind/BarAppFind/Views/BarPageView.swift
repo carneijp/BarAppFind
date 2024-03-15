@@ -10,7 +10,7 @@ import SwiftUI
 import MapKit
 
 struct BarPageView: View {
-    
+    @Environment(\.dynamicTypeSize) private var size
     // MARK: - Setup View
     enum ChoiceBar {
         case barName, info, review
@@ -60,115 +60,230 @@ struct BarPageView: View {
                         
                         VStack{
                             //MARK: tabBar
-                            HStack{
-                                //sobre o lugar
-                                SwiftUI.Group{
-                                    if isBarName{
-                                        VStack(spacing: 4){
-                                            Text("Sobre o lugar")
-                                                .font(.body)
-                                                .foregroundColor(.primary)
-                                            
-                                            Rectangle()
-                                                .frame(height: 1)
-                                                .foregroundColor(.primary)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                                .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
-                                        }
-                                    }else{
-                                        VStack(spacing: 4){
-                                            Text("Sobre o lugar")
-                                                .font(.body)
-                                            
-                                                .foregroundColor(.secondary)
-                                                .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                                        self.topBarChoice = .barName
-                                                        isBarName = true
-                                                        isInfo = false
-                                                        isReview = false
+                            if size < .accessibility3 {
+                                HStack{
+                                    //sobre o lugar
+                                    SwiftUI.Group{
+                                        if isBarName{
+                                            VStack(spacing: 4){
+                                                Text("Sobre o lugar")
+                                                    .font(.body)
+                                                    .foregroundColor(.primary)
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.primary)
+                                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
+                                            }
+                                        }else{
+                                            VStack(spacing: 4){
+                                                Text("Sobre o lugar")
+                                                    .font(.body)
+                                                
+                                                    .foregroundColor(.secondary)
+                                                    .onTapGesture {
+                                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                                            self.topBarChoice = .barName
+                                                            isBarName = true
+                                                            isInfo = false
+                                                            isReview = false
+                                                        }
                                                     }
-                                                }
-                                            Rectangle()
-                                                .frame(height: 1)
-                                                .foregroundColor(.clear)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                            }
+                                            .frame(maxHeight: 100)
+                                        }
+                                    }
+                                    
+                                    //Informações
+                                    SwiftUI.Group{
+                                        if isInfo{
+                                            VStack(spacing: 4){
+                                                Text("Informações")
+                                                    .font(.body)
+                                                    .foregroundColor(.primary)
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.primary)
+                                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
+                                            }
+                                        }else{
+                                            VStack(spacing: 4){
+                                                Text("Informações")
+                                                    .font(.body)
+                                                    .foregroundColor(.secondary)
+                                                    .onTapGesture {
+                                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                                            self.topBarChoice = .info
+                                                            isBarName = false
+                                                            isInfo = true
+                                                            isReview = false
+                                                        }
+                                                    }
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                            }
+                                        }
+                                    }
+                                    
+                                    //Avaliações
+                                    SwiftUI.Group{
+                                        if isReview{
+                                            VStack(spacing: 4){
+                                                Text("Avaliações")
+                                                    .font(.body)
+                                                    .foregroundColor(.primary)
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.primary)
+                                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
+                                            }
+                                            
+                                        }else{
+                                            VStack(spacing: 4){
+                                                Text("Avaliações")
+                                                    .font(.body)
+                                                    .foregroundColor(.secondary)
+                                                    .onTapGesture {
+                                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                                            self.topBarChoice = .review
+                                                            isBarName = false
+                                                            isInfo = false
+                                                            isReview = true
+                                                        }
+                                                        
+                                                    }
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: (UIScreen.main.bounds.width - 53) / 3)
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                            } else {
+                                VStack {
+                                    SwiftUI.Group{
+                                        if isBarName{
+                                            VStack(spacing: 4){
+                                                Text("Sobre o lugar")
+                                                    .font(.body)
+                                                    .foregroundColor(.primary)
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.primary)
+                                                    .frame(width: (UIScreen.main.bounds.width + 100) / 3)
+                                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
+                                            }
+                                        }else{
+                                            VStack(spacing: 4){
+                                                Text("Sobre o lugar")
+                                                    .font(.body)
+                                                
+                                                    .foregroundColor(.secondary)
+                                                    .onTapGesture {
+                                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                                            self.topBarChoice = .barName
+                                                            isBarName = true
+                                                            isInfo = false
+                                                            isReview = false
+                                                        }
+                                                    }
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: (UIScreen.main.bounds.width + 100) / 3)
+                                            }
+                                            .frame(maxHeight: 100)
+                                        }
+                                    }
+                                    
+                                    //Informações
+                                    SwiftUI.Group{
+                                        if isInfo{
+                                            VStack(spacing: 4){
+                                                Text("Informações")
+                                                    .font(.body)
+                                                    .foregroundColor(.primary)
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.primary)
+                                                    .frame(width: (UIScreen.main.bounds.width + 100) / 3)
+                                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
+                                            }
+                                        }else{
+                                            VStack(spacing: 4){
+                                                Text("Informações")
+                                                    .font(.body)
+                                                    .foregroundColor(.secondary)
+                                                    .onTapGesture {
+                                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                                            self.topBarChoice = .info
+                                                            isBarName = false
+                                                            isInfo = true
+                                                            isReview = false
+                                                        }
+                                                    }
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: (UIScreen.main.bounds.width + 100) / 3)
+                                            }
+                                        }
+                                    }
+                                    
+                                    //Avaliações
+                                    SwiftUI.Group{
+                                        if isReview{
+                                            VStack(spacing: 4){
+                                                Text("Avaliações")
+                                                    .font(.body)
+                                                    .foregroundColor(.primary)
+                                                
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.primary)
+                                                    .frame(width: (UIScreen.main.bounds.width + 100) / 3)
+                                                    .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
+                                            }
+                                            
+                                        }else{
+                                            VStack(spacing: 4){
+                                                Text("Avaliações")
+                                                    .font(.body)
+                                                    .foregroundColor(.secondary)
+                                                    .onTapGesture {
+                                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                                            self.topBarChoice = .review
+                                                            isBarName = false
+                                                            isInfo = false
+                                                            isReview = true
+                                                        }
+                                                        
+                                                    }
+                                                Rectangle()
+                                                    .frame(height: 1)
+                                                    .foregroundColor(.clear)
+                                                    .frame(width: (UIScreen.main.bounds.width + 100) / 3)
+                                            }
                                         }
                                     }
                                 }
-                                
-                                //Informações
-                                SwiftUI.Group{
-                                    if isInfo{
-                                        VStack(spacing: 4){
-                                            Text("Informações")
-                                                .font(.body)
-                                                .foregroundColor(.primary)
-                                            
-                                            Rectangle()
-                                                .frame(height: 1)
-                                                .foregroundColor(.primary)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                                .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
-                                        }
-                                    }else{
-                                        VStack(spacing: 4){
-                                            Text("Informações")
-                                                .font(.body)
-                                                .foregroundColor(.secondary)
-                                                .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                                        self.topBarChoice = .info
-                                                        isBarName = false
-                                                        isInfo = true
-                                                        isReview = false
-                                                    }
-                                                }
-                                            
-                                            Rectangle()
-                                                .frame(height: 1)
-                                                .foregroundColor(.clear)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                        }
-                                    }
-                                }
-                                
-                                //Avaliações
-                                SwiftUI.Group{
-                                    if isReview{
-                                        VStack(spacing: 4){
-                                            Text("Avaliações")
-                                                .font(.body)
-                                                .foregroundColor(.primary)
-                                            
-                                            Rectangle()
-                                                .frame(height: 1)
-                                                .foregroundColor(.primary)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                                .matchedGeometryEffect(id: "SelectedTab", in: nameSpace)
-                                        }
-                                    }else{
-                                        VStack(spacing: 4){
-                                            Text("Avaliações")
-                                                .font(.body)
-                                                .foregroundColor(.secondary)
-                                                .onTapGesture {
-                                                    withAnimation(.easeInOut(duration: 0.2)) {
-                                                        self.topBarChoice = .review
-                                                        isBarName = false
-                                                        isInfo = false
-                                                        isReview = true
-                                                    }
-                                                    
-                                                }
-                                            Rectangle()
-                                                .frame(height: 1)
-                                                .foregroundColor(.clear)
-                                                .frame(width: (UIScreen.main.bounds.width - 53) / 3)
-                                        }
-                                    }
-                                }
-                                
                             }
                             
                             //Escolhas TabBar

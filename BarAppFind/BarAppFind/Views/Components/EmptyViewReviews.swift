@@ -18,12 +18,13 @@ struct EmptyViewReviews: View {
                 .padding(.bottom)
             
             Text("Sem avaliações ainda")
-                .font(.system(size: 20))
+                .font(.title2)
                 .padding(.vertical)
+                .multilineTextAlignment(.center)
 
 
             Text("Coletar avaliações pode levar algum tempo, volte daqui a pouco")
-                .font(.system(size: 14))
+                .font(.body)
                 .foregroundColor(Color("gray3"))
                 .multilineTextAlignment(.center)
             
