@@ -12,6 +12,7 @@ struct AboutTheBar: View {
     // MARK: - Setup View
     
     @EnvironmentObject var cloud: Model
+    @Environment(\.dynamicTypeSize) private var size
     @State var bar: Bar
     
     // MARK: - Front-End View
@@ -37,11 +38,13 @@ struct AboutTheBar: View {
                 
                 if countBars == 0 {
                     Text(String(format: "%.1f", bar.grade))
-                        .font(.system(size: 14))
+                        .font(.body)
                 }
                 else {
-                    Text(String(format: "%.1f", getFinalGrade(from: bar, review: review)))
-                        .font(.system(size: 14))
+                    var numeroDeEstrelas: String = String(format: "%.1f", getFinalGrade(from: bar, review: review))
+                    Text(numeroDeEstrelas)
+                        .font(.body)
+                        .accessibilityLabel(numeroDeEstrelas + " estrelas")
                 }
                 
                 Spacer()
@@ -62,6 +65,7 @@ struct AboutTheBar: View {
 //                                cliente.favorites.remove(at: referencia ?? -1)
 //                                cloud.client = cliente
                             }
+                            .accessibilityLabel("Botão de favoritar já selecionado")
                     } else {
                         Image(systemName: "heart")
                             .onTapGesture {
@@ -73,6 +77,7 @@ struct AboutTheBar: View {
 //                                cliente.favorites.append(bar.name)
 //                                cloud.client = cliente
                             }
+                            .accessibilityLabel("Botão de favoritar")
                     }
                     
                 }
@@ -84,28 +89,30 @@ struct AboutTheBar: View {
             // MARK: Operation Hours
             let horario = bar.operatinHours[getDateOfweek()]
             if horario.localizedCaseInsensitiveContains("fechado"){
-                Text("• \(bar.operatinHours[getDateOfweek()])")
-                    .font(.system(size: 14))
+                Text(size == .accessibility5 ? "\(horario)" : "• \(horario)")
+                    .font(.body)
                     .padding(.vertical, 6)
                     .padding(.horizontal, 12)
                     .background(.red.opacity(0.3))
                     .cornerRadius(8)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 12)
+                    .accessibilityLabel("horário de funcionamento: \(horario)")
             }else{
-                Text("• \(bar.operatinHours[getDateOfweek()])")
-                    .font(.system(size: 14))
+                Text(size == .accessibility5 ? "\(horario)" : "• \(horario)")
+                    .font(.body)
                     .padding(.vertical, 6)
                     .padding(.horizontal, 12)
                     .background(.green.opacity(0.3))
                     .cornerRadius(8)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 12)
+                    .accessibilityLabel("horário de funcionamento: \(horario)")
             }
             
             // MARK: Description
             Text(bar.description)
-                .font(.system(size: 16))
+                .font(.body)
                 .lineLimit(nil)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom)
@@ -114,7 +121,7 @@ struct AboutTheBar: View {
             // MARK: Moods
             Text("Moods para este bar:")
                 .padding(.horizontal, 24)
-                .font(.system(size: 16))
+                .font(.body)
                 .bold()
                 .padding(.bottom, -8)
                 .padding(.top, 10)
@@ -139,7 +146,7 @@ struct AboutTheBar: View {
             // MARK: About Enviroment
             HStack {
                 Text("Sobre o ambiente")
-                    .font(.system(size:20))
+                    .font(.title2)
                     .bold()
                 Spacer()
             }
@@ -150,7 +157,7 @@ struct AboutTheBar: View {
             VStack(alignment: .leading){
                 ForEach(caracteristicas, id:\.self){ caracteristica in
                     Text("• \(caracteristica)")
-                        .font(.system(size: 16))
+                        .font(.title3)
                         .padding(.bottom, 3)
                 }
             }

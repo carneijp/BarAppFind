@@ -17,93 +17,60 @@ struct FlemisViewModel: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .center) {
-//                Text("Horário de Atendimento")
-//                    .font(.system(size: 20))
-//                    .bold()
-//                    .foregroundColor(.primary)
-//                    .padding(.top)
-//
-//                Button(action: {
-//                    self.isShowingWorkingHours.toggle()
-//                }, label: {
-//                    Image(systemName: self.isShowingWorkingHours ? "chevron.up" : "chevron.down")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 16, height: 34)
-//                        .offset(y: 8)
-//                        .foregroundColor(Color("gray4"))
-//                })
-//                .frame(width: 14, height: 28)
-//                DisclosureGroup("Horário de Atendimento", isExpanded: $isShowingWorkingHours){
-//                    ForEach(0..<self.workingHours.count, id:\.self){ i in
-//                        HStack{
-//                            if i == indexEntrada{
-//                                Text("\(self.workingHours[i])")
-//                                    .font(.system(size: 14))
-//                                    .padding(.bottom, 5)
-//                                    .bold()
-//                            }else{
-//                                Text("\(self.workingHours[i])")
-//                                    .font(.system(size: 14))
-//                                    .padding(.bottom, 5)
-//                            }
-//                            Spacer()
-//                        }
-//                    }
-//                    .padding(.top)
-//                    .scrollContentBackground(.hidden)
-//                }
-//                .font(.system(size: 20))
-//                .bold()
-//                .foregroundColor(.primary)
                 DisclosureGroup(isExpanded: $isShowingWorkingHours){
                                         ForEach(0..<self.workingHours.count, id:\.self){ i in
                                             HStack{
-                                                if i == indexEntrada{
-                                                    Text("\(self.workingHours[i])")
-                                                        .font(.system(size: 14))
-                                                        .padding(.bottom, 5)
-                                                        .bold()
-                                                }else{
-                                                    Text("\(self.workingHours[i])")
-                                                        .font(.system(size: 14))
-                                                        .padding(.bottom, 5)
+                                                    let separatedString = self.workingHours[i].components(separatedBy: "-")
+                                                if separatedString.count > 1 {
+                                                    let open = String(separatedString[0])
+                                                    let close = String(separatedString[1])
+                                                    let secondSeparatedString = open.components(separatedBy: ":")
+                                                    let weekDay = secondSeparatedString[0]
+                                                    let newOpen = secondSeparatedString[1]
+                                                    
+                                                    if i == indexEntrada{
+                                                        Text("\(self.workingHours[i])")
+                                                            .font(.body)
+                                                            .padding(.bottom, 5)
+                                                            .bold()
+                                                            .accessibilityLabel("\(weekDay) aberto das \(newOpen) até as \(close)")
+                                                    }else{
+                                                        Text("\(self.workingHours[i])")
+                                                            .font(.body)
+                                                            .padding(.bottom, 5)
+                                                            .accessibilityLabel("\(weekDay) aberto das \(newOpen) até as \(close)")
+                                                    }
+                                                } else {
+                                                    let separatedString = self.workingHours[i].components(separatedBy: ":")
+                                                    let weekDay = String(separatedString[0])
+                                                    let fechado = String(separatedString[1])
+                                                    if i == indexEntrada{
+                                                        Text("\(self.workingHours[i])")
+                                                            .font(.body)
+                                                            .padding(.bottom, 5)
+                                                            .bold()
+                                                            .accessibilityLabel("\(weekDay) está \(fechado)")
+                                                    }else{
+                                                        Text("\(self.workingHours[i])")
+                                                            .font(.body)
+                                                            .padding(.bottom, 5)
+                                                            .accessibilityLabel("\(weekDay) está \(fechado)")
+                                                    }
                                                 }
+                                                
                                                 Spacer()
                                             }
                                         }
-//                                        .padding(.top)
                                         .scrollContentBackground(.hidden)
                 } label: {
                     Text("Horário de Atendimento")
-                        .font(.system(size: 20))
+                        .font(.title2)
                         .bold()
                         .foregroundColor(.primary)
                         .padding(.vertical)
                 }
             }
             .padding(.bottom, 5)
-            
-//            if self.isShowingWorkingHours {
-//
-//                ForEach(0..<self.workingHours.count, id:\.self){ i in
-//                    if i == indexEntrada{
-//                        Text("\(self.workingHours[i])")
-//                            .font(.system(size: 14))
-//                            .padding(.bottom, 5)
-//                            .bold()
-//                            .animation(.easeIn, value: 10)
-//                    }else{
-//                        Text("\(self.workingHours[i])")
-//                            .font(.system(size: 14))
-//                            .padding(.bottom, 5)
-//                            .animation(.easeIn, value: 10)
-//                    }
-//                }
-//                .scrollContentBackground(.hidden)
-//
-//
-//            }
         }
         
         

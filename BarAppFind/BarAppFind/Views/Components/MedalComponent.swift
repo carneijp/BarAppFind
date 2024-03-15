@@ -33,6 +33,8 @@ struct MedalComponent: View {
             .frame(maxHeight: 200)
             .background(LinearGradient(gradient: Gradient(colors: [Color("darkBlueGradient"), Color("softBlueGradient")]), startPoint: .topLeading, endPoint: .bottomTrailing))
             .cornerRadius(12)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(medalName)
             
         }else {
             HStack (spacing: 12) {
@@ -54,6 +56,8 @@ struct MedalComponent: View {
             .frame(maxHeight: 200)
             .background(Color("gray0"))
             .cornerRadius(12)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(medalName)
             
         }
     }

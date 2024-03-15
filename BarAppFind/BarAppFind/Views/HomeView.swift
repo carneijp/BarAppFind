@@ -66,8 +66,9 @@ struct HomeView: View {
                             
                             //Mood Section
                             Text("Qual o seu mood hoje?")
-                                .font(.system(size: 16))
+                                .font(.body)
                                 .padding(.leading, 24)
+                                .accessibilityLabel(Text("Qual o seu mood de hoje?"))
                             
                             //Mood Section
                             ScrollView(.horizontal, showsIndicators: false) {
@@ -80,6 +81,7 @@ struct HomeView: View {
                                         } label: {
                                             MoodComponent(moodName: moodsName[index])
                                         }
+                                        .accessibilityLabel(Text(moodsName[index]))
                                     }
                                 }
                                 .padding(.horizontal, 24)
@@ -90,8 +92,8 @@ struct HomeView: View {
                             VStack {
                                 HStack {
                                     Text("Sugestões de onde ir hoje")
-                                        .font(.system(size: 16))
-                            
+                                        .accessibilityLabel(Text("Sugestões de onde ir hoje"))
+                                        .font(.body)
                                     Spacer()
                                     
                                     NavigationLink {
@@ -99,7 +101,8 @@ struct HomeView: View {
                                             .toolbarRole(.editor)
                                     } label: {
                                         Text("Ver todos")
-                                            .font(.system(size: 16))
+                                            .accessibilityLabel(Text("Ver todos"))
+                                            .font(.body)
                                             .foregroundColor(Color("purple"))
                                     }
                                 }

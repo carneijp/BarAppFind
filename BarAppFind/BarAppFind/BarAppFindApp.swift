@@ -32,7 +32,6 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate, ObservableObject {
     //    }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        print("✅✅✅ sceneDidBecomeActive ✅✅✅")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.requestDataPermission()

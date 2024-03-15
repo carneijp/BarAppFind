@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BarComponent: View {
     @State var bar: Bar
+    @Environment(\.dynamicTypeSize) var size
     @EnvironmentObject var cloud: Model
 //    @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
@@ -31,13 +32,15 @@ struct BarComponent: View {
                 VStack {
                     HStack {
                         Text("**\(bar.name)**")
-                            .font(.system(size: 14))
-                            .lineLimit(1)
+                            .accessibilityLabel(Text(bar.name))
+                            .font(.subheadline)
+//                            .lineLimit(1)
 //                            .padding(.trailing, 4)
                         
                         if let distancia = bar.distanceFromUser{
                             Text(String(format: "• %.1fKm", distancia))
-                                .font(.system(size: 14))
+                                .accessibilityLabel(Text(String(format: "• %.1fKm", distancia)))
+                                .font(.subheadline)
                                 .padding(.leading, -5)
                         }
                         Spacer()
@@ -47,11 +50,12 @@ struct BarComponent: View {
                     HStack(spacing: 5) {
                         Image(systemName: "star.fill")
                             .foregroundColor(.primary)
-                            .font(.system(size: 13))
+                            .font(.footnote)
                         
                         
                             Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[getDateOfweek()])")
-                                .font(.system(size: 14))
+                            .accessibilityLabel(String(format: "%.1f", bar.grade) + " estrelas, \(bar.operatinHours[getDateOfweek()])")
+                            .font(.subheadline)
                         
                         Spacer()
                     }
@@ -70,33 +74,20 @@ struct BarComponent: View {
                                     cloud.updateUser(updatedUser: cliente) { _ in }
 //                                }
                             }
+                            .accessibilityLabel("Favoritar")
                     }else{
                         Image(systemName: "heart")
                             .onTapGesture {
-//                                if var cliente = cloud.client {
+
                                     var favorites = cliente.favorites
                                     favorites.append(bar.name)
                                     cliente = cliente.updateClient(newFavorites: favorites)
                                     cloud.updateUser(updatedUser: cliente) { _ in }
-//                                }
+
                             }
                     }
                     
                 }
-//                else{
-//                    Image(systemName: "heart")
-//                        .onTapGesture {
-//                            print("Voce deve estar logado para favoritar.")
-//                            if viewIndex == 0 {
-//                                showSignIn = true
-//                            } else {
-//                                showSignIn = false
-//                                showSignInList = true
-//                            }
-//                        }
-//                    
-//                    
-//                }
             }
         }
     }
@@ -107,9 +98,3 @@ struct BarComponent: View {
         return (index + 5) % 7
     }
 }
-
-//struct BarComponent_Previews: PreviewProvider {
-//    static var previews: some View {
-//        BarComponent(bar: Bar(name: "", description: "", mood: [], grade: 0.0, latitude: 0.0, longitude: 0.0, operatinhours: [], endereco: "", regiao: "", caracteristicas: []), showSignIn: .constant(true))
-//    }
-//}
