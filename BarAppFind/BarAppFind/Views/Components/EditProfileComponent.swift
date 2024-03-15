@@ -18,16 +18,13 @@ struct EditProfileComponent: View {
     
     var body: some View {
         ZStack{
-            VStack{
-                HStack{
-                    Text("Seus dados atuais: (Toque para alterar)")
-                        .padding()
-                        .font(.system(size: 14))
-                        .foregroundColor(.secondary)
-                        .padding(.top, 12)
-                        .padding(.horizontal, 24)
-                    Spacer()
-                }
+            VStack(alignment: .leading) {
+                Text("Seus dados atuais: (Toque para alterar)")
+                    .padding()
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .padding(.top, 12)
+                    .padding(.horizontal, 14)
                 
                 Group {
                     TextField("Nome", text: $firstName, axis: .vertical)
@@ -43,8 +40,9 @@ struct EditProfileComponent: View {
                 if todosOsCamposPreenchidos {
                     Text("Todos os campos devem ser preenchidos com dados válidos.")
                         .foregroundColor(.red)
-                        .font(.system(size: 12))
+                        .font(.caption)
                         .padding(.top, 8)
+                        .padding(.horizontal, 24)
                 }
 
                 Button {
@@ -68,16 +66,19 @@ struct EditProfileComponent: View {
                     }
                     
                 }label: {
-                    Spacer()
-                    Text("Salvar")
-                        .padding(.vertical, 12)
-                        .padding(.horizontal)
-                    Spacer()
+                    HStack {
+                        Spacer()
+                        Text("Salvar")
+                            .font(.body)
+                        Spacer()
+                    }
+                    .padding(.vertical, 12)
+                    .background(.white)
+                    .cornerRadius(24)
+                    .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
+                    .padding()
                 }
-                .background(.white)
-                .cornerRadius(24)
-                .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
-                .padding()
+
                 Spacer()
             }
             if isLoading {

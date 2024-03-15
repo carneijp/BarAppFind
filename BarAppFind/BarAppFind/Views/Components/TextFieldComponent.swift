@@ -11,6 +11,7 @@ struct TextFieldComponent: View {
     @State private var review: String = ""
     @State private var grade: Double = 0.0
     @EnvironmentObject private var cloud: Model
+    @Environment(\.dynamicTypeSize) private var size
     let barName: String
     
     @Binding var viewIndex: Int
@@ -24,7 +25,7 @@ struct TextFieldComponent: View {
         VStack(alignment: .leading) {
             //            Spacer()
             Text("Queremos a sua avaliação")
-                .font(.system(size: 20))
+                .font(.title2)
                 .bold()
                 .padding(.horizontal, 24)
             
@@ -38,13 +39,16 @@ struct TextFieldComponent: View {
                             Image(systemName: "star.fill")
                                 .foregroundColor(.primary)
                                 .frame(width: 26, height: 24)
+                                .accessibilityLabel(i == 1 ? "Uma estrela" : i == 2 ? "Duas estrelas" : i == 3 ? "Três estrelas" : i == 4 ? "Quatro estrelas" : i == 5 ? "Cinco estrelas" : "Sem estrelas")
                         }
                         else {
                             Image(systemName: "star")
                                 .foregroundColor(.primary)
                                 .frame(width: 26, height: 24)
+                                .accessibilityLabel(i == 1 ? "Uma estrela" : i == 2 ? "Duas estrelas" : i == 3 ? "Três estrelas" : i == 4 ? "Quatro estrelas" : i == 5 ? "Cinco estrelas" : "Sem estrelas")
                         }
                     }
+                    .padding(.leading, 10)
                 }
             }
             .padding(.horizontal, 24)
@@ -65,7 +69,8 @@ struct TextFieldComponent: View {
                 }label: {
                     Text("Cancelar")
                         .foregroundColor(Color("white"))
-                        .frame(width: 161, height: 27)
+                        .multilineTextAlignment(.center)
+                        .frame(width:  size >= .accessibility4 ? .infinity : 161, height: size >= .accessibility4 ? .infinity : 27)
                         .padding(.vertical, 5)
                         .background(Color("gray4"))
                         .cornerRadius(12)
@@ -95,7 +100,8 @@ struct TextFieldComponent: View {
                 } label: {
                     Text("Enviar")
                         .foregroundColor(Color("white"))
-                        .frame(width: 161, height: 27)
+                        .multilineTextAlignment(.center)
+                        .frame(width:  size >= .accessibility4 ? .infinity : 161, height: size >= .accessibility4 ? .infinity : 27)
                         .padding(.vertical, 5)
                         .background(Color("gray7"))
                         .cornerRadius(12)
