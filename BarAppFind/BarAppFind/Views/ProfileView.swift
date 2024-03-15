@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject private var cloud: Model
+    @Environment(\.dynamicTypeSize) var size
+    
     @State private var topProfileChoice: ChoiceProfile = .myConquests
     @State private var isMyConquests: Bool = true
     @State private var isProfileEdit: Bool = false
@@ -48,7 +50,7 @@ struct ProfileView: View {
                 // MARK: - Header
                 Text("Olá, \(clientWelcome)!")
                     .bold()
-                    .font(.system(size: 26))
+                    .font(.title)
                     .padding(.bottom, 30)
                 
                 // Botão de Fazer Login
@@ -81,7 +83,7 @@ struct ProfileView: View {
                             VStack(spacing: 4) {
                                 Text("Minhas Conquistas")
                                     .foregroundColor(.primary)
-                                    .font(.system(size: 14))
+                                    .font(.subheadline)
                                 
                                 Rectangle()
                                     .frame(height: 1)
@@ -94,7 +96,7 @@ struct ProfileView: View {
                             VStack {
                                 Text("Minhas Conquistas")
                                     .foregroundColor(.secondary)
-                                    .font(.system(size: 14))
+                                    .font(.subheadline)
                                     .onTapGesture {
                                         withAnimation(.easeInOut(duration: 0.2)) {
                                             self.topProfileChoice = .myConquests
@@ -115,7 +117,7 @@ struct ProfileView: View {
                         if isProfileEdit {
                             VStack(spacing: 4) {
                                 Text("Editar Perfil")
-                                    .font(.system(size: 14))
+                                    .font(.subheadline)
                                     .foregroundColor(.primary)
                                 
                                 Rectangle()
@@ -128,7 +130,7 @@ struct ProfileView: View {
                         } else {
                             VStack {
                                 Text("Editar Perfil")
-                                    .font(.system(size: 14))
+                                    .font(.subheadline)
                                     .foregroundColor(.secondary)
                                     .onTapGesture {
                                         withAnimation(.easeInOut(duration: 0.2)) {
@@ -151,26 +153,49 @@ struct ProfileView: View {
                 case .myConquests:
                     ScrollView {
                         VStack {
-                            LazyVGrid(columns: columns, spacing: 18) {
-                                ForEach(conquestMedals, id: \.self) { medal in
-                                    if cloud.client == nil {
-                                        MedalComponent(medalName: medal)
-                                            .foregroundColor(.gray)
-                                            .onTapGesture {
-                                                showMedalConquest = true
-                                                medalName = medal
-                                            }
-                                    } else {
-                                        MedalComponent(medalName: medal)
-                                            .onTapGesture {
-                                                showMedalConquest = true
-                                                medalName = medal
-                                            }
+                            if size >= .accessibility2 {
+                                LazyVStack {
+                                    ForEach(conquestMedals, id: \.self) { medal in
+                                        if cloud.client == nil {
+                                            MedalComponent(medalName: medal)
+                                                .foregroundColor(.gray)
+                                                .onTapGesture {
+                                                    showMedalConquest = true
+                                                    medalName = medal
+                                                }
+                                        } else {
+                                            MedalComponent(medalName: medal)
+                                                .onTapGesture {
+                                                    showMedalConquest = true
+                                                    medalName = medal
+                                                }
+                                        }
                                     }
                                 }
+                                .padding(.top, 16)
+                                .padding(.horizontal, 24)
+                            } else {
+                                LazyVGrid(columns: columns, spacing: 18) {
+                                    ForEach(conquestMedals, id: \.self) { medal in
+                                        if cloud.client == nil {
+                                            MedalComponent(medalName: medal)
+                                                .foregroundColor(.gray)
+                                                .onTapGesture {
+                                                    showMedalConquest = true
+                                                    medalName = medal
+                                                }
+                                        } else {
+                                            MedalComponent(medalName: medal)
+                                                .onTapGesture {
+                                                    showMedalConquest = true
+                                                    medalName = medal
+                                                }
+                                        }
+                                    }
+                                }
+                                .padding(.top, 16)
+                                .padding(.horizontal, 24)
                             }
-                            .padding(.top, 16)
-                            .padding(.horizontal, 24)
                         }
                         .padding(.bottom, 100)
                     }
@@ -180,29 +205,31 @@ struct ProfileView: View {
                     ScrollView {
                         VStack(alignment: .leading){
                             Text("Detalhes da conta")
-                                .font(.system(size: 17))
+                                .font(.body)
                                 .foregroundColor(.primary)
                                 .padding(.bottom, 17)
                             
                             HStack {
                                 Text(clientName)
-                                    .font(.system(size: 17))
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                                 Spacer()
                             }
-                            .frame(height: 42)
+//                            .frame(height: 42)
                             .padding(.horizontal)
+                            .padding(.vertical, 8)
                             .background(Color("gray8"))
                             .cornerRadius(6)
                             .padding(.bottom, 10)
                             
                             HStack{
                                 Text(clientSurname)
-                                    .font(.system(size: 17))
+                                    .font(.body)
                                     .foregroundColor(.secondary)
                                 Spacer()
                             }
-                            .frame(height: 42)
+//                            .frame(height: 42)
+                            .padding(.vertical, 8)
                             .padding(.horizontal)
                             .background(Color("gray8"))
                             .cornerRadius(6)
@@ -214,6 +241,7 @@ struct ProfileView: View {
                                 HStack{
                                     Spacer()
                                     Text("Alterar dados")
+                                        .font(.body)
                                         .padding(.vertical, 12)
                                         .padding(.horizontal)
                                     Spacer()
@@ -224,7 +252,7 @@ struct ProfileView: View {
                             }
                             
                             Text("Segurança")
-                                .font(.system(size: 18))
+                                .font(.body)
                                 .foregroundColor(.primary)
                                 .padding(.top, 30)
                                 .padding(.bottom, 17)
@@ -233,7 +261,7 @@ struct ProfileView: View {
                                 if client.userID == ""{
                                     HStack{
                                         Text("Senhas")
-                                            .font(.system(size: 18))
+                                            .font(.body)
                                             .foregroundColor(.secondary)
                                         Spacer()
                                         Image(systemName: "chevron.right")
@@ -255,7 +283,7 @@ struct ProfileView: View {
                             } label: {
                                 HStack{
                                     Text("Reportar Problema")
-                                        .font(.system(size: 18))
+                                        .font(.body)
                                         .foregroundColor(.secondary)
                                     Spacer()
                                     Image(systemName: "chevron.right")
@@ -274,7 +302,7 @@ struct ProfileView: View {
                                         showSecondAlertDeleteAccount = true
                                     } label: {
                                         Text("Deletar conta")
-                                            .font(.system(size: 18))
+                                            .font(.body)
                                             .foregroundColor(.secondary)
                                         Spacer()
                                         Image(systemName: "chevron.right")
@@ -293,7 +321,7 @@ struct ProfileView: View {
                                         showFirstAlertDeleteAccount = true
                                     } label: {
                                         Text("Deletar conta")
-                                            .font(.system(size: 18))
+                                            .font(.body)
                                             .foregroundColor(.secondary)
                                         Spacer()
                                         Image(systemName: "chevron.right")

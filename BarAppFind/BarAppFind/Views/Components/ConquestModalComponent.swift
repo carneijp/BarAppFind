@@ -19,15 +19,15 @@ struct ConquestModalComponent: View {
                         Image(conquestMedals[0])
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 60, height: 70)
+                            .frame(maxWidth: 60, maxHeight: 70)
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text(conquestMedals[0])
-                                .font(.system(size: 16))
+                                .font(.callout)
                                 .bold()
                             
                             Text(medalDescriptions[0])
-                                .font(.system(size: 14))
+                                .font(.caption)
                         }
                     }
                     .padding(.all, 32)
@@ -40,15 +40,15 @@ struct ConquestModalComponent: View {
                         Image(conquestMedals[1])
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 60, height: 70)
+                            .frame(maxWidth: 60, maxHeight: 70)
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text(conquestMedals[1])
-                                .font(.system(size: 16))
+                                .font(.callout)
                                 .bold()
                             
                             Text(medalDescriptions[1])
-                                .font(.system(size: 14))
+                                .font(.caption)
                         }
                     }
                     .padding(.all, 32)
@@ -61,15 +61,15 @@ struct ConquestModalComponent: View {
                         Image(conquestMedals[2])
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 60, height: 70)
+                            .frame(maxWidth: 60, maxHeight: 70)
                         
                         VStack(alignment: .leading, spacing: 8) {
                             Text(conquestMedals[2])
-                                .font(.system(size: 16))
+                                .font(.callout)
                                 .bold()
                             
                             Text(medalDescriptions[2])
-                                .font(.system(size: 14))
+                                .font(.caption)
                         }
                     }
                     .padding(.all, 32)
@@ -82,15 +82,15 @@ struct ConquestModalComponent: View {
                         Image(conquestMedals[3])
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 60, height: 70)
+                            .frame(maxWidth: 60, maxHeight: 70)
 
                         VStack(alignment: .leading, spacing: 8) {
                             Text(medalName)
-                                .font(.system(size: 16))
+                                .font(.callout)
                                 .bold()
                             
                             Text("Você ainda não atingiu este nível.")
-                                .font(.system(size: 14))
+                                .font(.callout)
                         }
                     }
                     .padding(.all, 32)

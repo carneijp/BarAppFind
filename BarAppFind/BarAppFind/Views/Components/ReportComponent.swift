@@ -26,7 +26,7 @@ struct ReportComponent: View {
             VStack {
                 HStack{
                     Text("Reportar Problema")
-                        .font(.system(size: 14))
+                        .font(.callout)
                         .foregroundColor(.secondary)
                         .padding(.top, 30)
                         .padding(.bottom, 17)
@@ -34,14 +34,14 @@ struct ReportComponent: View {
                 }
                 
                 TextField("Assunto", text: $subject, axis: .vertical)
-                    .font(.system(size: 14))
+                    .font(.callout)
                     .lineLimit(1, reservesSpace: true)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
                     .foregroundColor(.primary)
                 
                 TextField("Descreva o seu problema", text: $comment, axis: .vertical)
-                    .font(.system(size: 14))
+                    .font(.callout)
                     .lineLimit(5, reservesSpace: true)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 10).fill(Color("gray0")))
@@ -78,7 +78,7 @@ struct ReportComponent: View {
                     HStack{
                         Spacer()
                         Text("Enviar")
-                            .font(.system(size: 18))
+                            .font(.headline)
                             .foregroundColor(.primary)
                         Spacer()
                     }
@@ -103,7 +103,7 @@ struct ReportComponent: View {
                     HStack{
                         Spacer()
                         Text("Cancelar")
-                            .font(.system(size: 18))
+                            .font(.headline)
                             .foregroundColor(.white)
                         Spacer()
                     }
@@ -119,14 +119,14 @@ struct ReportComponent: View {
                 if showError{
                     Text(descriptionError)
                         .foregroundColor(.red)
-                        .font(.system(size: 12))
+                        .font(.caption)
                         .padding(.top, 8)
                 }
                 
                 if showSuccess {
                     Text(descriptionSuccess)
                         .foregroundColor(.green)
-                        .font(.system(size: 12))
+                        .font(.caption)
                         .padding(.top, 8)
                 }
                 Spacer()
