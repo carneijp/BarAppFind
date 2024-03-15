@@ -53,7 +53,7 @@ struct BarComponent: View {
                         
                         
                             Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[getDateOfweek()])")
-                            .accessibilityLabel(String(format: "%.1f", bar.grade) + ", \(bar.operatinHours[getDateOfweek()])")
+                            .accessibilityLabel(String(format: "%.1f", bar.grade) + " estrelas, \(bar.operatinHours[getDateOfweek()])")
                             .font(.subheadline)
                         
                         Spacer()
