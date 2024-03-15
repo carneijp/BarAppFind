@@ -13,6 +13,9 @@ struct BarComponent: View {
 //    @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
     @Binding var viewIndex: Int
+    @State var open: String = ""
+    @State var close: String = ""
+    @State var weekDay: String = ""
     
     var body: some View {
         HStack {
@@ -53,7 +56,7 @@ struct BarComponent: View {
                         
                         
                             Text(String(format: "%.1f", bar.grade) + " • \(bar.operatinHours[getDateOfweek()])")
-                            .accessibilityLabel(String(format: "%.1f", bar.grade) + " estrelas, \(bar.operatinHours[getDateOfweek()])")
+                            .accessibilityLabel(open != "Fechado" ? Text(String(format: "%.1f", bar.grade) + " estrelas, aberto \(weekDay) das \(open) até as \(close)") : Text(String(format: "%.1f", bar.grade) + " estrelas, fechado \(weekDay)"))
                             .font(.subheadline)
                         
                         Spacer()
@@ -87,6 +90,20 @@ struct BarComponent: View {
                     }
                     
                 }
+            }
+        }
+        .task {
+            
+            let separatedString = bar.operatinHours[getDateOfweek()].components(separatedBy: ":")
+            self.weekDay = String(separatedString[0])
+            
+            if separatedString[1] != " Fechado" {
+                let secondSeparatedString = separatedString[1].components(separatedBy: "-")
+                self.open = String(secondSeparatedString[0])
+                self.close = String(secondSeparatedString[1])
+            }else {
+                
+                self.open = "Fechado"
             }
         }
     }

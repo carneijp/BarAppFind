@@ -83,7 +83,7 @@ struct HomeView: View {
                                         } label: {
                                             MoodComponent(moodName: moodsName[index])
                                         }
-                                        .accessibilityLabel(Text(moodsName[index]))
+                                        .accessibilityLabel(Text("ambientes \(moodsName[index])"))
                                     }
                                 }
                                 .padding(.horizontal, 24)
