@@ -19,7 +19,7 @@ struct BarInformationView: View {
             
             
             Text("Endereço")
-                .font(.system(size: 20))
+                .font(.title2)
                 .bold()
                 .padding(.vertical)
             HStack {
