@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BarComponent: View {
     @State var bar: Bar
+    @Environment(\.dynamicTypeSize) var size
     @EnvironmentObject var cloud: Model
 //    @Binding var showSignIn: Bool
     @Binding var showSignInList: Bool
@@ -33,7 +34,7 @@ struct BarComponent: View {
                         Text("**\(bar.name)**")
                             .accessibilityLabel(Text(bar.name))
                             .font(.subheadline)
-                            .lineLimit(1)
+//                            .lineLimit(1)
 //                            .padding(.trailing, 4)
                         
                         if let distancia = bar.distanceFromUser{

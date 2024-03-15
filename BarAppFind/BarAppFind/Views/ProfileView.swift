@@ -50,27 +50,7 @@ struct ProfileView: View {
                     .bold()
                     .font(.system(size: 26))
                     .padding(.bottom, 30)
-                
-                // Botão de Fazer Login
-//                if cloud.client == nil {
-//                    Button {
-//                        showSignIn = true
-//                    } label: {
-//                        HStack {
-//                            Spacer()
-//                            Text("Faça seu login")
-//                            Spacer()
-//                        }
-//                        .padding(12)
-//                        .background(.white)
-//                        .cornerRadius(30)
-//                        .shadow(color: Color("gray6") ,radius: 3, x: 0, y: 2)
-//                    }
-//                    .frame(width: UIScreen.main.bounds.width - 28)
-//                    .foregroundColor(.primary)
-//                    .padding(.bottom, 40)
-//                }
-
+                    .accessibilityLabel(Text("Olá, \(clientWelcome). Titulo."))
                 
                 // MARK: - Tab Bar
                 HStack {
@@ -90,6 +70,7 @@ struct ProfileView: View {
                             }
                             .padding(.leading, 24)
                             
+                            
                         } else {
                             VStack {
                                 Text("Minhas Conquistas")
@@ -107,6 +88,7 @@ struct ProfileView: View {
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width/2)
+                    .accessibilityLabel(Text("Minhas Conquistas. Botão."))
                     
                     Spacer()
                     
@@ -142,7 +124,9 @@ struct ProfileView: View {
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width/2)
+                    .accessibilityLabel(Text("Editar perfil. Botão."))
                 }
+                
                 
                 // MARK: - Conteúdo Tab Bar
                 switch topProfileChoice {
@@ -166,6 +150,7 @@ struct ProfileView: View {
                                                 showMedalConquest = true
                                                 medalName = medal
                                             }
+
                                     }
                                 }
                             }
